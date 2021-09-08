@@ -1,0 +1,81 @@
+---
+title: "Kerwer et al.(2020)重製研究計畫"
+author: "Students' names"
+date: "`r Sys.Date()`"
+output: word_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+(轉換[Replication project plan](https://docs.google.com/document/d/1Wqn6bZf1RAHOS7qpg_IZaNtExV3ise_W/edit)為一般APA格式的計畫書)
+
+# 緒論
+
+在原始研究Kerwer等人(2020)的研究中，他認為白話文科學摘要更可以讓大眾理解，這點在許多領域上已有證實，像是生物、醫學等等，而在心理學的領域上則還未有研究，在學術摘要中可能會有特定領域的專有名詞、研究方法與統計術語等等，可能讓一般大眾造成閱讀理解上的困難，使之無法從中獲取資訊與知識。
+
+
+重製研究的重要性：相關的中文研究? 
+
+
+[原研究預先註冊計畫](https://pada.psycharchives.org/bitstream/9679d985-50a8-4b7b-a317-14a12f4fe5ea)
+
+
+[原研究論文全文](https://doi.org/10.1525/collabra.18898)
+
+
+## 研究問題
+
+1. "Plain language summary vs. Ordinary abstract" on comprehensibility & knowledge and knowledge acquisition  
+"白話摘要"與"學術摘要"的可理解性、知識與知識獲取。
+2. "Plain with sub-heading vs. Plain without sub-heading" on comprehensibility & knowledge and knowledge acquisition  
+"有標題的白話摘要"與"沒標題的白話摘要"的可理解性、知識與知識獲取。
+3. Easiness effects: Credibility, Confidence to evaluate, Need for cross-evaluation
+簡易效果：可信度、評估信心、交叉評估需求。
+
+## 研究假設
+
+### 白話文摘要
+白話文摘要（Plain language summary）以下簡稱PLS，通常是由相同的論文的作者所撰寫，以確保內容的正確性，但在台灣多數的心理學期刊中，並沒有要求作者需要撰寫PLS，而在國外的研究中，發現PLS比一般的學術摘容更容易閲讀，研究也表明，PLS會是向一般大眾傳達心理學相關事物的好工具。
+至於要如何比較易讀性，就需要進行可讀性分析，在原始研究團隊中，使用SMOG來計算可讀性指標。而本研究由於在台灣多數作者並不會寫PLS，一般的科普文章多由其他專欄作者所編寫，所以本研究使用中華心理學刊網站中的專欄文章，並再加入副標題，最後詢問原作者是否認可這篇PLS。可讀性分析的部份使用宋曜廷教授團隊開發的文本可讀性指標自動化分析系統(Chinese Readability Index Explorer, CRIE)進行分析，分數越低越容易閱讀。
+
+
+* 確認性假設
+1. 有標題的白話文摘要、沒標題的白話文摘要比學術摘要，受測者認為更容易理解(comprehensibility)。
+2. 有標題的白話文摘要比沒標題的白話文摘要、學術摘要，受測者更能有效吸收知識(knowledge acquisition)。
+3. 有標題的白話文摘要比學術摘要，受測者認為可信度更高(Credibility)。
+4. 有標題的白話文摘要比學術摘要，受測者認為更能評估研究內容的真實性(Confidence to evaluate)。
+5. 有標題的白話文摘要比學術摘要，受測者傾向認為不需要更多資訊才能理解內容(cross-evaluation)。
+
+* 探索性問題
+1. 獲取全文的意願性
+
+
+# 方法
+
+## 設計
+
+* 研究程序
+1. 基本人口資料統計。
+2. 共進行四個階段。每個階段參與者依序觀看3個研究摘要（每種摘要各一），每看完一個摘要對其可理解性、科學性、可信度、評估能力、決策能力做1-8分的評分，並詢問是否想在測試結束後取得全文連結。
+3. 進行知識理解測驗，休息90秒，再進行下一階段，直到做完四個階段。
+每一階段與階段內觀看的摘要皆採用隨機分配的方式。
+
+## 材料
+
+ * 摘要（12篇，每篇再分為學術摘要、有標題的白話摘要、沒標題的白話摘要3種）：
+    學術摘要全部取自於《中華心理學刊》中發表的期刊論文，白話摘要取自於中華心理學刊網站中的專欄文章，並加入標題，分別為背景、為什麼進行這項研究、研究人員做了什麼和發現了什麼與這些發現意味著什麼，也有對各個摘要進行中文文本可讀性指標自動化分析。
+    
+ * 知識理解測驗（24題）
+    針對摘要的內容回答是或否的問題。學術摘要與白話摘要各一題，用於測量知識獲取量。
+
+## 參與者人數估計
+
+採用Kumle et al. (2021)開發的mixedpower套件，並參考範例，使用Kerwer et al.(2020)提供的源始分析腳本建立的混合效果模型，模擬不同樣本可達到的考驗力。
+預計招募具有大學學籍之學生80人為目標。
+
+# 分析計畫
+
+(重製原論文Table 3 & 6, 提示: [公開Rmarkdown](20200921_Analysis.rmd)有需要的R code )
+
