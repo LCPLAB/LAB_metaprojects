@@ -1,0 +1,14 @@
+---
+title: 'My note'
+author: "林子渝"
+date: "2021/9/2"
+bibliography: Plain_lang_summary.bib
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+### 將心理學整合分析的證據翻譯成通俗易懂的語言
+

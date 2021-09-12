@@ -32,6 +32,15 @@ knitr::opts_chunk$set(echo = TRUE)
 3. Easiness effects: Credibility, Confidence to evaluate, Need for cross-evaluation
 
 ## 研究假設
+<<<<<<< HEAD
+=======
+
+### 白話文摘要
+白話文摘要（Plain language summary）以下簡稱PLS，通常是由相同的論文的作者所撰寫，以確保內容的正確性，但在台灣多數的心理學期刊中，並沒有要求作者需要撰寫PLS，而在國外的研究中，發現PLS比一般的學術摘容更容易閲讀，研究也表明，PLS會是向一般大眾傳達心理學相關事物的好工具。
+至於要如何比較易讀性，就需要進行可讀性分析，在原始研究團隊中，使用SMOG來計算可讀性指標。而本研究由於在台灣多數作者並不會寫PLS，一般的科普文章多由其他專欄作者所編寫，所以本研究使用中華心理學刊網站中的專欄文章，並再加入副標題，最後詢問原作者是否認可這篇PLS。可讀性分析的部份使用宋曜廷教授團隊開發的文本可讀性指標自動化分析系統(Chinese Readability Index Explorer, CRIE)進行分析，分數越低越容易閱讀。(Johannes, Anita,Martin,& Armin, 2020)
+
+
+>>>>>>> 16ba7fc36f6f34292db7da494494e1306d50786d
 * 確認性假設
 1. 有標題的白話文摘要、沒標題的白話文摘要比學術摘要，受測者認為更容易理解(comprehensibility)。
 2. 有標題的白話文摘要比沒標題的白話文摘要、學術摘要，受測者更能有效吸收知識(knowledge acquisition)。
