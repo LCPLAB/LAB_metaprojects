@@ -17,11 +17,12 @@ library(osfr)
 - [Psytoolkit問卷資料測試](Psytoolkit_data.html)
 - [台灣事實查核中心COVID-19專區](https://tfc-taiwan.org.tw/topic/3826)
 - [新興科技媒體中心COVID-19專區](https://smctw.tw/)
+- [疫情資訊列表](pandemic_statements.html)
 
 ## 原始資料重製分析
 
 - [認知動機問卷重製分析](Cognitive_Motivation.html)
-- [第一波疫情資訊可信度重製分析]
+- 第一波疫情資訊可信度重製分析: [Table 3](Table-3.html);[Table 4](Table-4.html); [Table 5](Table-5.html)
 - [第一波媒體使用問卷重製分析](Media_Use.html)
 - [第一波疫情資訊更新管道及頻率重製分析]
 - [第二波疫情資訊可信度重製分析]
