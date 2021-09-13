@@ -1,5 +1,5 @@
 ---
-title: Boot (2021) Gather其他中英文研究的引用 
+title: Boot (2021) Gather 文獻引用 
 author: "謝明翰"
 output: word_document
 ---
