@@ -18,6 +18,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 
 
+
 認知動機是什麼?
 1. Need for cognition(認知需求)
 認知動機為原本為Wolfe(1955)等人創造，當事者內在動機為接收知識的歷程。
