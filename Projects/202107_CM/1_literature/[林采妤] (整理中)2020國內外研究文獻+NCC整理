@@ -72,18 +72,29 @@ NCC問卷:
 15項NCC整理表
 Item selection and validation of a brief, 15-item version of the Need for Closure Scale
 ArneRoets, AlainVan Hiel
-I don’t like situations that are uncertain.
-I dislike questions which could be answered in many different ways.
-I find that a well ordered life with regular hours suits my temperament.
-I feel uncomfortable when I don’t understand the reason why an event occurred in my life.
-I feel irritated when one person disagrees with what everyone else in a group believes.
-I don’t like to go into a situation without knowing what I can expect from it.
-When I have made a decision, I feel relieved.
-When I am confronted with a problem, I’m dying to reach a solution very quickly.
-I would quickly become impatient and irritated if I would not find a solution to a problem immediately.
-I don’t like to be with people who are capable of unexpected actions.
-I dislike it when a person’s statement could mean many different things.
-I find that establishing a consistent routine enables me to enjoy life more.
-I enjoy having a clear and structured mode of life.
-I do not usually consult many different opinions before forming my own view.
-I dislike unpredictable situations.
+3.I don’t like situations that are uncertain.
+4.I dislike questions which could be answered in many different ways.
+6.I find that a well ordered life with regular hours suits my temperament.
+9.I feel uncomfortable when I don’t understand the reason why an event occurred in my life.
+10.I feel irritated when one person disagrees with what everyone else in a group believes.
+30.I don’t like to go into a situation without knowing what I can expect from it.
+?1.When I have made a decision, I feel relieved.(當我做出決定時，我感覺很輕鬆。)
+15.When I am confronted with a problem, I’m dying to reach a solution very quickly.
+?2.I would quickly become impatient and irritated if I would not find a solution to a problem immediately.(如果我不能立即找到解決問題的方法，我很容易感到不耐煩和煩躁)
+26.I don’t like to be with people who are capable of unexpected actions.
+32.I dislike it when a person’s statement could mean many different things.
+34.I find that establishing a consistent routine enables me to enjoy life more.
+35.I enjoy having a clear and structured mode of life.
+44.I do not usually consult many different opinions before forming my own view.
+45.I dislike unpredictable situations.
+
+Reverse-score items ✖
+Sun items ✖
+
+Order 順序: 6, 34, 35
+Predictability 可預測性: 26, 30, 45
+Decisiveness 果斷性: ✖ (猜測?1, ?2可能屬於這裡)
+Ambiguity 歧義: 3, 9, 15, 32
+Closed Mindedness 封閉性: 4, 10, 44
+
+
