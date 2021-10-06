@@ -1,6 +1,12 @@
 雲端word:https://docs.google.com/document/d/1himXyV6poIwTGBqcLoIzbPYajo1Yg_Y7lYEsn1ulJpU/edit
 (慈大帳號可開)
 
+內文
+(稍有修改)
+
+疫情盛行的高不確定性環境，為研究者提供了易於研究具不同認知閉合需求(NCC)的人會對環境造成的影響差異。@briziHaveEnoughFood2021 使用NCC問卷的研究，研究者探討了不同認知閉合需求的人對破壞環境的行為__浪費食物的差異。此實驗研究假定儲存越多食物導致無法有效消化食物的情況視為浪費食物的情景下，調查高NCC的人是否會因為想減少不安全感而囤積食物，進一步導致浪費資源。其研究結果顯示，NCC分數越高的參與者其囤積食物的傾向也越高。而這樣過度浪費資源的行為，也被研究者是作個人主義的表現。同時也表示倡導合作與共同利益的環保行為，在這樣高不確定性的環境下只對低NCC的人較有效果。還有加註應使用側重於安慰的信息來安撫高NCC群眾，以便有效利用資源。
+曾有研究指出無法容忍不確定性的人更有可能認可陰謀（Farias & Pilati,2021；Marchlewska 等人,2018；van Prooijen & Jostmann,2013），所以@VukašinCOVID-19conspiracy2021也探討了疫情期間所出現的陰謀論。研究者想要了解這些重要的心理因素是如何促成陰謀論並且是否對形成陰謀論有巨大貢獻。研究中列出認知、生存、社會幾項動機並從中挑選了幾項測量因素，包括了屬於認知動機的認知閉合需求。然而結果顯示，高認知閉合需求與陰謀論雖有關聯但卻不大。
+
 NCC相關整理
 文獻整理 (老師提供NCC問卷的那篇論文)
 NCC的需求動機分為兩種不同的過程，一是急迫性(urgency)，意及個體在理解外界資訊刺激時，確信優先獲得資訊的程度。二是持久性(permanency)個體固化已獲資訊且不會多做變動的程度。意及，NCC是指個體渴望簡化對外在資訊的理解程度(Webster&Kruglanski,1994)。經幾項研究也發現，具高NCC的個體較容易因為優先固化第一資訊而排除後來所接受到的訊息，且不論第一資訊正確與否。除此之外亦具有幾項特質，如傾向保守的價值觀和遵守傳統、較淺薄的系統化思考以及採取競爭而非合作的利己行為等。
@@ -49,6 +55,7 @@ NCC問卷:
 3.Correlates of COVID-19 vaccine hesitancy in Austria: trust and the government
 作者:Eva Schernhammer, Jakob Weitzer, Manfred D Laubichler, Brenda M Birmann, Martin Bertau, Lukas Zenk, Guido Caniglia, Carlo C Jäger, and Gerald Steiner
 研究文章日期:Published online 2021 May 5. doi: 10.1093/pubmed/fdab122
+資料收集日期:2020/11/26~2020/12/3
 *政府研究如何增加疫苗施打率而有的研究
 *NCC只是其中一項調查因素，最後結論為沒有相關
 內容大綱:
@@ -65,18 +72,29 @@ NCC問卷:
 15項NCC整理表
 Item selection and validation of a brief, 15-item version of the Need for Closure Scale
 ArneRoets, AlainVan Hiel
-I don’t like situations that are uncertain.
-I dislike questions which could be answered in many different ways.
-I find that a well ordered life with regular hours suits my temperament.
-I feel uncomfortable when I don’t understand the reason why an event occurred in my life.
-I feel irritated when one person disagrees with what everyone else in a group believes.
-I don’t like to go into a situation without knowing what I can expect from it.
-When I have made a decision, I feel relieved.
-When I am confronted with a problem, I’m dying to reach a solution very quickly.
-I would quickly become impatient and irritated if I would not find a solution to a problem immediately.
-I don’t like to be with people who are capable of unexpected actions.
-I dislike it when a person’s statement could mean many different things.
-I find that establishing a consistent routine enables me to enjoy life more.
-I enjoy having a clear and structured mode of life.
-I do not usually consult many different opinions before forming my own view.
-I dislike unpredictable situations.
+3.I don’t like situations that are uncertain.
+4.I dislike questions which could be answered in many different ways.
+6.I find that a well ordered life with regular hours suits my temperament.
+9.I feel uncomfortable when I don’t understand the reason why an event occurred in my life.
+10.I feel irritated when one person disagrees with what everyone else in a group believes.
+30.I don’t like to go into a situation without knowing what I can expect from it.
+?1.When I have made a decision, I feel relieved.(當我做出決定時，我感覺很輕鬆。)
+15.When I am confronted with a problem, I’m dying to reach a solution very quickly.
+?2.I would quickly become impatient and irritated if I would not find a solution to a problem immediately.(如果我不能立即找到解決問題的方法，我很容易感到不耐煩和煩躁)
+26.I don’t like to be with people who are capable of unexpected actions.
+32.I dislike it when a person’s statement could mean many different things.
+34.I find that establishing a consistent routine enables me to enjoy life more.
+35.I enjoy having a clear and structured mode of life.
+44.I do not usually consult many different opinions before forming my own view.
+45.I dislike unpredictable situations.
+
+Reverse-score items ✖
+Sun items ✖
+
+Order 順序: 6, 34, 35
+Predictability 可預測性: 26, 30, 45
+Decisiveness 果斷性: ✖ (猜測?1, ?2可能屬於這裡)
+Ambiguity 歧義: 3, 9, 15, 32
+Closed Mindedness 封閉性: 4, 10, 44
+
+
