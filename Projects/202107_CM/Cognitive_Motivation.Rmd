@@ -40,7 +40,8 @@ backward_T <- read_csv(file = "C_to_E.csv")
 #  pull(value) %>% gsub(pattern = "For each of the statements below, please indicate whether or not the statement is characteristic of you or of what you believe. - ",replacement = "") ,
 filter(backward_T,Scale=="NC") %>% 
   select(-Scale) %>%
-##  rename(`Original Questions` = `...1`,`Forward Translation` =`Source segment`, `Backward Translation` = `Target segment`) %>%
+##  rename(`Original億 (2010)。原版題目有Order, Predictability, Decisiveness, Ambiguity, Closed Mindedness, Lie六個題組。黃瓊億版去除Lie題組，並變更Decisiveness答題向度，本重製版還原兩個題組，以求重現Boot等人(2021)的研究方法。
+ Questions` = `...1`,`Forward Translation` =`Source segment`, `Backward Translation` = `Target segment`) %>%
   rmarkdown::paged_table(options = list(rows.print = 10))
 ```
 
@@ -49,8 +50,7 @@ filter(backward_T,Scale=="NC") %>%
 
 取得[原始問卷](https://www.midss.org/content/need-closure-scale-nfc)
 
-中文版題目取自黃瓊億 (2010)。原版題目有Order, Predictability, Decisiveness, Ambiguity, Closed Mindedness, Lie六個題組。黃瓊億版去除Lie題組，並變更Decisiveness答題向度，本重製版還原兩個題組，以求重現Boot等人(2021)的研究方法。
-
+中文版題目取自黃瓊
 > 中文題目前置{reverse}，代表該題為反向題
 
 ```{r}
