@@ -52,9 +52,8 @@ SMOG_pls <- c(19.287,17.564,12.952,17.067, 17.506, 15.645, 14.811, 16.404, 20.26
 SMOG_osa <- c(22.248, 23.885, 16.527, 20.457, 18.564, 18.244, 16.648, 18.458, 20.131, 17.946, 20.131, 17.946, 20.403, 16.828)
 SMOG_test <- unlist(t.test(SMOG_pls - SMOG_osa))
 ```
-
-
-Kwer等人使用英文語言教育已沿用多年的可讀性公式[SMOG,  @mclaughlinSMOGGradingaNew1969]，以公式的評分代表文本容易閱讀的程度(見Kwer等人, 2021, Table 1)。原來的報告雖然沒有提供白話摘要與學術摘要的評分差異，運用表格的數值進行相依t檢定，確認白話摘要的可讀性評分顯著低於學術摘要：`r paste0("*t* (",SMOG_test["parameter.df"],") = ",round(as.numeric(SMOG_test["statistic.t"]),2),"p = ",round(as.numeric(SMOG_test["p.value"]),3))`
+kerwer等人在2020年分析比較心理學學術摘要與白話文摘要的可讀性分析，kerwer等人使用了四種指標分別為SMOG、FRES、FKRS、NDCRF分別蒐集ASP、JSPP的學術摘要與白話文摘要做比較，SMOG與FKRS一樣分數越低則越容易理解、FRES與NDCRF分數越高越容易理解，結果四個數值比較證實白話文摘要比學術摘要有更好的可讀性。[strickerScientificAbstractsPlain2020]
+Kerwer等人使用英文語言教育已沿用多年的可讀性公式[SMOG,  @mclaughlinSMOGGradingaNew1969]，以公式的評分代表文本容易閱讀的程度(見Kerwer等人, 2021, Table 1)。原來的報告雖然沒有提供白話摘要與學術摘要的評分差異，運用表格的數值進行相依t檢定，確認白話摘要的可讀性評分顯著低於學術摘要：`r paste0("*t* (",SMOG_test["parameter.df"],") = ",round(as.numeric(SMOG_test["statistic.t"]),2),"p = ",round(as.numeric(SMOG_test["p.value"]),3))`
 
 中文文本的可讀性指標尚在發展中，本次研究使用宋曜廷教授團隊開發的文本可讀性指標自動化分析系統(Chinese Readability Index Explorer, CRIE)進行分析，分數越低越容易閱讀。(Johannes, Anita,Martin,& Armin, 2020)
 
