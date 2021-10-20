@@ -12,13 +12,13 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## 緒論
 
-### 能理性剖析疫情資訊的認知動機因素
+> 能理性剖析疫情資訊的認知動機因素
 
-2020年春天全球爆發的新型冠狀肺炎疫情，不僅考驗世界各國的醫療資源負荷，也挑戰各國公衛措施因應新型傳染病蔓延的能力。公衛措施能發揮效用的重要條件是大眾對疫情狀況的正確認知，例如日常生活落實非藥物介入措施、接種疫苗的必要性等。一般人主動接收與個人生活密切相關最新資訊，以及評估資訊正確性等行動，一直是研究認知動機(cognitive motivation)的心理學者有興趣探討的課題。在此特殊的疫情時期，提供心理學者藉此機會探討傾向相信不真實資訊的一般民眾，個人的認知動機因素。本研究採取重製 @bootGatheringProcessingInterpreting2021 的研究方法，探討有意願相信不實資訊或流言說法的台灣民眾，認知需求(Need for Cognition)與認知閉合需求(Need for Cognitive Closure)等動機因素，與傾向不相信不實說法的民眾之差異。
+2020年春天全球爆發的新型冠狀肺炎疫情，不僅考驗世界各國的醫療資源負荷，也挑戰各國公衛措施因應新型傳染病蔓延的能力。公衛措施能發揮效用的重要條件是大眾對疫情狀況的正確認知，例如日常生活落實非藥物介入措施、接種疫苗的必要性等。一般人主動接收與個人生活密切相關最新資訊，以及評估資訊正確性等行動，一直是研究認知動機(cognitive motivation)的心理學者有興趣探討的課題。在此特殊的疫情時期，提供心理學者藉此機會探討傾向相信不真實資訊的一般民眾，個人的認知動機因素。本研究採取重製 @bootGatheringProcessingInterpreting2021 的研究方法，探討台灣民眾相信不實資訊及流言說法的程度，與認知需求(Need for Cognition)與認知閉合需求(Need for Cognitive Closure)等動機因素的關聯性。
 
 
+## 認知動機的定義、問卷開發概念
 
-### 認知動機的定義、問卷開發概念
 
 > 明翰：回顧認知動機的定義、問卷開發概念
 
@@ -68,6 +68,19 @@ NCC的需求動機分為兩種不同的過程，一是急迫性(urgency)，意�
 
 @bootGatheringProcessingInterpreting2021 使用 @kruglanskiPsychologicalTheoryTesting1997 47題版本
 
+### Boot et al.(2021)的研究問題及發現
+
+(Boot et al.(2021)原始假設總整理)
+
+|Boot et al.(2021)原始假設 | 結果支持狀況 |
+|---|---|
+|H1a: 高NC者對疫情的正確認識高於低NC者 | 充分支持 |
+|H1b: 高NC者更新疫情資訊的頻率高於低NC者 | 不支持 |
+|H1c: 高NC者依賴新媒體及可靠管道獲取最新疫情資訊來源的程度高於低NC者 | 不支持 |
+|H2: 高NCC者比低NCC者對個人認為是真實的資訊更有信心 | 部分支持 |
+|H3: 低認知動機者(低NC,高NCC)容易接受流言說法 | 不支持 |
+
+
 ### 台灣的認知動機研究
 
 > 明翰：台灣學術圈使用NC或NCC問卷，探討資訊解讀或認知態度的研究主題
@@ -105,8 +118,7 @@ NFC(認知需求)與主流新聞曝光的探討，研究目的是想知道以認
 
 
 
-### 疫情爆發後，各國研究者採用認知動機問卷探討民眾如何處理疫情資訊
-
+### 疫情情間的認知動機相關研究主題
 
 <!---本研究重製 @bootGatheringProcessingInterpreting2021 的問卷調查及假設分析，探討台灣地區民眾相信正確及錯誤疫情資訊的認知動機因素。--->
 
@@ -119,52 +131,14 @@ NFC(認知需求)與主流新聞曝光的探討，研究目的是想知道以認
 
 （綜合）Roets & Van Hiel, (2011) 15題版與 Kruglanski et al. (1997) 47題版差異
 
+為了更深入了解問卷該如何運用，我們整理了共四篇使用NC或NCC問卷的國外研究。
+疫情盛行的高不確定性環境，為研究者提供了易於研究具不同認知閉合需求(NCC)的人會對環境造成的影響差異。@briziHaveEnoughFood2021 使用NCC問卷的研究，研究者探討了不同認知閉合需求的人對破壞環境的行為__浪費食物的差異。此實驗研究假定儲存越多食物導致無法有效消化食物的情況視為浪費食物的情景下，調查高NCC的人是否會因為想減少不安全感而囤積食物，進一步導致浪費資源。其研究結果顯示，NCC分數越高的參與者其囤積食物的傾向也越高。而這樣過度浪費資源的行為，也被研究者是作個人主義的表現。同時也表示倡導合作與共同利益的環保行為，在這樣高不確定性的環境下只對低NCC的人較有效果。還有加註應使用側重於安慰的信息來安撫高NCC群眾，以便有效利用資源。
+除卻對疫情的各個影響進行調查外，也不乏有研究者在後續疫苗推出後對其進行探討。奧地利政府為了更進一步的增加疫苗的注射率，也挑選出了一些國民進行線上調查。@EvaCOVID-19VaccineHesitancyInAustria2021列出幾項使得人民對施打疫苗猶豫的因素，其中包含居住地、就學程度、政黨支持度和高認知閉合需求程度等。而研究結果顯示，不論是對疫苗沒有猶豫者還是對疫苗抱有中度甚至高度疑惑的人，他們都沒有特別傾向於高認知閉合需求或是低認知閉合需求。這也就代表，在增加施打疫苗率的方針中，我們可以不用考慮有關認知閉合需求的安撫策略。這項研究結果也發現，是否有對選舉進行投票是對疫苗猶豫的最強相關性，而那些沒有投票的人和對疫苗猶豫的人多有著類似的特徵。
 
 
-(回顧文獻，稍做改良與建議)
-1. Brizi, A., & Biraglia, A. (2021). “Do I have enough food?” How need for cognitive closure and gender impact stockpiling and food waste during the COVID-19 pandemic: A cross-national study in India and the United States of America. Personality and Individual Differences, 168, 110396. https://doi.org/10.1016/j.paid.2020.110396
+### 疫情資訊主題變化
 
-疫情盛行的高不確定性環境，為研究者提供了意於研究具不同認知閉合需求(NCC)的人會對環境造成的影響差異。@briziHaveEnoughFood2021 使用NCC問卷的研究，(主詞不明)探討了其對破壞環境的行為__浪費食物的差異。其研究者在假定儲存越多食物導致無法有效消化食物的情況視為浪費食物的情景下，調查高NCC的人是否會因想減少不安全感而囤積食物進而導致浪費資源。其研究結果發現，NCC分數越高的參與者其囤積食物的傾向也越高。而這樣過度浪斐資源的行為，也被研究者是作個人主義的表現。同時也表示倡導合作與共同利益的環保行為，在這樣高不確定性的環境下只對低NCC的人較有效果。也加註應使用側重於安慰的信息來安撫高NCC群眾，以便有效利用資源。
-
-*疫情期間的心理因素造成的壓力導致的實際行為。
-*少數將NFC作為核心調查因素的研究。
-內容大綱:
-	研究具不同NCC層級的個體在不確定性高的環境情況(covid-19流行)下，是否會出現導致環境破壞的想法及行為。此外也調查的調節因素為性別及國家(美、印)差異。經研究調查後，發現高NCC的人因身處於不確定的環境中，他們相較於低NCC者更容易擔心食物儲量不足而過度囤積食物。進而導致大量浪費食材，從而影響環境破壞。
-
-NCC問卷:
-使用/差異:調查僅讓參與者填寫15項NCC問卷題目(見shortNCC.md)，來自 @roetsItemSelectionValidation2011 改編的版本。不過計分量表並非原先的6分制，而是採用李克特7點表。
-
-
-2. Gligorić, V., da Silva, M. M., Eker, S., van Hoek, N., Nieuwenhuijzen, E., Popova, U., & Zeighami, G. (2021). The usual suspects: How psychological motives and thinking styles predict the endorsement of well-known and COVID-19 conspiracy beliefs. Applied Cognitive Psychology. https://doi.org/10.1002/acp.3844
-
-*陰謀論的形成動機因素。
-*NFC為其一變項，並未有特別深入的說明。
-內容大綱:
-	此研究調查了心理動機與認知如何促成有關covid-19和非covid-19的陰謀論形成和陰謀心態。探討了原先的外群體成員在成為更大的內群體後產生的內群體偏見的個體差異在多種不同因素的作用下，何者為最需觀測陰謀論建立的因素。
-。
-NCC問卷:
-	使用/差異:也是使用15項NCC問卷，採用李克特5點量表。NCC問卷僅是其中的一項側量指標，並非唯一判斷標準。
-
-
-3. Schernhammer, E., Weitzer, J., Laubichler, M. D., Birmann, B. M., Bertau, M., Zenk, L., Caniglia, G., Jäger, C. C., & Steiner, G. (2021). Correlates of COVID-19 vaccine hesitancy in Austria: Trust and the government. Journal of Public Health (Oxford, England), fdab122. https://doi.org/10.1093/pubmed/fdab122
-
-資料收集日期:2020/11/26~2020/12/3
-*政府研究如何增加疫苗施打率而有的研究
-*NCC只是其中一項調查因素，最後結論為沒有相關
-內容大綱:
-	奧地利政府對人名如何看待covid-19疫苗進行調查。目的是為了瞭解猶豫不施打疫苗的人民，是為何不願配合施打。其中因素包含性格樂觀、利他主義、認知需求閉合程度等。後發現相關因素最高的韋對政府得信任程度。
-
-NCC問卷:
-	參考了此文獻Webster DM, Kruglanski AW. Individual differences in need for cognitive closure. J Pers Soc Psychol 1994;67:1049–62.[Google Scholar]然而還未找到其中NCC問卷的詳細題目。
-	
-
-(這段文獻來源不在zotero雲端)
-也另有研究者探討了疫情期間所出現的陰謀論，想進一步理解一些重要的心理動機是如何促成陰謀論並且其對於陰謀論是否有巨大貢獻。研究中列出認知、生存、社會幾項動機並從中挑選了幾項測量因素。包括了屬於認知動機的認知閉合需求，因有研究指出無法容忍不確定性的人更有可能認可陰謀（Farias & Pilati,2021；Marchlewska 等人,2018；van Prooijen & Jostmann,2013）。然而NCC與陰謀論的關係可稱不上顯著，雖有關聯但卻不大。
-
-(整理中)
-Xu, P., & Cheng, J. (2021). Individual differences in social distancing and mask-wearing in the pandemic of COVID-19: The role of need for cognition, self-control and risk attitude. Personality and Individual Differences, 175, 110706. https://doi.org/10.1016/j.paid.2021.110706
-
-### 2021五月以降，台灣媒體疫情資訊主題變化
+> 台灣vs.歐美; 2020 vs. 2021
 
 > 祥偉、子渝：從目前學術機構或民調中心的資訊，整理台灣社會疫情資訊的樣態; 民眾對疫情資訊的信任度調查
 
@@ -192,22 +166,14 @@ Xu, P., & Cheng, J. (2021). Individual differences in social distancing and mask
 
 ()
 
-### 不同時空以認知動機預測民眾區辨資訊正確性的評估
+### 評估重製Boot et al.(2021)的可能差異結果
 
 > 與高NCC有關的假設沒有得到充分支持的研究結果可能原因：
 > 1. Prolific平台的多數參與者年輕(20y~40y)，會主動吸收最新資訊。
 > 2. 研究者採用的流言並非高NCC者能馬上接受的。
 
 
-|Boot et al.(2021)原始假設 | 結果支持狀況 |
-|---|---|
-|H1a: 高NC者對疫情的正確認識高於低NC者 | 充分支持 |
-|H1b: 高NC者更新疫情資訊的頻率高於低NC者 | 不支持 |
-|H1c: 高NC者依賴新媒體及可靠管道獲取最新疫情資訊來源的程度高於低NC者 | 不支持 |
-|H2: 高NCC者比低NCC者對個人認為是真實的資訊更有信心 | 部分支持 |
-|H3: 低認知動機者(低NC,高NCC)容易接受流言說法 | 不支持 |
 
-(Boot et al.(2021)原始假設總整理)
 以下我們將會針對 Boot(2021)研究所提出的假設逐一探討，並評估在我們的重制研究中可能會發生的問題，還有我們如何去解決在原始研究中假設不成立的狀況。
 
 原始論文中的假設 H1a：高NC者對疫情的正確認識高於低NC者，結果顯示為「充分支持」，原始研究也發現不只高NC者對疫情資訊的知識與信心顯著高於低NC者，高NCC者也與疫情資訊呈正相關，他們也發現，在疫情資訊題中，對真實資訊呈現的題目表現出更高的準確性，原始論文的給出的解釋為對不實資訊，回答"我不知道"，在理智層面上是屬於誠實回答的部份，因此偏向回答"我不知道"。[@suWhoEndorsesConspiracy2021]
