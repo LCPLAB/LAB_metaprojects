@@ -6,7 +6,11 @@ output: html_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(
+	echo = TRUE,
+	message = FALSE,
+	warning = FALSE
+)
 library(tidyverse)
 library(osfr)
 ```
@@ -33,6 +37,23 @@ ls()
 file.remove(list.files(recursive = TRUE,full.names = TRUE,include.dirs = TRUE,pattern = "*.Rdata"))
 ```
 
+```{r}
+write.csv(items,file = "items.csv")
+## overview Q8 responese
+
+## check the options in the test,
+## there are 23 options included "none"
+Q8_options <- data_factors$Q8 %>% as.character() %>% paste(collapse = ",") %>%str_split(pattern = ",") %>% unlist() %>% table()
+## except "none" was selected, at least 1 option had to be selected
+Q8_responses <- data_factors$Q8 %>% as.character() %>% str_split(pattern = ",") 
+## four participants selected "none"
+Q8_responses[Q8_responses == "None"]
+## list of Q9 options
+Q9_options <- data_factors$Q9 %>%as.character() %>% paste(collapse = ",") %>%str_split(pattern = ",") %>% unlist() %>% unique()
+
+## list of Q10 options
+
+```
 
 
 ### Wave 1 正式分析資料
