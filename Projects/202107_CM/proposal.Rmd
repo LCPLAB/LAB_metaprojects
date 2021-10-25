@@ -235,7 +235,7 @@ Xu, P., & Cheng, J. (2021). Individual differences in social distancing and mask
 
 ### 研究程序與材料
 
-如同@bootGatheringProcessingInterpreting2021 的研究程序，四份問卷的內容與施測順序為： (1) 疫情資訊可信度評估，有12條真實資訊，12條不實資訊，以及8條流言說法； (2) 人口背景調查： ；(3) 媒體使用狀況調查：包括使用的媒體平台、 日常使用時間、獲取最新資訊的來源種類、獲取最新資訊的情境、獲取最新資訊的頻率、以及獲取最新資訊的動機；(4) 認知動機問卷：包括認知需求問卷「Need for Cognition(NC)」與認知閉合需求問卷「Need for Cognition Closure(NCC)」。問卷設計與部署以網路實驗平台Psytoolkit準備及執行[@stoetPsyToolkitNovelWebBased2017]。
+問卷施測程序比照@bootGatheringProcessingInterpreting2021 ，參與者依序回答的四份問卷內容為： (1) 疫情資訊可信度評估，包括12條真實資訊，12條不實資訊，以及8條流言說法； (2) 人口背景資訊調查： 包括年齡、性別、居住地區是否為台灣、日常使用語言、教育程度、以及職業別；(3) 媒體使用狀況調查：包括有無使用或最常使用的網路媒體平台、日常使用網路時間、獲取最新疫情的資訊來源、情境、更新頻率、以及獲取最新資訊的動機；(4) 認知動機問卷：包括中文版認知需求問卷[@gaoquanfengRenZhiXuQiuDeGaiNianYuCeLiang1994]與認知閉合需求問卷[改編自 @AL:U0001-1907201017124300]。問卷設計與部署以網路實驗平台Psytoolkit準備及執行[@stoetPsyToolkitNovelWebBased2017]。
 
 ---
 
@@ -250,6 +250,9 @@ Xu, P., & Cheng, J. (2021). Individual differences in social distancing and mask
 
 ### 研究參與者估計 
 
+由於研究程序是重製 @bootGatheringProcessingInterpreting2021 的第一波研究，以認知需求問卷與認知閉合需求問卷的回應事後分組，為使人數達到能鑑別假設預測的規模，本樣研究同樣預訂招募500位受測試者。
+
+<!---
 ### 研究程序
 1. 確認重制研究題目
 2. 編制研究問卷
@@ -257,7 +260,7 @@ Xu, P., & Cheng, J. (2021). Individual differences in social distancing and mask
 4. 相關文獻探討
 5. 收集資料
 6. 分析與討論
-
+--->
 
 ## 分析計畫
 
