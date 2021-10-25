@@ -55,14 +55,11 @@ knitr::opts_chunk$set(echo = TRUE)
 
 問卷來源文獻: @kruglanskiPsychologicalTheoryTesting1997
 
-NCC的需求動機分為兩種不同的過程，一是急迫性(urgency)，意及個體在理解外界資訊刺激時，確信優先獲得資訊的程度。二是持久性(permanency)個體固化已獲資訊且不會多做變動的程度。意及，NCC是指個體渴望簡化對外在資訊的理解程度(Webster & Kruglanski,1994)。經幾項研究也發現()，具高NCC的個體較容易因為優先固化第一資訊而排除後來所接受到的訊息，且不論第一資訊正確與否。除此之外亦具有幾項特質，如傾向保守的價值觀和遵守傳統、較淺薄的系統化思考以及採取競爭而非合作的利己行為等。
+NCC是指個體渴望簡化對外在資訊的理解程度(Webster&Kruglanski,1994)。其需求動機分為兩種不同的過程，一是急迫性(urgency)，意及個體在理解外界資訊刺激時，確信優先獲得資訊的程度。二是持久性(permanency)個體固化已獲資訊且不會多做變動的程度。
+具高NCC的個體較容易因為優先固化第一資訊而排除後來所接受到的訊息，且不論該資訊正確與否(Thompson,Roman,Moskowiz,& Chaiken,1994)。除此之外亦具有幾項特質，如喜歡秩序和明確且可預測性高的事物、傾向保守的價值觀和遵守傳統(Crowson,Debacker,&Thoma,2006;Van Hiel,Pandelaere,& Duriez,2008)、較淺薄的系統化思考(De Zavala, Federico,Cislak,& Oldersma,1999;De Dreu,2008)、依賴認知捷徑和經驗法則(De Dreu,Koole,& Okdersma,1999;De Dreu,2003)以及採取競爭而非合作的利己行為等。
+除了42題NCC問卷(Webster&Kruglanski,1994)外，還有增加了測謊題的47題版@kruglanskiPsychologicalTheoryTesting1997以及精簡過後的15題版問卷(Arne Roets,Alain Van Hiel,2011)。在問卷裡Webster&Kruglanski使用五個向度進行調查，分別為順序(Order)、可預測性(Predictability)、果斷性(Decisiveness)、歧義(Ambiguity)、封閉性(Closed Mindedness)。這些向度是根據高NCC的特性而進行設計的，像是因其對秩序和結構的偏好而來的順序(Order)，還有歧義(Ambiguity)向度會假定一些容易造成高NCC情感不適的情景句等。在最原始的問卷中一共有57題，後修改成了42題的版本。而Kruglanski等人為了增加問卷的信度後又增設了5題測謊題。在最新的15題版中則是由Arne Roets等人根據42題版的內容進行編制的15項的NCC問卷只保留了每個向度的3個項目，且對類似的心理測量特性和第三變項的相關性進行簡化並且完善。
 
 
-高NCC
-1.喜歡秩序、可預測性、明確的 / 不喜歡不確定性、岐義
-2.在資訊處理上將就先後順序，容易忽略後來的資訊。更容易依賴捷徑和過去經驗。
-3.在衝突情況下，競爭舉動大於合作。較常有利己行為。
-4.保守、傳統和較淺的系統化思考。
 
 
 @bootGatheringProcessingInterpreting2021 使用 @kruglanskiPsychologicalTheoryTesting1997 47題版本
@@ -118,50 +115,23 @@ NFC(認知需求)與主流新聞曝光的探討，研究目的是想知道以認
 
 （綜合）Roets & Van Hiel, (2011) 15題版與 Kruglanski et al. (1997) 47題版差異
 
+為了更深入了解問卷該如何運用，我們整理了共四篇使用NC或NCC問卷的國外研究。
 
+防疫自我意識
+@PingXuPandemicOfCOVID-192021調查了美國成年人對保持社交距離和戴口罩的態度和其心理特徵的關聯。研究中主要關注三項認知特徵: 認知需求、自我控制以及風險態度（Casey，2015；Mohammed & Schwall，2012；Tittle等，2003）。其中高認知需求的從事努力和系統思考傾向（Cacioppo et al., 1984）為自我控制提供了很好的資源，使其更能往個體抗拒誘惑、講究長期利益的傾向上運轉(Stillman et al., 2017)。風險態度是影響人們如何去考量決策背景和決策結果，風險態度和自我控制也呈正相關。
+研究結果顯示對實踐社交距離和戴口罩的參與度與部分研究假設一致和自我控制及認知需求皆呈正相關。風險態度和防疫行為則呈現無相關，研究者推測可能是因為每人身處的環境帶來的風險程度不同故而無法有效測驗該相關。
 
-(回顧文獻，稍做改良與建議)
-1. Brizi, A., & Biraglia, A. (2021). “Do I have enough food?” How need for cognitive closure and gender impact stockpiling and food waste during the COVID-19 pandemic: A cross-national study in India and the United States of America. Personality and Individual Differences, 168, 110396. https://doi.org/10.1016/j.paid.2020.110396
+環境環保
+疫情盛行的高不確定性環境，為研究者提供了易於研究具不同認知閉合需求(NCC)的人會對環境造成的影響差異。@briziHaveEnoughFood2021 使用NCC問卷的研究，研究者探討了不同認知閉合需求的人對破壞環境的行為__浪費食物的差異。此實驗研究假定儲存越多食物導致無法有效消化食物的情況視為浪費食物的情景下，調查高NCC的人是否會因為想減少不安全感而囤積食物，進一步導致浪費資源。其研究結果顯示，NCC分數越高的參與者其囤積食物的傾向也越高。而這樣過度浪費資源的行為，也被研究者是作個人主義的表現。同時也表示倡導合作與共同利益的環保行為，在這樣高不確定性的環境下只對低NCC的人較有效果。還有加註應使用側重於安慰的信息來安撫高NCC群眾，以便有效利用資源。
 
-疫情盛行的高不確定性環境，為研究者提供了意於研究具不同認知閉合需求(NCC)的人會對環境造成的影響差異。@briziHaveEnoughFood2021 使用NCC問卷的研究，(主詞不明)探討了其對破壞環境的行為__浪費食物的差異。其研究者在假定儲存越多食物導致無法有效消化食物的情況視為浪費食物的情景下，調查高NCC的人是否會因想減少不安全感而囤積食物進而導致浪費資源。其研究結果發現，NCC分數越高的參與者其囤積食物的傾向也越高。而這樣過度浪斐資源的行為，也被研究者是作個人主義的表現。同時也表示倡導合作與共同利益的環保行為，在這樣高不確定性的環境下只對低NCC的人較有效果。也加註應使用側重於安慰的信息來安撫高NCC群眾，以便有效利用資源。
+疫苗研究
+除卻對疫情的各個影響進行調查外，也不乏有研究者在後續疫苗推出後對其進行探討。奧地利政府為了更進一步的增加疫苗的注射率，也挑選出了一些國民進行線上調查。@EvaCOVID-19VaccineHesitancyInAustria2021列出幾項使得人民對施打疫苗猶豫的因素，其中包含居住地、就學程度、政黨支持度和高認知閉合需求程度等。而研究結果顯示，不論是對疫苗沒有猶豫者還是對疫苗抱有中度甚至高度疑惑的人，他們都沒有特別傾向於高認知閉合需求或是低認知閉合需求。這也就代表，在增加施打疫苗率的方針中，我們可以不用考慮有關認知閉合需求的安撫策略。這項研究結果也發現，是否有對選舉進行投票是對疫苗猶豫的最強相關性，而那些沒有投票的人和對疫苗猶豫的人多有著類似的特徵。
 
-*疫情期間的心理因素造成的壓力導致的實際行為。
-*少數將NFC作為核心調查因素的研究。
-內容大綱:
-	研究具不同NCC層級的個體在不確定性高的環境情況(covid-19流行)下，是否會出現導致環境破壞的想法及行為。此外也調查的調節因素為性別及國家(美、印)差異。經研究調查後，發現高NCC的人因身處於不確定的環境中，他們相較於低NCC者更容易擔心食物儲量不足而過度囤積食物。進而導致大量浪費食材，從而影響環境破壞。
-
-NCC問卷:
-使用/差異:調查僅讓參與者填寫15項NCC問卷題目(見shortNCC.md)，來自 @roetsItemSelectionValidation2011 改編的版本。不過計分量表並非原先的6分制，而是採用李克特7點表。
-
-
-2. Gligorić, V., da Silva, M. M., Eker, S., van Hoek, N., Nieuwenhuijzen, E., Popova, U., & Zeighami, G. (2021). The usual suspects: How psychological motives and thinking styles predict the endorsement of well-known and COVID-19 conspiracy beliefs. Applied Cognitive Psychology. https://doi.org/10.1002/acp.3844
-
-*陰謀論的形成動機因素。
-*NFC為其一變項，並未有特別深入的說明。
-內容大綱:
-	此研究調查了心理動機與認知如何促成有關covid-19和非covid-19的陰謀論形成和陰謀心態。探討了原先的外群體成員在成為更大的內群體後產生的內群體偏見的個體差異在多種不同因素的作用下，何者為最需觀測陰謀論建立的因素。
-。
-NCC問卷:
-	使用/差異:也是使用15項NCC問卷，採用李克特5點量表。NCC問卷僅是其中的一項側量指標，並非唯一判斷標準。
-
-
-3. Schernhammer, E., Weitzer, J., Laubichler, M. D., Birmann, B. M., Bertau, M., Zenk, L., Caniglia, G., Jäger, C. C., & Steiner, G. (2021). Correlates of COVID-19 vaccine hesitancy in Austria: Trust and the government. Journal of Public Health (Oxford, England), fdab122. https://doi.org/10.1093/pubmed/fdab122
-
-資料收集日期:2020/11/26~2020/12/3
-*政府研究如何增加疫苗施打率而有的研究
-*NCC只是其中一項調查因素，最後結論為沒有相關
-內容大綱:
-	奧地利政府對人名如何看待covid-19疫苗進行調查。目的是為了瞭解猶豫不施打疫苗的人民，是為何不願配合施打。其中因素包含性格樂觀、利他主義、認知需求閉合程度等。後發現相關因素最高的韋對政府得信任程度。
-
-NCC問卷:
-	參考了此文獻Webster DM, Kruglanski AW. Individual differences in need for cognitive closure. J Pers Soc Psychol 1994;67:1049–62.[Google Scholar]然而還未找到其中NCC問卷的詳細題目。
-	
-
-(這段文獻來源不在zotero雲端)
-也另有研究者探討了疫情期間所出現的陰謀論，想進一步理解一些重要的心理動機是如何促成陰謀論並且其對於陰謀論是否有巨大貢獻。研究中列出認知、生存、社會幾項動機並從中挑選了幾項測量因素。包括了屬於認知動機的認知閉合需求，因有研究指出無法容忍不確定性的人更有可能認可陰謀（Farias & Pilati,2021；Marchlewska 等人,2018；van Prooijen & Jostmann,2013）。然而NCC與陰謀論的關係可稱不上顯著，雖有關聯但卻不大。
-
-(整理中)
-Xu, P., & Cheng, J. (2021). Individual differences in social distancing and mask-wearing in the pandemic of COVID-19: The role of need for cognition, self-control and risk attitude. Personality and Individual Differences, 175, 110706. https://doi.org/10.1016/j.paid.2021.110706
+陰謀論
+曾有研究指出無法容忍不確定性的人更有可能認可陰謀（Farias & Pilati,2021；Marchlewska 等人,2018；van Prooijen & Jostmann,2013），所以@VukašinCOVID-19conspiracy2021也探討了疫情期間所出現的陰謀論。研究者想要了解這些重要的心理因素是如何促成陰謀論並且是否對形成陰謀論有巨大貢獻。研究者將三種心理動機設為研究的調查變項，認知動機、生存動機及社會動機的增強可能會吸引個人接受陰謀論(Douglas, 2021; Douglas et al., 2017)。
+研究者所探討的認知動機有二，一為幻覺模式感知(IPP)，其與推動陰謀論有些許相關（van Prooijen 等人，2018年；Whitson & Galinsky，2008年)。另一則為認知需求閉合，曾有研究表明，高度需要結束和/或無法容忍不確定性的人，及普遍的高認知需求閉合者，更有可能認可陰謀（Farias & Pilati，2021年；Marchlewska 等人，2018年；van Prooijen & Jostmann，2013年）。而存在動機是控制需求，社會動機則是假定為不明顯的內部群體積極想法。
+另外也有其他因素，如:自戀，其對自我的誇大認知可能會使其對陰謀論的信念更高（Cichocka, Marchlewska, & De Zavala,2016）、不同的宗教信仰和靈性的廣泛價值觀等都是此研究的調查變項。
+後根據研究結果顯示，上述的心理動機雖和陰謀論的形成多少有相關然而卻不是這次Covid-19疫情期間陰謀論形成的主因。
 
 ### 2021五月以降，台灣媒體疫情資訊主題變化
 
