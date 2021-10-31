@@ -19,10 +19,10 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # 緒論
 
-近年重要學術組織鼓吹將有重要貢獻的科學論文，轉化為通俗易懂的科學資訊白話文摘要（Plain language summary），例如生物醫學領域[@fitzgibbonWhereAreBiomedical2020]以及心理學領域[@kaslowTranslatingPsychologicalScience2015]。在2020年全球新冠肺炎肆虐全球之際，也有不少政府機關與學術單元共同合作，在宣傳品置入最新研究成果的白話文摘要[@stevensonModellingHypotheticalSARSCoV22021]。歐洲各國還有出現研究團隊，開發教授專業科學研究人員，或指導專業科學傳播人員撰寫白話文摘要的課程[@hahnCrisisKnowledgeManagement2020; @stollWasIstGute2021]，以及白話文摘要如何促進大眾正確理解第一手科學資訊的實證研究[@kerwerStraightScientistMouth2021; @stollSummingPlainLanguage2020]。
+近年重要學術組織鼓吹將有重要貢獻的科學論文，轉化為通俗易懂的科學資訊白話文摘要（Plain language summary），例如生物醫學領域[@fitzgibbonWhereAreBiomedical2020]以及心理學領域[@kaslowTranslatingPsychologicalScience2015]。在2020年全球新冠肺炎肆虐全球之際，也有不少政府機關與學術單元共同合作，在宣傳品置入最新研究成果的白話文摘要[@stevensonModellingHypotheticalSARSCoV22021]。歐洲還有研究團隊，開發教授專業科學研究人員，或指導專業科學傳播人員撰寫白話文摘要的課程[@hahnCrisisKnowledgeManagement2020; @stollWasIstGute2021]，以及白話文摘要如何促進大眾正確理解第一手科學資訊的實證研究[@kerwerStraightScientistMouth2021; @stollSummingPlainLanguage2020]。
 
 
-本研究決定重製@kerwerStraightScientistMouth2021的理由，除了藉此了解該研究團隊的經營概念，更是測試白話文摘要寫作課程中文化的實證基礎。@kerwerStraightScientistMouth2021的研究材料為英文摘要，他們的研究結果指出一般讀者閱讀白話文摘要，比閱讀學術摘要更能正確理解內容，也更容易相信內容的正確性，後者被稱為簡易效應(Easiness Effect)。要有效評估簡易效應，適讀性(Readability)控制白話文摘要與學術摘要難易度差異的可量化指標，英文文章的適讀性指標在英文寫作教育的運用已經相當成熟[citation]，中文文章適讀性指標尚在開發[citation]，現有可用的中文適讀性指標能否承載相似目標的研究需要？我們認為應該儘可能採用與@kerwerStraightScientistMouth2021一致的條件重製研究，才能評估簡易效應實驗方法與教程中文化的可行性。
+本研究決定重製@kerwerStraightScientistMouth2021的理由，除了藉此了解該研究團隊的理論基礎，也是累積開發科學論文白話文摘要寫作課程的中文化實證基礎。@kerwerStraightScientistMouth2021的研究結果指出一般讀者閱讀白話文摘要，比閱讀學術摘要更能正確理解內容，也更容易相信內容的正確性，後者被稱為簡易效應(Easiness Effect)。要有效評估簡易效應，控制閱讀文本的適讀性(Readability)，是設計測試條件的關鍵。英文文章的適讀性指標在英文寫作教育的運用已經相當成熟，有多種指標提供使用者依目的選擇使用[citation]。中文文章適讀性指標尚在開發[citation]，需要累積實證資料進行檢驗。現有可用的中文適讀性指標能否承載本研究的需要？是以我們認為應該儘可能採用與@kerwerStraightScientistMouth2021一致的條件重製研究，才能有效評估簡易效應實驗方法與教程中文化的可行性。
 
 
 <!---
@@ -30,7 +30,18 @@ knitr::opts_chunk$set(echo = TRUE)
 --->
 
 
+## 中文知識性文章閱讀研究主題及研究條件
+
+(研究主題)
+
+(可讀性指標)
+
+
+
+
 ### 白話文摘要的簡易效應（Easiness Effect）
+
+一般大眾沒有經過專業學術研究訓練，或是大量閱讀第一手資訊，並不能颯分理解原作者想表達的真正意思，所以白話文摘要之所以被如此重視，也是能夠讓一般人也能明白原作者的目的。
 
 透過簡化或改寫學術論文的專有名詞以及推演公式，沒有學術背景的一般大眾能透過白話文摘要掌握學術論文探討的問題，解決問題的方法與研究者的結論。最近十年，探討科普文章如何提昇大眾科學素養的課題，有學者開始關注無專業學術訓練的讀者，會因容易閱讀通俗科普文章，高估淺顯易懂的科學資訊的可信度(Credibility)，膨脹判讀資訊真實性的信心(Confidence to evaluate)，並且疏於查證第一手資訊(cross-evaluation)等負面影響。這些現象被稱白話文摘要的簡易效應（Easiness Effect）[@scharrerJudgingScientificInformation2019; @scharrerWhenScienceBecomes2017]。 
 
@@ -54,8 +65,6 @@ knitr::opts_chunk$set(echo = TRUE)
 為機械系大三學生，研究人員準備物理氣相沉積理論讓學生們經過一學期的實驗過程，成績是否會有所進步，實驗過程為：教學實施階段(共18週，扣除前後測進行6篇文獻閱讀，並教導概念構圖的閱讀理論)、前測(第一週閱讀文獻，隔一周寫題目)、後測(第十八週測驗題目)。結果為概念構圖對於大學生在閱讀文獻上成績有明顯提升。而高分組(為整體的前27%)與低分組(為整體的後27%)，低分組在前後測有明顯的成績進步。而低分組的學習態度上明顯高過於高分組，原因在於低分組認為概念構圖的方式，是有助於他們的閱讀理解。
 
 (小結)以上研究回顧顯示，白話文摘要尚未被採納為提昇閱讀能力的材料，與簡易效應有關的因素都非這些研究所關切的目標。
-
-## 中文白話文摘要簡易效應的研究條件
 
 
 在後續的發表裡，Kerwer的研究團隊提出編輯白話文摘要應注意的四個重點：1.目標（非專業人士對於摘要的理解）2.特徵（語言上的使用是否接近該閱讀者母語）3.標準（避免使用太過於專業術語）4.結果(知識的測試了解非專業人士知識的獲取)[@stollPlainLanguageSummaries2021]。(需要改寫，由此延伸採用中文文本重製研究的必要性與限制)
