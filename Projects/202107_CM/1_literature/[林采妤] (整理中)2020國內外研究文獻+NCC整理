@@ -8,7 +8,7 @@ NCC的需求動機分為兩種不同的過程，一是急迫性(urgency)，意�
 
 認知閉合需求是指個人希望降低理解外在資訊所付出的認知資源(Webster & Kruglanski,1994)。Kruglanski與同事認為認知閉合需求動機可分為兩種評估指標：一種是急迫性(urgency)，指個人理解外界資訊刺激，認為最先取得的資訊可信的程度；二是持久性(permanency)，指個人不會因為知道新資訊而變動先取得資訊的程度。合理假設高認知閉合需求的個人比較容易因為非常相信最先接收的資訊而排除後來所接收到的訊息，且不論先前資訊的正確性(Thompson,Roman,Moskowiz,& Chaiken,1994)。之後的學者進一步提出高認知閉合需求者有幾種特質，例如喜歡有秩序、明確且可預測性的事物，傾向保守的價值觀和遵守傳統(Crowson,Debacker,&Thoma,2006;Van Hiel,Pandelaere,& Duriez,2008)；偏好淺層的系統化思考(De Zavala, Federico,Cislak,& Oldersma,1999;De Dreu,2008)；依賴可行的認知捷徑和經驗法則(De Dreu,Koole,& Okdersma,1999;De Dreu,2003)；以及習慣採取競爭而非合作的利己行為等。
 
-最早發展的NCC問卷(Webster & Kruglanski,1994)有42題，包括[那些向度？]。之後 @kruglanskiPsychologicalTheoryTesting1997根據前一版本，增加5道測謊題。更新的版本是Arne Roets,Alain Van Hiel (2011) 開發的15題版本，這個版本只保留Webster & Kruglanski (1994)提出的？個向度各3個項目，並且[對類似的心理測量特性和簡化第三變項的相關性?]
+最早發布的NCC問卷(Webster & Kruglanski,1994)有42題是從原始的57項目中修訂節選而來，包括順序(Order)、可預測性(Predictability)、果斷性(Decisiveness)、歧義(Ambiguity)、封閉性(Closed Mindedness)。之後 @kruglanskiPsychologicalTheoryTesting1997根據前一版本，增加5道測謊題。也是這次重製實驗的原先實驗使用的版本。然更常見於實驗中使用的是而後更新的版本，是Arne Roets,Alain Van Hiel (2011) 開發的15題版本，這個版本是根據（Webster & Kruglanski，1994；Roets & Van Hiel (2007)修訂)的41題版所編製而成的。Roets & Van Hiel在不斷反覆地篩選中依次選定了各項度識別度最高的3項目。
 
 
 -----
@@ -61,7 +61,7 @@ NCC的需求動機分為兩種不同的過程，一是急迫性(urgency)，意�
 ----上:原版 下:修改
 
 
-根據不同研究指出無法容忍不確定性的人更有可能認可陰謀（Farias & Pilati,2021；Marchlewska 等人,2018；van Prooijen & Jostmann,2013），所以@VukašinCOVID-19conspiracy2021 探討疫情期間出現的陰謀論，是否容易被低認動機者接受。他們的調查變項包括認知動機、存在動機及社會動機等三種可能會吸引個人接受陰謀論的心理動機(Douglas, 2021; Douglas et al., 2017)。@VukašinCOVID-19conspiracy2021調查的認知動機除了認知需求閉合，另一個是與陰謀論形成背景有關的幻覺模式感知(IPP, van Prooijen 等人，2018年；Whitson & Galinsky，2008年)。存在動機是控制需求，社會動機則是假定為不明顯的內部群體積極想法。研究結果顯示，這些心理動機雖和一般陰謀論的接受程度有些許相關性，但是與疫情期間形成的陰謀論接受程度沒有直接相關。
+根據不同研究指出無法容忍不確定性的人更有可能認可陰謀（Farias & Pilati,2021；Marchlewska 等人,2018；van Prooijen & Jostmann,2013），所以@VukašinCOVID-19conspiracy2021 探討疫情期間出現的陰謀論，是否容易被低認知動機者接受。他們的調查變項包括認知動機、存在動機及社會動機等三種可能會吸引個人接受陰謀論的心理動機(Douglas, 2021; Douglas et al., 2017)。@VukašinCOVID-19conspiracy2021調查的認知動機除了認知需求閉合，另一個是與陰謀論形成背景有關的幻覺模式感知(IPP, van Prooijen 等人，2018年；Whitson & Galinsky，2008年)。存在動機是控制需求，社會動機則是假定為不明顯的內部群體積極想法。研究結果顯示，這些心理動機雖和一般陰謀論的接受程度有些許相關性，但是與疫情期間形成的陰謀論接受程度沒有直接相關。
 
 
 -----
