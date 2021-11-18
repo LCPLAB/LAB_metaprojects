@@ -1814,7 +1814,7 @@ define sequence text_seq
 	run test "([count_text_seq]%3)=2"
 	run rest_html "(([count_text_seq]%3)=2)and([count_text_seq]<11)"
 	run rest always
-	run rest_duration never
+	run rest_duration "(([count_text_seq]%3)=2)and([count_text_seq]<11)"
 
 define form_text_display welcome
 	set timeout infinite
