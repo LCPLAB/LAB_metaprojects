@@ -1,0 +1,74 @@
+---
+API: 2.1
+OpenSesame: 3.3.10
+Platform: nt
+---
+set width 1024
+set uniform_coordinates yes
+set title "New experiment"
+set subject_parity even
+set subject_nr 0
+set start experiment
+set sound_sample_size -16
+set sound_freq 48000
+set sound_channels 2
+set sound_buf_size 1024
+set sampler_backend legacy
+set round_decimals 2
+set mouse_backend legacy
+set keyboard_backend legacy
+set height 768
+set fullscreen no
+set form_clicks no
+set foreground black
+set font_underline no
+set font_size 16
+set font_italic no
+set font_family "chinese-japanese-korean"
+set font_bold no
+set experiment_path None
+set disable_garbage_collection yes
+set description "The main experiment item"
+set coordinates uniform
+set compensation 0
+set color_backend legacy
+set clock_backend legacy
+set canvas_backend legacy
+set background white
+
+define sequence experiment
+	set flush_keyboard yes
+	set description "Runs a number of items in sequence"
+	run notepad always
+	run new_loop always
+
+define loop new_loop
+	set source_file ""
+	set source table
+	set repeat 1
+	set order random
+	set description "Repeatedly runs another item"
+	set cycles 1
+	set continuous no
+	set break_if_on_first yes
+	set break_if never
+	setcycle 0 Content "每當有新產品推出時，總是會有一堆人跟風購買，即使有人山人海的人潮，依舊沒有減少大家排隊的熱情。排隊會帶來不耐煩與煩躁的負面情緒，<br><br>但是為什麼消費者仍會選擇加入排隊的行列呢？這其實跟我們的大腦認知決策很有關係！近年來由於科技之發達，已經慢慢開始採用腦波量技術來<br><br>進行研究，像是應用於了解人類資訊認知、(Farwell & Smith, 2001; Murugappan et al., 2008)、 情緒反應(Rozgić, Vitaladevuni, & Prasad, 2013;<br><br> Zhang & Zhou, 2007)或專注力訓練(Chen, Wang, & Yu, 2017)。梁直青與郭芳妤（2018）透過情境模擬實驗並且搭配腦波技術來觀察「等候時間」<br><br>與「等候資訊」對於消費者等候決策的變化歷程。排隊現象是台灣特有的一種文化，而排隊現象依照消費者的需求可以區分為「必要行排隊」以及<br><br>「需求性排隊」(Friman, 2010; Lotrakul, Sumrithe, & Saipanish, 2008)。本文主要是探討需求性排隊，也就是受到個人意願影響的排隊，若企業<br><br>能夠透過揭露等候資訊則有利於降低消費者對於等候時間的不耐煩(Hui, Tse, & Zhou, 2006)。等候資訊會影響到消費者對於時間的內在感知，包括：<br><br>個人時間風格、等候容忍度與情緒，要測量等候資訊對於內在時間感知，可以透過問卷調查或者生心理訊號來探究。雖然以往都是透過問卷調查的<br><br>方式進行研究，但測量生心理訊號可以了解消費者面對等候資訊刺激的直接反應。研究結果發現，當面臨等候時間遞減情境時，受試者放棄加入排隊的比<br><br>率會降低；而在面對等候時間遞增情境時，放棄加入排隊隊伍的比率會增加。證實時間資訊確實會影響消費者決策，因此企業必須要避免因為時間過長影<br><br>響顧客決策與消費意圖(Gillam, Simmons, Stevenson, & Weiss, 2014; Park & Kim, 2007) ，未來可以針對排隊管理策略進行近一步的研究。"
+	run new_sketchpad
+
+define sketchpad new_sketchpad
+	set duration keypress
+	set description "Displays stimuli"
+	draw textline center=0 color=black font_bold=no font_family="chinese-japanese-korean" font_italic=no font_size=14 html=yes show_if=always text="[Content]" x=-448 y=-256 z_index=0
+
+define notepad notepad
+	__note__
+	
+	
+	1. 測試文本置入"new_loop"的Content 1
+	
+	2. 執行“Run in browser"觀察顯示狀況
+	
+	3. 在文字編輯器調整斷行位置，更新Content 1再測試觀察
+	__end__
+	set description "A simple notepad to document your experiment. This plug-in does nothing."
+
