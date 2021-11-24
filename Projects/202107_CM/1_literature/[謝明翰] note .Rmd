@@ -168,6 +168,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 (討論Boot等人的假設未獲得假設支持的可能原因)
 
+>>>>>> d00cf35..a7ec506
 > Prolific平台的多數參與者年輕(20y\~40y)，會主動吸收最新資訊。
 
 Boot原本H1b假設認為低NC比高NC者，他們顯示出較低的 COVID-19 信息更新頻率
