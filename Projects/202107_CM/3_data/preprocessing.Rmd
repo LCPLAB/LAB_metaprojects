@@ -1,0 +1,83 @@
+---
+title: "Pre-data processing"
+author: "Sau-Chin Chen"
+date: "2021/12/1"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+	echo = TRUE,
+	message = FALSE,
+	warning = FALSE
+)
+library(tidyverse)
+library(readr)
+library(lubridate)
+```
+
+## Data import
+
+```{r}
+## path to the latest downloaded raw data
+downloaded_rawdata <- "psytoolkit_data.zip"
+## Check the downloaded data files
+datafiles <- unzip(downloaded_rawdata, list = TRUE)
+## Check the time of latest data 
+subset(datafiles, Name == "data.csv")$Date
+## Define the starting date and time
+starting_dt <- as.POSIXlt("2021-11-17-00:00:00 UTC",tz="UTC")
+## Import data
+datarows <- read_csv(unz(downloaded_rawdata,filename = "data.csv"))
+```
+
+## Tidy survey data
+
+```{r}
+## Isolate the data recorded after starting date and time
+survey_data <- subset(datarows,
+(TIME_end %>% parse_date_time("Ymd HM")) > starting_dt) 
+
+```
+
+測試資料一共有`r dim(survey_data)[1]`筆
+
+## 基本資訊
+
+
+
+## 疫情資訊信任度
+
+小結參與者填答
+
+```{r}
+## Select the pandemic info evaluation
+pandemic_conf <- survey_data %>% select(participant,starts_with("1_xinxi_Q1")) %>%
+## Transfer the raw data to long data table
+  pivot_longer(!participant, names_to = "item",values_to = "response") %>% 
+## Add the variable about item condition
+  bind_cols(condition = rep(rep(c("Truth","Fake","Conspiracy","Check"),c(12,12,8,1)),dim(survey_data)[1]))
+## Summarise the mean responses by participant  
+pandemic_subj_sum <- pandemic_conf %>%
+  group_by(participant,condition) %>%
+  summarise(Mean = mean(response))
+
+knitr::kable(pandemic_subj_sum)
+```
+
+1_xinxi_Q1:33(check)為檢測題，不是填"5"的參與者資料要剔除。
+ 
+
+## 媒體使用狀況
+
+
+
+## 認知需求問卷
+
+
+
+## 認知閉合需求問卷
+
+
+
+## 
