@@ -26,7 +26,7 @@ set font_size 16
 set font_italic no
 set font_family "chinese-japanese-korean"
 set font_bold no
-set experiment_path "D:\\R123\\LAB_metaprojects\\Projects\\202102_PL\\1_OS_scripts"
+set experiment_path "D:\\core\\research\\projects\\Meta_Replication\\Projects\\202102_PL\\1_OS_scripts"
 set disable_garbage_collection yes
 set description "The main experiment item"
 set coordinates uniform
@@ -166,9 +166,9 @@ define loop JB
 define sketchpad JB_instruction
 	set duration keypress
 	set description "Displays stimuli"
-	draw textline center=1 color="#000000" font_bold=no font_family="chinese-japanese-korean" font_italic=no font_size=18 html=yes show_if=always text="接下來呈現的一系列關於心理學作為一門科學的正反論述，請依照您的認知判斷做回答。" x=-320.0 y=-128.0 z_index=0
+	draw textline center=1 color="#000000" font_bold=no font_family="chinese-japanese-korean" font_italic=no font_size=18 html=yes show_if=always text="接下來呈現一系列心理學科學知識的可信度與權威是如何建立的論述。" x=-320 y=-128 z_index=0
 	draw textline center=1 color="#000000" font_bold=no font_family="chinese-japanese-korean" font_italic=no font_size=18 html=yes show_if=always text="按任意按鍵結束閱讀" x=0 y=320 z_index=0
-	draw textline center=1 color="#000000" font_bold=no font_family="chinese-japanese-korean" font_italic=no font_size=18 html=yes show_if=always text="請透過選項“完全不正確”到“完全正確”，表達您同意這些論述的程度。" x=-384.0 y=-32.0 z_index=0
+	draw textline center=1 color="#000000" font_bold=no font_family="chinese-japanese-korean" font_italic=no font_size=18 html=yes show_if=always text="請透過選項“完全不正確”到“完全正確”，表達您同意這些論述的程度。" x=-320 y=-32 z_index=0
 
 define sequence JB_seq
 	set flush_keyboard yes
@@ -298,8 +298,8 @@ define loop basic
 define sketchpad basic_instruction
 	set duration keypress
 	set description "Displays stimuli"
-	draw textline center=0 color="#000000" font_bold=no font_family="chinese-japanese-korean" font_italic=no font_size=20 html=yes show_if=always text="接下來將會詢問您基本資料相關問題，包含性別與出生年" x=-672 y=-160 z_index=0
-	draw textline center=0 color="#000000" font_bold=no font_family="chinese-japanese-korean" font_italic=no font_size=20 html=yes show_if=always text="性別為單選，選擇自己認同的性別，出生年需要使用您西元出生年後兩碼填答" x=-672 y=-96 z_index=0
+	draw textline center=0 color="#000000" font_bold=no font_family="chinese-japanese-korean" font_italic=no font_size=20 html=yes show_if=always text="接著請您回答性別與出生年" x=-672 y=-160 z_index=0
+	draw textline center=0 color="#000000" font_bold=no font_family="chinese-japanese-korean" font_italic=no font_size=20 html=yes show_if=always text="性別為單選，選擇自己認同的性別，出生年請以您的西元出生年後兩碼填答" x=-672 y=-96 z_index=0
 	draw textline center=1 color="#000000" font_bold=no font_family="chinese-japanese-korean" font_italic=no font_size=16 html=yes show_if=always text="按任意按鍵結束閱讀" x=0 y=320 z_index=0
 
 define sequence basic_seq
@@ -397,7 +397,7 @@ define loop covariates
 define sketchpad covariates_instruction
 	set duration keypress
 	set description "Displays stimuli"
-	draw textline center=1 color="#000000" font_bold=no font_family="chinese-japanese-korean" font_italic=no font_size=18 html=yes show_if=always text="接下來呈現的問題請依照您有過科學研究的經驗，選擇最適合個人狀況選項。" x=-352.0 y=-96.0 z_index=0
+	draw textline center=1 color="#000000" font_bold=no font_family="chinese-japanese-korean" font_italic=no font_size=18 html=yes show_if=always text="接下來請依照您有過科學研究的經驗，選擇最符合個人狀況的描述。" x=-352 y=-96 z_index=0
 	draw textline center=1 color="#000000" font_bold=no font_family="chinese-japanese-korean" font_italic=no font_size=18 html=yes show_if=always text="按任意按鍵結束閱讀" x=0 y=320 z_index=0
 
 define sequence covariates_seq
@@ -456,7 +456,7 @@ define form_consent form_consent
 	<br><br>
 	如果您感到不適，您可以在實驗過程中隨時停止。
 	<br><br>
-	非常感謝信您的參與，若您在決定參與前還有任何問題，可以立即向施測人員反應。
+	非常感謝您的參與，若您在決定參與前還有任何問題，可以立即向施測人員反應。
 	__end__
 	set description "A simple consent form"
 	set decline_text "不想參加"
@@ -539,9 +539,9 @@ define sequence main
 	run gender_loop always
 	run basic always
 	run birth_year_html never
-	run JB_instruction always
+	run JB_instruction never
 	run JB always
-	run covariates_instruction always
+	run covariates_instruction "never鎮"
 	run covariates always
 	run shuffle_block always
 	run text_instruction always
@@ -1774,10 +1774,10 @@ define sketchpad text_dash_02
 define sketchpad text_instruction
 	set duration keypress
 	set description "Displays stimuli"
-	draw textline center=1 color="#000000" font_bold=no font_family="chinese-japanese-korean" font_italic=no font_size=20 html=yes show_if=always text="實驗開始後您將會看到幾篇文章，每篇文章皆需閱讀一分鐘以上，" x=-386 y=-216 z_index=0
-	draw textline center=1 color="#000000" font_bold=no font_family="chinese-japanese-korean" font_italic=no font_size=20 html=yes show_if=always text="閱讀完三篇文章後會回答一些問題，休息90秒進入下一階段直到結束。" x=-367 y=-88 z_index=0
-	draw textline center=1 color="#000000" font_bold=no font_family="chinese-japanese-korean" font_italic=no font_size=20 html=yes show_if=always text="如果在過程中有任何疑問的話，敬請隨時提出。" x=-463 y=168 z_index=0
-	draw textline center=1 color="#000000" font_bold=no font_family="chinese-japanese-korean" font_italic=no font_size=20 html=yes show_if=always text="完成全部測驗將會花費您約30分鐘左右的時間。" x=-463 y=40 z_index=0
+	draw textline center=0 color="#000000" font_bold=no font_family="chinese-japanese-korean" font_italic=no font_size=20 html=yes show_if=always text="接著依序呈現十二篇文章，每篇文章皆需至少閱讀一分鐘，" x=-463 y=-216 z_index=0
+	draw textline center=0 color="#000000" font_bold=no font_family="chinese-japanese-korean" font_italic=no font_size=20 html=yes show_if=always text="讀完一篇文章有一些詢問您個人感想的問題，每讀完三篇文章有一些關於文章內容的問題，<br>都需要您仔細讀過文章才能回答，然後休息90秒再繼續，直到結束。" x=-463 y=-88 z_index=0
+	draw textline center=0 color="#000000" font_bold=no font_family="chinese-japanese-korean" font_italic=no font_size=20 html=yes show_if=always text="如果在過程中有任何疑問的話，敬請隨時提出。" x=-463 y=168 z_index=0
+	draw textline center=0 color="#000000" font_bold=no font_family="chinese-japanese-korean" font_italic=no font_size=20 html=yes show_if=always text="完成全部測驗將會花費您約30分鐘左右的時間。" x=-463 y=40 z_index=0
 	draw textline center=1 color="#000000" font_bold=no font_family="chinese-japanese-korean" font_italic=no font_size=18 html=yes show_if=always text="按任意按鍵結束閱讀" x=0 y=320 z_index=0
 
 define loop text_post
@@ -1894,13 +1894,15 @@ define form_text_display welcome
 	set margins "50;50;50;50"
 	set form_title "科學文獻閱讀測試"
 	__form_text__
-	在實驗開始前會先調查您的性別、出生年份等基本人口統計資料。
+	這份實驗依序有以下測試，切換頁面的方式依研究需要，採用滑鼠點選或按鍵
 	<br><br>
-	接著回覆有關心理科學知識權威認知以及科學活動熟悉度的兩個問題。
+	首先請您回答性別、出生年份等基本人口統計資料。
 	<br><br>
-	實驗開始後您將會看到幾篇文章，每篇文章皆需閱讀一分鐘以上，
+	接下來的問題是有關心理科學知識信用來源以您對於及科學活動熟悉程度。
 	<br><br>
-	閱讀完三篇文章後會回答一些問題，休息90秒進入下一階段直到結束。
+	正式測試依序閱讀十二篇心理學論文摘要或改編的科普文章，每篇文章需要至少閱讀一分鐘。
+	<br><br>
+	每讀完一篇需要您回答一些問題。
 	<br><br>
 	如果在過程中有任何疑問的話，敬請隨時提出。
 	<br><br>
