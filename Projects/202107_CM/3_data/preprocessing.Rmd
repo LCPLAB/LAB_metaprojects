@@ -66,6 +66,8 @@ knitr::kable(pandemic_subj_sum)
 ```
 
 1_xinxi_Q1:33(check)為檢測題，不是填"5"的參與者資料要剔除。
+
+
  
 
 ## 媒體使用狀況
@@ -73,6 +75,19 @@ knitr::kable(pandemic_subj_sum)
 
 
 ## 認知需求問卷
+
+
+
+```{r}
+## select NC info evalution
+NC_info <- survey_data %>% select(participant,starts_with("")) %>%
+
+
+```
+
+
+ 
+
 
 
 
