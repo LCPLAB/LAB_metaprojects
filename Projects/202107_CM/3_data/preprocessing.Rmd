@@ -42,7 +42,19 @@ survey_data <- subset(datarows,
 
 測試資料一共有`r dim(survey_data)[1]`筆
 
+```{r}
+survey_data %>% select(participant,starts_with("TIME_"))
+```
+
+
 ## 基本資訊
+
+```{r}
+survey_data %>% select(participant, contains("_renkou_"),contains("_shebei"),contains("guandao"),contains("yimioao")) %>%
+  ## Transfer the raw data to long data table
+  pivot_longer(!participant, names_to = "item",values_to = "response") %>%
+  separate(item, into = c("item_id","part","Qid"),sep = "_")
+```
 
 
 
@@ -80,4 +92,3 @@ knitr::kable(pandemic_subj_sum)
 
 
 
-## 
