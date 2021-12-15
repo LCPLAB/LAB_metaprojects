@@ -22,7 +22,7 @@ knitr::opts_chunk$set(echo = TRUE)
 近年許多國際學術組織鼓吹將有重要貢獻的科學論文，轉化為通俗易懂的科學資訊白話文摘要（Plain language summary），例如生物醫學領域[@fitzgibbonWhereAreBiomedical2020]以及心理學領域[@kaslowTranslatingPsychologicalScience2015]。在2020年全球新冠肺炎肆虐全球之際，也有不少政府機關與學術單位共同合作，在宣傳品置入最新研究成果的白話文摘要[@stevensonModellingHypotheticalSARSCoV22021]。我們注意到有歐洲研究團隊，以專業科學研究人員，或指導專業科學傳播人員為主要對象，開發撰寫白話文摘要的課程[@hahnCrisisKnowledgeManagement2020; @stollWasIstGute2021]，研究白話文摘要如何促進無專業知識的民眾，正確理解第一手科學資訊，以及方便理解帶來的利弊[@kerwerStraightScientistMouth2021; @stollSummingPlainLanguage2020]。
 
 
-本研究決定重製@kerwerStraightScientistMouth2021的主要理由是這份研究總合已被提出的簡易效應(Easiness Effect)假設及指標：比起直接閱讀專業論文 ，無專業知識的讀者閱讀白話文摘要會更能理解專業研究結果，也會更容易接受白話文摘要為可靠的訊息來源，還有更相信可參考白話資訊提供的方法解決實際問題，而且加上副標題的白話文摘要效果更顯著。@kerwerStraightScientistMouth2021的研究也呈現研究簡易效應的設計規範：白話文摘要的適讀性(Readability)指標應顯著低於學術論文摘要，才能提高簡易效應量測結果的可再現性。英文文章的適讀性指標在英文寫作教育的運用已經相當成熟，有多種指標提供使用者依目的選擇使用[citations]。中文文章適讀性指標尚在開發[citations]，需要累積實證資料進行檢驗。現有可用的中文適讀性指標能否承載進行相關主題研究的需要？從理論與方法層次，我們認為應該儘可能採用與@kerwerStraightScientistMouth2021一致的條件重製研究，才能有效評估中文白話文摘要簡易效應的各種議題。
+本研究決定重製 @kerwerStraightScientistMouth2021 的主要理由是這份研究總合已被提出的簡易效應(Easiness Effect)假設及指標：比起直接閱讀專業論文 ，無專業知識的讀者閱讀白話文摘要會更能理解專業研究結果，也會更容易接受白話文摘要為可靠的訊息來源，還有更相信可參考白話資訊提供的方法解決實際問題，而且加上副標題的白話文摘要效果更顯著。@kerwerStraightScientistMouth2021的研究也呈現研究簡易效應的設計規範：白話文摘要的適讀性(Readability)指標應顯著低於學術論文摘要，才能提高簡易效應量測結果的可再現性。英文文章的適讀性指標在英文寫作教育的運用已經相當成熟，有多種指標提供使用者依目的選擇使用[citations]。中文文章適讀性指標尚在開發[citations]，需要累積實證資料進行檢驗。現有可用的中文適讀性指標能否承載進行相關主題研究的需要？從理論與方法層次，我們認為應該儘可能採用與@kerwerStraightScientistMouth2021一致的條件重製研究，才能有效評估中文白話文摘要簡易效應的各種議題。
 
 
 <!---
@@ -74,7 +74,7 @@ SMOG_test <- unlist(t.test(SMOG_pls - SMOG_osa))
 
 
 
-然而使用中文學術論文所存在的現實因素，可能導致研究結果的分析與推測有所限制。首先是至今尚未有任何中文學術期刊，提供作者親自改寫的白話文摘要。因此本研究使用由學術期刊編輯部改寫的科普文章，做為本研究使用的文本。此外，Kerwer等人(2021)使用可讀性指標，評估理解文本的難易度。使用可讀性指標的理由來自團隊的另一項研究(Stricker et al., 2020)：以來自ASP、JSPP等期刊的學術摘要與白話文摘要，比較SMOG（Simple Measure of Gobbledygook ）、FRES（Flesch Reading Ease Score）、FKRS（Flesch-Kincaid Readability Score）、NDCRF（New Dale–Chall Readability Formula）等可讀性指標之間的一致性。四種指標都是在英文讀寫教育發展已久，儘管評估的可讀性要素與計分方式各異，各種指標都顯示白話摘要的分數顯著不同於學術論文摘要的分數，且兩種摘要同一指標的分數有明顯正相關。其中Mc Laughlin(1969)提出的SMOG指標，已經有各種平台的開源工具[^註1]。以Kerwer等人(2021)選擇的12篇論文，白話文摘要的SMOG分數明顯低於學術論文摘要：t(11) = `r round(SMOG_test$statistic.t,2)`, p < .05
+然而使用中文學術論文所存在的現實因素，可能導致研究結果的分析與推測有所限制。首先是至今尚未有任何中文學術期刊，提供作者親自改寫的白話文摘要。因此本研究使用由學術期刊編輯部改寫的科普文章，做為本研究使用的文本。此外，Kerwer等人(2021)使用可讀性指標，評估理解文本的難易度。使用可讀性指標的理由來自團隊的另一項研究(Stricker et al., 2020)：以來自ASP、JSPP等期刊的學術摘要與白話文摘要，比較SMOG（Simple Measure of Gobbledygook ）、FRES（Flesch Reading Ease Score）、FKRS（Flesch-Kincaid Readability Score）、NDCRF（New Dale–Chall Readability Formula）等可讀性指標之間的一致性。四種指標都是在英文讀寫教育發展已久，儘管評估的可讀性要素與計分方式各異，各種指標都顯示白話摘要的分數顯著不同於學術論文摘要的分數，且兩種摘要同一指標的分數有明顯正相關。其中Mc Laughlin(1969)提出的SMOG指標，已經有各種平台的開源工具[^註1]。以Kerwer等人(2021)選擇的12篇論文，白話文摘要的SMOG分數明顯低於學術論文摘要：t(11) = -3.33, p < .01。
 
 <!---
 至於要如何比較易讀性，就需要進行可讀性分析，在原始研究團隊中，使用SMOG來計算可讀性指標。而本研究由於在台灣多數作者並不會寫PLS，一般的科普文章多由其他專欄作者所編寫，所以本研究使用中華心理學刊網站中的專欄文章，並再加入副標題，最後詢問原作者是否認可這篇PLS。
@@ -260,3 +260,7 @@ t.test(PL_svm2,OLS_svm2,paired=TRUE)
 
 
 在後續的發表裡，Kerwer的研究團隊提出編輯白話文摘要應注意的四個重點：1.目標（非專業人士對於摘要的理解）2.特徵（語言上的使用是否接近該閱讀者母語）3.標準（避免使用太過於專業術語）4.結果(知識的測試了解非專業人士知識的獲取)[@stollPlainLanguageSummaries2021]。
+
+
+
+## 參考文獻
