@@ -19,10 +19,10 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # 緒論
 
-近年許多國際學術組織鼓吹將有重要貢獻的科學論文，轉化為通俗易懂的科學資訊白話文摘要（Plain language summary），例如生物醫學領域[@fitzgibbonWhereAreBiomedical2020]以及心理學領域 @kaslowTranslatingPsychologicalScience2015 。在2020年全球新冠肺炎肆虐全球之際，也有不少政府機關與學術單位共同合作，在宣傳品置入最新研究成果的白話文摘要 @stevensonModellingHypotheticalSARSCoV22021 。我們注意到有歐洲研究團隊，以專業科學研究人員，或指導專業科學傳播人員為主要對象，開發撰寫白話文摘要的課程 @hahnCrisisKnowledgeManagement2020; @stollWasIstGute2021 ，研究白話文摘要如何促進無專業知識的民眾，正確理解第一手科學資訊，以及方便理解帶來的利弊 @kerwerStraightScientistMouth2021; @stollSummingPlainLanguage2020 。
+近年許多國際學術組織鼓吹將有重要貢獻的科學論文，轉化為通俗易懂的科學資訊白話文摘要（Plain language summary），例如生物醫學領域 @fitzgibbonWhereAreBiomedical2020 以及心理學領域 @kaslowTranslatingPsychologicalScience2015 。在2020年全球新冠肺炎肆虐全球之際，也有不少政府機關與學術單位共同合作，在宣傳品置入最新研究成果的白話文摘要 @stevensonModellingHypotheticalSARSCoV22021 。我們注意到有歐洲研究團隊，以專業科學研究人員，或指導專業科學傳播人員為主要對象，開發撰寫白話文摘要的課程 @hahnCrisisKnowledgeManagement2020; @stollWasIstGute2021 ，研究白話文摘要如何促進無專業知識的民眾，正確理解第一手科學資訊，以及方便理解帶來的利弊 @kerwerStraightScientistMouth2021; @stollSummingPlainLanguage2020 。
 
 
-本研究決定重製 @kerwerStraightScientistMouth2021 的主要理由是這份研究總合已被提出的簡易效應(Easiness Effect)假設及指標：比起直接閱讀專業論文 ，無專業知識的讀者閱讀白話文摘要會更能理解專業研究結果，也會更容易接受白話文摘要為可靠的訊息來源，還有更相信可參考白話資訊提供的方法解決實際問題，而且加上副標題的白話文摘要效果更顯著。 @kerwerStraightScientistMouth2021 的研究也呈現研究簡易效應的設計規範：白話文摘要的適讀性(Readability)指標應顯著低於學術論文摘要，才能提高簡易效應量測結果的可再現性。英文文章的適讀性指標在英文寫作教育的運用已經相當成熟，有多種指標提供使用者依目的選擇使用[citations]。中文文章適讀性指標尚在開發[citations]，需要累積實證資料進行檢驗。現有可用的中文適讀性指標能否承載進行相關主題研究的需要？從理論與方法層次，我們認為應該儘可能採用與 @kerwerStraightScientistMouth2021 一致的條件重製研究，才能有效評估中文白話文摘要簡易效應的各種議題。
+本研究決定重製 @kerwerStraightScientistMouth2021 的主要理由是這份研究總合已被提出的簡易效應(Easiness Effect)假設及指標：比起直接閱讀專業論文 ，無專業知識的讀者閱讀白話文摘要會更能理解專業研究結果，也會更容易接受白話文摘要為可靠的訊息來源，還有更相信可參考白話資訊提供的方法解決實際問題，而且加上副標題的白話文摘要效果更顯著。 @kerwerStraightScientistMouth2021 的研究也呈現研究簡易效應的設計規範：白話文摘要的適讀性(Readability)指標應顯著低於學術論文摘要，才能提高簡易效應量測結果的可再現性。英文文章的適讀性指標在英文寫作教育的運用已經相當成熟，有多種指標提供使用者依目的選擇使用 @strickerScientificAbstractsPlain2020 。中文文章適讀性指標尚在開發 @songyaotingZhongWenWenBenKeDuXingTanTaoZhiBiaoXuanQuMoXingJianLiYuXiaoDuYanZheng2013a ，需要累積實證資料進行檢驗。現有可用的中文適讀性指標能否承載進行相關主題研究的需要？從理論與方法層次，我們認為應該儘可能採用與 @kerwerStraightScientistMouth2021 一致的條件重製研究，才能有效評估中文白話文摘要簡易效應的各種議題。
 
 
 <!---
@@ -205,7 +205,7 @@ t.test(PL_svm2,OLS_svm2,paired=TRUE)
 
 ## 參與者人數估計
 
-參與者的條件為在台灣地區公立或私立之一般大學學籍的在學學生，中文理解能力佳者，招募方法透過FACEBOOK、Instergram、Dcard、PTT等各大網路論壇招募、數據蒐集的日期為2021年11月1日開始至2022年4月30日截止。
+參與者的條件為在台灣地區公立或私立之一般大學學籍的在學學生，中文理解能力佳者，招募方法透過FACEBOOK、Instergram、Dcard、PTT等各大網路論壇招募、數據蒐集的日期為2022年2月1日開始至2022年4月30日截止。
 
 採用Kumle et al. (2021)開發的mixedpower套件，並參考範例，使用Kerwer et al.(2020)提供的源始分析腳本建立的混合效果模型，模擬不同參數者人數可達到的考驗力。以80%水準來說，預估80人的資料若獲得支持H1,H2,H5的正面結果，可達到80%到100%的事前考驗力。考慮本研究可用資源，預計招募在學大學生80人參與研究。
 
