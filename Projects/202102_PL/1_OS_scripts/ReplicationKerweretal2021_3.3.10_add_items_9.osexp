@@ -1778,13 +1778,13 @@ define sketchpad text_dash_01
 	set duration 10000
 	set description "Displays stimuli"
 	draw textline center=0 color="#000000" font_bold=no font_family="chinese-japanese-korean" font_italic=no font_size=14 html=yes show_if=always text="[Content]" x=-704 y=-288 z_index=0
-	draw textline center=1 color="#000000" font_bold=no font_family="chinese-japanese-korean" font_italic=no font_size=16 html=yes show_if=always text="請閱讀這份文章" x=0 y=-320 z_index=0
+	draw textline center=1 color="#000000" font_bold=no font_family="chinese-japanese-korean" font_italic=no font_size=16 html=yes show_if=always text="請閱讀第[count_text_seq]篇文章" x=0 y=-320 z_index=0
 
 define sketchpad text_dash_02
 	set duration keypress
 	set description "Displays stimuli"
 	draw textline center=0 color="#000000" font_bold=no font_family="chinese-japanese-korean" font_italic=no font_size=14 html=yes show_if=always text="[Content]" x=-704 y=-288 z_index=0
-	draw textline center=1 color="#000000" font_bold=no font_family="chinese-japanese-korean" font_italic=no font_size=16 html=yes show_if=always text="請閱讀這份文章" x=0 y=-320 z_index=0
+	draw textline center=1 color="#000000" font_bold=no font_family="chinese-japanese-korean" font_italic=no font_size=16 html=yes show_if=always text="請閱讀第[count_text_seq]篇文章" x=0 y=-320 z_index=0
 	draw textline center=1 color="#000000" font_bold=no font_family="chinese-japanese-korean" font_italic=no font_size=16 html=yes show_if=always text="按任意按鍵結束閱讀" x=0 y=320 z_index=0
 
 define sketchpad text_instruction
