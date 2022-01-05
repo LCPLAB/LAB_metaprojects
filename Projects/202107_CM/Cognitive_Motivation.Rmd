@@ -41,7 +41,7 @@ backward_T <- read_csv(file = "C_to_E.csv")
 filter(backward_T,Scale=="NC") %>% 
   select(-Scale) %>%
 ##  rename(`Original億 (2010)。原版題目有Order, Predictability, Decisiveness, Ambiguity, Closed Mindedness, Lie六個題組。黃瓊億版去除Lie題組，並變更Decisiveness答題向度，本重製版還原兩個題組，以求重現Boot等人(2021)的研究方法。
- Questions` = `...1`,`Forward Translation` =`Source segment`, `Backward Translation` = `Target segment`) %>%
+ #Questions` = `...1`,`Forward Translation` =`Source segment`, `Backward Translation` = `Target segment`) %>%
   rmarkdown::paged_table(options = list(rows.print = 10))
 ```
 
