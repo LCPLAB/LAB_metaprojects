@@ -14,26 +14,27 @@ library(tidyverse)
 ```{r}
 NCC_Cognitive <- data.frame(
                  Classifier = factor(rep(c("True", "False", "Conspiracy"),each = 2),levels = c("True", "False", "Conspiracy")), 
-                 Match = rep(c("H-NC", "L-NC"),3), 
-                 Knowledge_test = c(4.5, 3.3, 4.4, 3, 4, 1.2, 3.3)
+                 Match = rep(c("H-NCC", "L-NCC"),3), 
+                 Knowledge_test = c(4.5, 3.3, 4.4, 3,1.2, 3.3)
                  )
   
 NCC_Cognitive %>% ggplot(aes(x=Classifier ,y=Knowledge_test , fill=Match)) +
     geom_col(position=position_dodge(),colour="blaCK") +
-    scale_fill_manual("H-NC", values = c("H_NC" = "black ", "L-NC" = "white")) +
+    scale_fill_manual("H-NCC", "L-NCC",values = c("H_NCC" = "black ", "L-NCC" = "#FF00CC")) +
     # scale_fill_manual is a function that make you can change Color
     coord_cartesian(ylim=c(4,5)) + 
     theme_bw()
 
 ```
 
-
+```{r}
 predicted_results <- data.frame(
     Classifier = factor(rep(c("Compatible","Null","Neutral","Incompatible"),each=2),levels=c("Compatible","Null","Neutral","Incompatible")),
     Match = rep(c("Matching","Mismatching"),4),
     RT = c(450,500,475,500,475,500,490,500)
 )
 
+```
 
 predicted_results %>% ggplot(aes(x=Classifier,y=RT,fill=Match)) +
     geom_col(position=position_dodge(),colour="blaCK") +
