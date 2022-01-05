@@ -1,5 +1,5 @@
 ---
-title: "Kerwer et al.(2020)重製研究計畫"
+title: "學術論文的科普文本理解效用研究"
 author: "Students' names"
 #date: "`r Sys.Date()`"
 output:
