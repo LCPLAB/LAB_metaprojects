@@ -26,7 +26,7 @@ set font_size 16
 set font_italic no
 set font_family "chinese-japanese-korean"
 set font_bold no
-set experiment_path "D:\\R123\\LAB_metaprojects\\Projects\\202102_PL\\1_OS_scripts"
+set experiment_path "D:\\core\\research\\projects\\Meta_Replication\\Projects\\202102_PL\\1_OS_scripts"
 set disable_garbage_collection yes
 set description "The main experiment item"
 set coordinates uniform
@@ -48,7 +48,7 @@ define form_text_display Access_show
 	<center>[Link]</center>
 	<br><br>
 	提示：
-	若使用的非您常用的電腦，可透過拍照或寫字方式把該DOI碼記錄下來。
+	若不是使用您個人的設備受測，可用拍照或筆記把該DOI碼記錄下來。
 	__end__
 	set description "A simple text display form"
 	set cols "1;1;1"
@@ -173,9 +173,9 @@ define loop JB
 define sketchpad JB_instruction
 	set duration keypress
 	set description "Displays stimuli"
-	draw textline center=1 color="#000000" font_bold=no font_family="chinese-japanese-korean" font_italic=no font_size=18 html=yes show_if=always text="接下來呈現一系列心理學科學知識的可信度與權威是如何建立的論述。" x=-352.0 y=-96.0 z_index=0
+	draw textline center=1 color="#000000" font_bold=no font_family="chinese-japanese-korean" font_italic=no font_size=18 html=yes show_if=always text="接下來呈現一系列心理學科學知識的可信度與權威是如何建立的論述。" x=-352 y=-96 z_index=0
 	draw textline center=1 color="#000000" font_bold=no font_family="chinese-japanese-korean" font_italic=no font_size=18 html=yes show_if=always text="按任意按鍵結束閱讀" x=0 y=320 z_index=0
-	draw textline center=1 color="#000000" font_bold=no font_family="chinese-japanese-korean" font_italic=no font_size=18 html=yes show_if=always text="請透過選項“完全不正確”到“完全正確”，表達您同意這些論述的程度。" x=-320.0 y=-32.0 z_index=0
+	draw textline center=1 color="#000000" font_bold=no font_family="chinese-japanese-korean" font_italic=no font_size=18 html=yes show_if=always text="請透過選項“完全不正確”到“完全正確”，表達您同意這些論述的程度。" x=-320 y=-32 z_index=0
 
 define sequence JB_seq
 	set flush_keyboard yes
@@ -249,6 +249,15 @@ define logger Study_logger
 	log Qid03
 	log Topic
 	log Question
+	log CB
+	log count_main
+	log CRid01
+	log CRid02
+	log CRid03
+	log CRid04
+	log CRid05
+	log CRid06
+	log Set_id
 
 define form_multiple_choice Test_survey
 	set timeout infinite
@@ -1769,13 +1778,13 @@ define sketchpad text_dash_01
 	set duration 10000
 	set description "Displays stimuli"
 	draw textline center=0 color="#000000" font_bold=no font_family="chinese-japanese-korean" font_italic=no font_size=14 html=yes show_if=always text="[Content]" x=-704 y=-288 z_index=0
-	draw textline center=1 color="#000000" font_bold=no font_family="chinese-japanese-korean" font_italic=no font_size=16 html=yes show_if=always text="請閱讀這份文章" x=0 y=-320 z_index=0
+	draw textline center=1 color="#000000" font_bold=no font_family="chinese-japanese-korean" font_italic=no font_size=16 html=yes show_if=always text="請閱讀第[count_text_seq]篇文章" x=0 y=-320 z_index=0
 
 define sketchpad text_dash_02
 	set duration keypress
 	set description "Displays stimuli"
 	draw textline center=0 color="#000000" font_bold=no font_family="chinese-japanese-korean" font_italic=no font_size=14 html=yes show_if=always text="[Content]" x=-704 y=-288 z_index=0
-	draw textline center=1 color="#000000" font_bold=no font_family="chinese-japanese-korean" font_italic=no font_size=16 html=yes show_if=always text="請閱讀這份文章" x=0 y=-320 z_index=0
+	draw textline center=1 color="#000000" font_bold=no font_family="chinese-japanese-korean" font_italic=no font_size=16 html=yes show_if=always text="請閱讀第[count_text_seq]篇文章" x=0 y=-320 z_index=0
 	draw textline center=1 color="#000000" font_bold=no font_family="chinese-japanese-korean" font_italic=no font_size=16 html=yes show_if=always text="按任意按鍵結束閱讀" x=0 y=320 z_index=0
 
 define sketchpad text_instruction
