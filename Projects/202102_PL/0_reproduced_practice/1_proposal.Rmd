@@ -1,6 +1,6 @@
 ---
 title: "理解科普文本的簡易效應研究 <br/>Easiness effects in reading the plain language summaries."
-author: "Students' names"
+author: "張祥偉、林子渝、陳紹慶"
 #date: "`r Sys.Date()`"
 abstract: "科普文章是學術機構及傳播媒體將最新研究發現向一般大眾介紹的重要媒介，帶來的效益與限制仍需要有系統的研究調查。近年簡易效應的研究初步確認幾種待查證的傳播後果：讀者高估科普文章的可信度，膨脹判讀真實資訊的信心，以及疏於查證第一手資訊。本研究採取重製Kerwer等人(2020)的研究程序，確認中文心理學科普文章的簡易效應，以及探討相關研究的發展方向。<br>     Many academic institue and media are editing the plain language summaries of the latest research findings for the lay persons. The benefits and limitations of plain language summaries are requiring the systematic investigations. The latest researches have revealed the easiness effect and its consequence for readers: They could have a higher credibility to the summary content; they might acquire an inflated confidence to evaluate the information; they may have a weak motivation to access the original source. This study will investigate the easiness effect in reading Chinese plain language summaries through the reproduction of Kerwer et al.(2020). The results will be the clues for the future studies."
 output:
@@ -29,7 +29,8 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # 緒論
 
-近年許多國際學術組織鼓吹將有重要貢獻的科學論文，轉化為通俗易懂的科學資訊白話文摘要（Plain language summary），例如生物醫學領域 @fitzgibbonWhereAreBiomedical2020 以及心理學領域 @kaslowTranslatingPsychologicalScience2015 。在2020年全球新冠肺炎肆虐全球之際，也有不少政府機關與學術單位共同合作，在宣傳品置入最新研究成果的白話文摘要 @stevensonModellingHypotheticalSARSCoV22021 。我們注意到有歐洲研究團隊，以專業科學研究人員，或指導專業科學傳播人員為主要對象，開發撰寫白話文摘要的課程 @hahnCrisisKnowledgeManagement2020; @stollWasIstGute2021 ，研究白話文摘要如何促進無專業知識的民眾，正確理解第一手科學資訊，以及方便理解帶來的利弊 @kerwerStraightScientistMouth2021; @stollSummingPlainLanguage2020 。
+近年許多國際學術組織鼓吹將有重要貢獻的科學論文，轉化為通俗易懂的科學資訊白話文摘要（Plain language summary），例如生物醫學領域 [@fitzgibbonWhereAreBiomedical2020]以及心理學領域 [@kaslowTranslatingPsychologicalScience2015] 。在2020年全球新冠肺炎肆虐全球之際，也有不少政府機關與學術單位共同合作，在宣傳品置入最新研究成果的白話文摘要[@stevensonModellingHypotheticalSARSCoV22021] 。我們注意到有歐洲研究團隊，以專業科學研究人員，或指導專業科學傳播人員為主要對象，開發撰寫白話文摘要的課程[@hahnCrisisKnowledgeManagement2020; @stollWasIstGute2021] ，研究白話文摘要如何促進無專業知識的民眾，正確理解第一手科學資訊，以及方便理解帶來的利弊[@kerwerStraightScientistMouth2021; @stollSummingPlainLanguage2020].
+
 
 
 
@@ -51,13 +52,13 @@ knitr::opts_chunk$set(echo = TRUE)
 透過簡化或改寫學術論文的專有名詞以及推演公式，讓沒有學術訓練的讀者閱讀白話文摘要掌握學術論文探討的問題，解決問題的方法與研究者的結論。--->
 最近十年，探討科普文章如何提昇大眾科學素養的課題，有學者開始關注無專業學術訓練的讀者，如何因為容易閱讀的通俗科普文章，高估淺顯易懂的科學資訊可信度(Credibility)，膨脹判讀資訊真實性的信心(Confidence to evaluate)，並且疏於查證第一手資訊(cross-evaluation)等因素，這些現象被總括為簡易效應(Easiness Effect)。除了本研究的重製對象Martin Kerwer團隊致力推廣學術文章的科普化，另一個由Lisa Scharrer主持的團隊特別關心一般讀者由通俗科普文章獲取資訊的簡易效應。 
 
-以Lisa Scharrer團隊近年的兩項研究 @scharrerJudgingScientificInformation2019; @scharrerWhenScienceBecomes2017 ，可以窺見簡易效應的研究概念與方法的進展。 @scharrerWhenScienceBecomes2017 選取相同主題的醫藥資訊，比較來自專業醫學網站的專業文章及大眾媒體網站的通俗文章，給一般民眾閱讀之後的想法。這份研究發現一般民眾認為通俗文章更值得信任、更同意通俗文章之內的主張、更相信獲得進一步資訊後的個人判斷、以及減少向真正專業人士諮詢的意願。不過一般民眾不會因為閱讀通俗文章，會更相信根據個人現有知識的判斷、認為個人所知會有所提昇、低估專業知識的複雜度、以及能減少爭議。這項研究指出簡化效應的有效評估指標，可以集中在資訊可信度、對資訊的判斷信心、以及獲取進一步資訊的意願。
+以Lisa Scharrer團隊近年的兩項研究[@scharrerJudgingScientificInformation2019; @scharrerWhenScienceBecomes2017]，可以窺見簡易效應的研究概念與方法的進展。 @scharrerWhenScienceBecomes2017 選取相同主題的醫藥資訊，比較來自專業醫學網站的專業文章及大眾媒體網站的通俗文章，給一般民眾閱讀之後的想法。這份研究發現一般民眾認為通俗文章更值得信任、更同意通俗文章之內的主張、更相信獲得進一步資訊後的個人判斷、以及減少向真正專業人士諮詢的意願。不過一般民眾不會因為閱讀通俗文章，會更相信根據個人現有知識的判斷、認為個人所知會有所提昇、低估專業知識的複雜度、以及能減少爭議。這項研究指出簡化效應的有效評估指標，可以集中在資訊可信度、對資訊的判斷信心、以及獲取進一步資訊的意願。
 
 Scharrer等人(2019)設計兩項參與者內隨機化實驗，探討一般民眾閱讀醫學健康文章，對內容主張的同意度(Claim agreement)，判斷訊息真實性的信心(Judgment confidence)，以及應用知識的可行程度(Claim agreement)等評價，如何隨文章的可理解程度或來源可信度而增加。研究者假設兩種因素的影響有三種可能性：只有容易理解的文章內容會增加評價的可靠性假設(Robustness hypothesis)；只有來源可信度高的文章會增加評價的可覺察假設(Awareness hypothesis)；容易理解的文章內容評價不會隨來源可信度改變評價，不易理解的文章若來源高信度較高會有較高評價的調節假設(Moderation hypothesis)。
 
 Scharrer等人(2019)的實驗一使用未標註來源的文本，同意主張的評價結果符合第三種可能性，但是知識應用可行性的評價較符合可靠性假設。實驗二改用標註來源的文本，結果呈現各項評價都符合可靠性與可覺察假設：文本的可理解度與來源可信度，都能增加讀者對文本的評價。除了量化評價，研究者也請參與者進行質性評量，包括答覆「虛擬朋友」的詢問，計算內容引用讀過的文本資訊與同意文本主張的字眼。質性評量分析顯示參與者引用與同意容易理解的文本字眼次數，較符合調節假設的預測。
 
-Scharrer團隊的研究顯示簡易效應的測量指標有量化與質性等形式，雖然兩類指標顯示的結果支持不同假設，嚴格控制非操作條件的實驗，同類指標的量測結果則趨於一致。相較於Scharrer團隊的研究設計，Kerwer等人(2021)直接取用第一手學術論文，控制來源可信度，能直接比較文本可理解程度如何影響簡易效應的量測。
+Scharrer團隊的研究顯示簡易效應的測量指標有量化與質性等形式，雖然兩類指標顯示的結果支持不同假設，嚴格控制非操作條件的實驗，同類指標的量測結果則趨於一致。相較於Scharrer團隊的研究設計， @kerwerStraightScientistMouth2021 直接取用第一手學術論文，控制來源可信度，能直接比較文本可理解程度如何影響簡易效應的量測。
 
 
 <!---
@@ -73,7 +74,7 @@ Scharrer團隊的研究顯示簡易效應的測量指標有量化與質性等形
 ## 中文科學文本閱讀研究的限制
 
 
-透過重製Kerwer等人(2021)，探討中文心理學白話文章簡易效應的主要考量是用於比較的文本能維持研究方法的一致性與可對比的研究結果。Kerwer等人取用自《社會與政治心理學期刊》( Journal of Social and Political Psychology)的白話文摘要文本，具有三種性質：(1)論文作者親自改寫科學論文摘要；2.白話文摘要的預設讀者不具備足夠專業知識；(3)白話文摘要的寫作格式與原學術論文摘要相同。研究者運用的各項量測指標能直接反映容易理解的白話摘要，與學術摘要之間的差異。根據第一手學術論文準備的研究材料，也具備跨語言比較的優點。
+透過重製 @kerwerStraightScientistMouth2021 ，探討中文心理學白話文章簡易效應的主要考量是用於比較的文本能維持研究方法的一致性與可對比的研究結果。Kerwer等人取用自《社會與政治心理學期刊》( Journal of Social and Political Psychology)的白話文摘要文本，具有三種性質：(1)論文作者親自改寫科學論文摘要；(2)白話文摘要的預設讀者不具備足夠專業知識；(3)白話文摘要的寫作格式與原學術論文摘要相同。研究者運用的各項量測指標能直接反映容易理解的白話摘要，與學術摘要之間的差異。根據第一手學術論文準備的研究材料，也具備跨語言比較的優點。
 
 
 
@@ -85,7 +86,7 @@ SMOG_test <- unlist(t.test(SMOG_pls - SMOG_osa))
 
 
 
-然而使用中文學術論文所存在的現實因素，可能導致研究結果的分析與推測有所限制。首先是至今尚未有任何中文學術期刊，提供作者親自改寫的白話文摘要。因此本研究使用由學術期刊編輯部改寫的科普文章，做為本研究使用的文本。此外，Kerwer等人(2021)使用可讀性指標，評估理解文本的難易度。使用可讀性指標的理由來自團隊的另一項研究(Stricker et al., 2020)：以來自ASP、JSPP等期刊的學術摘要與白話文摘要，比較SMOG（Simple Measure of Gobbledygook ）、FRES（Flesch Reading Ease Score）、FKRS（Flesch-Kincaid Readability Score）、NDCRF（New Dale–Chall Readability Formula）等可讀性指標之間的一致性。四種指標都是在英文讀寫教育發展已久，儘管評估的可讀性要素與計分方式各異，各種指標都顯示白話摘要的分數顯著不同於學術論文摘要的分數，且兩種摘要同一指標的分數有明顯正相關。其中Mc Laughlin(1969)提出的SMOG指標，已經有各種平台的開源工具[^註1]。以Kerwer等人(2021)選擇的12篇論文，白話文摘要的SMOG分數明顯低於學術論文摘要：t(11) = -3.33, p < .01。
+然而使用中文學術論文所存在的現實因素，可能導致研究結果的分析與推測有所限制。首先是至今尚未有任何中文學術期刊，提供作者親自改寫的白話文摘要。因此本研究使用由學術期刊編輯部改寫的科普文章，做為本研究使用的文本。此外， @kerwerStraightScientistMouth2021 使用可讀性指標，評估理解文本的難易度。使用可讀性指標的理由來自團隊的另一項研究(Stricker et al., 2020)：以來自ASP、JSPP等期刊的學術摘要與白話文摘要，比較SMOG（Simple Measure of Gobbledygook ）、FRES（Flesch Reading Ease Score）、FKRS（Flesch-Kincaid Readability Score）、NDCRF（New Dale–Chall Readability Formula）等可讀性指標之間的一致性。四種指標都是在英文讀寫教育發展已久，儘管評估的可讀性要素與計分方式各異，各種指標都顯示白話摘要的分數顯著不同於學術論文摘要的分數，且兩種摘要同一指標的分數有明顯正相關。其中Mc Laughlin(1969)提出的SMOG指標，已經有各種平台的開源工具[^註1]。以Kerwer等人(2021)選擇的12篇論文，白話文摘要的SMOG分數明顯低於學術論文摘要：t(11) = -3.33, p < .01。
 
 <!---
 至於要如何比較易讀性，就需要進行可讀性分析，在原始研究團隊中，使用SMOG來計算可讀性指標。而本研究由於在台灣多數作者並不會寫PLS，一般的科普文章多由其他專欄作者所編寫，所以本研究使用中華心理學刊網站中的專欄文章，並再加入副標題，最後詢問原作者是否認可這篇PLS。
@@ -103,7 +104,7 @@ Kerwer等人使用英文語言教育已沿用多年的可讀性公式[SMOG,@mcla
 
 --->
 
-雖然中文文本可讀性指標持續有研究者開發(宋曜廷等, 2013; 荊溪昱等, 2007)，更新狀況與評分尺度尚落後英語的可讀性指。以準備研究計畫期間找到的兩套線上系統為例，荊溪昱等人(2007)的線上系統已經下線，宋曜廷等人(2013)尚在運作，並有專人負責申請使用事務。再看量測尺度範圍，宋曜廷等人的系統目前提供小學一年級至六年級等六級尺度(SVM 1.0)，以及小學一年級至六年級，國中及高中等八級尺度(SVM 2.0)。最普遍使用的英語適讀性指標SMOG(Mc Laughlin, 1969)，尺度範圍涵蓋小學一年級至高中三年級等十二級。因此現在可用的中文文本適讀性指標，估計所得的適讀性分數範圍受限。在完整報告的方法與討論，本文作者將以選用的文本探討中文適讀性指標的限制。
+雖然中文文本可讀性指標持續有研究者開發(宋曜廷等, 2013; 荊溪昱等, 2007)，更新狀況與評分尺度尚落後英語的可讀性指標。以準備研究計畫期間找到的兩套線上系統為例，荊溪昱等人(2007)的線上系統已經下線，宋曜廷等人(2013)尚在運作，並有專人負責申請使用事務。再看量測尺度範圍，宋曜廷等人的系統目前提供小學一年級至六年級等六級尺度(SVM 1.0)，以及小學一年級至六年級，國中及高中等八級尺度(SVM 2.0)。最普遍使用的英語適讀性指標SMOG(Mc Laughlin, 1969)，尺度範圍涵蓋小學一年級至高中三年級等十二級。因此現在可用的中文文本適讀性指標，估計所得的適讀性分數範圍受限。在完整報告的方法與討論，本文作者將以選用的文本探討中文適讀性指標的限制。
 
 
 
@@ -143,7 +144,7 @@ Kerwer等人使用英文語言教育已沿用多年的可讀性公式[SMOG,@mcla
 
 --->
 
-Kerwer等人的原始研究提出的確證性假設與探索性假設，本項重製研究保留確證性假設，探索性假設只保留心理學知識合理信念與獲取論文全文意願性兩項調查。如此規劃的理由是因為確證性假設包含已知量測簡易效應必須具備的指標。原始研究的其他探索性假設是認知情緒與英文能力，因為使用中文文本，是參與者的母語，無量測的必要性；認知情緒量表評分需要有常模支持，但是認知情緒量表尚未有中文化常模，且這項指標並非本項重製研究的主要目標，因此不列入重製項目。
+ @kerwerStraightScientistMouth2021 的原始研究提出的確證性假設與探索性假設，本項重製研究保留確證性假設，探索性假設只保留心理學知識合理信念與獲取論文全文意願性兩項調查。如此規劃的理由是因為確證性假設包含已知量測簡易效應必須具備的指標。原始研究的其他探索性假設是認知情緒與英文能力，因為使用中文文本，是參與者的母語，無量測的必要性；認知情緒量表評分需要有常模支持，但是認知情緒量表尚未有中文化常模，且這項指標並非本項重製研究的主要目標，因此不列入重製項目。
 
 ### 簡易效應的確證性假設
 
@@ -237,8 +238,8 @@ t.test(PL_svm2,OLS_svm2,paired=TRUE)
 
 ## 研究程序
 
-網路化問卷使用OSWEB 1.4 製作，經由JATOS伺服器部署 @langeJustAnotherTool2015; @mathotOpenSesameOpensourceGraphical2012 。確認同意參與研究的受測者，首先回覆性別、出生年份等基本人口統計資料。接著回覆改編自Kerwer等人(2021)的兩份前置問卷：包括有關心理科學知識權威認知的9個問題 @bratenJustificationBeliefsMultipledocuments2013 ，以及科學活動熟悉度的兩個問題。接著逐篇閱讀十二篇摘要，以及回答可理解性、科學性、可信度、可參考度、內容充分度、還有是否需要觀看全文等六項讀後問題。<!---每讀過三篇摘要之後，接著回答相關文本的各兩道知識理解測驗題。--->十二篇摘要的順序與呈現版本皆隨機呈現，可理解性、科學性、可信度、可參考度、內容充分度等五個問題以8個等級選項，代表受測者對一篇摘要在這些向度的認同程度；是否需要觀看全文的問題是詢問受測者要不要索取全文下載連結，回答「要」就會呈現連結網址。每個段落最後呈現的六道知識理解測驗題為是非題，題目以隨機順序呈現，所有是非題答案比照Kerwer等人的設計，有14題的正確答案為「是」，10題的正確答案為「否」, 正確答案的配置以隨機程序決定。每個段落之後有一次強制90秒的休息時間，直到最後一個段落結束為止。
-因Kerwer等人(2021)研究參與者均為德國大學生，因研究呈現並非該參與者的母語，在施測實驗上中位數花費時間為65分鐘。本研究有進行前測，由於使用皆為參與者母語，平均時間為40分鐘。
+網路化問卷使用OSWEB 1.4 製作，經由JATOS伺服器部署[@langeJustAnotherTool2015; @mathotOpenSesameOpensourceGraphical2012]。確認同意參與研究的受測者，首先回覆性別、出生年份等基本人口統計資料。接著回覆改編自 @kerwerStraightScientistMouth2021 的兩份前置問卷：包括有關心理科學知識權威認知的9個問題 [@bratenJustificationBeliefsMultipledocuments2013] ，以及科學活動熟悉度的兩個問題。接著逐篇閱讀十二篇摘要，以及回答可理解性、科學性、可信度、可參考度、內容充分度、還有是否需要觀看全文等六項讀後問題。<!---每讀過三篇摘要之後，接著回答相關文本的各兩道知識理解測驗題。--->十二篇摘要的順序與呈現版本皆隨機呈現，可理解性、科學性、可信度、可參考度、內容充分度等五個問題以8個等級選項，代表受測者對一篇摘要在這些向度的認同程度；是否需要觀看全文的問題是詢問受測者要不要索取全文下載連結，回答「要」就會呈現連結網址。每個段落最後呈現的六道知識理解測驗題為是非題，題目以隨機順序呈現，所有是非題答案比照Kerwer等人的設計，有14題的正確答案為「是」，10題的正確答案為「否」, 正確答案的配置以隨機程序決定。每個段落之後有一次強制90秒的休息時間，直到最後一個段落結束為止。
+因 @kerwerStraightScientistMouth2021 研究參與者均為德國大學生，因研究呈現並非該參與者的母語，在施測實驗上中位數花費時間為65分鐘。本研究有進行前測，由於使用皆為參與者母語，平均時間為40分鐘。
 
 
 
