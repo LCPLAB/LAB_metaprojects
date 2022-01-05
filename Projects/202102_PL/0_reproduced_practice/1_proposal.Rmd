@@ -9,7 +9,7 @@ output:
 #    df_print: paged
 #  pdf_document: default
 bibliography: Plain_lang_summary.bib
-output: word_document
+#output: word_document
 ---
 
 ```{r setup, include=FALSE}
