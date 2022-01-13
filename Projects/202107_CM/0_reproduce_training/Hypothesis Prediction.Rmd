@@ -9,11 +9,17 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 #先置入圖檔需要的套件
 library(tidyverse)
+
 ```
 ### 預測研究假設圖 
-```{r}
+
+
+
+
+
+
 NCC_Cognitive <- data.frame(
-                 Statement = factor(rep(c("True", "False", "Conspiracy"),each = 2),levels = c("True", "False", "Conspiracy")), 
+             Statement = factor(rep(c("True", "False", "Conspiracy"),each = 2),levels = c("True", "False", "Conspiracy")), 
                  Group = rep(c("H-NCC", "L-NCC"),3), 
                  Knowledge_test = c(4.5, 3.3, 4.4, 3, 4.2, 3.3)
                  )
@@ -27,20 +33,55 @@ NCC_Cognitive %>% ggplot(aes(x=Statement ,y=Knowledge_test , fill=Group)) +
     labs(title = "Hypothesis 2") +
     theme_bw()
 
+
+```{r}
+NC_Cognitive <- data.frame(
+             Statement = factor(rep(c("True","False","Conspiracy"),each = 2),levels = c("True","False","Conspiracy")),
+                 Group = rep(c("H-NC","L-NC"),3),
+                 Knowledge_test = c(4.5,4,2,2.5,2,3.5)
+                )
+NC_Cognitive %>% ggplot(aes(x=Statement ,y=Knowledge_test , fill=Group)) +
+    geom_col(position=position_dodge(),colour="blaCK") +
+#    scale_fill_manual("H-NCC", "L-NCC",values = c("H_NCC" = "black ", "L-NCC" = "#FF00CC")) +
+    # scale_fill_manual is a function that make you can change Color
+    coord_cartesian(ylim=c(1,5)) + 
+    labs(title = "Hypothesis 1") +
+    theme_bw()
 ```
 
 ```{r}
-predicted_results <- data.frame(
-    Classifier = factor(rep(c("Compatible","Null","Neutral","Incompatible"),each=2),levels=c("Compatible","Null","Neutral","Incompatible")),
-    Match = rep(c("Matching","Mismatching"),4),
-    RT = c(450,500,475,500,475,500,490,500)
-)
+NCC_Cognitive <- data.frame(
+             Statement = factor(rep(c("True", "False", "Conspiracy"),each = 2),levels = c("True", "False", "Conspiracy")), 
+                 Group = rep(c("H-NCC", "L-NCC"),3), 
+                 Knowledge_test = c(4.5, 3.3, 4.4, 3, 4.2, 3.3)
+                 )
+
+  
+NCC_Cognitive %>% ggplot(aes(x=Statement ,y=Knowledge_test , fill=Group)) +
+    geom_col(position=position_dodge(),colour="blaCK") +
+#scale_fill_manual("H-NCC", "L-NCC",values = c("H_NCC" = "black ", "L-NCC" = "#FF00CC")) +
+    # scale_fill_manual is a function that make you can change Color
+    coord_cartesian(ylim=c(1,5)) + 
+    labs(title = "Hypothesis 2") +
+    theme_bw()
 
 ```
 
-predicted_results %>% ggplot(aes(x=Classifier,y=RT,fill=Match)) +
+
+```{r}
+conspiracy_rejection <- data.frame(
+                        Statement = factor(c(("H-NCC,L-NC"),("H-NCC,H-NC"),("H-NC,L-NCC"),("L-NC,L-NCC"),each = 2)),
+                           levels = c("Conspiracy"), 
+                            Group = c("H-NCC","L-NC","H-NCC","H-NC","H-NC","L-NCC","L-NC","L-NCC"),  
+                   Knowledge_test = c(4.5, 4, 4.5, 2, 2, 3,4,3)
+                   )
+            
+conspiracy_rejection %>% ggplot(aes(x=Statement ,y=Knowledge_test , fill=Group)) +
     geom_col(position=position_dodge(),colour="blaCK") +
-    scale_fill_manual("Match", values = c("Matching" = "white", "Mismatching" = "black")) +
-    coord_cartesian(ylim=c(400,500)) + 
+#    scale_fill_manual("H-NCC", "L-NCC",values = c("H_NCC" = "black ", "L-NCC" = "#FF00CC")) +
+    # scale_fill_manual is a function that make you can change Color
+    coord_cartesian(ylim=c(1,5)) + 
+    labs(title = "Hypothesis 3") +
     theme_bw()
+```
 
