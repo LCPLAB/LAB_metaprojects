@@ -20,13 +20,13 @@ library(lubridate)
 
 ```{r}
 ## path to the latest downloaded raw data
-downloaded_rawdata <- "psytoolkit_data.zip"
+downloaded_rawdata <- "data.zip"
 ## Check the downloaded data files
 datafiles <- unzip(downloaded_rawdata, list = TRUE)
 ## Check the time of latest data 
 subset(datafiles, Name == "data.csv")$Date
 ## Define the starting date and time
-starting_dt <- as.POSIXlt("2021-11-17-00:00:00 UTC",tz="UTC")
+starting_dt <- as.POSIXlt("2021-12-24-00:00:00 UTC",tz="UTC")
 ## Import data
 datarows <- read_csv(unz(downloaded_rawdata,filename = "data.csv"))
 ```
@@ -64,13 +64,14 @@ survey_data %>% select(participant, contains("_renkou_"),contains("_shebei"),con
 
 ```{r}
 ## Select the pandemic info evaluation
-pandemic_conf <- survey_data %>% select(participant,starts_with("1_xinxi_Q1")) %>%
+pandemic_conf <- survey_data %>% select(participant,starts_with("1_xinxi")) %>%
 ## Transfer the raw data to long data table
   pivot_longer(!participant, names_to = "item",values_to = "response") %>% 
 ## Add the variable about item condition
   bind_cols(condition = rep(rep(c("Truth","Fake","Conspiracy","Check"),c(12,12,8,1)),dim(survey_data)[1]))
 ## Summarise the mean responses by participant  
 pandemic_subj_sum <- pandemic_conf %>%
+  filter(condition=="Check") %>%
   group_by(participant,condition) %>%
   summarise(Mean = mean(response))
 
@@ -92,8 +93,9 @@ knitr::kable(pandemic_subj_sum)
 
 ```{r}
 ## select NC info evalution
-NC_info <- survey_data %>% select(participant,starts_with("")) %>%
+NC_response <- survey_data %>% select(participant,starts_with("10_NC"))
 
+NCC_response <- survey_data %>% select(participant,starts_with("11NCC"))
 
 ```
 
