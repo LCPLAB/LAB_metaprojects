@@ -93,8 +93,13 @@ knitr::kable(pandemic_subj_sum)
 
 ```{r}
 ## select NC info evalution
+<<<<<<< HEAD
 NC_info <- survey_data %>% select(participant,starts_with(""))
+=======
+NC_response <- survey_data %>% select(participant,starts_with("10_NC"))
+>>>>>>> ad00a2d8771993d6ee5752b94dfdbbb11b9fe45a
 
+NCC_response <- survey_data %>% select(participant,starts_with("11NCC"))
 
 ```
 
