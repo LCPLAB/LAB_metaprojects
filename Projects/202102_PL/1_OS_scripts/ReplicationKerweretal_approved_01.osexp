@@ -26,7 +26,7 @@ set font_size 16
 set font_italic no
 set font_family "chinese-japanese-korean"
 set font_bold no
-set experiment_path "D:\\core\\Research\\projects\\Meta_Replication\\Projects\\202102_PL\\1_OS_scripts"
+set experiment_path "D:\\core\\research\\projects\\Meta_Replication\\Projects\\202102_PL\\1_OS_scripts"
 set disable_garbage_collection yes
 set description "The main experiment item"
 set coordinates uniform
@@ -586,6 +586,7 @@ define sequence main
 	run covariates always
 	run shuffle_block always
 	run text_instruction always
+	run text_display_notepad always
 	run text_CB1 "[CB]=1"
 	run text_CB2 "[CB]=2"
 	run text_CB3 "[CB]=3"
@@ -645,6 +646,10 @@ define sketchpad rest
 	set duration 0
 	set description "Displays stimuli"
 	draw textline center=1 color="#000000" font_bold=no font_family="chinese-japanese-korean" font_italic=no font_size=36 html=yes show_if=always text="中段休息" x=0 y=0 z_index=0
+
+define notepad rest_duation_notepad
+	set note "正式實驗設定：90000ms"
+	set description "A simple notepad to document your experiment. This plug-in does nothing."
 
 define advanced_delay rest_duration
 	set jitter_mode Uniform
@@ -1807,12 +1812,24 @@ define sketchpad text_dash_01
 	draw textline center=0 color="#000000" font_bold=no font_family="chinese-japanese-korean" font_italic=no font_size=14 html=yes show_if=always text="[Content]" x=-704 y=-288 z_index=0
 	draw textline center=1 color="#000000" font_bold=no font_family="chinese-japanese-korean" font_italic=no font_size=16 html=yes show_if=always text="請閱讀第[text_order]篇文章" x=0 y=-320 z_index=0
 
+define notepad text_dash_01_notepad
+	set note "正式實驗延遲時間：60000 ms"
+	set description "A simple notepad to document your experiment. This plug-in does nothing."
+
 define sketchpad text_dash_02
 	set duration keypress
 	set description "Displays stimuli"
 	draw textline center=0 color="#000000" font_bold=no font_family="chinese-japanese-korean" font_italic=no font_size=14 html=yes show_if=always text="[Content]" x=-704 y=-288 z_index=0
 	draw textline center=1 color="#000000" font_bold=no font_family="chinese-japanese-korean" font_italic=no font_size=16 html=yes show_if=always text="請閱讀第[text_order]篇文章" x=0 y=-320 z_index=0
 	draw textline center=1 color="#000000" font_bold=no font_family="chinese-japanese-korean" font_italic=no font_size=16 html=yes show_if=always text="按任意按鍵結束閱讀" x=0 y=320 z_index=0
+
+define notepad text_display_notepad
+	__note__
+	部分文章長度超出瀏覽器視窗範圍:
+	- 楊立行：白話標題
+	- 黃從仁：白話標題
+	__end__
+	set description "A simple notepad to document your experiment. This plug-in does nothing."
 
 define sketchpad text_instruction
 	set duration keypress
@@ -1918,6 +1935,7 @@ define sequence text_seq
 	set description "Runs a number of items in sequence"
 	run count_text always
 	run preparation always
+	run text_dash_01_notepad always
 	run text_dash_01 always
 	run text_dash_02 always
 	run text_read02 never
@@ -1927,6 +1945,7 @@ define sequence text_seq
 	run test "([count_text_seq]%3)=2"
 	run rest_html "(([count_text_seq]%3)=2)and([count_text_seq]<11)"
 	run rest always
+	run rest_duation_notepad always
 	run rest_duration "(([count_text_seq]%3)=2)and([count_text_seq]<11)"
 
 define form_text_display welcome
