@@ -105,22 +105,41 @@ define form_multiple_choice Comprehensibility_survey
 	set advance_immediately yes
 	set _theme gray
 
-define form_text_display End_of_Study_display
+define form_text_input End_of_Study_input
 	set timeout infinite
 	set spacing 10
-	set rows "1;4;1"
+	set rows "1;1;6"
 	set only_render no
-	set ok_text "點我結束"
 	set margins "50;50;50;50"
+	set form_var response
 	set form_title "測驗結束"
-	set form_text "感謝您的參與"
-	set description "A simple text display form"
-	set cols "1;1;1"
+	__form_question__
+	感謝您的參與。對於本研究有任何問題或建議，請在下方留言。<br/>
+	
+	輸入留言完畢請按Enter
+	__end__
+	set description "A simple text input form"
+	set cols 1
 	set _theme gray
-	widget 0 0 3 1 label text="[form_title]"
-	widget 0 1 3 1 label center=no text="[form_text]"
-	widget 1 2 1 1 button text="[ok_text]"
+	widget 0 0 1 1 label text="[form_title]"
+	widget 0 1 1 1 label center=no text="[form_question]"
+	widget 0 2 1 1 text_input focus=yes return_accepts=yes stub="" var="[form_var]"
 
+
+define sketchpad Exit_board
+	set duration 0
+	set description Instruction
+	draw textline center=1 color=black font_bold=no font_family=mono font_italic=no font_size=20 html=yes show_if=always text="研究結束。感謝您的參與。<br/>請以紙筆或拍照記下實驗完成碼:<br/><br/><br/><h1>[identifier]</h1><br/><br/><br/>記下後請按 `q` 登出" x=0 y=0 z_index=0
+	draw textline center=1 color=black font_bold=no font_family=sans font_italic=no font_size=50 html=yes show_if=always text="" x=0 y=75 z_index=0
+	draw textline center=1 color=black font_bold=no font_family=sans font_italic=no font_size=20 html=yes show_if=always text="" x=0 y=125 z_index=0
+
+define keyboard_response Exit_board_quit
+	set timeout infinite
+	set flush yes
+	set event_type keypress
+	set duration keypress
+	set description "Collects keyboard responses"
+	set allowed_responses q
 
 define loop JB
 	set source_file ""
@@ -258,6 +277,8 @@ define logger Study_logger
 	log CRid05
 	log CRid06
 	log Set_id
+	log identifier
+	log text_order
 
 define form_multiple_choice Test_survey
 	set timeout infinite
@@ -366,8 +387,8 @@ define sequence consent_seq
 
 define inline_javascript count_text
 	set description "Executes JavaScript code"
-	set _run "vars.text_order = vars.count_text_seq + 1"
-	set _prepare ""
+	set _run ""
+	set _prepare "vars.text_order = vars.count_text_seq + 1"
 
 define loop covariates
 	set source_file ""
@@ -523,6 +544,15 @@ define sequence gender_seq
 	run gender always
 	run Study_logger always
 
+define inline_javascript generate_identifier
+	set description "Executes JavaScript code"
+	set _run ""
+	___prepare__
+	// Generate the identifier for the participant
+	vars.identifier = Math.random().toString(36).substr(2, 9);
+	// Local version will not show identifier on "PP_End".
+	__end__
+
 define inline_javascript id_recording
 	set description "Executes JavaScript code (ECMA 5.1)"
 	___run__
@@ -546,6 +576,7 @@ define inline_javascript id_recording
 define sequence main
 	set flush_keyboard yes
 	set description "分支程序"
+	run generate_identifier always
 	run basic_instruction always
 	run gender_loop always
 	run basic always
@@ -558,7 +589,9 @@ define sequence main
 	run text_CB1 "[CB]=1"
 	run text_CB2 "[CB]=2"
 	run text_CB3 "[CB]=3"
-	run End_of_Study_display always
+	run End_of_Study_input always
+	run Exit_board always
+	run Exit_board_quit always
 
 define sketchpad new_sketchpad
 	set duration keypress
@@ -1778,7 +1811,7 @@ define sketchpad text_dash_02
 	set duration keypress
 	set description "Displays stimuli"
 	draw textline center=0 color="#000000" font_bold=no font_family="chinese-japanese-korean" font_italic=no font_size=14 html=yes show_if=always text="[Content]" x=-704 y=-288 z_index=0
-	draw textline center=1 color="#000000" font_bold=no font_family="chinese-japanese-korean" font_italic=no font_size=16 html=yes show_if=always text="請閱讀第[count_text_seq]篇文章" x=0 y=-320 z_index=0
+	draw textline center=1 color="#000000" font_bold=no font_family="chinese-japanese-korean" font_italic=no font_size=16 html=yes show_if=always text="請閱讀第[text_order]篇文章" x=0 y=-320 z_index=0
 	draw textline center=1 color="#000000" font_bold=no font_family="chinese-japanese-korean" font_italic=no font_size=16 html=yes show_if=always text="按任意按鍵結束閱讀" x=0 y=320 z_index=0
 
 define sketchpad text_instruction
