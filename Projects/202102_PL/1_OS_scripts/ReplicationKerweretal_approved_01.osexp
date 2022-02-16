@@ -129,9 +129,7 @@ define form_text_input End_of_Study_input
 define sketchpad Exit_board
 	set duration 0
 	set description Instruction
-	draw textline center=1 color=black font_bold=no font_family=mono font_italic=no font_size=20 html=yes show_if=always text="研究結束。感謝您的參與。<br/>請以紙筆或拍照記下實驗完成碼:<br/><br/><br/><h1>[identifier]</h1><br/><br/><br/>記下後請按 `q` 登出" x=0 y=0 z_index=0
-	draw textline center=1 color=black font_bold=no font_family=sans font_italic=no font_size=50 html=yes show_if=always text="" x=0 y=75 z_index=0
-	draw textline center=1 color=black font_bold=no font_family=sans font_italic=no font_size=20 html=yes show_if=always text="" x=0 y=125 z_index=0
+	draw textline center=1 color=black font_bold=no font_family="chinese-japanese-korean" font_italic=no font_size=20 html=yes show_if=always text="研究結束。感謝您的參與。<br/>請以紙筆或拍照記下實驗完成碼:<br/><br/><br/><h1>[identifier]</h1><br/><br/><br/>記下後請按 `q` 登出" x=0 y=0 z_index=0
 
 define keyboard_response Exit_board_quit
 	set timeout infinite
@@ -427,7 +425,7 @@ define loop covariates
 define sketchpad covariates_instruction
 	set duration keypress
 	set description "Displays stimuli"
-	draw textline center=0 color="#000000" font_bold=no font_family="chinese-japanese-korean" font_italic=no font_size=18 html=yes show_if=always text="下一頁將詢問您從事過或正在進行科學研究的經驗，請選擇最符合個人狀況的描述。" x=-352 y=-96 z_index=0
+	draw textline center=0 color="#000000" font_bold=no font_family="chinese-japanese-korean" font_italic=no font_size=20 html=yes show_if=always text="下一頁將詢問您從事過或正在進行科學研究的經驗，請選擇最符合個人狀況的描述。" x=-352 y=-96 z_index=0
 	draw textline center=1 color="#000000" font_bold=no font_family="chinese-japanese-korean" font_italic=no font_size=20 html=yes show_if=always text="按任意按鍵至下一頁" x=0 y=320 z_index=0
 
 define sequence covariates_seq
