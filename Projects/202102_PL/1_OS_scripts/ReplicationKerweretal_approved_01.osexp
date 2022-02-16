@@ -105,6 +105,19 @@ define form_multiple_choice Comprehensibility_survey
 	set advance_immediately yes
 	set _theme gray
 
+define loop End
+	set source_file ""
+	set source table
+	set repeat 1
+	set order random
+	set description "Repeatedly runs another item"
+	set cycles 1
+	set continuous no
+	set break_if_on_first yes
+	set break_if never
+	setcycle 0 empty_column ""
+	run End_seq
+
 define form_text_input End_of_Study_input
 	set timeout infinite
 	set spacing 10
@@ -125,6 +138,12 @@ define form_text_input End_of_Study_input
 	widget 0 1 1 1 label center=no text="[form_question]"
 	widget 0 2 1 1 text_input focus=yes return_accepts=yes stub="" var="[form_var]"
 
+
+define sequence End_seq
+	set flush_keyboard yes
+	set description "Runs a number of items in sequence"
+	run End_of_Study_input always
+	run Study_logger always
 
 define sketchpad Exit_board
 	set duration 0
@@ -588,7 +607,7 @@ define sequence main
 	run text_CB1 "[CB]=1"
 	run text_CB2 "[CB]=2"
 	run text_CB3 "[CB]=3"
-	run End_of_Study_input always
+	run End always
 	run Exit_board always
 	run Exit_board_quit always
 
