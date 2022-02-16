@@ -192,9 +192,9 @@ define loop JB
 define sketchpad JB_instruction
 	set duration keypress
 	set description "Displays stimuli"
-	draw textline center=1 color="#000000" font_bold=no font_family="chinese-japanese-korean" font_italic=no font_size=18 html=yes show_if=always text="下一頁呈現一系列心理學科學知識的可信度與權威是如何建立的論述。" x=-352 y=-96 z_index=0
-	draw textline center=1 color="#000000" font_bold=no font_family="chinese-japanese-korean" font_italic=no font_size=18 html=yes show_if=always text="按任意按鍵至下一頁" x=0 y=320 z_index=0
-	draw textline center=1 color="#000000" font_bold=no font_family="chinese-japanese-korean" font_italic=no font_size=18 html=yes show_if=always text="請透過選項“完全不正確”到“完全正確”，表達您同意這些論述的程度。" x=-320 y=-32 z_index=0
+	draw textline center=0 color="#000000" font_bold=no font_family="chinese-japanese-korean" font_italic=no font_size=20 html=yes show_if=always text="下一頁呈現一系列心理學科學知識的可信度與權威是如何建立的論述。" x=-352 y=-160 z_index=0
+	draw textline center=0 color="#000000" font_bold=no font_family="chinese-japanese-korean" font_italic=no font_size=20 html=yes show_if=always text="請透過選項“完全不正確”到“完全正確”，表達您同意這些論述的程度。" x=-352 y=-96 z_index=0
+	draw textline center=1 color="#000000" font_bold=no font_family="chinese-japanese-korean" font_italic=no font_size=20 html=yes show_if=always text="按任意按鍵至下一頁" x=0 y=320 z_index=0
 
 define sequence JB_seq
 	set flush_keyboard yes
@@ -335,9 +335,9 @@ define loop basic
 define sketchpad basic_instruction
 	set duration keypress
 	set description "Displays stimuli"
-	draw textline center=0 color="#000000" font_bold=no font_family="chinese-japanese-korean" font_italic=no font_size=20 html=yes show_if=always text="請在下一個網頁依序回答您的性別與出生年" x=-672 y=-160 z_index=0
-	draw textline center=0 color="#000000" font_bold=no font_family="chinese-japanese-korean" font_italic=no font_size=20 html=yes show_if=always text="性別為單選，選擇自己認同的性別，出生年請以您的西元出生年後兩碼填答" x=-672 y=-96 z_index=0
-	draw textline center=1 color="#000000" font_bold=no font_family="chinese-japanese-korean" font_italic=no font_size=16 html=yes show_if=always text="按任意按鍵至下一頁" x=0 y=320 z_index=0
+	draw textline center=0 color="#000000" font_bold=no font_family="chinese-japanese-korean" font_italic=no font_size=20 html=yes show_if=always text="請在下一個網頁依序回答您的性別與出生年" x=-352 y=-160 z_index=0
+	draw textline center=0 color="#000000" font_bold=no font_family="chinese-japanese-korean" font_italic=no font_size=20 html=yes show_if=always text="性別為單選，選擇自己認同的性別，出生年請以您的西元出生年後兩碼填答" x=-352 y=-96 z_index=0
+	draw textline center=1 color="#000000" font_bold=no font_family="chinese-japanese-korean" font_italic=no font_size=20 html=yes show_if=always text="按任意按鍵至下一頁" x=0 y=320 z_index=0
 
 define sequence basic_seq
 	set flush_keyboard yes
@@ -427,8 +427,8 @@ define loop covariates
 define sketchpad covariates_instruction
 	set duration keypress
 	set description "Displays stimuli"
-	draw textline center=1 color="#000000" font_bold=no font_family="chinese-japanese-korean" font_italic=no font_size=18 html=yes show_if=always text="下一頁將詢問您從事過或正在進行科學研究的經驗，請選擇最符合個人狀況的描述。" x=-352 y=-96 z_index=0
-	draw textline center=1 color="#000000" font_bold=no font_family="chinese-japanese-korean" font_italic=no font_size=18 html=yes show_if=always text="按任意按鍵至下一頁" x=0 y=320 z_index=0
+	draw textline center=0 color="#000000" font_bold=no font_family="chinese-japanese-korean" font_italic=no font_size=18 html=yes show_if=always text="下一頁將詢問您從事過或正在進行科學研究的經驗，請選擇最符合個人狀況的描述。" x=-352 y=-96 z_index=0
+	draw textline center=1 color="#000000" font_bold=no font_family="chinese-japanese-korean" font_italic=no font_size=20 html=yes show_if=always text="按任意按鍵至下一頁" x=0 y=320 z_index=0
 
 define sequence covariates_seq
 	set flush_keyboard yes
@@ -1838,7 +1838,7 @@ define sketchpad text_instruction
 	draw textline center=0 color="#000000" font_bold=no font_family="chinese-japanese-korean" font_italic=no font_size=20 html=yes show_if=always text="讀完一篇文章有一些詢問您個人感想的問題，每讀完三篇文章有一些關於文章內容的問題，<br>都需要您仔細讀過文章才能回答，然後休息90秒再繼續，直到結束。" x=-463 y=-88 z_index=0
 	draw textline center=0 color="#000000" font_bold=no font_family="chinese-japanese-korean" font_italic=no font_size=20 html=yes show_if=always text="如果在過程中有任何疑問的話，可隨時紀錄下來，實驗結束後提出。" x=-463 y=168 z_index=0
 	draw textline center=0 color="#000000" font_bold=no font_family="chinese-japanese-korean" font_italic=no font_size=20 html=yes show_if=always text="完成全部測驗將會花費您約30分鐘左右的時間。" x=-463 y=40 z_index=0
-	draw textline center=1 color="#000000" font_bold=no font_family="chinese-japanese-korean" font_italic=no font_size=18 html=yes show_if=always text="按任意按鍵結束閱讀" x=0 y=320 z_index=0
+	draw textline center=1 color="#000000" font_bold=no font_family="chinese-japanese-korean" font_italic=no font_size=20 html=yes show_if=always text="按任意按鍵結束閱讀" x=0 y=320 z_index=0
 
 define loop text_post
 	set source_file ""
