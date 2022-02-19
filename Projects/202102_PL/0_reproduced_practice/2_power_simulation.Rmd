@@ -6,11 +6,16 @@ output: html_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-
+knitr::opts_chunk$set(
+	echo = TRUE,
+	message = FALSE,
+	warning = FALSE
+)
+library(tidyverse)
 library(lme4)
 library(lmerTest)
 library(mixedpower)
+library(effectsize)
 ```
 
 ## 說明
@@ -85,7 +90,7 @@ summary(h02m)
 ```
 
 
-```{r h02_sim, eval=FALSE, message=FALSE, warning=FALSE, include=FALSE,echo=TRUE}
+```{r h02_sim, eval=FALSE, echo=TRUE, message=FALSE, warning=FALSE, include=FALSE}
 # set up SESOI by model summary
 SESOI <- c(1.45918, -0.2,-0.4)
 
@@ -103,6 +108,44 @@ multiplotPower(power_SESOI_h02m, filename = "h02_sim.png")
 ```{r echo=FALSE}
 knitr::include_graphics("h02_sim.png")
 ```
+
+## Estimated magnitude of easiness effect 
+
+簡易效應三項假設的描述統計及預估效果量。
+
+```{r estimation-by-data, echo=TRUE, message=FALSE, warning=FALSE}
+## Summarise the averages by participant
+df_subj <- df %>% group_by(id,PLS) %>%
+  summarise(p_vtr = mean(vtr,na.rm=TRUE),p_wahr = mean(wahr,na.rm=TRUE),p_ent=mean(ent,na.rm=TRUE)) 
+## Making of the summary by participants' averages
+df_subj %>% group_by(PLS) %>%
+  summarise(M_vtr = mean(p_vtr,na.rm=TRUE), VAR_vtr = var(p_vtr,na.rm=TRUE),N_vtr = n(),
+            M_wahr = mean(p_wahr,na.rm=TRUE), VAR_wahr = var(p_wahr,na.rm=TRUE), N_wahr = n(),
+            M_ent = mean(p_ent,na.rm=TRUE), VAR_ent = var(p_ent,na.rm=TRUE), N_ent = n())
+
+
+## H3a: Compare credibility between PLS and OSA
+cohens_d(Pair(p_vtr[PLS == "PLS"], p_vtr[PLS == "Non PLS"]) ~ 1, data = df_subj)
+
+## H3b: Compare credibility between non heading PLS and OSA
+cohens_d(Pair(p_vtr[PLS == "No Heading"], p_vtr[PLS == "Non PLS"]) ~ 1, data = df_subj)
+
+
+## H4a: Compare confidence between PLS and OSA
+cohens_d(Pair(p_wahr[PLS == "PLS"], p_wahr[PLS == "Non PLS"]) ~ 1, data = df_subj)
+
+## H4b: Compare confidence between non heading PLS and OSA
+cohens_d(Pair(p_wahr[PLS == "No Heading"], p_wahr[PLS == "Non PLS"]) ~ 1, data = df_subj)
+
+
+## H5a: Compare ability to make a decision between PLS and OSA
+cohens_d(Pair(p_ent[PLS == "PLS"], p_ent[PLS == "Non PLS"]) ~ 1, data = df_subj)
+
+## H5b: Compare ability to make a decision between non heading PLS and OSA
+cohens_d(Pair(p_ent[PLS == "No Heading"], p_ent[PLS == "Non PLS"]) ~ 1, data = df_subj)
+```
+
+> 建議執行effectsize::interpret_cohens_d(d)，了解各項假設的預估效果量大小。
 
 
 ## H3 Credibility
