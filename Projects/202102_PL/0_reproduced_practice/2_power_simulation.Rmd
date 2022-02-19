@@ -1,7 +1,5 @@
 ---
-title: "Power Simulation"
-author: "My name"
-date: "2021/8/9"
+title: "Power Simulation for Reproduce Easiness effects(Kerwer et al., 2021)"
 output: html_document
 ---
 
@@ -146,6 +144,55 @@ cohens_d(Pair(p_ent[PLS == "No Heading"], p_ent[PLS == "Non PLS"]) ~ 1, data = d
 ```
 
 > 建議執行effectsize::interpret_cohens_d(d)，了解各項假設的預估效果量大小。
+
+```{r power-plot}
+# Plot sample size curves for detecting estimated effects of
+# various sizes.
+
+library(pwr)
+
+# range of effect size
+d <- seq(.16,.35,.01)
+nd <- length(d)
+
+# power values
+p <- seq(.4,.9,.1)
+np <- length(p)
+
+# obtain sample sizes
+samsize <- array(numeric(nd*np), dim=c(nd,np))
+for (i in 1:np){
+  for (j in 1:nd){
+    result <- pwr.t.test(n = NULL, d = d[j], 
+    sig.level = .05, power = p[i],
+    type="paired",
+    alternative = "two.sided")
+    samsize[j,i] <- ceiling(result$n)
+  }
+}
+
+# set up graph
+xrange <- range(d)
+yrange <- round(range(samsize))
+colors <- rainbow(length(p))
+plot(xrange, yrange, type="n",
+  xlab="Cohen's d (d)",
+  ylab="Sample Size (n)" )
+
+# add power curves
+for (i in 1:np){
+  lines(d, samsize[,i], type="l", lwd=2, col=colors[i])
+}
+
+# add annotation (grid lines, title, legend)
+abline(v=0, h=seq(0,yrange[2],50), lty=2, col="grey89")
+abline(h=0, v=seq(xrange[1],xrange[2],.02), lty=2,
+   col="grey89")
+title("Sample Size Estimation for Easieness Effects\n
+  Sig=0.05 (Two-tailed)")
+legend("topright", title="Power", as.character(p),
+   fill=colors)
+```
 
 
 ## H3 Credibility
