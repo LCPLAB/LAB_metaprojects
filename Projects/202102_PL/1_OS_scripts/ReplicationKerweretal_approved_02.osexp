@@ -26,7 +26,7 @@ set font_size 16
 set font_italic no
 set font_family "chinese-japanese-korean"
 set font_bold no
-set experiment_path "D:\\R123\\LAB_metaprojects\\Projects\\202102_PL\\1_OS_scripts"
+set experiment_path "D:\\R project\\Projects\\Projects\\202102_PL\\1_OS_scripts"
 set disable_garbage_collection yes
 set description "The main experiment item"
 set coordinates uniform
@@ -1851,10 +1851,10 @@ define notepad text_display_notepad
 define sketchpad text_instruction
 	set duration keypress
 	set description "Displays stimuli"
-	draw textline center=0 color="#000000" font_bold=no font_family="chinese-japanese-korean" font_italic=no font_size=20 html=yes show_if=always text="接下來將依序呈現十二篇文章，每篇文章皆需至少閱讀一分鐘，" x=-463 y=-216 z_index=0
-	draw textline center=0 color="#000000" font_bold=no font_family="chinese-japanese-korean" font_italic=no font_size=20 html=yes show_if=always text="讀完一篇文章有一些詢問您個人感想的問題，每讀完三篇文章有一些關於文章內容的問題，<br>都需要您仔細讀過文章才能回答，然後休息90秒再繼續，直到結束。" x=-463 y=-88 z_index=0
-	draw textline center=0 color="#000000" font_bold=no font_family="chinese-japanese-korean" font_italic=no font_size=20 html=yes show_if=always text="如果在過程中有任何疑問的話，可隨時紀錄下來，實驗結束後提出。" x=-463 y=168 z_index=0
-	draw textline center=0 color="#000000" font_bold=no font_family="chinese-japanese-korean" font_italic=no font_size=20 html=yes show_if=always text="完成全部測驗將會花費您約30分鐘左右的時間。" x=-463 y=40 z_index=0
+	draw textline center=0 color="#000000" font_bold=no font_family="chinese-japanese-korean" font_italic=no font_size=20 html=yes show_if=always text="接下來將依序呈現十二篇文章，每篇文章皆需至少閱讀一分鐘，" x=-463.0 y=-120.0 z_index=0
+	draw textline center=0 color="#000000" font_bold=no font_family="chinese-japanese-korean" font_italic=no font_size=20 html=yes show_if=always text="讀完一篇文章有一些詢問您個人感想的問題，每讀完三篇文章有一些關於文章內容的問題，<br><br>都需要您仔細讀過文章才能回答，然後休息90秒再繼續，直到結束。" x=-463.0 y=-56.0 z_index=0
+	draw textline center=0 color="#000000" font_bold=no font_family="chinese-japanese-korean" font_italic=no font_size=20 html=yes show_if=always text="如果在過程中有任何疑問的話，可隨時紀錄下來，實驗結束後提出。" x=-463.0 y=104.0 z_index=0
+	draw textline center=0 color="#000000" font_bold=no font_family="chinese-japanese-korean" font_italic=no font_size=20 html=yes show_if=always text="完成全部測驗將會花費您約30分鐘左右的時間。" x=-463.0 y=40.0 z_index=0
 	draw textline center=1 color="#000000" font_bold=no font_family="chinese-japanese-korean" font_italic=no font_size=20 html=yes show_if=always text="按任意按鍵結束閱讀" x=0 y=320 z_index=0
 
 define loop text_post
