@@ -109,9 +109,47 @@ knitr::include_graphics("h02_sim.png")
 
 ## Estimated magnitude of easiness effect 
 
+兩項基本假設的描述統計及預估效果量。
+
+```{r basic-summary, echo=TRUE, message=FALSE, warning=FALSE}
+## Summarise the averages by participant
+df_h01 <- df %>% group_by(id,PLS) %>%
+  summarise(p_vst = mean(vst,na.rm=TRUE)) 
+df_test <- df_wiss %>% group_by(id, PLS) %>%
+  summarise(p_test = mean(test,na.rm=TRUE)) 
+## Making of the summary by participants' averages
+df_h01 %>% group_by(PLS) %>%
+  summarise(M_vst = mean(p_vst,na.rm=TRUE), VAR_vst = var(p_vst,na.rm=TRUE), N_vst = n())
+            
+df_test %>% group_by(PLS) %>%
+  summarise(M_test = mean(p_test,na.rm=TRUE), VAR_test = var(p_test,na.rm=TRUE), N_test = n())
+
+
+## H1a1: Compare comprehensibility between PLS and non heading PLS
+cohens_d(Pair(p_vst[PLS == "PLS"], p_vst[PLS == "No Heading"]) ~ 1, data = df_h01)
+
+## H1a2: Compare comprehensibility between PLS and OSA
+cohens_d(Pair(p_vst[PLS == "PLS"], p_vst[PLS == "Non PLS"]) ~ 1, data = df_h01)
+
+## H1b: Compare comprehensibility between non heading PLS and OSA
+cohens_d(Pair(p_vst[PLS == "No Heading"], p_vst[PLS == "Non PLS"]) ~ 1, data = df_h01)
+
+
+## H2a1: Compare knowledge acquisition between PLS and non heading PLS
+cohens_d(Pair(p_test[PLS == "PLS"], p_test[PLS == "No Heading"]) ~ 1, data = df_test)
+
+## H2a2: Compare knowledge acquisition between PLS and OSA
+cohens_d(Pair(p_test[PLS == "PLS"], p_test[PLS == "Non PLS"]) ~ 1, data = df_test)
+
+## H2b: Compare knowledge acquisition between non heading PLS and OSA
+cohens_d(Pair(p_test[PLS == "No Heading"], p_test[PLS == "Non PLS"]) ~ 1, data = df_test)
+```
+
+
+
 簡易效應三項假設的描述統計及預估效果量。
 
-```{r estimation-by-data, echo=TRUE, message=FALSE, warning=FALSE}
+```{r easiness-summary, echo=TRUE, message=FALSE, warning=FALSE}
 ## Summarise the averages by participant
 df_subj <- df %>% group_by(id,PLS) %>%
   summarise(p_vtr = mean(vtr,na.rm=TRUE),p_wahr = mean(wahr,na.rm=TRUE),p_ent=mean(ent,na.rm=TRUE)) 
