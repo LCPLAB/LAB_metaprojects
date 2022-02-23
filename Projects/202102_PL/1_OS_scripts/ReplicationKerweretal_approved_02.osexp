@@ -312,6 +312,10 @@ define inline_javascript Test_recording
 	}
 	__end__
 
+define notepad Test_recording_notepad
+	set note "Q_presented 標記正式實驗呈現測驗題"
+	set description "A simple notepad to document your experiment. This plug-in does nothing."
+
 define form_multiple_choice Test_survey
 	set timeout infinite
 	set spacing 10
@@ -735,6 +739,7 @@ define inline_javascript shuffle_block
 	set _prepare ""
 
 define loop test
+	set source_file ""
 	set source table
 	set repeat 1
 	set order random
@@ -1037,6 +1042,7 @@ define sequence test_seq
 	set flush_keyboard yes
 	set description "Runs a number of items in sequence"
 	run Test_survey "(([Test_id]=[Qid01]) and ([Set_id] = [CRid01])) or (([Test_id]=[Qid01]) and ([Set_id] = [CRid02])) or (([Test_id]=[Qid02]) and ([Set_id] = [CRid03])) or (([Test_id]=[Qid02]) and ([Set_id] = [CRid04])) or (([Test_id]=[Qid03]) and ([Set_id] = [CRid05])) or (([Test_id]=[Qid03]) and ([Set_id] = [CRid06]))"
+	run Test_recording_notepad always
 	run Test_recording always
 	run Study_logger always
 
