@@ -193,6 +193,10 @@ pre code {
 <li><p>點選<code>Convert JATOS results to csv/xlsx</code>，開啟檔案管理選單。</p></li>
 <li><p>選擇開啟剛匯出的txt檔，另存新檔為同檔名的csv格式檔案。</p></li>
 </ol>
+</div>
+<div id="build-the-sheet-of-identifier-codes" class="section level2">
+<h2>Build the sheet of identifier codes</h2>
+<p>執行以下程式碼，建立實驗完成碼清單。</p>
 <pre class="r"><code>## List the results files
 
 results_files &lt;- list.files(pattern = &quot;^jatos_results_&quot;)
@@ -211,16 +215,21 @@ knitr::kable(finished_id)</code></pre>
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left">1ejpgaadr</td>
+<td align="left">ed6qsxep4</td>
 </tr>
 <tr class="even">
-<td align="left">2oyjyrk0l</td>
+<td align="left">1ejpgaadr</td>
 </tr>
 <tr class="odd">
+<td align="left">2oyjyrk0l</td>
+</tr>
+<tr class="even">
 <td align="left">bhsv8zw0t</td>
 </tr>
 </tbody>
 </table>
+<pre class="r"><code>## Save identifier codes to a file
+write.csv(finished_id, file=&quot;PL_id.txt&quot;)</code></pre>
 </div>
 
 
