@@ -209,61 +209,80 @@ df &lt;- read_csv(results_files[1])
 
 ## Take the identifiers
 finished_id &lt;- unique(df$identifier)
-knitr::kable(finished_id)</code></pre>
+Id &lt;- as_tibble(finished_id)
+Id2 &lt;- mutate(Id,id = rep(1:nrow(Id)))
+knitr::kable(Id2)</code></pre>
 <table>
 <thead>
 <tr class="header">
-<th align="left">x</th>
+<th align="left">value</th>
+<th align="right">id</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td align="left">z9iqcmewx</td>
+<td align="right">1</td>
 </tr>
 <tr class="even">
 <td align="left">lmlgt607m</td>
+<td align="right">2</td>
 </tr>
 <tr class="odd">
 <td align="left">dfyqhvpf4</td>
+<td align="right">3</td>
 </tr>
 <tr class="even">
 <td align="left">up43k7rgp</td>
+<td align="right">4</td>
 </tr>
 <tr class="odd">
 <td align="left">tzngq0c7h</td>
+<td align="right">5</td>
 </tr>
 <tr class="even">
 <td align="left">bh6beurz6</td>
+<td align="right">6</td>
 </tr>
 <tr class="odd">
 <td align="left">j09f2m1i7</td>
+<td align="right">7</td>
 </tr>
 <tr class="even">
 <td align="left">rvo2s6621</td>
+<td align="right">8</td>
 </tr>
 <tr class="odd">
 <td align="left">phgqh7lxr</td>
+<td align="right">9</td>
 </tr>
 <tr class="even">
 <td align="left">9i77y55bj</td>
+<td align="right">10</td>
 </tr>
 <tr class="odd">
 <td align="left">6yrd9ivzt</td>
+<td align="right">11</td>
 </tr>
 <tr class="even">
 <td align="left">ed6qsxep4</td>
+<td align="right">12</td>
 </tr>
 <tr class="odd">
 <td align="left">czh4h0ybd</td>
+<td align="right">13</td>
 </tr>
 <tr class="even">
 <td align="left">1ejpgaadr</td>
+<td align="right">14</td>
 </tr>
 <tr class="odd">
 <td align="left">2oyjyrk0l</td>
+<td align="right">15</td>
 </tr>
 <tr class="even">
 <td align="left">bhsv8zw0t</td>
+<td align="right">16</td>
 </tr>
 </tbody>
 </table>

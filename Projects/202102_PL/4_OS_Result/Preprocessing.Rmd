@@ -56,7 +56,9 @@ df <- read_csv(results_files[1])
 
 ## Take the identifiers
 finished_id <- unique(df$identifier)
-knitr::kable(finished_id)
+Id <- as_tibble(finished_id)
+Id2 <- mutate(Id,id = rep(1:nrow(Id)))
+knitr::kable(Id2)
 
 ## Save identifier codes to a file
 write.csv(finished_id, file="PL_id.txt")
