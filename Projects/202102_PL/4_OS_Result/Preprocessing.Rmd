@@ -21,6 +21,8 @@ library(tidyverse)
 
 2. 篩選要匯出的實驗資料：點選"Filter Builder" 進行下圖設定
 
+* 20220317更新：根據外校老師回報，部分同學有完成實驗，但是因為沒有關閉視窗，導致後台狀態註記為“DATA_RETRIEVED”，更新篩選設定有增加有效資料。
+
 ![](img/Results_export001.png)
 
 3. 選擇要匯出的實驗資料：確認顯示的資料符合篩選條件，點選上圖左上方"Filtered"按鈕，選取所有要匯出的資料。
@@ -54,7 +56,9 @@ df <- read_csv(results_files[1])
 
 ## Take the identifiers
 finished_id <- unique(df$identifier)
-knitr::kable(finished_id)
+Id <- as_tibble(finished_id)
+Id2 <- mutate(Id,id = rep(1:nrow(Id)))
+knitr::kable(Id2)
 
 ## Save identifier codes to a file
 write.csv(finished_id, file="PL_id.txt")
