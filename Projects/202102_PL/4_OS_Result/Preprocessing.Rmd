@@ -48,8 +48,9 @@ library(tidyverse)
 
 ```{r import-results}
 ## List the results files
-
+## Jatos file name format: "jatos_results_"
 results_files <- list.files(pattern = "^jatos_results_")
+
 
 ## Import the data file into data frame
 df <- read_csv(results_files[1])
