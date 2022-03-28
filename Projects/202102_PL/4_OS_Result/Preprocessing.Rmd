@@ -35,7 +35,11 @@ library(lubridate)
 
 ## Import results data
 
+<<<<<<< HEAD
 1. 開啟OpenSesame本機版，切換至OSWeb視窗。確認”Include JATOS context  information"已經打勾。
+=======
+1. 開啟OpenSesame本機版，切換至OSWeb視窗。確認”Include JATOS context information"已經打勾。
+>>>>>>> 15a7edba569054287181677181752c3400a56f66
 
 2. 點選`Convert JATOS results to csv/xlsx`，開啟檔案管理選單。
 
