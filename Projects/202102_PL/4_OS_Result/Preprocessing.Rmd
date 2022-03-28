@@ -13,6 +13,7 @@ knitr::opts_chunk$set(
 )
 
 library(tidyverse)
+library(lubridate)
 ```
 
 ## Export data from JATOS server
@@ -34,13 +35,13 @@ library(tidyverse)
 
 ## Import results data
 
-
 1. 開啟OpenSesame本機版，切換至OSWeb視窗。確認”Include JATOS context information"已經打勾。
 
 2. 點選`Convert JATOS results to csv/xlsx`，開啟檔案管理選單。
 
 3. 選擇開啟剛匯出的txt檔，另存新檔為同檔名的csv格式檔案。
 
+- 最後結果jason檔及csv檔總量超過100 Mega bytes，壓縮為zip才能推送至github。
 
 ## Build the sheet of identifier codes
 
@@ -57,11 +58,54 @@ df <- read_csv(results_files[1])
 
 ## Take the identifiers
 finished_id <- unique(df$identifier)
-Id <- as_tibble(finished_id)
-Id2 <- mutate(Id,id = rep(1:nrow(Id)))
-knitr::kable(Id2)
+#Id <- as_tibble(finished_id)
+#Id2 <- mutate(Id,id = rep(1:nrow(Id)))
+#knitr::kable(Id2)
+
+## Filter the results for the meta summary
+df_finished <- df %>%
+  filter(identifier %in% finished_id)
 
 ## Save identifier codes to a file
 write.csv(finished_id, file="PL_id.txt")
+```
+
+
+At the end, `r length(finished_id)` participants got the identifiers. Legal identifiers are saved in "PL_id.txt".
+
+
+## Summarize study meta
+
+```{r meta-summary}
+## Load meta file
+meta_file <- list.files(pattern = "^jatos_meta_")
+
+
+## filter the available meta info by results file
+df_meta <- read_csv(meta_file) %>%
+  filter(`Result ID` %in% unique(df_finished$jatosStudyResultId)) ## 150 participants had a legal finish
+
+## Convert duration to minutes
+minutes_count <- ((df_meta$Duration %>% hms() %>% hour()*60)+
+(df_meta$Duration %>% hms() %>% minute())) 
+
+## Summary of study duration by minutes 
+minutes_count %>% summary()
+
+## draw a box plot
+minutes_count%>%
+  log10() %>% ## convert minutes to log10
+  boxplot(ylab="log10(minutes)")
+
+## merge valid meta and results
+df_all_variables <- right_join(df_finished, df_meta, by=c("jatosStudyResultId" = "Result ID"))
+
+
+df_all_variables %>% write_csv(file = "rawdata.csv")
+
+## Summary how many items the legal participants had responded
+df_all_variables %>% group_by(jatosStudyResultId) %>%
+  summarise(trial_N = n()) %>%
+  summary()
 ```
 
