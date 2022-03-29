@@ -61,6 +61,7 @@ if (window.hljs) {
 
 
 
+
 <style type="text/css">
 .main-container {
   max-width: 940px;
@@ -81,6 +82,9 @@ button.code-folding-btn:focus {
 }
 summary {
   display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
 }
 pre code {
   padding: 0;
@@ -196,98 +200,75 @@ pre code {
 <li><p>點選<code>Convert JATOS results to csv/xlsx</code>，開啟檔案管理選單。</p></li>
 <li><p>選擇開啟剛匯出的txt檔，另存新檔為同檔名的csv格式檔案。</p></li>
 </ol>
+<ul>
+<li>最後結果jason檔及csv檔總量超過100 Mega bytes，壓縮為zip才能推送至github。</li>
+</ul>
 </div>
 <div id="build-the-sheet-of-identifier-codes" class="section level2">
 <h2>Build the sheet of identifier codes</h2>
 <p>執行以下程式碼，建立實驗完成碼清單。</p>
 <pre class="r"><code>## List the results files
-
+## Jatos file name format: &quot;jatos_results_&quot;
 results_files &lt;- list.files(pattern = &quot;^jatos_results_&quot;)
+
 
 ## Import the data file into data frame
 df &lt;- read_csv(results_files[1])
 
 ## Take the identifiers
 finished_id &lt;- unique(df$identifier)
-Id &lt;- as_tibble(finished_id)
-Id2 &lt;- mutate(Id,id = rep(1:nrow(Id)))
-knitr::kable(Id2)</code></pre>
-<table>
-<thead>
-<tr class="header">
-<th align="left">value</th>
-<th align="right">id</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">z9iqcmewx</td>
-<td align="right">1</td>
-</tr>
-<tr class="even">
-<td align="left">lmlgt607m</td>
-<td align="right">2</td>
-</tr>
-<tr class="odd">
-<td align="left">dfyqhvpf4</td>
-<td align="right">3</td>
-</tr>
-<tr class="even">
-<td align="left">up43k7rgp</td>
-<td align="right">4</td>
-</tr>
-<tr class="odd">
-<td align="left">tzngq0c7h</td>
-<td align="right">5</td>
-</tr>
-<tr class="even">
-<td align="left">bh6beurz6</td>
-<td align="right">6</td>
-</tr>
-<tr class="odd">
-<td align="left">j09f2m1i7</td>
-<td align="right">7</td>
-</tr>
-<tr class="even">
-<td align="left">rvo2s6621</td>
-<td align="right">8</td>
-</tr>
-<tr class="odd">
-<td align="left">phgqh7lxr</td>
-<td align="right">9</td>
-</tr>
-<tr class="even">
-<td align="left">9i77y55bj</td>
-<td align="right">10</td>
-</tr>
-<tr class="odd">
-<td align="left">6yrd9ivzt</td>
-<td align="right">11</td>
-</tr>
-<tr class="even">
-<td align="left">ed6qsxep4</td>
-<td align="right">12</td>
-</tr>
-<tr class="odd">
-<td align="left">czh4h0ybd</td>
-<td align="right">13</td>
-</tr>
-<tr class="even">
-<td align="left">1ejpgaadr</td>
-<td align="right">14</td>
-</tr>
-<tr class="odd">
-<td align="left">2oyjyrk0l</td>
-<td align="right">15</td>
-</tr>
-<tr class="even">
-<td align="left">bhsv8zw0t</td>
-<td align="right">16</td>
-</tr>
-</tbody>
-</table>
-<pre class="r"><code>## Save identifier codes to a file
+#Id &lt;- as_tibble(finished_id)
+#Id2 &lt;- mutate(Id,id = rep(1:nrow(Id)))
+#knitr::kable(Id2)
+
+## Filter the results for the meta summary
+df_finished &lt;- df %&gt;%
+  filter(identifier %in% finished_id)
+
+## Save identifier codes to a file
 write.csv(finished_id, file=&quot;PL_id.txt&quot;)</code></pre>
+<p>At the end, 181 participants got the identifiers. Legal identifiers are saved in “PL_id.txt”.</p>
+</div>
+<div id="summarize-study-meta" class="section level2">
+<h2>Summarize study meta</h2>
+<pre class="r"><code>## Load meta file
+meta_file &lt;- list.files(pattern = &quot;^jatos_meta_&quot;)
+
+
+## filter the available meta info by results file
+df_meta &lt;- read_csv(meta_file) %&gt;%
+  filter(`Result ID` %in% unique(df_finished$jatosStudyResultId)) ## 150 participants had a legal finish
+
+## Convert duration to minutes
+minutes_count &lt;- ((df_meta$Duration %&gt;% hms() %&gt;% hour()*60)+
+(df_meta$Duration %&gt;% hms() %&gt;% minute())) 
+
+## Summary of study duration by minutes 
+minutes_count %&gt;% summary()</code></pre>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##   24.00   33.00   39.00   59.01   49.00  941.00</code></pre>
+<pre class="r"><code>## draw a box plot
+minutes_count%&gt;%
+  log10() %&gt;% ## convert minutes to log10
+  boxplot(ylab=&quot;log10(minutes)&quot;)</code></pre>
+<p><img src="data:image/png;base64,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IgIKbQaFIgLKzCx2ydj/mFyTgDIvYyevrrH/NbkmAQUICShASEABQgIKEBJQgJCAAoQEFCAkoAAhAQUICShASEABQgIKEBJQgJCAAoQEFCAkoAAhAQUICShASEABQgIKEBJQgNCfLqAA9VRvVO1vWNPY/9jAbqneqNrfEODPQkABQgIKEBJQgJCAAoQEFCAkoAAhAQUICShASEABQgIKEBJQgJCAAoQEFCAkoAAhAQUICShASEABQgIKEBJQgJCAAoQEFCAkoAAhAQUICShASEABQgIKEBJQgJCAAoQEFCAkoAAhAQUICShASEABQgIKEBJQgJCAAoQEFCAkoAAhAQUICShASEABQgIKEBJQgJCAAoQEFCAkoAAhAQUICShASEABQgIKEBJQgJCAAoQEFCAkoAAhAQUICShASEABQgIKEBJQgJCAAoQEFCAkoAAhAQUICShASEABQgIKEBJQgJCAAoQEFCAkoAAhAQUICShASEABQgIKEBJQgJCAAoQEFCAkoAAhAQUICShASEABQgIKEBJQgJCAAoQEFCAkoAAhAQUICShASEABQgIKEBJQgJCAAoQEFCAkoAAhAQUICShASEABQgIKEBJQgJCAAoQEFCAkoAAhAQUICShASEABQgIKEBJQgJCAAoQEFCAkoAAhAQUICShASEABQgIKEBJQgJCAAoQEFCAkoAAhAQUICShASEABQgIKEBJQgJCAAoQEFCAkoAAhAQUICShASEABQgIKEBJQgJCAAoQEFCAkoAAhAQUICShASEABQgIKEBJQgJCAAoQEFCAkoAAhAQUICShASEABQgIKEBJQgJCAAoQEFCAkoAAhAQUICShASEABQgIKEBJQgJCAAoQEFCAkoAAhAQUICShASEABQgIKEBJQgJCAAoQEFCAkoAAhAQUICShASEABQgIKEBJQgJCAAoQEFCAkoAAhAQUICShASEABQgIKEBJQgJCAAoQEFCAkoAAhAQUICShASEABQgIKEBJQgJCAAoQEFCAkoAAhAQUICShASEABQgIKEPpfCplaIwMpic0AAAAASUVORK5CYII=" width="672" /></p>
+<pre class="r"><code>## merge valid meta and results
+df_all_variables &lt;- right_join(df_finished, df_meta, by=c(&quot;jatosStudyResultId&quot; = &quot;Result ID&quot;))
+
+
+df_all_variables %&gt;% write_csv(file = &quot;rawdata.csv&quot;)
+
+## Summary how many items the legal participants had responded
+df_all_variables %&gt;% group_by(jatosStudyResultId) %&gt;%
+  summarise(trial_N = n()) %&gt;%
+  summary()</code></pre>
+<pre><code>##  jatosStudyResultId    trial_N   
+##  Min.   :85756      Min.   :279  
+##  1st Qu.:94752      1st Qu.:279  
+##  Median :95744      Median :279  
+##  Mean   :94926      Mean   :279  
+##  3rd Qu.:95873      3rd Qu.:279  
+##  Max.   :96571      Max.   :279</code></pre>
 </div>
 
 
