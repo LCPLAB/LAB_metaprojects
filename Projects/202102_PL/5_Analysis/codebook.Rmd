@@ -30,7 +30,6 @@ ggplot2::theme_set(ggplot2::theme_bw())
 Now, we're preparing our data for the codebook.
 
 ```{r prepare_codebook, message=FALSE, warning=FALSE}
-
 library(codebook)
 codebook_data <- codebook::bfi
 # to import an SPSS file from the same folder uncomment and edit the line below
@@ -43,21 +42,34 @@ codebook_data <- codebook::bfi
 zip_path <- list.files(path = "..",pattern = "jatos_results.zip",include.dirs = TRUE,recursive = TRUE,full.names = TRUE)
 ## import rawdata from zip file
 df <- readr::read_csv(unz(zip_path, filename = "rawdata.csv"))
-## save rawdata to external csv file
-readr::write_csv(df, file="rawdata.csv")
-## import rawdata csv and create meta info
-codebook_data <- rio::import("rawdata.csv")
-## remove external csv file
-file.remove("rawdata.csv")
+
+## Split basic data
+df_Basic <- dplyr::filter(df, Q_type == "Basic")
+
+## Split Belief data
+df_Belief <- dplyr::filter(df, Q_type == "Belief")
+
+## Split self evaluation data
+df_self_eval <- dplyr::filter(df, Q_type == "self_eval")
+
+## Split post reading Question data
+df_Post <- dplyr::filter(df, Q_type == "Post_survey")
+
+## Split knowledge data
+df_knowledge <- dplyr::filter(df, Q_type == "Knowledge")
+
+## Split Exit
+df_Exit <- dplyr::filter(df, Q_type == "Exit")
+
 
 # omit the following lines, if your missing values are already properly labelled
-codebook_data <- detect_missing(codebook_data,
-    only_labelled = TRUE, # only labelled values are autodetected as
+#codebook_data <- detect_missing( df, #codebook_data,
+#    only_labelled = TRUE, # only labelled values are autodetected as
                                    # missing
-    negative_values_are_missing = FALSE, # negative values are missing values
-    ninety_nine_problems = TRUE,   # 99/999 are missing values, if they
+#    negative_values_are_missing = FALSE, # negative values are missing values
+#    ninety_nine_problems = TRUE,   # 99/999 are missing values, if they
                                    # are more than 5 MAD from the median
-    )
+#    )
 
 # If you are not using formr, the codebook package needs to guess which items
 # form a scale. The following line finds item aggregates with names like this:
@@ -65,12 +77,24 @@ codebook_data <- detect_missing(codebook_data,
 # identifying these aggregates allows the codebook function to
 # automatically compute reliabilities.
 # However, it will not reverse items automatically.
-codebook_data <- detect_scales(codebook_data)
+#codebook_data <- detect_scales(df)
+```
+
+Manage the variable labels and scales
+
+```{r variables, message=FALSE, warning=FALSE}
+library(labelled)
+#codebook_data$
 ```
 
 
 Create codebook
 
 ```{r codebook, message=FALSE, warning=FALSE}
-codebook(codebook_data)
+codebook(df_Basic,metadata_table = FALSE, metadata_json = FALSE)
+codebook(df_Belief,metadata_table = FALSE, metadata_json = FALSE)
+codebook(df_self_eval,metadata_table = FALSE, metadata_json = FALSE)
+codebook(df_Post,metadata_table = FALSE, metadata_json = FALSE)
+codebook(df_knowledge,metadata_table = FALSE, metadata_json = FALSE)
+codebook(df_Exit,metadata_table = FALSE, metadata_json = FALSE)
 ```
