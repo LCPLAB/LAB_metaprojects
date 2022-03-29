@@ -30,6 +30,7 @@ ggplot2::theme_set(ggplot2::theme_bw())
 Now, we're preparing our data for the codebook.
 
 ```{r prepare_codebook, message=FALSE, warning=FALSE}
+library(tidyverse)
 library(codebook)
 codebook_data <- codebook::bfi
 # to import an SPSS file from the same folder uncomment and edit the line below
@@ -41,26 +42,45 @@ codebook_data <- codebook::bfi
 ## locate the rawdata file
 zip_path <- list.files(path = "..",pattern = "jatos_results.zip",include.dirs = TRUE,recursive = TRUE,full.names = TRUE)
 ## import rawdata from zip file
-df <- readr::read_csv(unz(zip_path, filename = "rawdata.csv"))
+df <- read_csv(unz(zip_path, filename = "rawdata.csv"))
+
+## Extract the system variables
+df_sys <- df %>% select(starts_with(c("browser_","count_","date_","experiment_","jatosV","screen_","system_","Start ","Last ","Duration","Batch","Worker ","State","Message")))
+
+## Reserve the analytical variables in rawdata df
+df <- df %>% select(!names(df_sys))
 
 ## Split basic data
-df_Basic <- dplyr::filter(df, Q_type == "Basic")
+df_Basic <- filter(df, Q_type == "Basic")
+
+## Exclude the variables full of "None"
+df_Basic <- df_Basic[,which(colSums(df_Basic!="None") == dim(df_Basic)[1])]
 
 ## Split Belief data
-df_Belief <- dplyr::filter(df, Q_type == "Belief")
+df_Belief <- filter(df, Q_type == "Belief")
+## Exclude the variables full of "None"
+df_Belief <- df_Belief[,which(colSums(df_Belief!="None") == dim(df_Belief)[1])]
+
 
 ## Split self evaluation data
-df_self_eval <- dplyr::filter(df, Q_type == "self_eval")
+df_self_eval <- filter(df, Q_type == "self_eval")
+## Exclude the variables full of "None"
+df_self_eval <- df_self_eval[,which(colSums(df_self_eval!="None") == dim(df_self_eval)[1])]
 
 ## Split post reading Question data
 df_Post <- dplyr::filter(df, Q_type == "Post_survey")
+## Exclude the variables full of "None"
+df_Post <- df_Post[,which(colSums(df_Post!="None") == dim(df_Post)[1])]
 
 ## Split knowledge data
-df_knowledge <- dplyr::filter(df, Q_type == "Knowledge")
+df_knowledge <- filter(df, Q_type == "Knowledge")
+## Exclude the variables full of "None"
+df_knowledge <- df_knowledge[,which(colSums(df_knowledge!="None") == dim(df_knowledge)[1])]
 
 ## Split Exit
-df_Exit <- dplyr::filter(df, Q_type == "Exit")
-
+df_Exit <- filter(df, Q_type == "Exit")
+## Exclude the variables full of "None"
+df_Exit <- df_Exit[,which(colSums(df_Exit!="None") == dim(df_Exit)[1])]
 
 # omit the following lines, if your missing values are already properly labelled
 #codebook_data <- detect_missing( df, #codebook_data,
@@ -88,13 +108,50 @@ library(labelled)
 ```
 
 
-Create codebook
+## codebook: basic questions
 
-```{r codebook, message=FALSE, warning=FALSE}
+```{r codebook_basic, message=FALSE, warning=FALSE}
 codebook(df_Basic,metadata_table = FALSE, metadata_json = FALSE)
+```
+
+## codebook: beleif
+
+
+```{r codebook_belief, message=FALSE, warning=FALSE}
 codebook(df_Belief,metadata_table = FALSE, metadata_json = FALSE)
+```
+
+## codebook: self evaluation
+
+
+```{r codebook_eval, message=FALSE, warning=FALSE}
 codebook(df_self_eval,metadata_table = FALSE, metadata_json = FALSE)
+```
+
+## codebook: post survey
+
+
+```{r codebook_post, message=FALSE, warning=FALSE}
 codebook(df_Post,metadata_table = FALSE, metadata_json = FALSE)
+```
+
+## codebook: knowledge
+
+
+```{r codebook_knolwedge, message=FALSE, warning=FALSE}
 codebook(df_knowledge,metadata_table = FALSE, metadata_json = FALSE)
+```
+
+## codebook: Exit
+
+
+```{r codebook_Exit, message=FALSE, warning=FALSE}
 codebook(df_Exit,metadata_table = FALSE, metadata_json = FALSE)
+```
+
+## codebook: System info
+
+
+```{r codebook_Sys, message=FALSE, warning=FALSE}
+codebook(df_sys,metadata_table = FALSE, metadata_json = FALSE)
 ```
