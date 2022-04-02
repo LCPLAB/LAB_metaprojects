@@ -151,15 +151,19 @@ require(sjstats)
 require(MuMIn)
 library(multcomp)
 
+
 Correct_rate <- df_knowledge %>% 
+  filter(Q_presented == 1) %>%   ## 過濾未出現的題目
   mutate(summary = ifelse(NH == "N" & OSA == "Y", "OSA",ifelse(NH == "N" & OSA == "N", "PLS","NH_PLS"))) %>%                                                             #將摘要分類為PLS、OSA、NH_PLS
   mutate(response = ifelse(response == "是","y","n")) %>%       #轉換參與者回答"是"換成"y"
   mutate(score = ifelse(response == correct_response,1,0)) %>%  #檢測如果回答等於正確答案得1分
   group_by(summary) %>%                                         #以摘要分組
-  summarise(Correct_rate = sum(score)/n())                      #計算正確率
+  summarise(Correct_rate = mean(score)#sum(score)/n()
+              )                      #計算正確率
 
 ## 資料整理
 knowledge <- df_knowledge %>% 
+  filter(Q_presented == 1) %>%   ## 過濾未出現的題目
   mutate(summary = ifelse(NH == "N" & OSA == "Y", "OSA",ifelse(NH == "N" & OSA == "N", "PLS","NH_PLS"))) %>%                                                             #將摘要分類為PLS、OSA、NH_PLS
   mutate(response = ifelse(response == "是","y","n")) %>%       #轉換參與者回答"是"換成"y"
   mutate(score = ifelse(response == correct_response,1,0))      #檢測如果回答等於正確答案得1分
