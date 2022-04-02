@@ -1,0 +1,219 @@
+---
+title: "Analysis ~ Replication study of Kerwer et al.(2020)"
+author: "LCP lab"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    toc: true
+    toc_depth: 4
+    toc_float: true
+    code_folding: 'hide'
+    self_contained: true
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+	echo = TRUE,
+	message = FALSE,
+	warning = FALSE
+)
+library(tidyverse)
+
+library(lubridate)
+library(effectsize)
+```
+
+
+## 匯入及預覽資料欄位資訊
+
+```{r rawdata, echo=TRUE}
+## locate the rawdata file
+zip_path <- list.files(path = "..",pattern = "jatos_results.zip",include.dirs = TRUE,recursive = TRUE,full.names = TRUE)
+## import raw data
+df <- read_csv(unz(zip_path, filename = "rawdata.csv"))
+```
+
+
+整合有效參與者的原始回應資料檔"rawdata.csv"，存放路徑是`r zip_path`。資料欄位共有`r dim(df)[2]`項，來自`r length(unique(df$jatosStudyResultId))`位參與者，`r dim(df)[1]`筆回應資料。
+
+資料編碼薄以[codebook套件](codebook.Rmd)製作，製作完成存放路徑與本文件相同。
+
+## 參與者基本資訊統計
+
+
+- 作答時間分佈
+
+
+```{r duration}
+## Convert duration to minutes
+minutes_count <- ((df$Duration %>% hms() %>% hour()*60)+
+(df$Duration %>% hms() %>% minute())) 
+
+## Summary of study duration by minutes 
+minutes_count %>% summary()
+
+## draw a box plot
+minutes_count%>%
+  log10() %>% ## convert minutes to log10
+  boxplot(ylab="log10(minutes)")
+```
+
+
+## 問卷反應項目描述統計
+
+```{r data-split}
+## Extract the system variables
+df_sys <- df %>% select(starts_with(c("identifier","browser_","count_","date_","experiment_","jatosV","screen_","system_","Start ","Last ","Duration","Batch","Worker ","State","Message")))
+
+## Reserve the analytical variables in rawdata df
+df <- df %>% select(!names(df_sys)[-1])
+
+## Split basic data
+df_Basic <- filter(df, Q_type == "Basic")
+
+## Exclude the variables full of "None"
+df_Basic <- df_Basic[,c(which(colSums(df_Basic!="None") == dim(df_Basic)[1]),which(is.na(colSums(df_Basic!="None") == dim(df_Basic)[1])) # Get "response"
+)]
+
+## Split Belief data
+df_Belief <- filter(df, Q_type == "Belief")
+## Exclude the variables full of "None"
+df_Belief <- df_Belief[,which(colSums(df_Belief!="None") == dim(df_Belief)[1])]
+
+
+## Split self evaluation data
+df_self_eval <- filter(df, Q_type == "self_eval")
+## Exclude the variables full of "None"
+df_self_eval <- df_self_eval[,which(colSums(df_self_eval!="None") == dim(df_self_eval)[1])]
+
+## Split post reading Question data
+df_Post <- dplyr::filter(df, Q_type == "Post_survey")
+## Exclude the variables full of "None"
+df_Post <- df_Post[,which(colSums(df_Post!="None") == dim(df_Post)[1])]
+
+## Split knowledge data
+df_knowledge <- filter(df, Q_type == "Knowledge")
+## Exclude the variables full of "None"
+df_knowledge <- df_knowledge[,which(colSums(df_knowledge!="None") == dim(df_knowledge)[1])]
+
+## Split Exit
+df_Exit <- filter(df, Q_type == "Exit")
+## Exclude the variables full of "None"
+df_Exit <- df_Exit[,c(which(colSums(df_Exit!="None") == dim(df_Exit)[1]),which(is.na(colSums(df_Exit!="None") == dim(df_Exit)[1]))) ]
+```
+
+
+> 依問題型態摘要
+
+參與者性別比例
+
+```{r basic-gender}
+df_Basic %>% filter(Topic=="gender") %>%
+  ggplot(aes(x = response, fill = response)) +
+  geom_bar(show.legend = FALSE) +
+  scale_x_discrete(name = "參與者性別") +
+  scale_y_continuous(name = "參與者人數") +
+  theme_minimal() +
+  scale_fill_viridis_d(option = "E")
+```
+
+- 參與者出生年(未處理)
+
+```{r basic-birth}
+df_Basic %>% filter(Topic=="birth") %>%
+  ggplot(aes(x = response, fill = response)) +
+  geom_bar(show.legend = FALSE) +
+  scale_x_discrete(name = "參與者出生年") +
+  scale_y_continuous(name = "參與者人數") +
+  theme_minimal() +
+  scale_fill_viridis_d(option = "E")
+```
+
+- 知識信念(belief)
+(采妤)
+
+
+- 科學活動經驗(self eval)
+(明翰)
+
+
+- 讀後調查(Post Survey)
+(祥偉)
+
+- 閱讀理解(Knowledge)
+(子渝)
+```{r Knowledge}
+
+require(lme4)
+require(lmerTest)
+require(sjstats)
+require(MuMIn)
+library(multcomp)
+
+Correct_rate <- df_knowledge %>% 
+  mutate(summary = ifelse(NH == "N" & OSA == "Y", "OSA",ifelse(NH == "N" & OSA == "N", "PLS","NH_PLS"))) %>%                                                             #將摘要分類為PLS、OSA、NH_PLS
+  mutate(response = ifelse(response == "是","y","n")) %>%       #轉換參與者回答"是"換成"y"
+  mutate(score = ifelse(response == correct_response,1,0)) %>%  #檢測如果回答等於正確答案得1分
+  group_by(summary) %>%                                         #以摘要分組
+  summarise(Correct_rate = sum(score)/n())                      #計算正確率
+
+## 資料整理
+knowledge <- df_knowledge %>% 
+  mutate(summary = ifelse(NH == "N" & OSA == "Y", "OSA",ifelse(NH == "N" & OSA == "N", "PLS","NH_PLS"))) %>%                                                             #將摘要分類為PLS、OSA、NH_PLS
+  mutate(response = ifelse(response == "是","y","n")) %>%       #轉換參與者回答"是"換成"y"
+  mutate(score = ifelse(response == correct_response,1,0))      #檢測如果回答等於正確答案得1分
+
+## 總正確數
+table(knowledge$score)
+
+## 總正確率
+table(knowledge$score)/sum(table(knowledge$score))
+
+## 各類摘要錯誤率
+table(knowledge$score, knowledge$summary)[1,]/colSums(table(knowledge$score, knowledge$summary))
+
+## 各類摘要正確率
+table(knowledge$score, knowledge$summary)[2,]/colSums(table(knowledge$score, knowledge$summary))
+
+
+
+## 不確定下方是否正確，將原分析程序中的PLS -> summary，test -> score，id -> Test_id，study -> Set_id，item -> CB
+
+knowledge$summary <- factor(knowledge$summary, levels = c("PLS", "NH_PLS", "OSA"))
+
+m0 <- glmer(score ~ (1 | Test_id), family = binomial("logit"), data = knowledge)
+
+summary(m0)
+
+m <- glmer(score ~ (1 | Set_id) + (1 | Test_id), family = binomial("logit"), data = knowledge)
+
+summary(m)
+
+m1 <- glmer(score ~ (1 | Set_id) + summary + (1 | Test_id), family = binomial("logit"), data = knowledge)
+  
+
+summary(m1)
+
+m2 <- glmer(score ~ (1 | Set_id/CB) + summary + (1 | Test_id), family = binomial("logit"), data = knowledge)
+  
+
+summary(m2)
+
+anova(m0, m , m1, m2)
+
+m1 <- glmer(score~ (1 | Set_id/CB) + summary + (1 | Test_id), family = binomial("logit"), data = knowledge)
+score = glht(m1,linfct=mcp(summary="Tukey"))
+summary(score, score = adjusted("none"))
+
+
+```
+- 出口回饋(Exit)
+
+
+## 作答時間與理解正確率散佈趨勢
+
+
+
+## 預先註冊分析項目
+
