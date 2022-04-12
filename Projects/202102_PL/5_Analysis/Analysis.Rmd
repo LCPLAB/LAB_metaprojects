@@ -39,35 +39,14 @@ df <- read_csv(unz(zip_path, filename = "rawdata.csv"))
 
 資料編碼薄以[codebook套件](codebook.Rmd)製作，製作完成存放路徑與本文件相同。
 
-## 參與者基本資訊統計
-
-
-- 作答時間分佈
-
-
-```{r duration}
-## Convert duration to minutes
-minutes_count <- ((df$Duration %>% hms() %>% hour()*60)+
-(df$Duration %>% hms() %>% minute())) 
-
-## Summary of study duration by minutes 
-minutes_count %>% summary()
-
-## draw a box plot
-minutes_count%>%
-  log10() %>% ## convert minutes to log10
-  boxplot(ylab="log10(minutes)")
-```
-
-
-## 問卷反應項目描述統計
+- 依分析目的分割資料集合
 
 ```{r data-split}
 ## Extract the system variables
-df_sys <- df %>% select(starts_with(c("identifier","browser_","count_","date_","experiment_","jatosV","screen_","system_","Start ","Last ","Duration","Batch","Worker ","State","Message")))
+df_sys <- df %>% select(starts_with(c("identifier","jatos","browser_","count_","date_","experiment_","screen_","system_","Start ","Last ","Duration","Batch","Worker ","State","Message")))
 
 ## Reserve the analytical variables in rawdata df
-df <- df %>% select(!names(df_sys)[-1])
+df <- df %>% select(!names(df_sys)[-c(1,2)])
 
 ## Split basic data
 df_Basic <- filter(df, Q_type == "Basic")
@@ -104,12 +83,64 @@ df_Exit <- df_Exit[,c(which(colSums(df_Exit!="None") == dim(df_Exit)[1]),which(i
 ```
 
 
-> 依問題型態摘要
 
-參與者性別比例
+## 參與者基本資訊統計
+
+
+- 作答時間分佈
+
+
+```{r duration}
+## Convert duration to minutes
+minutes_count <- ((df_sys$Duration %>% hms() %>% hour()*60)+
+(df_sys$Duration %>% hms() %>% minute())) 
+
+## Summary of study duration by minutes 
+minutes_count %>% summary()
+
+## draw a box plot
+minutes_count%>%
+  log10() %>% ## convert minutes to log10
+  boxplot(ylab="log10(minutes)")
+```
+
+
+
+### 作答時間與理解正確率散佈趨勢
+
+```{r duration-post-analysis, echo=TRUE, message=FALSE, warning=FALSE}
+## Convert duration to minutes
+df_post_trend <- df_sys %>% distinct() %>%
+  select(jatosStudyResultId, Duration) %>%
+  mutate(minutes_count = 
+                    (Duration %>% hms() %>% hour())*60 +
+                    Duration %>% hms() %>% minute() ) %>%
+  left_join( (df_knowledge %>% 
+  filter(Q_presented == 1) %>%   ## 過濾未出現的題目
+  mutate(response = ifelse(response == "是","y","n")) %>%       #轉換參與者回答"是"換成"y"
+  mutate(score = ifelse(response == correct_response,1,0)) %>%  #檢測如果回答等於正確答案得1分
+  group_by(jatosStudyResultId) %>%                               #以個人分組
+  summarise(Correct_rate = mean(score))),    #計算正確率
+by="jatosStudyResultId")
+
+ggplot(df_post_trend,aes(x=Correct_rate, y=minutes_count))+
+   geom_point()
+```
+
+```{r strange-participants}
+strange_id <- df_post_trend %>%
+  filter(!(Correct_rate >0.5) | minutes_count > 200 ) %>%
+  pull(jatosStudyResultId)
+```
+
+
+共有`r length(strange_id)`參與者理解題正確率未超過50%或作答時間超過200分鐘。排除後，採用`r length(unique(df_sys$jatosStudyResultId)) - length(strange_id)`
+參與者資料進行以下資料處理及統計分析。
+
+**參與者性別人數**
 
 ```{r basic-gender}
-df_Basic %>% filter(Topic=="gender") %>%
+df_Basic %>% filter(Topic=="gender" & !(jatosStudyResultId %in% strange_id)) %>%
   ggplot(aes(x = response, fill = response)) +
   geom_bar(show.legend = FALSE) +
   scale_x_discrete(name = "參與者性別") +
@@ -118,17 +149,32 @@ df_Basic %>% filter(Topic=="gender") %>%
   scale_fill_viridis_d(option = "E")
 ```
 
-- 參與者出生年(未處理)
+**參與者年齡分佈**
 
 ```{r basic-birth}
-df_Basic %>% filter(Topic=="birth") %>%
-  ggplot(aes(x = response, fill = response)) +
+## Confirm the median and MAD
+response_b <- df_Basic %>% filter(Topic=="birth" & !(jatosStudyResultId %in% strange_id)) %>%
+  summarise(M = median(as.numeric(response),na.rm = TRUE), 
+            dev= mad(as.numeric(response),na.rm = TRUE),
+            min(as.numeric(response),na.rm = TRUE),
+            max(as.numeric(response),na.rm = TRUE))
+## median = 2, MAD = 1.48; median +/- 66 MAD are acceptable responses.
+
+df_Basic %>% filter(Topic=="birth" & !(jatosStudyResultId %in% strange_id)) %>%
+  mutate(last_two = ifelse(as.numeric(response)< response_b$M + 66*response_b$dev,as.numeric(response),NA), ## Turn strange response to missing value NA
+         age = ifelse(!is.na(last_two),ifelse(last_two>50,2022-(1900+last_two),2022-(2000+last_two) ),NA )) %>% ## Estimate participant's age
+#df_Basic %>% filter(Topic=="birth") %>%
+  ggplot(aes(x = as.character(age), fill = as.character(age))) +
   geom_bar(show.legend = FALSE) +
-  scale_x_discrete(name = "參與者出生年") +
+  scale_x_discrete(name = "參與者年齡") +
   scale_y_continuous(name = "參與者人數") +
   theme_minimal() +
   scale_fill_viridis_d(option = "E")
 ```
+
+## 問卷反應項目描述統計
+
+> 依問題型態摘要
 
 - 知識信念(belief)
 (采妤)
@@ -144,11 +190,37 @@ df_Basic %>% filter(Topic=="birth") %>%
 - 閱讀理解(Knowledge)
 (子渝)
 
+```{r Knowledge}
+Correct_rate <- df_knowledge %>% 
+  filter(Q_presented == 1 & !(jatosStudyResultId %in% strange_id)) %>%   ## 過濾未出現的題目
+  mutate(summary = ifelse(NH == "N" & OSA == "Y", "OSA",ifelse(NH == "N" & OSA == "N", "PLS","NH_PLS"))) %>%                                                             #將摘要分類為PLS、OSA、NH_PLS
+  mutate(response = ifelse(response == "是","y","n")) %>%       #轉換參與者回答"是"換成"y"
+  mutate(score = ifelse(response == correct_response,1,0)) %>%  #檢測如果回答等於正確答案得1分
+  group_by(summary) %>%                                         #以摘要分組
+  summarise(Correct_rate = mean(score)#sum(score)/n()
+              )                      #計算正確率
+
+## 資料整理
+knowledge <- df_knowledge %>% 
+  filter(Q_presented == 1 & !(jatosStudyResultId %in% strange_id)) %>%   ## 過濾未出現的題目
+  mutate(summary = ifelse(NH == "N" & OSA == "Y", "OSA",ifelse(NH == "N" & OSA == "N", "PLS","NH_PLS"))) %>%                                                             #將摘要分類為PLS、OSA、NH_PLS
+  mutate(response = ifelse(response == "是","y","n")) %>%       #轉換參與者回答"是"換成"y"
+  mutate(score = ifelse(response == correct_response,1,0))      #檢測如果回答等於正確答案得1分
+
+## 總正確數
+table(knowledge$score)
+
+## 總正確率
+table(knowledge$score)/sum(table(knowledge$score))
+
+## 各類摘要錯誤率
+table(knowledge$score, knowledge$summary)[1,]/colSums(table(knowledge$score, knowledge$summary))
+
+## 各類摘要正確率
+table(knowledge$score, knowledge$summary)[2,]/colSums(table(knowledge$score, knowledge$summary))
+```
+
 - 出口回饋(Exit)
-
-
-## 作答時間與理解正確率散佈趨勢
-
 
 
 ## 預先註冊分析項目
