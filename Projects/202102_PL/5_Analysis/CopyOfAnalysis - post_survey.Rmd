@@ -178,6 +178,7 @@ new_post$response <- gsub("1: 我認為完全不可以", 1, new_post$response)
 
 table3_cells <- new_post %>%
                         
+  
                             
 filter(summary == "PLS")   %>%
 group_by(Topic) %>%
