@@ -179,6 +179,37 @@ df_Basic %>% filter(Topic=="birth" & !(jatosStudyResultId %in% strange_id)) %>%
 - 知識信念(belief)
 (采妤)
 
+```{r belief}
+df_Belief$response <- sapply(
+ strsplit(
+ gsub(df_Belief$response,pattern = " ",replacement = ""),
+ split = "："
+ ),
+ "[[",
+ 1
+ )
+
+df_Belief %>% #filter(response %>%
+#  summarise("6：完全正確" = mean(rating == 6),
+#"5：大部份正確" = mean(rating == 5),
+#"4：有點正確" = mean(rating == 4),
+#"3：不太可能是正確的" = mean(rating == 3),
+#"2：大部份不正確" = mean(rating == 2),
+#"1：完全不正確" = mean(rating == 1))) %>%
+        group_by(Q_type,Topic, jatosStudyResultId) %>%
+         summarise(score = mean(as.numeric(response),na.rm = TRUE)
+            ) %>%
+        group_by(Q_type,Topic) %>%
+         summarise(M = mean(score),
+                   SD = sd(score))
+
+#  ggplot(df_Belief, aes(Question, response, fill=Q)) +
+#  stat_summary(fun = mean, geom = "col", alpha = 0.5) +
+#  stat_summary(fun.data = mean_se, geom = "errorbar",
+#               width = 0.25) +
+#  coord_cartesian(ylim = c(1, 5))
+```
+
 
 - 科學活動經驗(self eval)
 (明翰)

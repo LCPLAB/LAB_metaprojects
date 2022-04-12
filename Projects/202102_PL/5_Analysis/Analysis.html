@@ -392,7 +392,43 @@ df_Basic %&gt;% filter(Topic==&quot;birth&quot; &amp; !(jatosStudyResultId %in% 
 <p>依問題型態摘要</p>
 </blockquote>
 <ul>
-<li><p>知識信念(belief) (采妤)</p></li>
+<li>知識信念(belief) (采妤)</li>
+</ul>
+<pre class="r"><code>df_Belief$response &lt;- sapply(
+ strsplit(
+ gsub(df_Belief$response,pattern = &quot; &quot;,replacement = &quot;&quot;),
+ split = &quot;：&quot;
+ ),
+ &quot;[[&quot;,
+ 1
+ )
+
+df_Belief %&gt;% #filter(response %&gt;%
+#  summarise(&quot;6：完全正確&quot; = mean(rating == 6),
+#&quot;5：大部份正確&quot; = mean(rating == 5),
+#&quot;4：有點正確&quot; = mean(rating == 4),
+#&quot;3：不太可能是正確的&quot; = mean(rating == 3),
+#&quot;2：大部份不正確&quot; = mean(rating == 2),
+#&quot;1：完全不正確&quot; = mean(rating == 1))) %&gt;%
+        group_by(Q_type,Topic, jatosStudyResultId) %&gt;%
+         summarise(score = mean(as.numeric(response),na.rm = TRUE)
+            ) %&gt;%
+        group_by(Q_type,Topic) %&gt;%
+         summarise(M = mean(score),
+                   SD = sd(score))</code></pre>
+<pre><code>## # A tibble: 3 x 4
+## # Groups:   Q_type [1]
+##   Q_type Topic     M    SD
+##   &lt;chr&gt;  &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1 Belief JA     3.62 0.847
+## 2 Belief MS     5.13 0.662
+## 3 Belief PJ     3.25 0.800</code></pre>
+<pre class="r"><code>#  ggplot(df_Belief, aes(Question, response, fill=Q)) +
+#  stat_summary(fun = mean, geom = &quot;col&quot;, alpha = 0.5) +
+#  stat_summary(fun.data = mean_se, geom = &quot;errorbar&quot;,
+#               width = 0.25) +
+#  coord_cartesian(ylim = c(1, 5))</code></pre>
+<ul>
 <li><p>科學活動經驗(self eval) (明翰)</p></li>
 <li><p>讀後調查(Post Survey) (祥偉)</p></li>
 </ul>
