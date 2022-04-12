@@ -3,9 +3,6 @@ title: "Analysis ~ Replication study of Kerwer et al.(2020)"
 author: "LCP lab"
 date: "`r Sys.Date()`"
 output:
-  pdf_document:
-    toc: yes
-    toc_depth: '4'
   html_document:
     toc: yes
     toc_depth: 4
@@ -189,6 +186,39 @@ df_Basic %>% filter(Topic=="birth" & !(jatosStudyResultId %in% strange_id)) %>%
 
 - 讀後調查(Post Survey)
 (祥偉)
+
+```{r post-study, echo=TRUE, results='show', message=TRUE, warning=TRUE, include=T}
+new_post <- filter(.data = df_Post,Topic %in% c("Comprehensibility","Scientificness","Credibility","Veracity","Decision") & !(jatosStudyResultId %in% strange_id)) %>% 
+##抓出要分析的TOPIC
+
+  
+mutate(summary = ifelse(NH == "N" & OSA == "Y", "OSA",ifelse(NH == "N" & OSA == "N", "PLS","NH_PLS"))) 
+#將摘要分類為PLS、OSA、NH_PLS
+
+
+new_post$response <- gsub("8: 完全讀得懂", 8, new_post$response)
+
+
+new_post$response <- gsub("8: 非常有科學性", 8, new_post$response)
+new_post$response <- gsub("8: 非常可信", 8, new_post$response)
+new_post$response <- gsub("8: 我認為一定可以", 8, new_post$response)
+new_post$response <- gsub("1: 完全不可信", 1, new_post$response)
+new_post$response <- gsub("1: 完全沒有科學性", 1, new_post$response)
+new_post$response <- gsub("1: 完全讀不懂", 1, new_post$response)
+new_post$response <- gsub("1: 我認為完全不可以", 1, new_post$response) 
+
+##將包含中文的response替換數字
+
+table3_cells <- new_post %>%
+#        filter(summary == "PLS")   %>%
+        group_by(Topic,summary) %>%
+         summarise(score = mean(as.numeric(response),na.rm = TRUE)
+            ) 
+
+```     
+
+`r knitr::kable(table3_cells)`
+
 
 - 閱讀理解(Knowledge)
 (子渝)

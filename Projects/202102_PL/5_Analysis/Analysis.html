@@ -395,7 +395,128 @@ df_Basic %&gt;% filter(Topic==&quot;birth&quot; &amp; !(jatosStudyResultId %in% 
 <li><p>知識信念(belief) (采妤)</p></li>
 <li><p>科學活動經驗(self eval) (明翰)</p></li>
 <li><p>讀後調查(Post Survey) (祥偉)</p></li>
-<li><p>閱讀理解(Knowledge) (子渝)</p></li>
+</ul>
+<pre class="r"><code>new_post &lt;- filter(.data = df_Post,Topic %in% c(&quot;Comprehensibility&quot;,&quot;Scientificness&quot;,&quot;Credibility&quot;,&quot;Veracity&quot;,&quot;Decision&quot;) &amp; !(jatosStudyResultId %in% strange_id)) %&gt;% 
+##抓出要分析的TOPIC
+
+  
+mutate(summary = ifelse(NH == &quot;N&quot; &amp; OSA == &quot;Y&quot;, &quot;OSA&quot;,ifelse(NH == &quot;N&quot; &amp; OSA == &quot;N&quot;, &quot;PLS&quot;,&quot;NH_PLS&quot;))) 
+#將摘要分類為PLS、OSA、NH_PLS
+
+
+new_post$response &lt;- gsub(&quot;8: 完全讀得懂&quot;, 8, new_post$response)
+
+
+new_post$response &lt;- gsub(&quot;8: 非常有科學性&quot;, 8, new_post$response)
+new_post$response &lt;- gsub(&quot;8: 非常可信&quot;, 8, new_post$response)
+new_post$response &lt;- gsub(&quot;8: 我認為一定可以&quot;, 8, new_post$response)
+new_post$response &lt;- gsub(&quot;1: 完全不可信&quot;, 1, new_post$response)
+new_post$response &lt;- gsub(&quot;1: 完全沒有科學性&quot;, 1, new_post$response)
+new_post$response &lt;- gsub(&quot;1: 完全讀不懂&quot;, 1, new_post$response)
+new_post$response &lt;- gsub(&quot;1: 我認為完全不可以&quot;, 1, new_post$response) 
+
+##將包含中文的response替換數字
+
+table3_cells &lt;- new_post %&gt;%
+#        filter(summary == &quot;PLS&quot;)   %&gt;%
+        group_by(Topic,summary) %&gt;%
+         summarise(score = mean(as.numeric(response),na.rm = TRUE)
+            ) </code></pre>
+<pre><code>## Warning in mean(as.numeric(response), na.rm = TRUE): NAs introduced by coercion
+
+## Warning in mean(as.numeric(response), na.rm = TRUE): NAs introduced by coercion
+
+## Warning in mean(as.numeric(response), na.rm = TRUE): NAs introduced by coercion</code></pre>
+<pre><code>## `summarise()` has grouped output by &#39;Topic&#39;. You can override using the
+## `.groups` argument.</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Topic</th>
+<th align="left">summary</th>
+<th align="right">score</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Comprehensibility</td>
+<td align="left">NH_PLS</td>
+<td align="right">6.096014</td>
+</tr>
+<tr class="even">
+<td align="left">Comprehensibility</td>
+<td align="left">OSA</td>
+<td align="right">5.393116</td>
+</tr>
+<tr class="odd">
+<td align="left">Comprehensibility</td>
+<td align="left">PLS</td>
+<td align="right">6.576087</td>
+</tr>
+<tr class="even">
+<td align="left">Credibility</td>
+<td align="left">NH_PLS</td>
+<td align="right">5.440217</td>
+</tr>
+<tr class="odd">
+<td align="left">Credibility</td>
+<td align="left">OSA</td>
+<td align="right">5.181159</td>
+</tr>
+<tr class="even">
+<td align="left">Credibility</td>
+<td align="left">PLS</td>
+<td align="right">5.498188</td>
+</tr>
+<tr class="odd">
+<td align="left">Decision</td>
+<td align="left">NH_PLS</td>
+<td align="right">4.433526</td>
+</tr>
+<tr class="even">
+<td align="left">Decision</td>
+<td align="left">OSA</td>
+<td align="right">4.051020</td>
+</tr>
+<tr class="odd">
+<td align="left">Decision</td>
+<td align="left">PLS</td>
+<td align="right">4.575758</td>
+</tr>
+<tr class="even">
+<td align="left">Scientificness</td>
+<td align="left">NH_PLS</td>
+<td align="right">5.344203</td>
+</tr>
+<tr class="odd">
+<td align="left">Scientificness</td>
+<td align="left">OSA</td>
+<td align="right">5.244565</td>
+</tr>
+<tr class="even">
+<td align="left">Scientificness</td>
+<td align="left">PLS</td>
+<td align="right">5.545290</td>
+</tr>
+<tr class="odd">
+<td align="left">Veracity</td>
+<td align="left">NH_PLS</td>
+<td align="right">5.000000</td>
+</tr>
+<tr class="even">
+<td align="left">Veracity</td>
+<td align="left">OSA</td>
+<td align="right">4.641304</td>
+</tr>
+<tr class="odd">
+<td align="left">Veracity</td>
+<td align="left">PLS</td>
+<td align="right">5.143116</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>閱讀理解(Knowledge) (子渝)</li>
 </ul>
 <pre class="r"><code>Correct_rate &lt;- df_knowledge %&gt;% 
   filter(Q_presented == 1 &amp; !(jatosStudyResultId %in% strange_id)) %&gt;%   ## 過濾未出現的題目
