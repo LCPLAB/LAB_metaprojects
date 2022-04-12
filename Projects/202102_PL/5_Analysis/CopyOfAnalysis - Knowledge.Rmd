@@ -3,15 +3,12 @@ title: "Analysis ~ Replication study of Kerwer et al.(2020)"
 author: "LCP lab"
 date: "`r Sys.Date()`"
 output:
-  pdf_document:
-    toc: yes
-    toc_depth: '4'
   html_document:
-    toc: yes
+    toc: true
     toc_depth: 4
-    toc_float: yes
-    code_folding: hide
-    self_contained: yes
+    toc_float: true
+    code_folding: 'hide'
+    self_contained: true
 ---
 
 
@@ -146,7 +143,75 @@ df_Basic %>% filter(Topic=="birth") %>%
 
 - 閱讀理解(Knowledge)
 (子渝)
+```{r Knowledge}
 
+require(lme4)
+require(lmerTest)
+require(sjstats)
+require(MuMIn)
+library(multcomp)
+
+
+Correct_rate <- df_knowledge %>% 
+  filter(Q_presented == 1) %>%   ## 過濾未出現的題目
+  mutate(summary = ifelse(NH == "N" & OSA == "Y", "OSA",ifelse(NH == "N" & OSA == "N", "PLS","NH_PLS"))) %>%                                                             #將摘要分類為PLS、OSA、NH_PLS
+  mutate(response = ifelse(response == "是","y","n")) %>%       #轉換參與者回答"是"換成"y"
+  mutate(score = ifelse(response == correct_response,1,0)) %>%  #檢測如果回答等於正確答案得1分
+  group_by(summary) %>%                                         #以摘要分組
+  summarise(Correct_rate = mean(score)#sum(score)/n()
+              )                      #計算正確率
+
+## 資料整理
+knowledge <- df_knowledge %>% 
+  filter(Q_presented == 1) %>%   ## 過濾未出現的題目
+  mutate(summary = ifelse(NH == "N" & OSA == "Y", "OSA",ifelse(NH == "N" & OSA == "N", "PLS","NH_PLS"))) %>%                                                             #將摘要分類為PLS、OSA、NH_PLS
+  mutate(response = ifelse(response == "是","y","n")) %>%       #轉換參與者回答"是"換成"y"
+  mutate(score = ifelse(response == correct_response,1,0))      #檢測如果回答等於正確答案得1分
+
+## 總正確數
+table(knowledge$score)
+
+## 總正確率
+table(knowledge$score)/sum(table(knowledge$score))
+
+## 各類摘要錯誤率
+table(knowledge$score, knowledge$summary)[1,]/colSums(table(knowledge$score, knowledge$summary))
+
+## 各類摘要正確率
+table(knowledge$score, knowledge$summary)[2,]/colSums(table(knowledge$score, knowledge$summary))
+
+
+
+## 不確定下方是否正確，將原分析程序中的PLS -> summary，test -> score，id -> Test_id，study -> Set_id，item -> CB
+
+knowledge$summary <- factor(knowledge$summary, levels = c("PLS", "NH_PLS", "OSA"))
+
+m0 <- glmer(score ~ (1 | Test_id), family = binomial("logit"), data = knowledge)
+
+summary(m0)
+
+m <- glmer(score ~ (1 | Set_id) + (1 | Test_id), family = binomial("logit"), data = knowledge)
+
+summary(m)
+
+m1 <- glmer(score ~ (1 | Set_id) + summary + (1 | Test_id), family = binomial("logit"), data = knowledge)
+  
+
+summary(m1)
+
+m2 <- glmer(score ~ (1 | Set_id/CB) + summary + (1 | Test_id), family = binomial("logit"), data = knowledge)
+  
+
+summary(m2)
+
+anova(m0, m , m1, m2)
+
+m1 <- glmer(score~ (1 | Set_id/CB) + summary + (1 | Test_id), family = binomial("logit"), data = knowledge)
+score = glht(m1,linfct=mcp(summary="Tukey"))
+summary(score, score = adjusted("none"))
+
+
+```
 - 出口回饋(Exit)
 
 
