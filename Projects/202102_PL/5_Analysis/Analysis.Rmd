@@ -1,0 +1,60 @@
+---
+title: "Analysis ~ Replication study of Kerwer et al.(2020)"
+author: "LCP lab"
+date: "`r Sys.Date()`"
+output:
+  pdf_document:
+    toc: yes
+    toc_depth: '4'
+  html_document:
+    toc: yes
+    toc_depth: 4
+    toc_float: yes
+    code_folding: hide
+    self_contained: yes
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+	echo = TRUE,
+	message = FALSE,
+	warning = FALSE
+)
+library(tidyverse)
+library(effectsize)
+```
+
+
+## 匯入及預覽資料欄位資訊
+
+```{r rawdata, echo=TRUE}
+## locate the rawdata file
+zip_path <- list.files(path = "..",pattern = "jatos_results.zip",include.dirs = TRUE,recursive = TRUE,full.names = TRUE)
+## import raw data
+df <- read_csv(unz(zip_path, filename = "rawdata.csv"))
+```
+
+
+整合有效參與者的原始回應資料檔"rawdata.csv"，存放路徑是`r zip_path`。資料欄位共有`r dim(df)[2]`項，來自`r length(unique(df$jatosStudyResultId))`位參與者，`r dim(df)[1]`筆回應資料。
+
+資料編碼薄以[codebook套件](codebook.Rmd)製作，製作完成存放路徑與本文件相同。
+
+## 參與者基本資訊統計
+
+
+
+- 作答時間分佈
+
+## 問卷反應項目描述統計
+
+> 依問題型態摘要
+
+
+
+## 作答時間與理解正確率散佈趨勢
+
+
+
+## 預先註冊分析項目
+
