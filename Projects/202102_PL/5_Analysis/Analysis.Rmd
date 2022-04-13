@@ -189,18 +189,20 @@ df_Belief$response <- sapply(
  1
  )
 
-df_Belief %>% #filter(response %>%
+tb_Belief <- df_Belief %>% #filter(response %>%
 #  summarise("6：完全正確" = mean(rating == 6),
 #"5：大部份正確" = mean(rating == 5),
 #"4：有點正確" = mean(rating == 4),
 #"3：不太可能是正確的" = mean(rating == 3),
 #"2：大部份不正確" = mean(rating == 2),
 #"1：完全不正確" = mean(rating == 1))) %>%
-        group_by(Q_type,Topic, jatosStudyResultId) %>%
+filter(!(jatosStudyResultId %in% strange_id)) %>%
+  group_by(Q_type,Topic, jatosStudyResultId) %>%
          summarise(score = mean(as.numeric(response),na.rm = TRUE)
             ) %>%
         group_by(Q_type,Topic) %>%
-         summarise(M = mean(score),
+         summarise(N = n(),
+                   M = mean(score),
                    SD = sd(score))
 
 #  ggplot(df_Belief, aes(Question, response, fill=Q)) +
@@ -210,6 +212,7 @@ df_Belief %>% #filter(response %>%
 #  coord_cartesian(ylim = c(1, 5))
 ```
 
+`r knitr::kable(tb_Belief)`
 
 - 科學活動經驗(self eval)
 (明翰)
@@ -219,49 +222,79 @@ df_Belief %>% #filter(response %>%
 (祥偉)
 
 ```{r post-study, echo=TRUE, results='show', message=TRUE, warning=TRUE, include=T}
-new_post <- filter(.data = df_Post,Topic %in% c("Comprehensibility","Scientificness","Credibility","Veracity","Decision") & !(jatosStudyResultId %in% strange_id)) %>% 
+df_Post$response <- sapply(
+ strsplit(
+ gsub(df_Post$response,pattern = " ",replacement = ""),
+ split = ":"
+ ),
+ "[[",
+ 1
+ )
+
+#new_post <- filter(.data = df_Post,Topic %in% c("Comprehensibility","Scientificness","Credibility","Veracity","Decision") & !(jatosStudyResultId %in% strange_id)) %>% 
 ##抓出要分析的TOPIC
 
   
-mutate(summary = ifelse(NH == "N" & OSA == "Y", "OSA",ifelse(NH == "N" & OSA == "N", "PLS","NH_PLS"))) 
+#mutate(summary = ifelse(NH == "N" & OSA == "Y", "OSA",ifelse(NH == "N" & OSA == "N", "PLS","NH_PLS"))) 
 #將摘要分類為PLS、OSA、NH_PLS
 
 
-new_post$response <- gsub("8: 完全讀得懂", 8, new_post$response)
+#new_post$response <- gsub("8: 完全讀得懂", 8, new_post$response)
 
 
-new_post$response <- gsub("8: 非常有科學性", 8, new_post$response)
-new_post$response <- gsub("8: 非常可信", 8, new_post$response)
-new_post$response <- gsub("8: 我認為一定可以", 8, new_post$response)
-new_post$response <- gsub("1: 完全不可信", 1, new_post$response)
-new_post$response <- gsub("1: 完全沒有科學性", 1, new_post$response)
-new_post$response <- gsub("1: 完全讀不懂", 1, new_post$response)
-new_post$response <- gsub("1: 我認為完全不可以", 1, new_post$response) 
+#new_post$response <- gsub("8: 非常有科學性", 8, new_post$response)
+#new_post$response <- gsub("8: 非常可信", 8, new_post$response)
+#new_post$response <- gsub("8: 我認為一定可以", 8, new_post$response)
+#new_post$response <- gsub("1: 完全不可信", 1, new_post$response)
+#new_post$response <- gsub("1: 完全沒有科學性", 1, new_post$response)
+#new_post$response <- gsub("1: 完全讀不懂", 1, new_post$response)
+#new_post$response <- gsub("1: 我認為完全不可以", 1, new_post$response) 
 
 ##將包含中文的response替換數字
 
-table3_cells <- new_post %>%
+tb_Post <- df_Post %>% filter(Topic %in% c("Comprehensibility","Scientificness","Credibility","Veracity","Decision") & !(jatosStudyResultId %in% strange_id)) %>%
+mutate(summary = ifelse(NH == "N" & OSA == "Y", "OSA",ifelse(NH == "N" & OSA == "N", "PLS","NH_PLS"))) %>%
+#table3_cells <- new_post %>%
 #        filter(summary == "PLS")   %>%
-        group_by(Topic,summary) %>%
-         summarise(score = mean(as.numeric(response),na.rm = TRUE)
+        group_by(jatosStudyResultId,Topic,summary) %>%
+        summarise(post_score = mean(as.numeric(response),na.rm = TRUE)) %>%
+  group_by(Topic, summary) %>%
+         summarise(N = n(),
+                   M = mean(post_score,na.rm = TRUE),
+                   SD = sd(post_score,na.rm = TRUE)
             ) 
 
 ```     
 
-`r knitr::kable(table3_cells)`
+`r knitr::kable(tb_Post)`
 
 
 - 閱讀理解(Knowledge)
 (子渝)
 
 ```{r Knowledge}
-Correct_rate <- df_knowledge %>% 
+P_accuracy <- df_knowledge %>% 
   filter(Q_presented == 1 & !(jatosStudyResultId %in% strange_id)) %>%   ## 過濾未出現的題目
-  mutate(summary = ifelse(NH == "N" & OSA == "Y", "OSA",ifelse(NH == "N" & OSA == "N", "PLS","NH_PLS"))) %>%                                                             #將摘要分類為PLS、OSA、NH_PLS
+  mutate(article_type = ifelse(NH == "N" & OSA == "Y", "OSA",ifelse(NH == "N" & OSA == "N", "PLS","NH_PLS"))) %>%                                                             #將摘要分類為PLS、OSA、NH_PLS
   mutate(response = ifelse(response == "是","y","n")) %>%       #轉換參與者回答"是"換成"y"
-  mutate(score = ifelse(response == correct_response,1,0)) %>%  #檢測如果回答等於正確答案得1分
-  group_by(summary) %>%                                         #以摘要分組
-  summarise(Correct_rate = mean(score)#sum(score)/n()
+  mutate(score = ifelse(response == correct_response,1,0)) %>%    #檢測如果回答等於正確答案得1分
+  group_by(jatosStudyResultId, article_type) %>%                                         #以個別參與者及摘要分組
+  summarise(p_accuracy = sum(score)/length(score)
+              ) #%>%
+
+tb_knowledge1 <- P_accuracy %>%
+  group_by(article_type) %>%                                         #以摘要分組
+  summarise(N = n(), M = mean(p_accuracy,na.rm=TRUE), SD = sd(p_accuracy,na.rm=TRUE)#sum(score)/n()
+              )                      #計算正確率
+
+
+## Retrieve the participants had all types of questions
+full_id <- P_accuracy %>% count(jatosStudyResultId) %>%
+  filter(n==3) %>% pull(jatosStudyResultId)
+tb_knowledge2 <- P_accuracy %>%
+  filter(jatosStudyResultId %in% full_id) %>%
+  group_by(article_type) %>%                                         #以摘要分組
+  summarise(N = n(), M = mean(p_accuracy,na.rm=TRUE), SD = sd(p_accuracy,na.rm=TRUE)#sum(score)/n()
               )                      #計算正確率
 
 ## 資料整理
@@ -280,9 +313,18 @@ table(knowledge$score)/sum(table(knowledge$score))
 ## 各類摘要錯誤率
 table(knowledge$score, knowledge$summary)[1,]/colSums(table(knowledge$score, knowledge$summary))
 
-## 各類摘要正確率
+print("各類摘要正確率")
 table(knowledge$score, knowledge$summary)[2,]/colSums(table(knowledge$score, knowledge$summary))
 ```
+
+三種文本閱讀正確率平均值及標準差
+
+納入所有非極端值的參與者 
+`r knitr::kable(tb_knowledge1)`
+
+
+排除理解題目不完整的參與者
+`r knitr::kable(tb_knowledge2)`
 
 - 出口回饋(Exit)
 
