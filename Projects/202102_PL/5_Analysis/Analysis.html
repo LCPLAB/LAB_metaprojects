@@ -269,12 +269,13 @@ div.tocify {
 <pre class="r"><code>## locate the rawdata file
 zip_path &lt;- list.files(path = &quot;..&quot;,pattern = &quot;jatos_results.zip&quot;,include.dirs = TRUE,recursive = TRUE,full.names = TRUE)
 ## import raw data
-df &lt;- read_csv(unz(zip_path, filename = &quot;rawdata.csv&quot;))</code></pre>
+df &lt;- read_csv(unz(zip_path, filename = &quot;rawdata.csv&quot;))
+## import text id table
+text &lt;- read_csv(&quot;../4_OS_Result/text_id.csv&quot;)
+## Append text id to rawdata df
+#df &lt;- left_join(df, text, by=&quot;Content&quot;)</code></pre>
 <p>整合有效參與者的原始回應資料檔“rawdata.csv”，存放路徑是../4_OS_Result/jatos_results.zip。資料欄位共有57項，來自150位參與者，41850筆回應資料。</p>
 <p>資料編碼薄以<a href="codebook.Rmd">codebook套件</a>製作，製作完成存放路徑與本文件相同。</p>
-<ul>
-<li>依分析目的分割資料集合</li>
-</ul>
 <pre class="r"><code>## Extract the system variables
 df_sys &lt;- df %&gt;% select(starts_with(c(&quot;identifier&quot;,&quot;jatos&quot;,&quot;browser_&quot;,&quot;count_&quot;,&quot;date_&quot;,&quot;experiment_&quot;,&quot;screen_&quot;,&quot;system_&quot;,&quot;Start &quot;,&quot;Last &quot;,&quot;Duration&quot;,&quot;Batch&quot;,&quot;Worker &quot;,&quot;State&quot;,&quot;Message&quot;)))
 
@@ -285,29 +286,37 @@ df &lt;- df %&gt;% select(!names(df_sys)[-c(1,2)])
 df_Basic &lt;- filter(df, Q_type == &quot;Basic&quot;)
 
 ## Exclude the variables full of &quot;None&quot;
-df_Basic &lt;- df_Basic[,c(which(colSums(df_Basic!=&quot;None&quot;) == dim(df_Basic)[1]),which(is.na(colSums(df_Basic!=&quot;None&quot;) == dim(df_Basic)[1])) # Get &quot;response&quot;
-)]
+df_Basic &lt;- df_Basic[,(colSums(df_Basic!=&quot;None&quot;,na.rm = TRUE) != 0 ) # Get &quot;response&quot;
+]
+
+## which((colSums(df_Basic!=&quot;None&quot;,na.rm = TRUE) != dim(df_Basic)[1]) |
 
 ## Split Belief data
 df_Belief &lt;- filter(df, Q_type == &quot;Belief&quot;)
 ## Exclude the variables full of &quot;None&quot;
-df_Belief &lt;- df_Belief[,which(colSums(df_Belief!=&quot;None&quot;) == dim(df_Belief)[1])]
+df_Belief &lt;- df_Belief[,which(colSums(df_Belief!=&quot;None&quot;,na.rm = TRUE) != 0 )]
 
 
 ## Split self evaluation data
 df_self_eval &lt;- filter(df, Q_type == &quot;self_eval&quot;)
 ## Exclude the variables full of &quot;None&quot;
-df_self_eval &lt;- df_self_eval[,which(colSums(df_self_eval!=&quot;None&quot;) == dim(df_self_eval)[1])]
+df_self_eval &lt;- df_self_eval[,which(colSums(df_self_eval!=&quot;None&quot;,na.rm = TRUE) != 0)]
 
 ## Split post reading Question data
-df_Post &lt;- dplyr::filter(df, Q_type == &quot;Post_survey&quot;)
+df_Post &lt;- dplyr::filter(df, Q_type == &quot;Post_survey&quot;) %&gt;% left_join(text, by= &quot;Content&quot;)
 ## Exclude the variables full of &quot;None&quot;
-df_Post &lt;- df_Post[,which(colSums(df_Post!=&quot;None&quot;) == dim(df_Post)[1])]
+df_Post &lt;- df_Post[,which(colSums(df_Post!=&quot;None&quot;,na.rm = TRUE) != 0)]
+
 
 ## Split knowledge data
-df_knowledge &lt;- filter(df, Q_type == &quot;Knowledge&quot;)
+df_knowledge &lt;- filter(df, Q_type == &quot;Knowledge&quot; &amp; Q_presented == 1)
 ## Exclude the variables full of &quot;None&quot;
-df_knowledge &lt;- df_knowledge[,which(colSums(df_knowledge!=&quot;None&quot;) == dim(df_knowledge)[1])]
+
+df_knowledge &lt;- left_join(select(df_knowledge[,which(colSums(df_knowledge!=&quot;None&quot;,na.rm = TRUE) != 0)], -c(&quot;NH&quot;,&quot;OSA&quot;,&quot;text_order&quot;)),
+  select(df_Post, jatosStudyResultId, NH, OSA, Text_id, text_order) %&gt;% distinct() %&gt;% mutate(Text_id = as.character(Text_id)),## Summarise the text order by participant
+by=c(&quot;jatosStudyResultId&quot;,&quot;Test_id&quot;=&quot;Text_id&quot;))
+
+
 
 ## Split Exit
 df_Exit &lt;- filter(df, Q_type == &quot;Exit&quot;)
@@ -335,13 +344,13 @@ minutes_count%&gt;%
 <div id="作答時間與理解正確率散佈趨勢" class="section level3">
 <h3>作答時間與理解正確率散佈趨勢</h3>
 <pre class="r"><code>## Convert duration to minutes
-df_post_trend &lt;- df_sys %&gt;% distinct() %&gt;%
+df_post_trend &lt;- (df_sys %&gt;% distinct() %&gt;%
   select(jatosStudyResultId, Duration) %&gt;%
   mutate(minutes_count = 
                     (Duration %&gt;% hms() %&gt;% hour())*60 +
-                    Duration %&gt;% hms() %&gt;% minute() ) %&gt;%
+                    Duration %&gt;% hms() %&gt;% minute() )) %&gt;%
   left_join( (df_knowledge %&gt;% 
-  filter(Q_presented == 1) %&gt;%   ## 過濾未出現的題目
+#  filter(Q_presented == 1) %&gt;%   ## 過濾未出現的題目
   mutate(response = ifelse(response == &quot;是&quot;,&quot;y&quot;,&quot;n&quot;)) %&gt;%       #轉換參與者回答&quot;是&quot;換成&quot;y&quot;
   mutate(score = ifelse(response == correct_response,1,0)) %&gt;%  #檢測如果回答等於正確答案得1分
   group_by(jatosStudyResultId) %&gt;%                               #以個人分組
@@ -372,7 +381,6 @@ response_b &lt;- df_Basic %&gt;% filter(Topic==&quot;birth&quot; &amp; !(jatosSt
             min(as.numeric(response),na.rm = TRUE),
             max(as.numeric(response),na.rm = TRUE))
 ## median = 2, MAD = 1.48; median +/- 66 MAD are acceptable responses.
-
 df_Basic %&gt;% filter(Topic==&quot;birth&quot; &amp; !(jatosStudyResultId %in% strange_id)) %&gt;%
   mutate(last_two = ifelse(as.numeric(response)&lt; response_b$M + 66*response_b$dev,as.numeric(response),NA), ## Turn strange response to missing value NA
          age = ifelse(!is.na(last_two),ifelse(last_two&gt;50,2022-(1900+last_two),2022-(2000+last_two) ),NA )) %&gt;% ## Estimate participant&#39;s age
@@ -389,11 +397,8 @@ df_Basic %&gt;% filter(Topic==&quot;birth&quot; &amp; !(jatosStudyResultId %in% 
 <div id="問卷反應項目描述統計" class="section level2">
 <h2>問卷反應項目描述統計</h2>
 <blockquote>
-<p>依問題型態摘要</p>
+<p>依問題型態摘要 - 知識信念(belief) (采妤)</p>
 </blockquote>
-<ul>
-<li>知識信念(belief) (采妤)</li>
-</ul>
 <pre class="r"><code>df_Belief$response &lt;- sapply(
  strsplit(
  gsub(df_Belief$response,pattern = &quot; &quot;,replacement = &quot;&quot;),
@@ -402,7 +407,6 @@ df_Basic %&gt;% filter(Topic==&quot;birth&quot; &amp; !(jatosStudyResultId %in% 
  &quot;[[&quot;,
  1
  )
-
 tb_Belief &lt;- df_Belief %&gt;% #filter(response %&gt;%
 #  summarise(&quot;6：完全正確&quot; = mean(rating == 6),
 #&quot;5：大部份正確&quot; = mean(rating == 5),
@@ -418,7 +422,6 @@ filter(!(jatosStudyResultId %in% strange_id)) %&gt;%
          summarise(N = n(),
                    M = mean(score),
                    SD = sd(score))
-
 #  ggplot(df_Belief, aes(Question, response, fill=Q)) +
 #  stat_summary(fun = mean, geom = &quot;col&quot;, alpha = 0.5) +
 #  stat_summary(fun.data = mean_se, geom = &quot;errorbar&quot;,
@@ -470,18 +473,12 @@ filter(!(jatosStudyResultId %in% strange_id)) %&gt;%
  &quot;[[&quot;,
  1
  )
-
 #new_post &lt;- filter(.data = df_Post,Topic %in% c(&quot;Comprehensibility&quot;,&quot;Scientificness&quot;,&quot;Credibility&quot;,&quot;Veracity&quot;,&quot;Decision&quot;) &amp; !(jatosStudyResultId %in% strange_id)) %&gt;% 
 ##抓出要分析的TOPIC
-
   
 #mutate(summary = ifelse(NH == &quot;N&quot; &amp; OSA == &quot;Y&quot;, &quot;OSA&quot;,ifelse(NH == &quot;N&quot; &amp; OSA == &quot;N&quot;, &quot;PLS&quot;,&quot;NH_PLS&quot;))) 
 #將摘要分類為PLS、OSA、NH_PLS
-
-
 #new_post$response &lt;- gsub(&quot;8: 完全讀得懂&quot;, 8, new_post$response)
-
-
 #new_post$response &lt;- gsub(&quot;8: 非常有科學性&quot;, 8, new_post$response)
 #new_post$response &lt;- gsub(&quot;8: 非常可信&quot;, 8, new_post$response)
 #new_post$response &lt;- gsub(&quot;8: 我認為一定可以&quot;, 8, new_post$response)
@@ -489,9 +486,7 @@ filter(!(jatosStudyResultId %in% strange_id)) %&gt;%
 #new_post$response &lt;- gsub(&quot;1: 完全沒有科學性&quot;, 1, new_post$response)
 #new_post$response &lt;- gsub(&quot;1: 完全讀不懂&quot;, 1, new_post$response)
 #new_post$response &lt;- gsub(&quot;1: 我認為完全不可以&quot;, 1, new_post$response) 
-
 ##將包含中文的response替換數字
-
 tb_Post &lt;- df_Post %&gt;% filter(Topic %in% c(&quot;Comprehensibility&quot;,&quot;Scientificness&quot;,&quot;Credibility&quot;,&quot;Veracity&quot;,&quot;Decision&quot;) &amp; !(jatosStudyResultId %in% strange_id)) %&gt;%
 mutate(summary = ifelse(NH == &quot;N&quot; &amp; OSA == &quot;Y&quot;, &quot;OSA&quot;,ifelse(NH == &quot;N&quot; &amp; OSA == &quot;N&quot;, &quot;PLS&quot;,&quot;NH_PLS&quot;))) %&gt;%
 #table3_cells &lt;- new_post %&gt;%
@@ -629,36 +624,32 @@ mutate(summary = ifelse(NH == &quot;N&quot; &amp; OSA == &quot;Y&quot;, &quot;OS
 <li>閱讀理解(Knowledge) (子渝)</li>
 </ul>
 <pre class="r"><code>P_accuracy &lt;- df_knowledge %&gt;% 
-  filter(Q_presented == 1 &amp; !(jatosStudyResultId %in% strange_id)) %&gt;%   ## 過濾未出現的題目
+  filter(!(jatosStudyResultId %in% strange_id)) %&gt;%   ## 過濾未出現的題目
   mutate(article_type = ifelse(NH == &quot;N&quot; &amp; OSA == &quot;Y&quot;, &quot;OSA&quot;,ifelse(NH == &quot;N&quot; &amp; OSA == &quot;N&quot;, &quot;PLS&quot;,&quot;NH_PLS&quot;))) %&gt;%                                                             #將摘要分類為PLS、OSA、NH_PLS
   mutate(response = ifelse(response == &quot;是&quot;,&quot;y&quot;,&quot;n&quot;)) %&gt;%       #轉換參與者回答&quot;是&quot;換成&quot;y&quot;
   mutate(score = ifelse(response == correct_response,1,0)) %&gt;%    #檢測如果回答等於正確答案得1分
-  group_by(jatosStudyResultId, article_type) %&gt;%                                         #以個別參與者及摘要分組
+  group_by(jatosStudyResultId, article_type) %&gt;% #以個別參與者及摘要分組
   summarise(p_accuracy = sum(score)/length(score)
               ) #%&gt;%
-
 tb_knowledge1 &lt;- P_accuracy %&gt;%
   group_by(article_type) %&gt;%                                         #以摘要分組
   summarise(N = n(), M = mean(p_accuracy,na.rm=TRUE), SD = sd(p_accuracy,na.rm=TRUE)#sum(score)/n()
               )                      #計算正確率
-
-
 ## Retrieve the participants had all types of questions
-full_id &lt;- P_accuracy %&gt;% count(jatosStudyResultId) %&gt;%
-  filter(n==3) %&gt;% pull(jatosStudyResultId)
-tb_knowledge2 &lt;- P_accuracy %&gt;%
-  filter(jatosStudyResultId %in% full_id) %&gt;%
-  group_by(article_type) %&gt;%                                         #以摘要分組
-  summarise(N = n(), M = mean(p_accuracy,na.rm=TRUE), SD = sd(p_accuracy,na.rm=TRUE)#sum(score)/n()
-              )                      #計算正確率
+#full_id &lt;- P_accuracy %&gt;% count(jatosStudyResultId) %&gt;%
+#  filter(n==3) %&gt;% pull(jatosStudyResultId)
+#tb_knowledge2 &lt;- P_accuracy %&gt;%
+#  filter(jatosStudyResultId %in% full_id) %&gt;%
+#  group_by(article_type) %&gt;%                                         #以摘要分組
+#  summarise(N = n(), M = mean(p_accuracy,na.rm=TRUE), SD = sd(p_accuracy,na.rm=TRUE)#sum(score)/n()
+#             )                      #計算正確率
 
 ## 資料整理
 knowledge &lt;- df_knowledge %&gt;% 
-  filter(Q_presented == 1 &amp; !(jatosStudyResultId %in% strange_id)) %&gt;%   ## 過濾未出現的題目
+  filter(!(jatosStudyResultId %in% strange_id)) %&gt;%   ## 過濾未出現的題目
   mutate(summary = ifelse(NH == &quot;N&quot; &amp; OSA == &quot;Y&quot;, &quot;OSA&quot;,ifelse(NH == &quot;N&quot; &amp; OSA == &quot;N&quot;, &quot;PLS&quot;,&quot;NH_PLS&quot;))) %&gt;%                                                             #將摘要分類為PLS、OSA、NH_PLS
   mutate(response = ifelse(response == &quot;是&quot;,&quot;y&quot;,&quot;n&quot;)) %&gt;%       #轉換參與者回答&quot;是&quot;換成&quot;y&quot;
   mutate(score = ifelse(response == correct_response,1,0))      #檢測如果回答等於正確答案得1分
-
 ## 總正確數
 table(knowledge$score)</code></pre>
 <pre><code>## 
@@ -672,12 +663,12 @@ table(knowledge$score)/sum(table(knowledge$score))</code></pre>
 <pre class="r"><code>## 各類摘要錯誤率
 table(knowledge$score, knowledge$summary)[1,]/colSums(table(knowledge$score, knowledge$summary))</code></pre>
 <pre><code>##    NH_PLS       OSA       PLS 
-## 0.2758945 0.2692308 0.2791262</code></pre>
+## 0.2590580 0.2925725 0.2735507</code></pre>
 <pre class="r"><code>print(&quot;各類摘要正確率&quot;)</code></pre>
 <pre><code>## [1] &quot;各類摘要正確率&quot;</code></pre>
 <pre class="r"><code>table(knowledge$score, knowledge$summary)[2,]/colSums(table(knowledge$score, knowledge$summary))</code></pre>
 <pre><code>##    NH_PLS       OSA       PLS 
-## 0.7241055 0.7307692 0.7208738</code></pre>
+## 0.7409420 0.7074275 0.7264493</code></pre>
 <p>三種文本閱讀正確率平均值及標準差</p>
 <p>納入所有非極端值的參與者</p>
 <table>
@@ -692,52 +683,21 @@ table(knowledge$score, knowledge$summary)[1,]/colSums(table(knowledge$score, kno
 <tbody>
 <tr class="odd">
 <td align="left">NH_PLS</td>
-<td align="right">117</td>
-<td align="right">0.7219848</td>
-<td align="right">0.1571135</td>
+<td align="right">138</td>
+<td align="right">0.7409420</td>
+<td align="right">0.1469254</td>
 </tr>
 <tr class="even">
 <td align="left">OSA</td>
-<td align="right">113</td>
-<td align="right">0.7227139</td>
-<td align="right">0.1783281</td>
+<td align="right">138</td>
+<td align="right">0.7074275</td>
+<td align="right">0.1623114</td>
 </tr>
 <tr class="odd">
 <td align="left">PLS</td>
-<td align="right">118</td>
-<td align="right">0.7309322</td>
-<td align="right">0.1555615</td>
-</tr>
-</tbody>
-</table>
-<p>排除理解題目不完整的參與者</p>
-<table>
-<thead>
-<tr class="header">
-<th align="left">article_type</th>
-<th align="right">N</th>
-<th align="right">M</th>
-<th align="right">SD</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">NH_PLS</td>
-<td align="right">72</td>
-<td align="right">0.7372685</td>
-<td align="right">0.1623018</td>
-</tr>
-<tr class="even">
-<td align="left">OSA</td>
-<td align="right">72</td>
-<td align="right">0.7083333</td>
-<td align="right">0.1807436</td>
-</tr>
-<tr class="odd">
-<td align="left">PLS</td>
-<td align="right">72</td>
-<td align="right">0.7581019</td>
-<td align="right">0.1552169</td>
+<td align="right">138</td>
+<td align="right">0.7264493</td>
+<td align="right">0.1580783</td>
 </tr>
 </tbody>
 </table>

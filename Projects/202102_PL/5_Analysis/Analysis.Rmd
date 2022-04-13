@@ -4,11 +4,11 @@ author: "LCP lab"
 date: "`r Sys.Date()`"
 output:
   html_document:
-    toc: yes
+    toc: true
     toc_depth: 4
-    toc_float: yes
-    code_folding: hide
-    self_contained: yes
+    toc_float: true
+    code_folding: 'hide'
+    self_contained: true
 ---
 
 
@@ -32,6 +32,10 @@ library(effectsize)
 zip_path <- list.files(path = "..",pattern = "jatos_results.zip",include.dirs = TRUE,recursive = TRUE,full.names = TRUE)
 ## import raw data
 df <- read_csv(unz(zip_path, filename = "rawdata.csv"))
+## import text id table
+text <- read_csv("../4_OS_Result/text_id.csv")
+## Append text id to rawdata df
+#df <- left_join(df, text, by="Content")
 ```
 
 
@@ -39,7 +43,6 @@ df <- read_csv(unz(zip_path, filename = "rawdata.csv"))
 
 資料編碼薄以[codebook套件](codebook.Rmd)製作，製作完成存放路徑與本文件相同。
 
-- 依分析目的分割資料集合
 
 ```{r data-split}
 ## Extract the system variables
@@ -52,36 +55,43 @@ df <- df %>% select(!names(df_sys)[-c(1,2)])
 df_Basic <- filter(df, Q_type == "Basic")
 
 ## Exclude the variables full of "None"
-df_Basic <- df_Basic[,c(which(colSums(df_Basic!="None") == dim(df_Basic)[1]),which(is.na(colSums(df_Basic!="None") == dim(df_Basic)[1])) # Get "response"
-)]
+df_Basic <- df_Basic[,(colSums(df_Basic!="None",na.rm = TRUE) != 0 ) # Get "response"
+]
+
+## which((colSums(df_Basic!="None",na.rm = TRUE) != dim(df_Basic)[1]) |
 
 ## Split Belief data
 df_Belief <- filter(df, Q_type == "Belief")
 ## Exclude the variables full of "None"
-df_Belief <- df_Belief[,which(colSums(df_Belief!="None") == dim(df_Belief)[1])]
+df_Belief <- df_Belief[,which(colSums(df_Belief!="None",na.rm = TRUE) != 0 )]
 
 
 ## Split self evaluation data
 df_self_eval <- filter(df, Q_type == "self_eval")
 ## Exclude the variables full of "None"
-df_self_eval <- df_self_eval[,which(colSums(df_self_eval!="None") == dim(df_self_eval)[1])]
+df_self_eval <- df_self_eval[,which(colSums(df_self_eval!="None",na.rm = TRUE) != 0)]
 
 ## Split post reading Question data
-df_Post <- dplyr::filter(df, Q_type == "Post_survey")
+df_Post <- dplyr::filter(df, Q_type == "Post_survey") %>% left_join(text, by= "Content")
 ## Exclude the variables full of "None"
-df_Post <- df_Post[,which(colSums(df_Post!="None") == dim(df_Post)[1])]
+df_Post <- df_Post[,which(colSums(df_Post!="None",na.rm = TRUE) != 0)]
+
 
 ## Split knowledge data
-df_knowledge <- filter(df, Q_type == "Knowledge")
+df_knowledge <- filter(df, Q_type == "Knowledge" & Q_presented == 1)
 ## Exclude the variables full of "None"
-df_knowledge <- df_knowledge[,which(colSums(df_knowledge!="None") == dim(df_knowledge)[1])]
+
+df_knowledge <- left_join(select(df_knowledge[,which(colSums(df_knowledge!="None",na.rm = TRUE) != 0)], -c("NH","OSA","text_order")),
+  select(df_Post, jatosStudyResultId, NH, OSA, Text_id, text_order) %>% distinct() %>% mutate(Text_id = as.character(Text_id)),## Summarise the text order by participant
+by=c("jatosStudyResultId","Test_id"="Text_id"))
+
+
 
 ## Split Exit
 df_Exit <- filter(df, Q_type == "Exit")
 ## Exclude the variables full of "None"
 df_Exit <- df_Exit[,c(which(colSums(df_Exit!="None") == dim(df_Exit)[1]),which(is.na(colSums(df_Exit!="None") == dim(df_Exit)[1]))) ]
 ```
-
 
 
 ## 參與者基本資訊統計
@@ -110,13 +120,13 @@ minutes_count%>%
 
 ```{r duration-post-analysis, echo=TRUE, message=FALSE, warning=FALSE}
 ## Convert duration to minutes
-df_post_trend <- df_sys %>% distinct() %>%
+df_post_trend <- (df_sys %>% distinct() %>%
   select(jatosStudyResultId, Duration) %>%
   mutate(minutes_count = 
                     (Duration %>% hms() %>% hour())*60 +
-                    Duration %>% hms() %>% minute() ) %>%
+                    Duration %>% hms() %>% minute() )) %>%
   left_join( (df_knowledge %>% 
-  filter(Q_presented == 1) %>%   ## 過濾未出現的題目
+#  filter(Q_presented == 1) %>%   ## 過濾未出現的題目
   mutate(response = ifelse(response == "是","y","n")) %>%       #轉換參與者回答"是"換成"y"
   mutate(score = ifelse(response == correct_response,1,0)) %>%  #檢測如果回答等於正確答案得1分
   group_by(jatosStudyResultId) %>%                               #以個人分組
@@ -159,7 +169,6 @@ response_b <- df_Basic %>% filter(Topic=="birth" & !(jatosStudyResultId %in% str
             min(as.numeric(response),na.rm = TRUE),
             max(as.numeric(response),na.rm = TRUE))
 ## median = 2, MAD = 1.48; median +/- 66 MAD are acceptable responses.
-
 df_Basic %>% filter(Topic=="birth" & !(jatosStudyResultId %in% strange_id)) %>%
   mutate(last_two = ifelse(as.numeric(response)< response_b$M + 66*response_b$dev,as.numeric(response),NA), ## Turn strange response to missing value NA
          age = ifelse(!is.na(last_two),ifelse(last_two>50,2022-(1900+last_two),2022-(2000+last_two) ),NA )) %>% ## Estimate participant's age
@@ -175,7 +184,6 @@ df_Basic %>% filter(Topic=="birth" & !(jatosStudyResultId %in% strange_id)) %>%
 ## 問卷反應項目描述統計
 
 > 依問題型態摘要
-
 - 知識信念(belief)
 (采妤)
 
@@ -188,7 +196,6 @@ df_Belief$response <- sapply(
  "[[",
  1
  )
-
 tb_Belief <- df_Belief %>% #filter(response %>%
 #  summarise("6：完全正確" = mean(rating == 6),
 #"5：大部份正確" = mean(rating == 5),
@@ -204,7 +211,6 @@ filter(!(jatosStudyResultId %in% strange_id)) %>%
          summarise(N = n(),
                    M = mean(score),
                    SD = sd(score))
-
 #  ggplot(df_Belief, aes(Question, response, fill=Q)) +
 #  stat_summary(fun = mean, geom = "col", alpha = 0.5) +
 #  stat_summary(fun.data = mean_se, geom = "errorbar",
@@ -230,18 +236,12 @@ df_Post$response <- sapply(
  "[[",
  1
  )
-
 #new_post <- filter(.data = df_Post,Topic %in% c("Comprehensibility","Scientificness","Credibility","Veracity","Decision") & !(jatosStudyResultId %in% strange_id)) %>% 
 ##抓出要分析的TOPIC
-
   
 #mutate(summary = ifelse(NH == "N" & OSA == "Y", "OSA",ifelse(NH == "N" & OSA == "N", "PLS","NH_PLS"))) 
 #將摘要分類為PLS、OSA、NH_PLS
-
-
 #new_post$response <- gsub("8: 完全讀得懂", 8, new_post$response)
-
-
 #new_post$response <- gsub("8: 非常有科學性", 8, new_post$response)
 #new_post$response <- gsub("8: 非常可信", 8, new_post$response)
 #new_post$response <- gsub("8: 我認為一定可以", 8, new_post$response)
@@ -249,9 +249,7 @@ df_Post$response <- sapply(
 #new_post$response <- gsub("1: 完全沒有科學性", 1, new_post$response)
 #new_post$response <- gsub("1: 完全讀不懂", 1, new_post$response)
 #new_post$response <- gsub("1: 我認為完全不可以", 1, new_post$response) 
-
 ##將包含中文的response替換數字
-
 tb_Post <- df_Post %>% filter(Topic %in% c("Comprehensibility","Scientificness","Credibility","Veracity","Decision") & !(jatosStudyResultId %in% strange_id)) %>%
 mutate(summary = ifelse(NH == "N" & OSA == "Y", "OSA",ifelse(NH == "N" & OSA == "N", "PLS","NH_PLS"))) %>%
 #table3_cells <- new_post %>%
@@ -263,7 +261,6 @@ mutate(summary = ifelse(NH == "N" & OSA == "Y", "OSA",ifelse(NH == "N" & OSA == 
                    M = mean(post_score,na.rm = TRUE),
                    SD = sd(post_score,na.rm = TRUE)
             ) 
-
 ```     
 
 `r knitr::kable(tb_Post)`
@@ -274,45 +271,38 @@ mutate(summary = ifelse(NH == "N" & OSA == "Y", "OSA",ifelse(NH == "N" & OSA == 
 
 ```{r Knowledge}
 P_accuracy <- df_knowledge %>% 
-  filter(Q_presented == 1 & !(jatosStudyResultId %in% strange_id)) %>%   ## 過濾未出現的題目
+  filter(!(jatosStudyResultId %in% strange_id)) %>%   ## 過濾未出現的題目
   mutate(article_type = ifelse(NH == "N" & OSA == "Y", "OSA",ifelse(NH == "N" & OSA == "N", "PLS","NH_PLS"))) %>%                                                             #將摘要分類為PLS、OSA、NH_PLS
   mutate(response = ifelse(response == "是","y","n")) %>%       #轉換參與者回答"是"換成"y"
   mutate(score = ifelse(response == correct_response,1,0)) %>%    #檢測如果回答等於正確答案得1分
-  group_by(jatosStudyResultId, article_type) %>%                                         #以個別參與者及摘要分組
+  group_by(jatosStudyResultId, article_type) %>% #以個別參與者及摘要分組
   summarise(p_accuracy = sum(score)/length(score)
               ) #%>%
-
 tb_knowledge1 <- P_accuracy %>%
   group_by(article_type) %>%                                         #以摘要分組
   summarise(N = n(), M = mean(p_accuracy,na.rm=TRUE), SD = sd(p_accuracy,na.rm=TRUE)#sum(score)/n()
               )                      #計算正確率
-
-
 ## Retrieve the participants had all types of questions
-full_id <- P_accuracy %>% count(jatosStudyResultId) %>%
-  filter(n==3) %>% pull(jatosStudyResultId)
-tb_knowledge2 <- P_accuracy %>%
-  filter(jatosStudyResultId %in% full_id) %>%
-  group_by(article_type) %>%                                         #以摘要分組
-  summarise(N = n(), M = mean(p_accuracy,na.rm=TRUE), SD = sd(p_accuracy,na.rm=TRUE)#sum(score)/n()
-              )                      #計算正確率
+#full_id <- P_accuracy %>% count(jatosStudyResultId) %>%
+#  filter(n==3) %>% pull(jatosStudyResultId)
+#tb_knowledge2 <- P_accuracy %>%
+#  filter(jatosStudyResultId %in% full_id) %>%
+#  group_by(article_type) %>%                                         #以摘要分組
+#  summarise(N = n(), M = mean(p_accuracy,na.rm=TRUE), SD = sd(p_accuracy,na.rm=TRUE)#sum(score)/n()
+#             )                      #計算正確率
 
 ## 資料整理
 knowledge <- df_knowledge %>% 
-  filter(Q_presented == 1 & !(jatosStudyResultId %in% strange_id)) %>%   ## 過濾未出現的題目
+  filter(!(jatosStudyResultId %in% strange_id)) %>%   ## 過濾未出現的題目
   mutate(summary = ifelse(NH == "N" & OSA == "Y", "OSA",ifelse(NH == "N" & OSA == "N", "PLS","NH_PLS"))) %>%                                                             #將摘要分類為PLS、OSA、NH_PLS
   mutate(response = ifelse(response == "是","y","n")) %>%       #轉換參與者回答"是"換成"y"
   mutate(score = ifelse(response == correct_response,1,0))      #檢測如果回答等於正確答案得1分
-
 ## 總正確數
 table(knowledge$score)
-
 ## 總正確率
 table(knowledge$score)/sum(table(knowledge$score))
-
 ## 各類摘要錯誤率
 table(knowledge$score, knowledge$summary)[1,]/colSums(table(knowledge$score, knowledge$summary))
-
 print("各類摘要正確率")
 table(knowledge$score, knowledge$summary)[2,]/colSums(table(knowledge$score, knowledge$summary))
 ```
@@ -323,11 +313,7 @@ table(knowledge$score, knowledge$summary)[2,]/colSums(table(knowledge$score, kno
 `r knitr::kable(tb_knowledge1)`
 
 
-排除理解題目不完整的參與者
-`r knitr::kable(tb_knowledge2)`
-
 - 出口回饋(Exit)
 
 
 ## 預先註冊分析項目
-
