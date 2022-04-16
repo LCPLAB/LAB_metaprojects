@@ -22,6 +22,13 @@ library(tidyverse)
 
 library(lubridate)
 library(effectsize)
+
+
+library(lme4)
+library(lmerTest)
+library(sjstats)
+#library(MuMIn)
+library(multcomp)
 ```
 
 
@@ -45,10 +52,10 @@ text <- read_csv("../4_OS_Result/text_id.csv")
 
 ```{r data-split}
 ## Extract the system variables
-df_sys <- df %>% select(starts_with(c("identifier","jatos","browser_","count_","date_","experiment_","screen_","system_","Start ","Last ","Duration","Batch","Worker ","State","Message")))
+df_sys <- df %>% dplyr::select(starts_with(c("identifier","jatos","browser_","count_","date_","experiment_","screen_","system_","Start ","Last ","Duration","Batch","Worker ","State","Message")))
 
 ## Reserve the analytic variables in rawdata df
-df <- df %>% select(!names(df_sys)[-c(1,2)])
+df <- df %>% dplyr::select(!names(df_sys)[-c(1,2)])
 
 ## Split basic data
 df_Basic <- filter(df, Q_type == "Basic")
@@ -61,22 +68,21 @@ df_Belief <- filter(df, Q_type == "Belief")
 ## Exclude the variables full of "None"
 df_Belief <- df_Belief[,which(colSums(df_Belief!="None",na.rm = TRUE) != 0 )]
 
-
 ## Split self evaluation data
 df_self_eval <- filter(df, Q_type == "self_eval")
 ## Exclude the variables full of "None"
 df_self_eval <- df_self_eval[,which(colSums(df_self_eval!="None",na.rm = TRUE) != 0)]
 
 ## Split post reading Question data
-df_Post <- dplyr::filter(df, Q_type == "Post_survey") %>% left_join(text, by= "Content")
+df_Post <- dplyr::filter(df, Q_type == "Post_survey") %>% left_join(text, by= "Content") 
 ## Exclude the variables full of "None"
-df_Post <- df_Post[,which(colSums(df_Post!="None",na.rm = TRUE) != 0)]
+df_Post <- df_Post[,which(colSums(df_Post!="None",na.rm = TRUE) != 0)] %>% mutate(Text_id = as.character(Text_id))
 
 ## Split knowledge data
 df_knowledge <- filter(df, Q_type == "Knowledge" & Q_presented == 1) ## Reserved presented questions
 ## Exclude the variables full of "None"
-df_knowledge <- left_join(select(df_knowledge[,which(colSums(df_knowledge!="None",na.rm = TRUE) != 0)], -c("NH","OSA","text_order")), ## Erase IV variables because they are meaningless in test loop
-  select(df_Post, jatosStudyResultId, NH, OSA, Text_id, text_order) %>% distinct() %>% mutate(Text_id = as.character(Text_id)),## Extract IV variables from df_Post
+df_knowledge <- left_join(dplyr::select(df_knowledge[,which(colSums(df_knowledge!="None",na.rm = TRUE) != 0)], -c("NH","OSA","text_order")), ## Erase IV variables because they are meaningless in test loop
+  dplyr::select(df_Post, jatosStudyResultId, NH, OSA, Text_id, text_order) %>% distinct(),## Extract IV variables from df_Post
 by=c("jatosStudyResultId","Test_id"="Text_id")) ## Add IV vriables to df_knowledge by Test_id 
 
 ## Split Exit
@@ -113,7 +119,7 @@ minutes_count%>%
 ```{r duration-post-analysis, echo=TRUE, message=FALSE, warning=FALSE}
 ## Convert duration to minutes
 df_post_trend <- (df_sys %>% distinct() %>%
-  select(jatosStudyResultId, Duration) %>%
+  dplyr::select(jatosStudyResultId, Duration) %>%
   mutate(minutes_count = 
                     (Duration %>% hms() %>% hour())*60 +
                     Duration %>% hms() %>% minute() )) %>%
@@ -231,6 +237,7 @@ df_Post$response <- sapply(
  "[[",
  1
  )
+
 #new_post <- filter(.data = df_Post,Topic %in% c("Comprehensibility","Scientificness","Credibility","Veracity","Decision") & !(jatosStudyResultId %in% strange_id)) %>% 
 ##抓出要分析的TOPIC
   
@@ -245,13 +252,13 @@ df_Post$response <- sapply(
 #new_post$response <- gsub("1: 完全讀不懂", 1, new_post$response)
 #new_post$response <- gsub("1: 我認為完全不可以", 1, new_post$response) 
 ##將包含中文的response替換數字
-tb_Post <- df_Post %>% filter(Topic %in% c("Comprehensibility","Scientificness","Credibility","Veracity","Decision") & !(jatosStudyResultId %in% strange_id)) %>%
-mutate(summary = ifelse(NH == "N" & OSA == "Y", "OSA",ifelse(NH == "N" & OSA == "N", "PLS","NH_PLS"))) %>%
+tb_Post <- (dm_Post <- df_Post %>% filter(Topic %in% c("Comprehensibility","Scientificness","Credibility","Veracity","Decision") & !(jatosStudyResultId %in% strange_id)) %>%
+mutate(article_type = ifelse(NH == "N" & OSA == "Y", "OSA",ifelse(NH == "N" & OSA == "N", "PLS","PLS_NH"))) ) %>%
 #table3_cells <- new_post %>%
 #        filter(summary == "PLS")   %>%
-        group_by(jatosStudyResultId,Topic,summary) %>%
+        group_by(jatosStudyResultId,Topic,article_type) %>%
         summarise(post_score = mean(as.numeric(response),na.rm = TRUE)) %>% ## 參與者分項評分總計   
-  group_by(Topic, summary) %>%
+  group_by(Topic, article_type) %>%
          summarise(N = n(),
                    M = mean(post_score,na.rm = TRUE),
                    SD = sd(post_score,na.rm = TRUE)
@@ -266,11 +273,11 @@ mutate(summary = ifelse(NH == "N" & OSA == "Y", "OSA",ifelse(NH == "N" & OSA == 
 
 ```{r Knowledge}
 ## 參與者分項評分總計   
-P_accuracy <- df_knowledge %>% 
+P_accuracy <- (dm_knowledge <- df_knowledge %>% 
   filter(!(jatosStudyResultId %in% strange_id)) %>%   ## 過濾極端參與者
-  mutate(article_type = ifelse(NH == "N" & OSA == "Y", "OSA",ifelse(NH == "N" & OSA == "N", "PLS","NH_PLS"))) %>%                                                             #將摘要分類為PLS、OSA、NH_PLS
+  mutate(article_type = ifelse(NH == "N" & OSA == "Y", "OSA",ifelse(NH == "N" & OSA == "N", "PLS","PLS_NH"))) %>%                                                             #將摘要分類為PLS、OSA、NH_PLS
   mutate(response = ifelse(response == "是","y","n")) %>%       #轉換參與者回答"是"換成"y"
-  mutate(score = ifelse(response == correct_response,1,0)) %>%    #檢測如果回答等於正確答案得1分
+  mutate(score = ifelse(response == correct_response,1,0)) ) %>%    #檢測如果回答等於正確答案得1分
   group_by(jatosStudyResultId, article_type) %>% #以個別參與者及摘要分組
   summarise(p_accuracy = sum(score)/length(score)
               ) #%>%
@@ -315,3 +322,106 @@ table(knowledge$score, knowledge$summary)[2,]/colSums(table(knowledge$score, kno
 
 
 ## 預先註冊分析項目
+
+## 確證性分析
+
+### 1.對於摘要的理解
+
+主觀評分
+
+
+```{r comprehension-stat}
+dm_Comprehense <- subset(dm_Post, Topic == "Comprehensibility")
+
+dm_Comprehense$response = as.numeric(dm_Comprehense$response)
+
+# conduct icc
+
+m0 <- lmer(response ~ (1 | jatosStudyResultId), data = dm_Comprehense )
+
+summary(m0)
+performance::icc(m0)
+
+m00 <- lmer(response ~ (1 | Test_id), data = dm_Comprehense)
+
+summary(m00)
+performance::icc(m00)
+
+## mixed-effect models
+
+m1 <- lmer(response ~ (1 | jatosStudyResultId) + article_type + (1 | Test_id), data = dm_Comprehense)
+
+anova(m0,m1)
+
+
+summary(m1)
+
+## Tukey test
+
+test = glht(m1,linfct=mcp(article_type="Tukey"))
+summary(test, test = adjusted("none"))
+
+```
+
+理解測驗正確率
+
+```{r knowledge-stat}
+# mixed-effect models
+m0 <- glmer(score ~ (1 | jatosStudyResultId), family = binomial("logit"), data = dm_knowledge)
+
+m00 <- glmer(score ~ (1 | Test_id), family = binomial("logit"), data = dm_knowledge)
+
+
+m1 <- glmer(score ~ (1 | jatosStudyResultId) + article_type + (1 | Test_id), family = binomial("logit"), data = dm_knowledge)
+
+anova(m0,m1)
+
+
+summary(m1)
+
+
+## Tukey test
+
+test = glht(m1,linfct=mcp(article_type="Tukey"))
+summary(test, test = adjusted("none"))
+```
+
+
+
+### 2.對於摘要的科學性
+
+
+
+### 3.對摘要來源的可信度
+
+
+
+### 4.評估摘要內容的真實性
+
+
+
+### 5.不需獲取更多資訊能理解更多內容
+
+
+
+## 探索性分析
+
+### 索取全文意願
+
+
+
+### 知識信念影響分析：主觀理解度
+
+
+### 知識信念影響分析：理解測驗正確率
+
+
+### 知識信念影響分析：來源可信度評估
+
+
+### 知識信念影響分析：內容真實性評估
+
+
+### 知識信念影響分析：資訊充足度評估
+
+
