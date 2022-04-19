@@ -11,7 +11,7 @@
 
 <meta name="author" content="LCP lab" />
 
-<meta name="date" content="2022-04-16" />
+<meta name="date" content="2022-04-19" />
 
 <title>Analysis ~ Replication study of Kerwer et al.(2020)</title>
 
@@ -259,7 +259,7 @@ div.tocify {
 
 <h1 class="title toc-ignore">Analysis ~ Replication study of Kerwer et al.(2020)</h1>
 <h4 class="author">LCP lab</h4>
-<h4 class="date">2022-04-16</h4>
+<h4 class="date">2022-04-19</h4>
 
 </div>
 
@@ -273,7 +273,7 @@ df &lt;- read_csv(unz(zip_path, filename = &quot;rawdata.csv&quot;))
 ## import text id table; script did not log text_id
 text &lt;- read_csv(&quot;../4_OS_Result/text_id.csv&quot;)
 ## Append text id to rawdata df</code></pre>
-<p>整合有效參與者的原始回應資料檔”rawdata.csv”，存放路徑是../4_OS_Result/jatos_results.zip。資料欄位共有57項，來自150位參與者，41850筆回應資料。</p>
+<p>整合有效參與者的原始回應資料檔“rawdata.csv”，存放路徑是../4_OS_Result/jatos_results.zip。資料欄位共有57項，來自150位參與者，41850筆回應資料。</p>
 <p>資料編碼薄以<a href="codebook.Rmd">codebook套件</a>製作，製作完成存放路徑與本文件相同。</p>
 <pre class="r"><code>## Extract the system variables
 df_sys &lt;- df %&gt;% dplyr::select(starts_with(c(&quot;identifier&quot;,&quot;jatos&quot;,&quot;browser_&quot;,&quot;count_&quot;,&quot;date_&quot;,&quot;experiment_&quot;,&quot;screen_&quot;,&quot;system_&quot;,&quot;Start &quot;,&quot;Last &quot;,&quot;Duration&quot;,&quot;Batch&quot;,&quot;Worker &quot;,&quot;State&quot;,&quot;Message&quot;)))
@@ -469,6 +469,12 @@ filter(!(jatosStudyResultId %in% strange_id)) %&gt;%
  1
  )
 
+## Change full access response to numeric
+df_Post$response = ifelse(df_Post$response == &quot;想&quot;, 1, ifelse(df_Post$response == &quot;不想&quot;,0,df_Post$response))
+
+## convert df_Post responses to numeric
+df_Post$response = as.numeric(df_Post$response)
+
 #new_post &lt;- filter(.data = df_Post,Topic %in% c(&quot;Comprehensibility&quot;,&quot;Scientificness&quot;,&quot;Credibility&quot;,&quot;Veracity&quot;,&quot;Decision&quot;) &amp; !(jatosStudyResultId %in% strange_id)) %&gt;% 
 ##抓出要分析的TOPIC
   
@@ -483,7 +489,7 @@ filter(!(jatosStudyResultId %in% strange_id)) %&gt;%
 #new_post$response &lt;- gsub(&quot;1: 完全讀不懂&quot;, 1, new_post$response)
 #new_post$response &lt;- gsub(&quot;1: 我認為完全不可以&quot;, 1, new_post$response) 
 ##將包含中文的response替換數字
-tb_Post &lt;- (dm_Post &lt;- df_Post %&gt;% filter(Topic %in% c(&quot;Comprehensibility&quot;,&quot;Scientificness&quot;,&quot;Credibility&quot;,&quot;Veracity&quot;,&quot;Decision&quot;) &amp; !(jatosStudyResultId %in% strange_id)) %&gt;%
+tb_Post &lt;- (dm_Post &lt;- df_Post %&gt;% filter(Topic %in% c(&quot;Comprehensibility&quot;,&quot;Scientificness&quot;,&quot;Credibility&quot;,&quot;Veracity&quot;,&quot;Decision&quot;,&quot;Access&quot;) &amp; !(jatosStudyResultId %in% strange_id)) %&gt;%
 mutate(article_type = ifelse(NH == &quot;N&quot; &amp; OSA == &quot;Y&quot;, &quot;OSA&quot;,ifelse(NH == &quot;N&quot; &amp; OSA == &quot;N&quot;, &quot;PLS&quot;,&quot;PLS_NH&quot;))) ) %&gt;%
 #table3_cells &lt;- new_post %&gt;%
 #        filter(summary == &quot;PLS&quot;)   %&gt;%
@@ -493,7 +499,7 @@ mutate(article_type = ifelse(NH == &quot;N&quot; &amp; OSA == &quot;Y&quot;, &qu
          summarise(N = n(),
                    M = mean(post_score,na.rm = TRUE),
                    SD = sd(post_score,na.rm = TRUE)
-            ) ## 評分總計   </code></pre>
+) ## 評分總計   </code></pre>
 <pre><code>## `summarise()` has grouped output by &#39;jatosStudyResultId&#39;, &#39;Topic&#39;. You can
 ## override using the `.groups` argument.
 ## `summarise()` has grouped output by &#39;Topic&#39;. You can override using the
@@ -510,108 +516,129 @@ mutate(article_type = ifelse(NH == &quot;N&quot; &amp; OSA == &quot;Y&quot;, &qu
 </thead>
 <tbody>
 <tr class="odd">
+<td align="left">Access</td>
+<td align="left">OSA</td>
+<td align="right">138</td>
+<td align="right">0.3478261</td>
+<td align="right">0.3861597</td>
+</tr>
+<tr class="even">
+<td align="left">Access</td>
+<td align="left">PLS</td>
+<td align="right">138</td>
+<td align="right">0.4021739</td>
+<td align="right">0.3873393</td>
+</tr>
+<tr class="odd">
+<td align="left">Access</td>
+<td align="left">PLS_NH</td>
+<td align="right">138</td>
+<td align="right">0.3605072</td>
+<td align="right">0.3903701</td>
+</tr>
+<tr class="even">
 <td align="left">Comprehensibility</td>
 <td align="left">OSA</td>
 <td align="right">138</td>
-<td align="right">5.393116</td>
+<td align="right">5.3931159</td>
 <td align="right">1.0099359</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">Comprehensibility</td>
 <td align="left">PLS</td>
 <td align="right">138</td>
-<td align="right">6.576087</td>
+<td align="right">6.5760870</td>
 <td align="right">0.8460992</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">Comprehensibility</td>
 <td align="left">PLS_NH</td>
 <td align="right">138</td>
-<td align="right">6.096014</td>
+<td align="right">6.0960145</td>
 <td align="right">0.9643852</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">Credibility</td>
 <td align="left">OSA</td>
 <td align="right">138</td>
-<td align="right">5.181159</td>
+<td align="right">5.1811594</td>
 <td align="right">1.0562501</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">Credibility</td>
 <td align="left">PLS</td>
 <td align="right">138</td>
-<td align="right">5.498188</td>
+<td align="right">5.4981884</td>
 <td align="right">0.9405195</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">Credibility</td>
 <td align="left">PLS_NH</td>
 <td align="right">138</td>
-<td align="right">5.440217</td>
+<td align="right">5.4402174</td>
 <td align="right">0.9477953</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">Decision</td>
 <td align="left">OSA</td>
 <td align="right">138</td>
-<td align="right">3.708333</td>
+<td align="right">3.7083333</td>
 <td align="right">1.2785368</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">Decision</td>
 <td align="left">PLS</td>
 <td align="right">138</td>
-<td align="right">4.420290</td>
+<td align="right">4.4202899</td>
 <td align="right">1.4164652</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">Decision</td>
 <td align="left">PLS_NH</td>
 <td align="right">138</td>
-<td align="right">4.228261</td>
+<td align="right">4.2282609</td>
 <td align="right">1.3123078</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">Scientificness</td>
 <td align="left">OSA</td>
 <td align="right">138</td>
-<td align="right">5.244565</td>
+<td align="right">5.2445652</td>
 <td align="right">0.9710534</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">Scientificness</td>
 <td align="left">PLS</td>
 <td align="right">138</td>
-<td align="right">5.545290</td>
+<td align="right">5.5452899</td>
 <td align="right">0.9148189</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">Scientificness</td>
 <td align="left">PLS_NH</td>
 <td align="right">138</td>
-<td align="right">5.344203</td>
+<td align="right">5.3442029</td>
 <td align="right">0.8966701</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">Veracity</td>
 <td align="left">OSA</td>
 <td align="right">138</td>
-<td align="right">4.641304</td>
+<td align="right">4.6413043</td>
 <td align="right">1.1569200</td>
-</tr>
-<tr class="even">
-<td align="left">Veracity</td>
-<td align="left">PLS</td>
-<td align="right">138</td>
-<td align="right">5.143116</td>
-<td align="right">1.1240924</td>
 </tr>
 <tr class="odd">
 <td align="left">Veracity</td>
+<td align="left">PLS</td>
+<td align="right">138</td>
+<td align="right">5.1431159</td>
+<td align="right">1.1240924</td>
+</tr>
+<tr class="even">
+<td align="left">Veracity</td>
 <td align="left">PLS_NH</td>
 <td align="right">138</td>
-<td align="right">5.000000</td>
+<td align="right">5.0000000</td>
 <td align="right">1.1514035</td>
 </tr>
 </tbody>
@@ -706,121 +733,137 @@ table(knowledge$score, knowledge$summary)[1,]/colSums(table(knowledge$score, kno
 </div>
 <div id="預先註冊分析項目" class="section level2">
 <h2>預先註冊分析項目</h2>
-<div id="對於摘要的理解" class="section level3">
-<h3>1.對於摘要的理解</h3>
-<p>主觀評分</p>
-<pre class="r"><code>dm_Comprehense &lt;- subset(dm_Post, Topic == &quot;Comprehensibility&quot;)
+<!--- 各項分析方法同Kerwer et al.(2021)的腳本：20200921_Analysis.Rmd，以下各部分chunk標示對應該腳本的部分 --->
+</div>
+<div id="確證性分析" class="section level2">
+<h2>確證性分析</h2>
+<div id="可理解程度評估" class="section level3">
+<h3>1. 可理解程度評估</h3>
+<p>對於摘要的理解</p>
+<ul>
+<li>主觀評分</li>
+</ul>
+<pre class="r"><code># Confirmatory Analyses
 
-dm_Comprehense$response = as.numeric(dm_Comprehense$response)
+## H1 Comprehensibility
+
+## 轉換獨變項
+df_Post &lt;- df_Post %&gt;%
+mutate(article_type = ifelse(NH == &quot;N&quot; &amp; OSA == &quot;Y&quot;, &quot;OSA&quot;,ifelse(NH == &quot;N&quot; &amp; OSA == &quot;N&quot;, &quot;PLS&quot;,&quot;PLS_NH&quot;))) 
+
+
+## 計算參與者單位及文章單位的組內相關程度ICC
 
 # conduct icc
 
-m0 &lt;- lmer(response ~ (1 | jatosStudyResultId), data = dm_Comprehense )
+m0 &lt;- lmer(response ~ (1 | jatosStudyResultId), data = subset(df_Post, Topic == &quot;Comprehensibility&quot;) )
 
 summary(m0)</code></pre>
 <pre><code>## Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [
 ## lmerModLmerTest]
 ## Formula: response ~ (1 | jatosStudyResultId)
-##    Data: dm_Comprehense
+##    Data: subset(df_Post, Topic == &quot;Comprehensibility&quot;)
 ## 
-## REML criterion at convergence: 6061.3
+## REML criterion at convergence: 6598
 ## 
 ## Scaled residuals: 
 ##     Min      1Q  Median      3Q     Max 
-## -3.9613 -0.4944  0.1571  0.6532  1.9802 
+## -3.9737 -0.4766  0.1345  0.6586  2.0158 
 ## 
 ## Random effects:
 ##  Groups             Name        Variance Std.Dev.
-##  jatosStudyResultId (Intercept) 0.4339   0.6587  
-##  Residual                       2.0447   1.4299  
-## Number of obs: 1656, groups:  jatosStudyResultId, 138
+##  jatosStudyResultId (Intercept) 0.4966   0.7047  
+##  Residual                       2.0388   1.4279  
+## Number of obs: 1800, groups:  jatosStudyResultId, 150
 ## 
 ## Fixed effects:
 ##              Estimate Std. Error        df t value Pr(&gt;|t|)    
-## (Intercept)   6.02174    0.06617 136.99993      91   &lt;2e-16 ***
+## (Intercept)   5.96444    0.06666 148.99999   89.48   &lt;2e-16 ***
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
 <pre class="r"><code>performance::icc(m0)</code></pre>
 <pre><code>## # Intraclass Correlation Coefficient
 ## 
-##      Adjusted ICC: 0.175
-##   Conditional ICC: 0.175</code></pre>
-<pre class="r"><code>m00 &lt;- lmer(response ~ (1 | Test_id), data = dm_Comprehense)
+##      Adjusted ICC: 0.196
+##   Conditional ICC: 0.196</code></pre>
+<pre class="r"><code>m00 &lt;- lmer(response ~ (1 | Test_id), data = subset(df_Post, Topic == &quot;Comprehensibility&quot;))
 
 summary(m00)</code></pre>
 <pre><code>## Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [
 ## lmerModLmerTest]
 ## Formula: response ~ (1 | Test_id)
-##    Data: dm_Comprehense
+##    Data: subset(df_Post, Topic == &quot;Comprehensibility&quot;)
 ## 
-## REML criterion at convergence: 6197.7
+## REML criterion at convergence: 6776.9
 ## 
 ## Scaled residuals: 
 ##     Min      1Q  Median      3Q     Max 
-## -3.2625 -0.6282  0.0109  0.6500  1.4061 
+## -3.2126 -0.5772  0.0548  0.6867  1.4516 
 ## 
 ## Random effects:
 ##  Groups   Name        Variance Std.Dev.
-##  Test_id  (Intercept) 0.03599  0.1897  
-##  Residual             2.44805  1.5646  
-## Number of obs: 1656, groups:  Test_id, 13
+##  Test_id  (Intercept) 0.03727  0.1931  
+##  Residual             2.50419  1.5825  
+## Number of obs: 1800, groups:  Test_id, 13
 ## 
 ## Fixed effects:
 ##             Estimate Std. Error       df t value Pr(&gt;|t|)    
-## (Intercept)  6.02620    0.06677 10.55916   90.25   &lt;2e-16 ***
+## (Intercept)  5.97302    0.06681 10.44563    89.4   &lt;2e-16 ***
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
 <pre class="r"><code>performance::icc(m00)</code></pre>
 <pre><code>## # Intraclass Correlation Coefficient
 ## 
-##      Adjusted ICC: 0.014
-##   Conditional ICC: 0.014</code></pre>
+##      Adjusted ICC: 0.015
+##   Conditional ICC: 0.015</code></pre>
 <pre class="r"><code>## mixed-effect models
+## 確認最適模型
 
-m1 &lt;- lmer(response ~ (1 | jatosStudyResultId) + article_type + (1 | Test_id), data = dm_Comprehense)
+m1 &lt;- lmer(response ~ (1 | jatosStudyResultId) + article_type + (1 | Text_id), data = subset(df_Post, Topic == &quot;Comprehensibility&quot;))
 
-anova(m0,m1)</code></pre>
-<pre><code>## Data: dm_Comprehense
+anova(m0,m1) ## fittest is m1</code></pre>
+<pre><code>## Data: subset(df_Post, Topic == &quot;Comprehensibility&quot;)
 ## Models:
 ## m0: response ~ (1 | jatosStudyResultId)
-## m1: response ~ (1 | jatosStudyResultId) + article_type + (1 | Test_id)
+## m1: response ~ (1 | jatosStudyResultId) + article_type + (1 | Text_id)
 ##    npar    AIC    BIC  logLik deviance  Chisq Df Pr(&gt;Chisq)    
-## m0    3 6063.7 6079.9 -3028.8   6057.7                         
-## m1    6 5862.3 5894.8 -2925.2   5850.3 207.32  3  &lt; 2.2e-16 ***
+## m0    3 6600.4 6616.9 -3297.2   6594.4                         
+## m1    6 6238.2 6271.1 -3113.1   6226.2 368.28  3  &lt; 2.2e-16 ***
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
 <pre class="r"><code>summary(m1)</code></pre>
 <pre><code>## Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [
 ## lmerModLmerTest]
-## Formula: response ~ (1 | jatosStudyResultId) + article_type + (1 | Test_id)
-##    Data: dm_Comprehense
+## Formula: response ~ (1 | jatosStudyResultId) + article_type + (1 | Text_id)
+##    Data: subset(df_Post, Topic == &quot;Comprehensibility&quot;)
 ## 
-## REML criterion at convergence: 5860.3
+## REML criterion at convergence: 6235.4
 ## 
 ## Scaled residuals: 
 ##     Min      1Q  Median      3Q     Max 
-## -3.7336 -0.5099  0.1227  0.6648  2.6701 
+## -4.3343 -0.5224  0.0922  0.6816  2.8226 
 ## 
 ## Random effects:
 ##  Groups             Name        Variance Std.Dev.
-##  jatosStudyResultId (Intercept) 0.45152  0.6720  
-##  Test_id            (Intercept) 0.02001  0.1415  
-##  Residual                       1.77650  1.3329  
-## Number of obs: 1656, groups:  jatosStudyResultId, 138; Test_id, 13
+##  jatosStudyResultId (Intercept) 0.5331   0.7302  
+##  Text_id            (Intercept) 0.1809   0.4253  
+##  Residual                       1.6004   1.2651  
+## Number of obs: 1800, groups:  jatosStudyResultId, 150; Text_id, 12
 ## 
 ## Fixed effects:
 ##                     Estimate Std. Error        df t value Pr(&gt;|t|)    
-## (Intercept)        5.401e+00  9.049e-02 6.658e+01  59.685   &lt;2e-16 ***
-## article_typePLS    1.181e+00  8.034e-02 1.512e+03  14.702   &lt;2e-16 ***
-## article_typePLS_NH 7.019e-01  8.035e-02 1.512e+03   8.736   &lt;2e-16 ***
+## (Intercept)        5.336e+00  1.459e-01 1.947e+01  36.562   &lt;2e-16 ***
+## article_typePLS    1.180e+00  7.313e-02 1.637e+03  16.133   &lt;2e-16 ***
+## article_typePLS_NH 7.047e-01  7.313e-02 1.637e+03   9.636   &lt;2e-16 ***
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
 ## Correlation of Fixed Effects:
 ##             (Intr) ar_PLS
-## artcl_tyPLS -0.444       
-## artc_PLS_NH -0.445  0.500</code></pre>
+## artcl_tyPLS -0.251       
+## artc_PLS_NH -0.251  0.500</code></pre>
 <pre class="r"><code>## Tukey test
+## 文章型態多重比較
 
 test = glht(m1,linfct=mcp(article_type=&quot;Tukey&quot;))
 summary(test, test = adjusted(&quot;none&quot;))</code></pre>
@@ -831,27 +874,42 @@ summary(test, test = adjusted(&quot;none&quot;))</code></pre>
 ## 
 ## 
 ## Fit: lmer(formula = response ~ (1 | jatosStudyResultId) + article_type + 
-##     (1 | Test_id), data = dm_Comprehense)
+##     (1 | Text_id), data = subset(df_Post, Topic == &quot;Comprehensibility&quot;))
 ## 
 ## Linear Hypotheses:
 ##                   Estimate Std. Error z value Pr(&gt;|z|)    
-## PLS - OSA == 0     1.18123    0.08034  14.702  &lt; 2e-16 ***
-## PLS_NH - OSA == 0  0.70190    0.08035   8.736  &lt; 2e-16 ***
-## PLS_NH - PLS == 0 -0.47933    0.08035  -5.965 2.44e-09 ***
+## PLS - OSA == 0     1.17975    0.07313  16.133  &lt; 2e-16 ***
+## PLS_NH - OSA == 0  0.70467    0.07313   9.636  &lt; 2e-16 ***
+## PLS_NH - PLS == 0 -0.47508    0.07313  -6.497  8.2e-11 ***
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## (Adjusted p values reported -- none method)</code></pre>
-<p>測驗題正確率</p>
-<pre class="r"><code># mixed-effect models
-m0 &lt;- glmer(score ~ (1 | jatosStudyResultId), family = binomial(&quot;logit&quot;), data = dm_knowledge)
+</div>
+<div id="知識獲取度評估" class="section level3">
+<h3>2. 知識獲取度評估</h3>
+<p>理解測驗正確率</p>
+<pre class="r"><code># Confirmatory Analyses
 
-m00 &lt;- glmer(score ~ (1 | Test_id), family = binomial(&quot;logit&quot;), data = dm_knowledge)
+## H2 Knowledge Test
+## 轉換獨變項, 依變項數值
+
+df_knowledge &lt;- df_knowledge %&gt;% 
+  filter(!(jatosStudyResultId %in% strange_id)) %&gt;%   ## 過濾極端參與者
+  mutate(article_type = ifelse(NH == &quot;N&quot; &amp; OSA == &quot;Y&quot;, &quot;OSA&quot;,ifelse(NH == &quot;N&quot; &amp; OSA == &quot;N&quot;, &quot;PLS&quot;,&quot;PLS_NH&quot;))) %&gt;%                                                             #將摘要分類為PLS、OSA、NH_PLS
+  mutate(response = ifelse(response == &quot;是&quot;,&quot;y&quot;,&quot;n&quot;)) %&gt;%       #轉換參與者回答&quot;是&quot;換成&quot;y&quot;
+  mutate(score = ifelse(response == correct_response,1,0)) 
+
+# mixed-effect models
+## 確認最適模型
+m0 &lt;- glmer(score ~ (1 | jatosStudyResultId), family = binomial(&quot;logit&quot;), data = df_knowledge)
+
+m00 &lt;- glmer(score ~ (1 | Test_id), family = binomial(&quot;logit&quot;), data = df_knowledge)
 
 
-m1 &lt;- glmer(score ~ (1 | jatosStudyResultId) + article_type + (1 | Test_id), family = binomial(&quot;logit&quot;), data = dm_knowledge)
+m1 &lt;- glmer(score ~ (1 | jatosStudyResultId) + article_type + (1 | Test_id), family = binomial(&quot;logit&quot;), data = df_knowledge)
 
 anova(m0,m1)</code></pre>
-<pre><code>## Data: dm_knowledge
+<pre><code>## Data: df_knowledge
 ## Models:
 ## m0: score ~ (1 | jatosStudyResultId)
 ## m1: score ~ (1 | jatosStudyResultId) + article_type + (1 | Test_id)
@@ -865,7 +923,7 @@ anova(m0,m1)</code></pre>
 ##   Approximation) [glmerMod]
 ##  Family: binomial  ( logit )
 ## Formula: score ~ (1 | jatosStudyResultId) + article_type + (1 | Test_id)
-##    Data: dm_knowledge
+##    Data: df_knowledge
 ## 
 ##      AIC      BIC   logLik deviance df.resid 
 ##   3759.1   3789.7  -1874.6   3749.1     3307 
@@ -893,6 +951,7 @@ anova(m0,m1)</code></pre>
 ## artcl_tyPLS -0.243       
 ## artc_PLS_NH -0.242  0.488</code></pre>
 <pre class="r"><code>## Tukey test
+## 文章型態多重比較
 
 test = glht(m1,linfct=mcp(article_type=&quot;Tukey&quot;))
 summary(test, test = adjusted(&quot;none&quot;))</code></pre>
@@ -903,7 +962,7 @@ summary(test, test = adjusted(&quot;none&quot;))</code></pre>
 ## 
 ## 
 ## Fit: glmer(formula = score ~ (1 | jatosStudyResultId) + article_type + 
-##     (1 | Test_id), data = dm_knowledge, family = binomial(&quot;logit&quot;))
+##     (1 | Test_id), data = df_knowledge, family = binomial(&quot;logit&quot;))
 ## 
 ## Linear Hypotheses:
 ##                   Estimate Std. Error z value Pr(&gt;|z|)  
@@ -914,17 +973,315 @@ summary(test, test = adjusted(&quot;none&quot;))</code></pre>
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## (Adjusted p values reported -- none method)</code></pre>
 </div>
-<div id="對於摘要的科學性" class="section level3">
-<h3>2.對於摘要的科學性</h3>
+<div id="來源可信度評估" class="section level3">
+<h3>3. 來源可信度評估</h3>
+<p>對摘要來源的可信度</p>
+<pre class="r"><code># Confirmatory Analyses
+
+## H3 Credibility
+
+
+## 計算參與者單位及文章單位的組內相關程度ICC
+
+
+## 確認最適模型
+
+
+
+## 文章型態多重比較</code></pre>
 </div>
-<div id="對摘要來源的可信度" class="section level3">
-<h3>3.對摘要來源的可信度</h3>
+<div id="內容真實性評估" class="section level3">
+<h3>4. 內容真實性評估</h3>
+<p>評估摘要內容的真實性</p>
+<pre class="r"><code># Confirmatory Analyses
+
+## H4 Ability to Evaluate
+
+
+## 計算參與者單位及文章單位的組內相關程度ICC
+
+
+## 確認最適模型
+
+
+## 文章型態多重比較</code></pre>
 </div>
-<div id="評估摘要內容的真實性" class="section level3">
-<h3>4.評估摘要內容的真實性</h3>
+<div id="資訊充足度評估" class="section level3">
+<h3>5. 資訊充足度評估</h3>
+<p>不需獲取更多資訊能理解更多內容</p>
+<pre class="r"><code># Confirmatory Analyses
+
+## H5 Ability to Make a Decision
+
+
+## 計算參與者單位及文章單位的組內相關程度ICC
+
+
+## 確認最適模型
+
+
+## 文章型態多重比較</code></pre>
 </div>
-<div id="不需獲取更多資訊能理解更多內容" class="section level3">
-<h3>5.不需獲取更多資訊能理解更多內容</h3>
+</div>
+<div id="探索性分析" class="section level2">
+<h2>探索性分析</h2>
+<div id="內容科學性評估" class="section level3">
+<h3>內容科學性評估</h3>
+<p>對於摘要內容的科學性</p>
+<p>Kerwer et al.(2021)發現科學性與來源可信度有高相關性(r &gt; .77)，故論文未報告科學性分析，分析腳本保存科學性的文本比較。</p>
+<pre class="r"><code># Exploratory
+
+## Scientificness
+
+
+## 計算參與者單位及文章單位的組內相關程度ICC
+
+
+
+## 確認最適模型
+
+
+## 文章型態多重比較</code></pre>
+</div>
+<div id="索取全文意願" class="section level3">
+<h3>索取全文意願</h3>
+<pre class="r"><code># Exploratory
+
+## Full Text Access
+
+
+## 確認最適模型
+
+
+## 文章型態多重比較</code></pre>
+<p>知識背景包括知識信念(belief)與科學活動經驗(self eval)</p>
+<pre class="r"><code>## 準備知識信念及科學活動經驗指標分數，合併至原始資料集
+df_Post_ext &lt;- df_Belief %&gt;% group_by(jatosStudyResultId, Topic) %&gt;%
+  summarise(score = mean(as.numeric(response))) %&gt;%
+  pivot_wider(names_from = &quot;Topic&quot;,values_from = &quot;score&quot;) %&gt;%
+  right_join(df_Post, by=c(&quot;jatosStudyResultId&quot;))</code></pre>
+</div>
+<div id="知識背景影響分析主觀理解度" class="section level3">
+<h3>知識背景影響分析：主觀理解度</h3>
+<pre class="r"><code># Model Tests Interindividuell Differences
+## Comprehensibility
+
+## 決定未加入個別差異因素的最佳模型
+
+# Random Intercepts
+
+m00 &lt;- lmer(response ~ NH + OSA +(1 | Text_id), data = subset(df_Post_ext, Topic == &quot;Comprehensibility&quot;))
+
+m1 &lt;- lmer(response ~(1 | Text_id) + NH + OSA +  (1 | jatosStudyResultId), subset(df_Post_ext, Topic == &quot;Comprehensibility&quot;))
+
+anova(m00, m1)  ## fittest is m1</code></pre>
+<pre><code>## Data: subset(df_Post_ext, Topic == &quot;Comprehensibility&quot;)
+## Models:
+## m00: response ~ NH + OSA + (1 | Text_id)
+## m1: response ~ (1 | Text_id) + NH + OSA + (1 | jatosStudyResultId)
+##     npar    AIC    BIC  logLik deviance  Chisq Df Pr(&gt;Chisq)    
+## m00    5 6510.8 6538.3 -3250.4   6500.8                         
+## m1     6 6238.2 6271.1 -3113.1   6226.2 274.66  1  &lt; 2.2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<pre class="r"><code># Random Slopes
+
+m2a &lt;- lmer(response ~(1 | Text_id) + NH + OSA +   (OSA | jatosStudyResultId), data = subset(df_Post_ext, Topic == &quot;Comprehensibility&quot;))
+
+
+m2b &lt;- lmer(response ~(1 | Text_id) + NH + OSA +   (NH | jatosStudyResultId), data = subset(df_Post_ext, Topic == &quot;Comprehensibility&quot;), REML = F)
+#summary(m2b)
+
+
+
+anova(m2a, m1) ## fittest is m1</code></pre>
+<pre><code>## Data: subset(df_Post_ext, Topic == &quot;Comprehensibility&quot;)
+## Models:
+## m1: response ~ (1 | Text_id) + NH + OSA + (1 | jatosStudyResultId)
+## m2a: response ~ (1 | Text_id) + NH + OSA + (OSA | jatosStudyResultId)
+##     npar    AIC    BIC  logLik deviance  Chisq Df Pr(&gt;Chisq)
+## m1     6 6238.2 6271.1 -3113.1   6226.2                     
+## m2a    8 6239.6 6283.6 -3111.8   6223.6 2.5432  2     0.2804</code></pre>
+<pre class="r"><code>anova(m2b, m1) ## fittest is m1</code></pre>
+<pre><code>## Data: subset(df_Post_ext, Topic == &quot;Comprehensibility&quot;)
+## Models:
+## m1: response ~ (1 | Text_id) + NH + OSA + (1 | jatosStudyResultId)
+## m2b: response ~ (1 | Text_id) + NH + OSA + (NH | jatosStudyResultId)
+##     npar    AIC    BIC  logLik deviance  Chisq Df Pr(&gt;Chisq)
+## m1     6 6238.2 6271.1 -3113.1   6226.2                     
+## m2b    8 6241.1 6285.1 -3112.6   6225.1 1.0607  2     0.5884</code></pre>
+<pre class="r"><code>summary(m1)</code></pre>
+<pre><code>## Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [
+## lmerModLmerTest]
+## Formula: response ~ (1 | Text_id) + NH + OSA + (1 | jatosStudyResultId)
+##    Data: subset(df_Post_ext, Topic == &quot;Comprehensibility&quot;)
+## 
+## REML criterion at convergence: 6235.4
+## 
+## Scaled residuals: 
+##     Min      1Q  Median      3Q     Max 
+## -4.3343 -0.5224  0.0922  0.6816  2.8226 
+## 
+## Random effects:
+##  Groups             Name        Variance Std.Dev.
+##  jatosStudyResultId (Intercept) 0.5331   0.7302  
+##  Text_id            (Intercept) 0.1809   0.4253  
+##  Residual                       1.6004   1.2651  
+## Number of obs: 1800, groups:  jatosStudyResultId, 150; Text_id, 12
+## 
+## Fixed effects:
+##               Estimate Std. Error         df t value Pr(&gt;|t|)    
+## (Intercept)    6.51605    0.14595   19.46955  44.646  &lt; 2e-16 ***
+## NHY           -0.47508    0.07313 1637.45798  -6.497 1.09e-10 ***
+## OSAY          -1.17975    0.07313 1637.45798 -16.133  &lt; 2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Correlation of Fixed Effects:
+##      (Intr) NHY   
+## NHY  -0.251       
+## OSAY -0.251  0.500</code></pre>
+<pre class="r"><code>## 評估知識信念
+
+
+m3a &lt;- lmer(response ~(1 | Text_id) + NH+ OSA + JA + PJ + MS +   (OSA | jatosStudyResultId), data = subset(df_Post_ext, Topic == &quot;Comprehensibility&quot;))
+m3b &lt;- lmer(response ~(1 | Text_id) + NH+ OSA * JA   + OSA * PJ + OSA * MS +   (OSA | jatosStudyResultId), data = subset(df_Post_ext, Topic == &quot;Comprehensibility&quot;))
+
+
+anova(m1,m3a) ## fittest is m3a</code></pre>
+<pre><code>## Data: subset(df_Post_ext, Topic == &quot;Comprehensibility&quot;)
+## Models:
+## m1: response ~ (1 | Text_id) + NH + OSA + (1 | jatosStudyResultId)
+## m3a: response ~ (1 | Text_id) + NH + OSA + JA + PJ + MS + (OSA | jatosStudyResultId)
+##     npar    AIC    BIC  logLik deviance  Chisq Df Pr(&gt;Chisq)  
+## m1     6 6238.2 6271.1 -3113.1   6226.2                       
+## m3a   11 6235.0 6295.5 -3106.5   6213.0 13.155  5    0.02197 *
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<pre class="r"><code>anova(m1,m3b) ## fittest is m3b </code></pre>
+<pre><code>## Data: subset(df_Post_ext, Topic == &quot;Comprehensibility&quot;)
+## Models:
+## m1: response ~ (1 | Text_id) + NH + OSA + (1 | jatosStudyResultId)
+## m3b: response ~ (1 | Text_id) + NH + OSA * JA + OSA * PJ + OSA * MS + (OSA | jatosStudyResultId)
+##     npar    AIC    BIC  logLik deviance  Chisq Df Pr(&gt;Chisq)  
+## m1     6 6238.2 6271.1 -3113.1   6226.2                       
+## m3b   14 6235.0 6311.9 -3103.5   6207.0 19.205  8     0.0138 *
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<pre class="r"><code>anova(m3a,m3b) ## fittest is m3a</code></pre>
+<pre><code>## Data: subset(df_Post_ext, Topic == &quot;Comprehensibility&quot;)
+## Models:
+## m3a: response ~ (1 | Text_id) + NH + OSA + JA + PJ + MS + (OSA | jatosStudyResultId)
+## m3b: response ~ (1 | Text_id) + NH + OSA * JA + OSA * PJ + OSA * MS + (OSA | jatosStudyResultId)
+##     npar  AIC    BIC  logLik deviance  Chisq Df Pr(&gt;Chisq)
+## m3a   11 6235 6295.5 -3106.5     6213                     
+## m3b   14 6235 6311.9 -3103.5     6207 6.0497  3     0.1092</code></pre>
+<pre class="r"><code>summary(m3a)</code></pre>
+<pre><code>## Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [
+## lmerModLmerTest]
+## Formula: 
+## response ~ (1 | Text_id) + NH + OSA + JA + PJ + MS + (OSA | jatosStudyResultId)
+##    Data: subset(df_Post_ext, Topic == &quot;Comprehensibility&quot;)
+## 
+## REML criterion at convergence: 6231.4
+## 
+## Scaled residuals: 
+##     Min      1Q  Median      3Q     Max 
+## -4.3989 -0.5358  0.0930  0.6719  2.9317 
+## 
+## Random effects:
+##  Groups             Name        Variance Std.Dev. Corr
+##  jatosStudyResultId (Intercept) 0.44703  0.6686       
+##                     OSAY        0.06062  0.2462   0.51
+##  Text_id            (Intercept) 0.18146  0.4260       
+##  Residual                       1.58573  1.2593       
+## Number of obs: 1800, groups:  jatosStudyResultId, 150; Text_id, 12
+## 
+## Fixed effects:
+##               Estimate Std. Error         df t value Pr(&gt;|t|)    
+## (Intercept)    4.91907    0.59877  155.99130   8.215 7.58e-14 ***
+## NHY           -0.47506    0.07279 1488.09059  -6.526 9.21e-11 ***
+## OSAY          -1.18022    0.07552  247.78240 -15.628  &lt; 2e-16 ***
+## JA             0.05755    0.08142  146.01748   0.707  0.48081    
+## PJ            -0.06474    0.08618  146.02900  -0.751  0.45368    
+## MS             0.31188    0.09815  146.02830   3.177  0.00181 ** 
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Correlation of Fixed Effects:
+##      (Intr) NHY    OSAY   JA     PJ    
+## NHY  -0.061                            
+## OSAY -0.046  0.482                     
+## JA   -0.286  0.000  0.000              
+## PJ   -0.277  0.000  0.000 -0.337       
+## MS   -0.799  0.000  0.000 -0.057 -0.030</code></pre>
+<pre class="r"><code>## 評估科學活動經驗
+
+#m3a &lt;- lmer(vst ~(1 | study) + NH+ OSA + Englisch +   (OSA | id), data = df)
+#m3b &lt;- lmer(vst ~(1 | study) + NH+ OSA * Englisch +   (OSA | id), data = df)
+
+
+#anova(m2a,m3a)
+#anova(m3a,m3b)
+
+
+#summary(m3a)</code></pre>
+</div>
+<div id="知識背景影響分析理解測驗正確率" class="section level3">
+<h3>知識背景影響分析：理解測驗正確率</h3>
+<pre class="r"><code># Model Tests Interindividuell Differences
+
+## Knowledge Test
+
+
+## 決定未加入個別差異因素的最佳模型
+
+
+## 評估知識信念
+
+
+## 評估科學活動經驗</code></pre>
+</div>
+<div id="知識背景影響分析來源可信度評估" class="section level3">
+<h3>知識背景影響分析：來源可信度評估</h3>
+<pre class="r"><code># Model Tests Interindividuell Differences
+
+## Credibility
+
+
+## 決定未加入個別差異因素的最佳模型
+
+
+## 評估知識信念</code></pre>
+</div>
+<div id="知識背景影響分析內容真實性評估" class="section level3">
+<h3>知識背景影響分析：內容真實性評估</h3>
+<pre class="r"><code># Model Tests Interindividuell Differences
+
+## Ability to Evaluate
+
+
+## 決定未加入個別差異因素的最佳模型
+
+
+## 評估知識信念
+
+
+## 評估科學活動經驗</code></pre>
+</div>
+<div id="知識背景影響分析資訊充足度評估" class="section level3">
+<h3>知識背景影響分析：資訊充足度評估</h3>
+<pre class="r"><code># Model Tests Interindividuell Differences
+
+## Ability to Make Decision
+
+## 決定未加入個別差異因素的最佳模型
+
+
+## 評估知識信念
+
+
+## 評估科學活動經驗</code></pre>
 </div>
 </div>
 

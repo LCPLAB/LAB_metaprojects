@@ -27,7 +27,7 @@ library(effectsize)
 library(lme4)
 library(lmerTest)
 library(sjstats)
-#library(MuMIn)
+library(MuMIn)
 library(multcomp)
 ```
 
@@ -238,6 +238,12 @@ df_Post$response <- sapply(
  1
  )
 
+## Change full access response to numeric
+df_Post$response = ifelse(df_Post$response == "想", 1, ifelse(df_Post$response == "不想",0,df_Post$response))
+
+## convert df_Post responses to numeric
+df_Post$response = as.numeric(df_Post$response)
+
 #new_post <- filter(.data = df_Post,Topic %in% c("Comprehensibility","Scientificness","Credibility","Veracity","Decision") & !(jatosStudyResultId %in% strange_id)) %>% 
 ##抓出要分析的TOPIC
   
@@ -252,7 +258,7 @@ df_Post$response <- sapply(
 #new_post$response <- gsub("1: 完全讀不懂", 1, new_post$response)
 #new_post$response <- gsub("1: 我認為完全不可以", 1, new_post$response) 
 ##將包含中文的response替換數字
-tb_Post <- (dm_Post <- df_Post %>% filter(Topic %in% c("Comprehensibility","Scientificness","Credibility","Veracity","Decision") & !(jatosStudyResultId %in% strange_id)) %>%
+tb_Post <- (dm_Post <- df_Post %>% filter(Topic %in% c("Comprehensibility","Scientificness","Credibility","Veracity","Decision","Access") & !(jatosStudyResultId %in% strange_id)) %>%
 mutate(article_type = ifelse(NH == "N" & OSA == "Y", "OSA",ifelse(NH == "N" & OSA == "N", "PLS","PLS_NH"))) ) %>%
 #table3_cells <- new_post %>%
 #        filter(summary == "PLS")   %>%
@@ -262,7 +268,7 @@ mutate(article_type = ifelse(NH == "N" & OSA == "Y", "OSA",ifelse(NH == "N" & OS
          summarise(N = n(),
                    M = mean(post_score,na.rm = TRUE),
                    SD = sd(post_score,na.rm = TRUE)
-            ) ## 評分總計   
+) ## 評分總計   
 ```     
 
 `r knitr::kable(tb_Post)`
@@ -323,56 +329,85 @@ table(knowledge$score, knowledge$summary)[2,]/colSums(table(knowledge$score, kno
 
 ## 預先註冊分析項目
 
+<!--- 各項分析方法同Kerwer et al.(2021)的腳本：20200921_Analysis.Rmd，以下各部分chunk標示對應該腳本的部分 --->
+
 ## 確證性分析
 
-### 1.對於摘要的理解
+### 1. 可理解程度評估
 
-主觀評分
+對於摘要的理解
+
+- 主觀評分
 
 
 ```{r comprehension-stat}
-dm_Comprehense <- subset(dm_Post, Topic == "Comprehensibility")
 
-dm_Comprehense$response = as.numeric(dm_Comprehense$response)
+# Confirmatory Analyses
+
+## H1 Comprehensibility
+
+## 轉換獨變項
+df_Post <- df_Post %>%
+mutate(article_type = ifelse(NH == "N" & OSA == "Y", "OSA",ifelse(NH == "N" & OSA == "N", "PLS","PLS_NH"))) 
+
+
+## 計算參與者單位及文章單位的組內相關程度ICC
 
 # conduct icc
 
-m0 <- lmer(response ~ (1 | jatosStudyResultId), data = dm_Comprehense )
+m0 <- lmer(response ~ (1 | jatosStudyResultId), data = subset(df_Post, Topic == "Comprehensibility") )
 
 summary(m0)
 performance::icc(m0)
 
-m00 <- lmer(response ~ (1 | Test_id), data = dm_Comprehense)
+m00 <- lmer(response ~ (1 | Test_id), data = subset(df_Post, Topic == "Comprehensibility"))
 
 summary(m00)
 performance::icc(m00)
 
 ## mixed-effect models
+## 確認最適模型
 
-m1 <- lmer(response ~ (1 | jatosStudyResultId) + article_type + (1 | Test_id), data = dm_Comprehense)
+m1 <- lmer(response ~ (1 | jatosStudyResultId) + article_type + (1 | Text_id), data = subset(df_Post, Topic == "Comprehensibility"))
 
-anova(m0,m1)
+anova(m0,m1) ## fittest is m1
 
 
 summary(m1)
 
 ## Tukey test
+## 文章型態多重比較
 
 test = glht(m1,linfct=mcp(article_type="Tukey"))
 summary(test, test = adjusted("none"))
 
 ```
+
+### 2. 知識獲取度評估
 
 理解測驗正確率
 
 ```{r knowledge-stat}
+
+# Confirmatory Analyses
+
+## H2 Knowledge Test
+## 轉換獨變項, 依變項數值
+
+df_knowledge <- df_knowledge %>% 
+  filter(!(jatosStudyResultId %in% strange_id)) %>%   ## 過濾極端參與者
+  mutate(article_type = ifelse(NH == "N" & OSA == "Y", "OSA",ifelse(NH == "N" & OSA == "N", "PLS","PLS_NH"))) %>%                                                             #將摘要分類為PLS、OSA、NH_PLS
+  mutate(response = ifelse(response == "是","y","n")) %>%       #轉換參與者回答"是"換成"y"
+  mutate(score = ifelse(response == correct_response,1,0)) 
+
 # mixed-effect models
-m0 <- glmer(score ~ (1 | jatosStudyResultId), family = binomial("logit"), data = dm_knowledge)
+## 確認最適模型
+m0 <- glmer(score ~ (1 | jatosStudyResultId), family = binomial("logit"), data = df_knowledge)
 
-m00 <- glmer(score ~ (1 | Test_id), family = binomial("logit"), data = dm_knowledge)
+m00 <- glmer(score ~ (1 | Test_id), family = binomial("logit"), data = df_knowledge)
 
 
-m1 <- glmer(score ~ (1 | jatosStudyResultId) + article_type + (1 | Test_id), family = binomial("logit"), data = dm_knowledge)
+m1 <- glmer(score ~ (1 | jatosStudyResultId) + article_type + (1 | Test_id), family = binomial("logit"), data = df_knowledge)
 
 anova(m0,m1)
 
@@ -381,6 +416,7 @@ summary(m1)
 
 
 ## Tukey test
+## 文章型態多重比較
 
 test = glht(m1,linfct=mcp(article_type="Tukey"))
 summary(test, test = adjusted("none"))
@@ -388,40 +424,255 @@ summary(test, test = adjusted("none"))
 
 
 
-### 2.對於摘要的科學性
+
+### 3. 來源可信度評估
+
+對摘要來源的可信度
+
+```{r credibility-stat}
+# Confirmatory Analyses
+
+## H3 Credibility
+
+
+## 計算參與者單位及文章單位的組內相關程度ICC
+
+
+## 確認最適模型
 
 
 
-### 3.對摘要來源的可信度
+## 文章型態多重比較
+
+```
 
 
+### 4. 內容真實性評估
 
-### 4.評估摘要內容的真實性
+評估摘要內容的真實性
+
+```{r evaluate-stat}
+# Confirmatory Analyses
+
+## H4 Ability to Evaluate
 
 
+## 計算參與者單位及文章單位的組內相關程度ICC
 
-### 5.不需獲取更多資訊能理解更多內容
 
+## 確認最適模型
+
+
+## 文章型態多重比較
+
+```
+
+
+### 5. 資訊充足度評估
+
+不需獲取更多資訊能理解更多內容
+
+```{r decision-stat}
+# Confirmatory Analyses
+
+## H5 Ability to Make a Decision
+
+
+## 計算參與者單位及文章單位的組內相關程度ICC
+
+
+## 確認最適模型
+
+
+## 文章型態多重比較
+
+```
 
 
 ## 探索性分析
 
+
+### 內容科學性評估
+
+對於摘要內容的科學性
+
+Kerwer et al.(2021)發現科學性與來源可信度有高相關性(r > .77)，故論文未報告科學性分析，分析腳本保存科學性的文本比較。
+
+
+```{r scientificness-stat}
+# Exploratory
+
+## Scientificness
+
+
+## 計算參與者單位及文章單位的組內相關程度ICC
+
+
+
+## 確認最適模型
+
+
+## 文章型態多重比較
+
+```
+
+
 ### 索取全文意願
 
+```{r access-stat}
+# Exploratory
+
+## Full Text Access
 
 
-### 知識信念影響分析：主觀理解度
+## 確認最適模型
 
 
-### 知識信念影響分析：理解測驗正確率
+## 文章型態多重比較
+
+```
 
 
-### 知識信念影響分析：來源可信度評估
+知識背景包括知識信念(belief)與科學活動經驗(self eval)
+
+```{r data-ext}
+## 準備知識信念及科學活動經驗指標分數，合併至原始資料集
+df_Post_ext <- df_Belief %>% group_by(jatosStudyResultId, Topic) %>%
+  summarise(score = mean(as.numeric(response))) %>%
+  pivot_wider(names_from = "Topic",values_from = "score") %>%
+  right_join(df_Post, by=c("jatosStudyResultId"))
+```
 
 
-### 知識信念影響分析：內容真實性評估
+### 知識背景影響分析：主觀理解度
+
+```{r comprehension-belief}
+# Model Tests Interindividuell Differences
+## Comprehensibility
+
+## 決定未加入個別差異因素的最佳模型
+
+# Random Intercepts
+
+m00 <- lmer(response ~ NH + OSA +(1 | Text_id), data = subset(df_Post_ext, Topic == "Comprehensibility"))
+
+m1 <- lmer(response ~(1 | Text_id) + NH + OSA +  (1 | jatosStudyResultId), subset(df_Post_ext, Topic == "Comprehensibility"))
+
+anova(m00, m1)  ## fittest is m1
+
+# Random Slopes
+
+m2a <- lmer(response ~(1 | Text_id) + NH + OSA +   (OSA | jatosStudyResultId), data = subset(df_Post_ext, Topic == "Comprehensibility"))
 
 
-### 知識信念影響分析：資訊充足度評估
+m2b <- lmer(response ~(1 | Text_id) + NH + OSA +   (NH | jatosStudyResultId), data = subset(df_Post_ext, Topic == "Comprehensibility"), REML = F)
+#summary(m2b)
 
 
+
+anova(m2a, m1) ## fittest is m1
+anova(m2b, m1) ## fittest is m1
+summary(m1)
+
+## 評估知識信念
+
+
+m3a <- lmer(response ~(1 | Text_id) + NH+ OSA + JA + PJ + MS +   (OSA | jatosStudyResultId), data = subset(df_Post_ext, Topic == "Comprehensibility"))
+m3b <- lmer(response ~(1 | Text_id) + NH+ OSA * JA   + OSA * PJ + OSA * MS +   (OSA | jatosStudyResultId), data = subset(df_Post_ext, Topic == "Comprehensibility"))
+
+
+anova(m1,m3a) ## fittest is m3a
+anova(m1,m3b) ## fittest is m3b 
+anova(m3a,m3b) ## fittest is m3a
+
+
+
+summary(m3a)
+
+## 評估科學活動經驗
+
+#m3a <- lmer(vst ~(1 | study) + NH+ OSA + Englisch +   (OSA | id), data = df)
+#m3b <- lmer(vst ~(1 | study) + NH+ OSA * Englisch +   (OSA | id), data = df)
+
+
+#anova(m2a,m3a)
+#anova(m3a,m3b)
+
+
+#summary(m3a)
+
+```
+
+
+### 知識背景影響分析：理解測驗正確率
+
+
+```{r knowledge-belief}
+# Model Tests Interindividuell Differences
+
+## Knowledge Test
+
+
+## 決定未加入個別差異因素的最佳模型
+
+
+## 評估知識信念
+
+
+## 評估科學活動經驗
+
+```
+
+### 知識背景影響分析：來源可信度評估
+
+
+```{r credibility-belief}
+# Model Tests Interindividuell Differences
+
+## Credibility
+
+
+## 決定未加入個別差異因素的最佳模型
+
+
+## 評估知識信念
+
+
+```
+
+### 知識背景影響分析：內容真實性評估
+
+
+```{r evaluate-belief}
+# Model Tests Interindividuell Differences
+
+## Ability to Evaluate
+
+
+## 決定未加入個別差異因素的最佳模型
+
+
+## 評估知識信念
+
+
+## 評估科學活動經驗
+
+```
+
+### 知識背景影響分析：資訊充足度評估
+
+
+```{r decision-belief}
+# Model Tests Interindividuell Differences
+
+## Ability to Make Decision
+
+## 決定未加入個別差異因素的最佳模型
+
+
+## 評估知識信念
+
+
+## 評估科學活動經驗
+
+```
