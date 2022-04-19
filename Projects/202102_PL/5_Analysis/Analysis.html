@@ -273,7 +273,7 @@ df &lt;- read_csv(unz(zip_path, filename = &quot;rawdata.csv&quot;))
 ## import text id table; script did not log text_id
 text &lt;- read_csv(&quot;../4_OS_Result/text_id.csv&quot;)
 ## Append text id to rawdata df</code></pre>
-<p>整合有效參與者的原始回應資料檔“rawdata.csv”，存放路徑是../4_OS_Result/jatos_results.zip。資料欄位共有57項，來自150位參與者，41850筆回應資料。</p>
+<p>整合有效參與者的原始回應資料檔”rawdata.csv”，存放路徑是../4_OS_Result/jatos_results.zip。資料欄位共有57項，來自150位參與者，41850筆回應資料。</p>
 <p>資料編碼薄以<a href="codebook.Rmd">codebook套件</a>製作，製作完成存放路徑與本文件相同。</p>
 <pre class="r"><code>## Extract the system variables
 df_sys &lt;- df %&gt;% dplyr::select(starts_with(c(&quot;identifier&quot;,&quot;jatos&quot;,&quot;browser_&quot;,&quot;count_&quot;,&quot;date_&quot;,&quot;experiment_&quot;,&quot;screen_&quot;,&quot;system_&quot;,&quot;Start &quot;,&quot;Last &quot;,&quot;Duration&quot;,&quot;Batch&quot;,&quot;Worker &quot;,&quot;State&quot;,&quot;Message&quot;)))
@@ -457,8 +457,43 @@ filter(!(jatosStudyResultId %in% strange_id)) %&gt;%
 </tbody>
 </table>
 <ul>
-<li><p>科學活動經驗(self eval) (明翰)</p></li>
-<li><p>讀後調查(Post Survey) (祥偉)</p></li>
+<li>科學活動經驗(self eval) (明翰)</li>
+</ul>
+<pre class="r"><code>dm_self_eval &lt;- df_self_eval %&gt;%#$response &lt;- #filter(.data = df_self_eval, Topic %in% c(&quot;ability&quot;,&quot;familiarity&quot;)) %&gt;%
+filter(!(jatosStudyResultId %in% strange_id)) %&gt;%
+  mutate(response=as.numeric(response))
+# df_self_eval$response &lt;- sapply(
+#  strsplit(
+ #   gsub(df_self_eval,pattern = &quot;&quot;,replacement = &quot;&quot;),
+#    split = &quot;:&quot;
+#  ),
+#  &quot;[[&quot;,
+ # 1
+  #)
+# 因為每個題目都有出現過至少一次，所有題目皆有過參與者填答，故不需要過濾。
+# 以摘要分組
+dm_self_eval %&gt;%
+group_by(Topic) %&gt;% 
+summarise(N = n(), M = mean(as.numeric(response),na.rm=TRUE ), SD = sd(as.numeric(response),na.rm=TRUE ), Missing = sum(is.na(response)))#sum(score)/n() #計算正確率</code></pre>
+<pre><code>## # A tibble: 2 x 5
+##   Topic           N     M    SD Missing
+##   &lt;chr&gt;       &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;int&gt;
+## 1 ability       138  4.27  1.25       3
+## 2 familiarity   138  3.87  1.65      41</code></pre>
+<pre class="r"><code>## 總正確數
+#table(df_self_eval$response$score)
+
+## 總正確率
+#table(df_self_eval$response$score)/sum(table(df_self_eval$response$score))
+
+## 各類摘要錯誤率
+#table(score, df_self_eval$response$summary)[1,]/colSums(table(df_self_eval$response$score, df_self_eval$response$summary))
+
+## 各類摘要正確率
+#table(df_self_eval$response$score,
+#df_self_eval$response$summary)[2,]/colSums(table(df_self_eval$response$score, df_self_eva$response$summary))</code></pre>
+<ul>
+<li>讀後調查(Post Survey) (祥偉)</li>
 </ul>
 <pre class="r"><code>df_Post$response &lt;- sapply(
  strsplit(

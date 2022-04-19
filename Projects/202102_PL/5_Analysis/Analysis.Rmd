@@ -224,6 +224,38 @@ filter(!(jatosStudyResultId %in% strange_id)) %>%
 - 科學活動經驗(self eval)
 (明翰)
 
+```{r self ecal}
+dm_self_eval <- df_self_eval %>%#$response <- #filter(.data = df_self_eval, Topic %in% c("ability","familiarity")) %>%
+filter(!(jatosStudyResultId %in% strange_id)) %>%
+  mutate(response=as.numeric(response))
+# df_self_eval$response <- sapply(
+#  strsplit(
+ #   gsub(df_self_eval,pattern = "",replacement = ""),
+#    split = ":"
+#  ),
+#  "[[",
+ # 1
+  #)
+# 因為每個題目都有出現過至少一次，所有題目皆有過參與者填答，故不需要過濾。
+# 以摘要分組
+dm_self_eval %>%
+group_by(Topic) %>% 
+summarise(N = n(), M = mean(as.numeric(response),na.rm=TRUE ), SD = sd(as.numeric(response),na.rm=TRUE ), Missing = sum(is.na(response)))#sum(score)/n() #計算正確率
+            
+## 總正確數
+#table(df_self_eval$response$score)
+
+## 總正確率
+#table(df_self_eval$response$score)/sum(table(df_self_eval$response$score))
+
+## 各類摘要錯誤率
+#table(score, df_self_eval$response$summary)[1,]/colSums(table(df_self_eval$response$score, df_self_eval$response$summary))
+
+## 各類摘要正確率
+#table(df_self_eval$response$score,
+#df_self_eval$response$summary)[2,]/colSums(table(df_self_eval$response$score, df_self_eva$response$summary))
+```
+
 
 - 讀後調查(Post Survey)
 (祥偉)
