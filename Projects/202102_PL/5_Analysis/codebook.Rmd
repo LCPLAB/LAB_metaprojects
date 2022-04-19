@@ -42,6 +42,7 @@ codebook_data <- codebook::bfi
 ## locate the rawdata file
 zip_path <- list.files(path = "..",pattern = "jatos_results.zip",include.dirs = TRUE,recursive = TRUE,full.names = TRUE)
 ## import rawdata from zip file
+df <- read_csv(unz(zip_path, filename = "rawdata.csv"))
 
 ## import text id table; script did not log text_id
 text <- readr::read_csv("../4_OS_Result/text_id.csv")
@@ -70,7 +71,7 @@ df_self_eval <- filter(df, Q_type == "self_eval")
 df_self_eval <- df_self_eval[,which(colSums(df_self_eval!="None",na.rm = TRUE) != 0)]
 
 ## Split post reading Question data
-df_Post <- dplyr::filter(df, Q_type == "Post_survey")
+df_Post <- dplyr::filter(df, Q_type == "Post_survey") %>% left_join(text, by= "Content") 
 ## Exclude the variables full of "None"
 df_Post <- df_Post[,which(colSums(df_Post!="None",na.rm = TRUE) != 0)] %>% mutate(Text_id = as.character(Text_id))
 
