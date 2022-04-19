@@ -11,7 +11,6 @@ output:
     self_contained: yes
 ---
 
-
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(
 	echo = TRUE,
@@ -98,14 +97,14 @@ minutes_count <- ((df_sys$Duration %>% hms() %>% hour()*60)+
 ## Summary of study duration by minutes 
 minutes_count %>% summary()
 
-## draw a box plot
-minutes_count%>%
-  log10() %>% ## convert minutes to log10
-  boxplot(ylab="log10(minutes)")
+ ###draw a box plot
+ minutes_count%>%
+ log10() %>% ## convert minutes to log10
+ boxplot(ylab="log10(minutes)")
+
+#error: ylim 值必須是有限的，這裡應該要是數字?
+
 ```
-
-
-
 ### 作答時間與理解正確率散佈趨勢
 
 ```{r duration-post-analysis, echo=TRUE, message=FALSE, warning=FALSE}
@@ -176,131 +175,41 @@ df_Basic %>% filter(Topic=="birth" & !(jatosStudyResultId %in% strange_id)) %>%
 
 > 依問題型態摘要
 
-- 知識信念(belief)
-(采妤)
-
-```{r belief}
-df_Belief$response <- sapply(
- strsplit(
- gsub(df_Belief$response,pattern = " ",replacement = ""),
- split = "："
- ),
- "[[",
- 1
- )
-
-df_Belief %>% #filter(response %>%
-#  summarise("6：完全正確" = mean(rating == 6),
-#"5：大部份正確" = mean(rating == 5),
-#"4：有點正確" = mean(rating == 4),
-#"3：不太可能是正確的" = mean(rating == 3),
-#"2：大部份不正確" = mean(rating == 2),
-#"1：完全不正確" = mean(rating == 1))) %>%
-        group_by(Q_type,Topic, jatosStudyResultId) %>%
-         summarise(score = mean(as.numeric(response),na.rm = TRUE)
-            ) %>%
-        group_by(Q_type,Topic) %>%
-         summarise(M = mean(score),
-                   SD = sd(score))
-
-#  ggplot(df_Belief, aes(Question, response, fill=Q)) +
-#  stat_summary(fun = mean, geom = "col", alpha = 0.5) +
-#  stat_summary(fun.data = mean_se, geom = "errorbar",
-#               width = 0.25) +
-#  coord_cartesian(ylim = c(1, 5))
-```
-
 
 - 科學活動經驗(self eval)
 
 (明翰)
+```{r self ecal}
 
+df_self_eval$response <- filter(.data = df_self_eval, Topic %in% c("ability","familiarity")) %>%
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-- 讀後調查(Post Survey)
-(祥偉)
-
-``{r post-study, echo=TRUE, results='show', message=TRUE, warning=TRUE, include=T}
-new_post <- filter(.data = df_Post,Topic %in% c("Comprehensibility","Scientificness","Credibility","Veracity","Decision") & !(jatosStudyResultId %in% strange_id)) %>% 
-##抓出要分析的TOPIC
-
-  
-mutate(summary = ifelse(NH == "N" & OSA == "Y", "OSA",ifelse(NH == "N" & OSA == "N", "PLS","NH_PLS"))) 
-#將摘要分類為PLS、OSA、NH_PLS
-
-
-new_post$response <- gsub("8: 完全讀得懂", 8, new_post$response)
-
-
-new_post$response <- gsub("8: 非常有科學性", 8, new_post$response)
-new_post$response <- gsub("8: 非常可信", 8, new_post$response)
-new_post$response <- gsub("8: 我認為一定可以", 8, new_post$response)
-new_post$response <- gsub("1: 完全不可信", 1, new_post$response)
-new_post$response <- gsub("1: 完全沒有科學性", 1, new_post$response)
-new_post$response <- gsub("1: 完全讀不懂", 1, new_post$response)
-new_post$response <- gsub("1: 我認為完全不可以", 1, new_post$response) 
-
-##將包含中文的response替換數字
-
-table3_cells <- new_post %>%
-#        filter(summary == "PLS")   %>%
-        group_by(Topic,summary) %>%
-         summarise(score = mean(as.numeric(response),na.rm = TRUE)
-            ) 
-
-```     
-
-`r knitr::kable(table3_cells)`
-
-
-- 閱讀理解(Knowledge)
-(子渝)
-
-```{r Knowledge}
-Correct_rate <- df_knowledge %>% 
-  filter(Q_presented == 1 & !(jatosStudyResultId %in% strange_id)) %>%   ## 過濾未出現的題目
-  mutate(summary = ifelse(NH == "N" & OSA == "Y", "OSA",ifelse(NH == "N" & OSA == "N", "PLS","NH_PLS"))) %>%                                                             #將摘要分類為PLS、OSA、NH_PLS
-  mutate(response = ifelse(response == "是","y","n")) %>%       #轉換參與者回答"是"換成"y"
-  mutate(score = ifelse(response == correct_response,1,0)) %>%  #檢測如果回答等於正確答案得1分
-  group_by(summary) %>%                                         #以摘要分組
-  summarise(Correct_rate = mean(score)#sum(score)/n()
-              )                      #計算正確率
-
-## 資料整理
-knowledge <- df_knowledge %>% 
-  filter(Q_presented == 1 & !(jatosStudyResultId %in% strange_id)) %>%   ## 過濾未出現的題目
-  mutate(summary = ifelse(NH == "N" & OSA == "Y", "OSA",ifelse(NH == "N" & OSA == "N", "PLS","NH_PLS"))) %>%                                                             #將摘要分類為PLS、OSA、NH_PLS
-  mutate(response = ifelse(response == "是","y","n")) %>%       #轉換參與者回答"是"換成"y"
-  mutate(score = ifelse(response == correct_response,1,0))      #檢測如果回答等於正確答案得1分
-
+# df_self_eval$response <- sapply(
+#  strsplit(
+ #   gsub(df_self_eval,pattern = "",replacement = ""),
+#    split = ":"
+#  ),
+#  "[[",
+ # 1
+  #)
+# 因為每個題目都有出現過至少一次，所有題目皆有過參與者填答，故不需要過濾。
+# 以摘要分組
+group_by(summary) %>%                                         
+summarise(df_self_eval$response = mean(score)#sum(score)/n() #計算正確率
+            
 ## 總正確數
-table(knowledge$score)
+table(df_self_eval$response$score)
 
 ## 總正確率
-table(knowledge$score)/sum(table(knowledge$score))
+table(df_self_eval$response$score)/sum(table(df_self_eval$response$score))
 
 ## 各類摘要錯誤率
-table(knowledge$score, knowledge$summary)[1,]/colSums(table(knowledge$score, knowledge$summary))
+table(score, df_self_eval$response$summary)[1,]/colSums(table(df_self_eval$response$score, df_self_eval$response$summary))
 
 ## 各類摘要正確率
-table(knowledge$score, knowledge$summary)[2,]/colSums(table(knowledge$score, knowledge$summary))
+table(df_self_eval$response$score,
+df_self_eval$response$summary)[2,]/colSums(table(df_self_eval$response$score, df_self_eva$response$summary))
+```
+
 ```
 
 - 出口回饋(Exit)
