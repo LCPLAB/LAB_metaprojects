@@ -136,6 +136,14 @@ df_Basic %>% filter(Topic=="birth") %>%
 
 - 科學活動經驗(self eval)
 (明翰)
+```{r self eval}
+require(lme4)
+require(lmerTest)
+require(sjstats)
+require(MuMIn)
+library(multcomp)
+```
+
 
 
 - 讀後調查(Post Survey)
