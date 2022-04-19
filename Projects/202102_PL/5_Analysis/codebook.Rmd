@@ -44,17 +44,21 @@ zip_path <- list.files(path = "..",pattern = "jatos_results.zip",include.dirs = 
 ## import rawdata from zip file
 df <- read_csv(unz(zip_path, filename = "rawdata.csv"))
 
+## import text id table; script did not log text_id
+text <- readr::read_csv("../4_OS_Result/text_id.csv")
+
 ## Extract the system variables
-df_sys <- df %>% select(starts_with(c("identifier","browser_","count_","date_","experiment_","jatosV","screen_","system_","Start ","Last ","Duration","Batch","Worker ","State","Message")))
+df_sys <- select(df, starts_with(c("identifier","jatos","browser_","count_","date_","experiment_","screen_","system_","Start ","Last ","Duration","Batch","Worker ","State","Message")))
 
 ## Reserve the analytical variables in rawdata df
-df <- df %>% select(!names(df_sys)[-1])
+df <- select(df, !names(df_sys)[-c(1,2)])
 
 ## Split basic data
 df_Basic <- filter(df, Q_type == "Basic") 
 
 ## Exclude the variables full of "None"
 df_Basic <- df_Basic[,which(colSums(df_Basic!="None",na.rm = TRUE) != 0)]
+
 ## Split Belief data
 df_Belief <- filter(df, Q_type == "Belief")
 ## Exclude the variables full of "None"
@@ -67,14 +71,16 @@ df_self_eval <- filter(df, Q_type == "self_eval")
 df_self_eval <- df_self_eval[,which(colSums(df_self_eval!="None",na.rm = TRUE) != 0)]
 
 ## Split post reading Question data
-df_Post <- dplyr::filter(df, Q_type == "Post_survey")
+df_Post <- dplyr::filter(df, Q_type == "Post_survey") %>% left_join(text, by= "Content") 
 ## Exclude the variables full of "None"
-df_Post <- df_Post[,which(colSums(df_Post!="None",na.rm = TRUE) != 0)]
+df_Post <- df_Post[,which(colSums(df_Post!="None",na.rm = TRUE) != 0)] %>% mutate(Text_id = as.character(Text_id))
 
 ## Split knowledge data
 df_knowledge <- filter(df, Q_type == "Knowledge")
 ## Exclude the variables full of "None"
-df_knowledge <- df_knowledge[,which(colSums(df_knowledge!="None",na.rm = TRUE) != 0)]
+df_knowledge <- left_join(dplyr::select(df_knowledge[,which(colSums(df_knowledge!="None",na.rm = TRUE) != 0)], -c("NH","OSA","text_order")), ## Erase IV variables because they are meaningless in test loop
+  dplyr::select(df_Post, jatosStudyResultId, NH, OSA, Text_id, text_order) %>% distinct(),## Extract IV variables from df_Post
+by=c("jatosStudyResultId","Test_id"="Text_id")) ## Add IV vriables to df_knowledge by Test_id 
 
 ## Split Exit
 df_Exit <- filter(df, Q_type == "Exit")

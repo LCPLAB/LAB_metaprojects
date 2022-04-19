@@ -11,7 +11,7 @@
 
 <meta name="author" content="LCP lab" />
 
-<meta name="date" content="2022-04-12" />
+<meta name="date" content="2022-04-19" />
 
 <title>Analysis ~ Replication study of Kerwer et al.(2020)</title>
 
@@ -259,7 +259,7 @@ div.tocify {
 
 <h1 class="title toc-ignore">Analysis ~ Replication study of Kerwer et al.(2020)</h1>
 <h4 class="author">LCP lab</h4>
-<h4 class="date">2022-04-12</h4>
+<h4 class="date">2022-04-19</h4>
 
 </div>
 
@@ -269,50 +269,50 @@ div.tocify {
 <pre class="r"><code>## locate the rawdata file
 zip_path &lt;- list.files(path = &quot;..&quot;,pattern = &quot;jatos_results.zip&quot;,include.dirs = TRUE,recursive = TRUE,full.names = TRUE)
 ## import raw data
-df &lt;- read_csv(unz(zip_path, filename = &quot;rawdata.csv&quot;))</code></pre>
+df &lt;- read_csv(unz(zip_path, filename = &quot;rawdata.csv&quot;))
+## import text id table; script did not log text_id
+text &lt;- read_csv(&quot;../4_OS_Result/text_id.csv&quot;)
+## Append text id to rawdata df</code></pre>
 <p>整合有效參與者的原始回應資料檔“rawdata.csv”，存放路徑是../4_OS_Result/jatos_results.zip。資料欄位共有57項，來自150位參與者，41850筆回應資料。</p>
 <p>資料編碼薄以<a href="codebook.Rmd">codebook套件</a>製作，製作完成存放路徑與本文件相同。</p>
-<ul>
-<li>依分析目的分割資料集合</li>
-</ul>
 <pre class="r"><code>## Extract the system variables
-df_sys &lt;- df %&gt;% select(starts_with(c(&quot;identifier&quot;,&quot;jatos&quot;,&quot;browser_&quot;,&quot;count_&quot;,&quot;date_&quot;,&quot;experiment_&quot;,&quot;screen_&quot;,&quot;system_&quot;,&quot;Start &quot;,&quot;Last &quot;,&quot;Duration&quot;,&quot;Batch&quot;,&quot;Worker &quot;,&quot;State&quot;,&quot;Message&quot;)))
+df_sys &lt;- df %&gt;% dplyr::select(starts_with(c(&quot;identifier&quot;,&quot;jatos&quot;,&quot;browser_&quot;,&quot;count_&quot;,&quot;date_&quot;,&quot;experiment_&quot;,&quot;screen_&quot;,&quot;system_&quot;,&quot;Start &quot;,&quot;Last &quot;,&quot;Duration&quot;,&quot;Batch&quot;,&quot;Worker &quot;,&quot;State&quot;,&quot;Message&quot;)))
 
-## Reserve the analytical variables in rawdata df
-df &lt;- df %&gt;% select(!names(df_sys)[-c(1,2)])
+## Reserve the analytic variables in rawdata df
+df &lt;- df %&gt;% dplyr::select(!names(df_sys)[-c(1,2)])
 
 ## Split basic data
 df_Basic &lt;- filter(df, Q_type == &quot;Basic&quot;)
-
 ## Exclude the variables full of &quot;None&quot;
-df_Basic &lt;- df_Basic[,c(which(colSums(df_Basic!=&quot;None&quot;) == dim(df_Basic)[1]),which(is.na(colSums(df_Basic!=&quot;None&quot;) == dim(df_Basic)[1])) # Get &quot;response&quot;
-)]
+df_Basic &lt;- df_Basic[,(colSums(df_Basic!=&quot;None&quot;,na.rm = TRUE) != 0 ) # Get &quot;response&quot;
+]
 
 ## Split Belief data
 df_Belief &lt;- filter(df, Q_type == &quot;Belief&quot;)
 ## Exclude the variables full of &quot;None&quot;
-df_Belief &lt;- df_Belief[,which(colSums(df_Belief!=&quot;None&quot;) == dim(df_Belief)[1])]
-
+df_Belief &lt;- df_Belief[,which(colSums(df_Belief!=&quot;None&quot;,na.rm = TRUE) != 0 )]
 
 ## Split self evaluation data
 df_self_eval &lt;- filter(df, Q_type == &quot;self_eval&quot;)
 ## Exclude the variables full of &quot;None&quot;
-df_self_eval &lt;- df_self_eval[,which(colSums(df_self_eval!=&quot;None&quot;) == dim(df_self_eval)[1])]
+df_self_eval &lt;- df_self_eval[,which(colSums(df_self_eval!=&quot;None&quot;,na.rm = TRUE) != 0)]
 
 ## Split post reading Question data
-df_Post &lt;- dplyr::filter(df, Q_type == &quot;Post_survey&quot;)
+df_Post &lt;- dplyr::filter(df, Q_type == &quot;Post_survey&quot;) %&gt;% left_join(text, by= &quot;Content&quot;) 
 ## Exclude the variables full of &quot;None&quot;
-df_Post &lt;- df_Post[,which(colSums(df_Post!=&quot;None&quot;) == dim(df_Post)[1])]
+df_Post &lt;- df_Post[,which(colSums(df_Post!=&quot;None&quot;,na.rm = TRUE) != 0)] %&gt;% mutate(Text_id = as.character(Text_id))
 
 ## Split knowledge data
-df_knowledge &lt;- filter(df, Q_type == &quot;Knowledge&quot;)
+df_knowledge &lt;- filter(df, Q_type == &quot;Knowledge&quot; &amp; Q_presented == 1) ## Reserved presented questions
 ## Exclude the variables full of &quot;None&quot;
-df_knowledge &lt;- df_knowledge[,which(colSums(df_knowledge!=&quot;None&quot;) == dim(df_knowledge)[1])]
+df_knowledge &lt;- left_join(dplyr::select(df_knowledge[,which(colSums(df_knowledge!=&quot;None&quot;,na.rm = TRUE) != 0)], -c(&quot;NH&quot;,&quot;OSA&quot;,&quot;text_order&quot;)), ## Erase IV variables because they are meaningless in test loop
+  dplyr::select(df_Post, jatosStudyResultId, NH, OSA, Text_id, text_order) %&gt;% distinct(),## Extract IV variables from df_Post
+by=c(&quot;jatosStudyResultId&quot;,&quot;Test_id&quot;=&quot;Text_id&quot;)) ## Add IV vriables to df_knowledge by Test_id 
 
 ## Split Exit
 df_Exit &lt;- filter(df, Q_type == &quot;Exit&quot;)
 ## Exclude the variables full of &quot;None&quot;
-df_Exit &lt;- df_Exit[,c(which(colSums(df_Exit!=&quot;None&quot;) == dim(df_Exit)[1]),which(is.na(colSums(df_Exit!=&quot;None&quot;) == dim(df_Exit)[1]))) ]</code></pre>
+df_Exit &lt;- df_Exit[,which(colSums(df_Exit!=&quot;None&quot;,na.rm = TRUE) != 0)]</code></pre>
 </div>
 <div id="參與者基本資訊統計" class="section level2">
 <h2>參與者基本資訊統計</h2>
@@ -335,13 +335,13 @@ minutes_count%&gt;%
 <div id="作答時間與理解正確率散佈趨勢" class="section level3">
 <h3>作答時間與理解正確率散佈趨勢</h3>
 <pre class="r"><code>## Convert duration to minutes
-df_post_trend &lt;- df_sys %&gt;% distinct() %&gt;%
-  select(jatosStudyResultId, Duration) %&gt;%
+df_post_trend &lt;- (df_sys %&gt;% distinct() %&gt;%
+  dplyr::select(jatosStudyResultId, Duration) %&gt;%
   mutate(minutes_count = 
                     (Duration %&gt;% hms() %&gt;% hour())*60 +
-                    Duration %&gt;% hms() %&gt;% minute() ) %&gt;%
+                    Duration %&gt;% hms() %&gt;% minute() )) %&gt;%
   left_join( (df_knowledge %&gt;% 
-  filter(Q_presented == 1) %&gt;%   ## 過濾未出現的題目
+#  filter(Q_presented == 1) %&gt;%   ## 過濾未出現的題目
   mutate(response = ifelse(response == &quot;是&quot;,&quot;y&quot;,&quot;n&quot;)) %&gt;%       #轉換參與者回答&quot;是&quot;換成&quot;y&quot;
   mutate(score = ifelse(response == correct_response,1,0)) %&gt;%  #檢測如果回答等於正確答案得1分
   group_by(jatosStudyResultId) %&gt;%                               #以個人分組
@@ -351,6 +351,7 @@ by=&quot;jatosStudyResultId&quot;)
 ggplot(df_post_trend,aes(x=Correct_rate, y=minutes_count))+
    geom_point()</code></pre>
 <p><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABUAAAAPACAMAAADDuCPrAAABRFBMVEUAAAAAADoAAGYAOjoAOmYAOpAAZrYzMzM6AAA6OgA6Ojo6OmY6OpA6ZmY6ZpA6ZrY6kNtNTU1NTW5NTY5Nbm5Nbo5NbqtNjshmAABmADpmOgBmOjpmZjpmZmZmZpBmkGZmkJBmkLZmkNtmtttmtv9uTU1ubk1ubo5ujqtujshuq+SOTU2Obk2Obm6Oq6uOyOSOyP+QOgCQOjqQZjqQZmaQZpCQkGaQkLaQtraQttuQ2/+rbk2rjm6ryOSr5P+2ZgC2Zjq2Zma2kDq2kGa2kJC2tra2ttu229u22/+2///Ijk3Ijm7Iq27IyKvI5P/I///bkDrbkGbbtmbbtpDbtrbb27bb29vb2//b///kq27kyI7kyKvk5Mjk///r6+v/tmb/yI7/25D/27b/29v/5Kv/5Mj/5OT//7b//8j//9v//+T////k7+HwAAAACXBIWXMAAB2HAAAdhwGP5fFlAAAgAElEQVR4nO3d+2OcB3Wn8TGEYEK5TNg4aUgolHhJCGzJkm0LzmJalpvZBnMN3t1gO9h1ZP3/v+9cdBlJx0fved+ZOY/t5/NDY7uxePSNcjKSRvLsUJI0yqw7QJKeVh5QSRrJAypJI3lAJWkkD6gkjeQBlaSRPKCSNJIHVJJG8oBK0kgeUEkayQMqSSN5QCVpJA+oJI20pwP6VwRIRowyUowdx67rDsg4XZUHFIoyUowdx67rDsg4XZUHFIoyUowdx67rDsg4XZUHFIoyUowdx67rDsg4XZUHFIoyUowdx67rDsg4XZUHFIoyUowdx67rDsg4XZUHFIoyUowdx67rDsg4XZUHFIoyUowdx67rDsg4XZUHFIoyUowdx67rDsg4XZUHFIoyUowdx67rDsg4XZUHFIoyUowdx67rDsg4XZUHFIoyUowdx67rDsg4XZUHFIoyUowdx67rDsg4XZUHFIoyUowdx67rDsg4XZUHFIoyUowdx67rDsg4XZUHFIoyUowdx67rDsg4XZUHFIoyUowdx67rDsg4XZUHFIoyUowdx67rDsg4XZUHFIoyUowdx67rDsg4XZUHFIoyUowdx67rDsg4XZUHFIoyUowdx67rDsg4XZUHFIoyUowdx67rDsg4XZUHFIoyUowdx67rDsg4XZUHFIoyUowdx67rDsg4XZUHFIoyUowdx67rDsg4XZUHFIoyUowdx67rDsg4XZUHFIoyUowdx67rDsg4XZUHFIoyUowdx67rDsg4XZUHFIoyUowdx67rDsg4XZUHFIoyUowdx67rDsg4XZUHFIoyUowdx67rDsg4XZUHFIoyUowdx67rDsg4XZUHFIoyUowdx67rDsg4XZUHFIoyUowdx67rDsg4XZUHFIoyUowdt6e62UL9dzndaMQ4DygUZaQYO24/dbPZqAvqdKMR4zygUJSRYuy4vdTNZuMuqNONRozzgEJRRoqx4/ZRN5uNvKBONxoxzgMKRRkpxo7zgI7lW12VBxSKMlKMHecBHcu3uioPKBRlpBg7zgM6lm91VR5QKMpIMXacn0Qay7e6Kg8oFGWkGDvOpzGN5VtdlQcUijJSjB3nE+nH8q2uygMKRRkpxo5j13UHZJyuygMKRRkpxo5j13UHZJyuygMKRRkpxo5j13UHZJyuygMKRRkpxo5j13UHZJyuygMKRRkpxo5j13UHZJyuygMKRRkpxo5j13UHZJyuygMKRRkpxo5j13UHZJyuygMKRRkpxo5j13UHZJyuygMKRRkpxo5j13UHZJyuygMKRRkpxo5j13UHZJyuygMKRRkpxo5j13UHZJyuygMKRRkpxo5j13UHZJyuygMKRRkpxo5j13UHZJyuygMKRRkpxo5j13UHZJyuygMKRRkpxo5j13UHZJyuygMKRRkpxo5j13UHZJyuygMKRRkpxo5j13UHZJyuygMKRRkpxo5j13UHZJyuygMKRRkpxo5j13UHZJyuygMKRRkpxo5j13UHZJyuygMKRRkpxo5j13UHZJyuygMKRRkpxo5j13UHZJyuygMKRRkpxo5j13UHZJyuygMKRRkpxo5j13UHZJyuygMKRRkpxo5j13UHZJyuygMKRRkpxo5j13UHZJyuygMKRRkpxo5j13UHZJyuygMKRRkpxo5j13UHZJyuygMKRRkpxo5j13UHZJyuygMKRRkpxo5j13UHZJyuygMKRRkpxo5j13UHZJyuygMKRRkpxo5j13UHZJyuygMKRRkpxo5j13UHZJyuygMKRRkpxo5j13UHZJyuygMKRRkpxo5j13UHZJyuygMKRRkpxo5j13UHZJyuygMKRRkpxo5j13UHZJyuygMKRRkpxo5j13UHZJyuygMKRRkpxo5j13UHZJyuygMKRRkpxo5j13UHZJyuygMKRRkpxo5j13UHZJyuygMKRRkpxo5j13UHZJyuygMKRRkpxo5j13UHZJyuygMKRRkpxo5j13UHZJyuygMKRRkpxo5j13UHZJyuygMKRRkpxo5j13UHZJyuygMKRRkpxo5j13UHZJyuygMKRRkpxo5j13UHZJyuygMKRRkpxo5j13UHZJyuygMKRRkpxo5j13UHZJyuygMKRRkpxo5j13UHZJyuqueAStKzx0egFJSRYuw4dl13QMbpqjygUJSRYuw4dl13QMbpqjygUJSRYuw4dl13QMbpqjygUJSRYuw4dl13QMbpqjygUJSRYuw4dl13QMbpqjygUJSRYuw4dl13QMbpqjygUJSRYuw4dl13QMbpqjygUJSRYuw4dl13QMbpqjygUJSRYuw4dl13QMbpqjygUJSRYuw4dl13QMbpqjygUJSRYuw4dl13QMbpqjygUJSRYuw4dl13QMbpqjygUJSRYuw4dl13QMbpqjygUJSRYuw4dl13QMbpqjygUJSRYuw4dl13QMbpqjygUJSRYuw4dl13QMbpqjygUJSRYuw4dl13QMbpqjygUJSRYuw4dl13QMbpqjygUJSRYuw4dl13QMbpqjygUJSRYuw4dl13QMbpqjygUJSRYuw4dl13QMbpqjygUJSRYuw4dl13QMbpqjygUJSRYuw4dl13QMbpqjygUJSRYuw4dl13QMbpqjygUJSRYuw4dl13QMbpqjygUJSRYuw4dl13QMbpqjygUJSRYuw4dl13QMbpqjygUJSRYuw4dl13QMbpqjygUJSRYuw4dl13QMbpqjygUJSRYuw4dl13QMbpqjygUJSRYuw4dl13QMbpqjygUJSRYuw4dl13QMbpqjygUJSRYuw4dl13QMbpqjygUJSRYuw4dl13QMbpqjygUJSRYuw4dl13QMbpqjygUJSRYuw4dl13QMbpqjygUJSRYuw4dl13QMbpqjygUJSRYuw4dl13QMbpqjygUJSRYuw4dl13QMbpqjygUJSRYuw4dl13QMbpqjygUJSRYuw4dl13QMbpqjygUJSRYuw4dl13QMbpqjygUJSRYuw4dl13QMbpqjygUJSRYuw4dl13QMbpqjygUJSRYuw4dl13QMbpqjygUJSRYuw4dl13QMbpqjygUJSRYuw4dl13QMbpqjyg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kHG6Kg8oFGWkGDuOXdcdkHG6Kg8oFGWkGDuOXdcdkHG6Kg8oFGWkGDuOXdcdkHG6Kg8oFGWkGDuOXdcdkHG6Kg8oFGWkGDuOXdcdkHG6Kg8oFGWkGDuOXdcdkHG6Kg8oFGWkGDuOXdcdkHG6Kg8oFGWkGDuOXdcdkHG6Kg8oFGWkGDuOXdcdkHG6Kg8oFGWkGDuOXdcdkHG6Kg8oFGWkGDuOXdcdkHG6Kg8oFGWkGDuOXdcdkHG6Kg8oFGWkGDuOXdcdkHG6Kg8oFGWkGDuOXdcdkHG6Kg8oFGWkGDuOXdcdkHG6Kg8oFGWkGDuOXdcdkHG6Kg8oFGWkGDuOXdcdkHG6Kg8oFGWkGDuOXdcdkHG6Kg8oFGWkGDuOXdcdkHG6Kg8oFGWkGDuOXdcdkHG6Kg8oFGWkGDuOXdcdkHG6Kg8oFGWkGDuOXdcdkHG6Kg8oFGWkGDuOXdcdkHG6Kg8oFGWkGDuOXdcdkHG6Kg8oFGWkGDuOXdcdkHG6Kg8oFGWkGDuOXdcdkHG6Kg8oFGWkGDuOXdcdkHG6Kg8oFGWkGDuOXdcdkHG6Kg8oFGWkGDuOXdcdkHG6Kg8oFGWkGDuOXdcdkHG6Kg8oFGWkGDuOXdcdkHG6Kg8oFGWkGDuOXdcdkHG6Kg8oFGWkGDuOXdcdkHG6Kg8oFGWkGDuOXdcdkHG6Kg8oFGWkGDuOXdcdkHG6Kg8oFGWkGDuOXdcdkHG6Kg8oFGWkGDuOXdcdkHG6Kg8oFGWkGDuOXdcdkHG6Kg8oFGWkGDuOXdcdkHG6Kg8oFGWkGDuOXdcdkHG6Kg8oFGWkGDuOXdcdkHG6Kg8oFGWkGDuOXdcdkHG6Kg8oFGWkGDuOXdcdkHG6Kg8oFGWkGDuOXdcdkHG6Kg8oFGWkGDuOXdcdkHG6Kg8oFGWkGDuOXdcdkHG6Kg8oFGWkGDuOXdcdkHG6Kg8oFGWkGDuOXdcdkHG6Kg8oFGWkGDuOXdcdkHG6Kg8oFGWkGDuOXdcdkHG6Kg8oFGWkGDuOXdcdkHG6Kg8oFGWkGDuOXdcdkHG6Kg8oFGWkGDuOXdcdkHG6Kg8oFGWkGDuOXdcdkHG6Kg8oFGWkGDuOXdcdkHG6Kg8oFGWkGDuOXdcdkHG6Kg8oFGWkGDuOXdcdkHG6Kg8oFGWkGDuOXdcdkHG6Kg8oFGWkGDuOXdcdkHG6Kg8oFGWkGDuOXdcd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gIzTVXlAoSgjxdhx7LrugIzTVXlAoSgjxdhx7LrugIzTVXlAoSgjxdhx7LrugIzTVXlAoSgjxdhx7LrugIzTVXlAoSgjxdhx7LrugIzTVXlAoSgjxdhx7LrugIzTVXlAoSgjxdhx7LrugIzTVXlAoSgjxdhx7LrugIzTVXlAoSgjxdhx7LrugIzTVXlAoSgjxdhx7LrugIzTVXlAoSgjxdhx7LrugIzTVXlAoSgjxdhx7LrugIzTVXlAoSgjxdhx7LrugIzTVXlAoSgjxdhx7LrugIzTVXlAoSgjxdhx7LrugIzTVXlAoSgjxdhx7LrugIzTVXlAoSgjxdhx7LrugIzTVXlAoSgjxdhx7LrugIzTVXlAoSgjxdhx7LrugIzTVXlAoSgjxdhx7LrugIzTVXlAoSgjxdhx7LrugIzTVXlAoSgjxdhx7LrugIzTVXlAoSgjxdhx7LrugIzTVXlAoSgjxdhx7LrugIzTVXlAoSgjxdhx7LrugIzTVXlAoSgjxdhx7LrugLNmC6c/c7oqDygUZaQYO45d1x1wxmx25oI6XZUHFIoyUowdx67rDtg0m529oE5X5QGFoowUY8ex67oDNsxm5y6o01V5QKEoI8XYcey67oANHtDJPKBQlJFi7Dh2XXfABg/oZB5QKMpIMXYcu647YIMHdDIPKBRlpBg7jl3XHbDJTyJN5QGFoowUY8ex67oDzvBpTBN5QKEoI8XYcey67oCzfCL9NB5QKMpIMXYcu647ION0VR5QKMpIMXYcu647ION0VR5QKMpIMXYcu647ION0VR5QKMpIMXYcu647ION0VR5QKMpIMXYcu647ION0VR5QKMpIMXYcu647ION0VR5QKMpIMXYcu647ION0VR5QKMpIMXYcu647ION0VR5QKMpIMXYcu647ION0VR5QKMpIMXYcu647ION0VR5QKMpIMXYcu647ION0VR5QKMpIMXYcu647ION0VR5QKMpIMXYcu647ION0VR5QKMpIMXYcu647ION0VR5QKMpIMXYcu647ION0VR5QKMpIMXYcu647ION0VR5QKMpIMXYcu647ION0VR5QKMpIMXYcu647ION0VR5QKMpIMXYcu647ION0VR5QKMpIMXYcu647ION0VR5QKMpIMXYcu647ION0VR5QKMpIMXYcu647ION0VR5QKMpIMXYcu647ION0VR5QKMpIMXYcu647ION0VR5QKMpIMXYcu647ION0VR5QKMpIMXYcu647ION0VR5QKMpIMXYcu647ION0VR5QKMpIMXYcu647ION0VR5QKMpIMXYcu647ION0VR5QKMpIMXYcu647ION0VR5QKMpIMXYcu647ION0VR5QKMpIMXYcu647ION0VR5QKMpIMXYcu647ION0VR5QKMpIMXYcu647ION0VR5QKMpIMXYcu647ION0VR5QKMpIMXYcu647ION0VR5QKMpIMXYcu647ION0VR5QKMpIMXYcu647ION0VR5QKMpIMXYcu647ION0VR5QKMpIMXYcu647ION0VR5QKMpIMXYcu647ION0VR5QKMpIMXYcu647ION0VR5QKMpIMXYcu647ION0VR5QKMpIMXYcu647ION0VR5QKMpIMXYcu647ION0VR5QKMpIMXYcu647ION0VR5QKMpIMXYcu647ION0VR5QKMpIMXYcu647ION0VR5QKMpIMXYcu647ION0VR5QKMpIMXYcu647ION0VR5QKMpIMXYcu647ION0VR5QKMpIMXYcu647ION0VR5QKMpIMXYcu647ION0VR5QKMpIMXYcu647ION0Vds4oP/3+/P5y29/uPrxp+/OV7722+XPHn9wfT4/+v94QEsoI8XYcey67oCM01Vt4YD+Zn0yX/7J8icPrm8c0KNruj6mHtASykgxdhy7rjsg43RV0w/ovfnL/3R4+PDG+k7em796+v+6Nb/24fL/c+1jD2gVZaQYO45d1x2QcbqqyQf08Y35D5Z/XTza/MHqZn735P/14PrR49D1g1MPaAVlpBg7jl3XHZBxuqrJB/TTd4/eQ1+dzsc3No7lnaNHo3c2jqoHdCDKSDF2HLuuOyDjdFWTD+iJ1QH99N1r//G9+fw7H65/ZfXY9Oy79R7QYSgjxdhx7LrugIzTVW3tgK7fUT/+HNLydJ48Gn1w/fiDoJ8/Mvp/RZKwxh/Q9fvr9+bzdz4+/M8Plp+T94BKeq6MPqD31k9jOv6w5/L9+Y0Dev6JTN2Pu9cgGTHKSDF2HLuuOyDjdFVbOqD3rr/8g7P39NrHwSNQD+hglJFi7Dh2XXdAxumqtnNA78zPPVNp+aDTAzoFZaQYO45d1x2QcbqqrRzQ35y/n+ub6WfhJ6CMFGPHseu6AzJOV7WFA/r41vyV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" width="672" /></p>
+<p>以下程式碼挑出極端參與者</p>
 <pre class="r"><code>strange_id &lt;- df_post_trend %&gt;%
   filter(!(Correct_rate &gt;0.5) | minutes_count &gt; 200 ) %&gt;%
   pull(jatosStudyResultId)</code></pre>
@@ -372,7 +373,6 @@ response_b &lt;- df_Basic %&gt;% filter(Topic==&quot;birth&quot; &amp; !(jatosSt
             min(as.numeric(response),na.rm = TRUE),
             max(as.numeric(response),na.rm = TRUE))
 ## median = 2, MAD = 1.48; median +/- 66 MAD are acceptable responses.
-
 df_Basic %&gt;% filter(Topic==&quot;birth&quot; &amp; !(jatosStudyResultId %in% strange_id)) %&gt;%
   mutate(last_two = ifelse(as.numeric(response)&lt; response_b$M + 66*response_b$dev,as.numeric(response),NA), ## Turn strange response to missing value NA
          age = ifelse(!is.na(last_two),ifelse(last_two&gt;50,2022-(1900+last_two),2022-(2000+last_two) ),NA )) %&gt;% ## Estimate participant&#39;s age
@@ -403,173 +403,279 @@ df_Basic %&gt;% filter(Topic==&quot;birth&quot; &amp; !(jatosStudyResultId %in% 
  1
  )
 
-df_Belief %&gt;% #filter(response %&gt;%
+tb_Belief &lt;- df_Belief %&gt;% #filter(response %&gt;%
 #  summarise(&quot;6：完全正確&quot; = mean(rating == 6),
 #&quot;5：大部份正確&quot; = mean(rating == 5),
 #&quot;4：有點正確&quot; = mean(rating == 4),
 #&quot;3：不太可能是正確的&quot; = mean(rating == 3),
 #&quot;2：大部份不正確&quot; = mean(rating == 2),
 #&quot;1：完全不正確&quot; = mean(rating == 1))) %&gt;%
-        group_by(Q_type,Topic, jatosStudyResultId) %&gt;%
-         summarise(score = mean(as.numeric(response),na.rm = TRUE)
-            ) %&gt;%
+filter(!(jatosStudyResultId %in% strange_id)) %&gt;%
+  group_by(jatosStudyResultId, Q_type,Topic) %&gt;%
+         summarise(score = mean(as.numeric(response),na.rm = TRUE)) %&gt;% ## 參與者分項評分總計   
         group_by(Q_type,Topic) %&gt;%
-         summarise(M = mean(score),
-                   SD = sd(score))</code></pre>
-<pre><code>## # A tibble: 3 x 4
-## # Groups:   Q_type [1]
-##   Q_type Topic     M    SD
-##   &lt;chr&gt;  &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;
-## 1 Belief JA     3.62 0.847
-## 2 Belief MS     5.13 0.662
-## 3 Belief PJ     3.25 0.800</code></pre>
-<pre class="r"><code>#  ggplot(df_Belief, aes(Question, response, fill=Q)) +
+         summarise(N = n(),
+                   M = mean(score),
+                   SD = sd(score)) ## 表列評分總計
+#  ggplot(df_Belief, aes(Question, response, fill=Q)) +
 #  stat_summary(fun = mean, geom = &quot;col&quot;, alpha = 0.5) +
 #  stat_summary(fun.data = mean_se, geom = &quot;errorbar&quot;,
 #               width = 0.25) +
 #  coord_cartesian(ylim = c(1, 5))</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Q_type</th>
+<th align="left">Topic</th>
+<th align="right">N</th>
+<th align="right">M</th>
+<th align="right">SD</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Belief</td>
+<td align="left">JA</td>
+<td align="right">138</td>
+<td align="right">3.615942</td>
+<td align="right">0.8504588</td>
+</tr>
+<tr class="even">
+<td align="left">Belief</td>
+<td align="left">MS</td>
+<td align="right">138</td>
+<td align="right">5.137681</td>
+<td align="right">0.6528101</td>
+</tr>
+<tr class="odd">
+<td align="left">Belief</td>
+<td align="left">PJ</td>
+<td align="right">138</td>
+<td align="right">3.219807</td>
+<td align="right">0.8090089</td>
+</tr>
+</tbody>
+</table>
 <ul>
 <li><p>科學活動經驗(self eval) (明翰)</p></li>
 <li><p>讀後調查(Post Survey) (祥偉)</p></li>
 </ul>
-<pre class="r"><code>new_post &lt;- filter(.data = df_Post,Topic %in% c(&quot;Comprehensibility&quot;,&quot;Scientificness&quot;,&quot;Credibility&quot;,&quot;Veracity&quot;,&quot;Decision&quot;) &amp; !(jatosStudyResultId %in% strange_id)) %&gt;% 
+<pre class="r"><code>df_Post$response &lt;- sapply(
+ strsplit(
+ gsub(df_Post$response,pattern = &quot; &quot;,replacement = &quot;&quot;),
+ split = &quot;:&quot;
+ ),
+ &quot;[[&quot;,
+ 1
+ )
+
+## Change full access response to numeric
+df_Post$response = ifelse(df_Post$response == &quot;想&quot;, 1, ifelse(df_Post$response == &quot;不想&quot;,0,df_Post$response))
+
+## convert df_Post responses to numeric
+df_Post$response = as.numeric(df_Post$response)
+
+#new_post &lt;- filter(.data = df_Post,Topic %in% c(&quot;Comprehensibility&quot;,&quot;Scientificness&quot;,&quot;Credibility&quot;,&quot;Veracity&quot;,&quot;Decision&quot;) &amp; !(jatosStudyResultId %in% strange_id)) %&gt;% 
 ##抓出要分析的TOPIC
-
   
-mutate(summary = ifelse(NH == &quot;N&quot; &amp; OSA == &quot;Y&quot;, &quot;OSA&quot;,ifelse(NH == &quot;N&quot; &amp; OSA == &quot;N&quot;, &quot;PLS&quot;,&quot;NH_PLS&quot;))) 
+#mutate(summary = ifelse(NH == &quot;N&quot; &amp; OSA == &quot;Y&quot;, &quot;OSA&quot;,ifelse(NH == &quot;N&quot; &amp; OSA == &quot;N&quot;, &quot;PLS&quot;,&quot;NH_PLS&quot;))) 
 #將摘要分類為PLS、OSA、NH_PLS
-
-
-new_post$response &lt;- gsub(&quot;8: 完全讀得懂&quot;, 8, new_post$response)
-
-
-new_post$response &lt;- gsub(&quot;8: 非常有科學性&quot;, 8, new_post$response)
-new_post$response &lt;- gsub(&quot;8: 非常可信&quot;, 8, new_post$response)
-new_post$response &lt;- gsub(&quot;8: 我認為一定可以&quot;, 8, new_post$response)
-new_post$response &lt;- gsub(&quot;1: 完全不可信&quot;, 1, new_post$response)
-new_post$response &lt;- gsub(&quot;1: 完全沒有科學性&quot;, 1, new_post$response)
-new_post$response &lt;- gsub(&quot;1: 完全讀不懂&quot;, 1, new_post$response)
-new_post$response &lt;- gsub(&quot;1: 我認為完全不可以&quot;, 1, new_post$response) 
-
+#new_post$response &lt;- gsub(&quot;8: 完全讀得懂&quot;, 8, new_post$response)
+#new_post$response &lt;- gsub(&quot;8: 非常有科學性&quot;, 8, new_post$response)
+#new_post$response &lt;- gsub(&quot;8: 非常可信&quot;, 8, new_post$response)
+#new_post$response &lt;- gsub(&quot;8: 我認為一定可以&quot;, 8, new_post$response)
+#new_post$response &lt;- gsub(&quot;1: 完全不可信&quot;, 1, new_post$response)
+#new_post$response &lt;- gsub(&quot;1: 完全沒有科學性&quot;, 1, new_post$response)
+#new_post$response &lt;- gsub(&quot;1: 完全讀不懂&quot;, 1, new_post$response)
+#new_post$response &lt;- gsub(&quot;1: 我認為完全不可以&quot;, 1, new_post$response) 
 ##將包含中文的response替換數字
-
-table3_cells &lt;- new_post %&gt;%
+tb_Post &lt;- (dm_Post &lt;- df_Post %&gt;% filter(Topic %in% c(&quot;Comprehensibility&quot;,&quot;Scientificness&quot;,&quot;Credibility&quot;,&quot;Veracity&quot;,&quot;Decision&quot;,&quot;Access&quot;) &amp; !(jatosStudyResultId %in% strange_id)) %&gt;%
+mutate(article_type = ifelse(NH == &quot;N&quot; &amp; OSA == &quot;Y&quot;, &quot;OSA&quot;,ifelse(NH == &quot;N&quot; &amp; OSA == &quot;N&quot;, &quot;PLS&quot;,&quot;PLS_NH&quot;))) ) %&gt;%
+#table3_cells &lt;- new_post %&gt;%
 #        filter(summary == &quot;PLS&quot;)   %&gt;%
-        group_by(Topic,summary) %&gt;%
-         summarise(score = mean(as.numeric(response),na.rm = TRUE)
-            ) </code></pre>
-<pre><code>## Warning in mean(as.numeric(response), na.rm = TRUE): NAs introduced by coercion
-
-## Warning in mean(as.numeric(response), na.rm = TRUE): NAs introduced by coercion
-
-## Warning in mean(as.numeric(response), na.rm = TRUE): NAs introduced by coercion</code></pre>
-<pre><code>## `summarise()` has grouped output by &#39;Topic&#39;. You can override using the
+        group_by(jatosStudyResultId,Topic,article_type) %&gt;%
+        summarise(post_score = mean(as.numeric(response),na.rm = TRUE)) %&gt;% ## 參與者分項評分總計   
+  group_by(Topic, article_type) %&gt;%
+         summarise(N = n(),
+                   M = mean(post_score,na.rm = TRUE),
+                   SD = sd(post_score,na.rm = TRUE)
+) ## 評分總計   </code></pre>
+<pre><code>## `summarise()` has grouped output by &#39;jatosStudyResultId&#39;, &#39;Topic&#39;. You can
+## override using the `.groups` argument.
+## `summarise()` has grouped output by &#39;Topic&#39;. You can override using the
 ## `.groups` argument.</code></pre>
 <table>
 <thead>
 <tr class="header">
 <th align="left">Topic</th>
-<th align="left">summary</th>
-<th align="right">score</th>
+<th align="left">article_type</th>
+<th align="right">N</th>
+<th align="right">M</th>
+<th align="right">SD</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left">Comprehensibility</td>
-<td align="left">NH_PLS</td>
-<td align="right">6.096014</td>
+<td align="left">Access</td>
+<td align="left">OSA</td>
+<td align="right">138</td>
+<td align="right">0.3478261</td>
+<td align="right">0.3861597</td>
+</tr>
+<tr class="even">
+<td align="left">Access</td>
+<td align="left">PLS</td>
+<td align="right">138</td>
+<td align="right">0.4021739</td>
+<td align="right">0.3873393</td>
+</tr>
+<tr class="odd">
+<td align="left">Access</td>
+<td align="left">PLS_NH</td>
+<td align="right">138</td>
+<td align="right">0.3605072</td>
+<td align="right">0.3903701</td>
 </tr>
 <tr class="even">
 <td align="left">Comprehensibility</td>
 <td align="left">OSA</td>
-<td align="right">5.393116</td>
+<td align="right">138</td>
+<td align="right">5.3931159</td>
+<td align="right">1.0099359</td>
 </tr>
 <tr class="odd">
 <td align="left">Comprehensibility</td>
 <td align="left">PLS</td>
-<td align="right">6.576087</td>
+<td align="right">138</td>
+<td align="right">6.5760870</td>
+<td align="right">0.8460992</td>
+</tr>
+<tr class="even">
+<td align="left">Comprehensibility</td>
+<td align="left">PLS_NH</td>
+<td align="right">138</td>
+<td align="right">6.0960145</td>
+<td align="right">0.9643852</td>
+</tr>
+<tr class="odd">
+<td align="left">Credibility</td>
+<td align="left">OSA</td>
+<td align="right">138</td>
+<td align="right">5.1811594</td>
+<td align="right">1.0562501</td>
 </tr>
 <tr class="even">
 <td align="left">Credibility</td>
-<td align="left">NH_PLS</td>
-<td align="right">5.440217</td>
+<td align="left">PLS</td>
+<td align="right">138</td>
+<td align="right">5.4981884</td>
+<td align="right">0.9405195</td>
 </tr>
 <tr class="odd">
 <td align="left">Credibility</td>
-<td align="left">OSA</td>
-<td align="right">5.181159</td>
-</tr>
-<tr class="even">
-<td align="left">Credibility</td>
-<td align="left">PLS</td>
-<td align="right">5.498188</td>
-</tr>
-<tr class="odd">
-<td align="left">Decision</td>
-<td align="left">NH_PLS</td>
-<td align="right">4.433526</td>
+<td align="left">PLS_NH</td>
+<td align="right">138</td>
+<td align="right">5.4402174</td>
+<td align="right">0.9477953</td>
 </tr>
 <tr class="even">
 <td align="left">Decision</td>
 <td align="left">OSA</td>
-<td align="right">4.051020</td>
+<td align="right">138</td>
+<td align="right">3.7083333</td>
+<td align="right">1.2785368</td>
 </tr>
 <tr class="odd">
 <td align="left">Decision</td>
 <td align="left">PLS</td>
-<td align="right">4.575758</td>
+<td align="right">138</td>
+<td align="right">4.4202899</td>
+<td align="right">1.4164652</td>
 </tr>
 <tr class="even">
-<td align="left">Scientificness</td>
-<td align="left">NH_PLS</td>
-<td align="right">5.344203</td>
+<td align="left">Decision</td>
+<td align="left">PLS_NH</td>
+<td align="right">138</td>
+<td align="right">4.2282609</td>
+<td align="right">1.3123078</td>
 </tr>
 <tr class="odd">
 <td align="left">Scientificness</td>
 <td align="left">OSA</td>
-<td align="right">5.244565</td>
+<td align="right">138</td>
+<td align="right">5.2445652</td>
+<td align="right">0.9710534</td>
 </tr>
 <tr class="even">
 <td align="left">Scientificness</td>
 <td align="left">PLS</td>
-<td align="right">5.545290</td>
+<td align="right">138</td>
+<td align="right">5.5452899</td>
+<td align="right">0.9148189</td>
 </tr>
 <tr class="odd">
-<td align="left">Veracity</td>
-<td align="left">NH_PLS</td>
-<td align="right">5.000000</td>
+<td align="left">Scientificness</td>
+<td align="left">PLS_NH</td>
+<td align="right">138</td>
+<td align="right">5.3442029</td>
+<td align="right">0.8966701</td>
 </tr>
 <tr class="even">
 <td align="left">Veracity</td>
 <td align="left">OSA</td>
-<td align="right">4.641304</td>
+<td align="right">138</td>
+<td align="right">4.6413043</td>
+<td align="right">1.1569200</td>
 </tr>
 <tr class="odd">
 <td align="left">Veracity</td>
 <td align="left">PLS</td>
-<td align="right">5.143116</td>
+<td align="right">138</td>
+<td align="right">5.1431159</td>
+<td align="right">1.1240924</td>
+</tr>
+<tr class="even">
+<td align="left">Veracity</td>
+<td align="left">PLS_NH</td>
+<td align="right">138</td>
+<td align="right">5.0000000</td>
+<td align="right">1.1514035</td>
 </tr>
 </tbody>
 </table>
 <ul>
 <li>閱讀理解(Knowledge) (子渝)</li>
 </ul>
-<pre class="r"><code>Correct_rate &lt;- df_knowledge %&gt;% 
-  filter(Q_presented == 1 &amp; !(jatosStudyResultId %in% strange_id)) %&gt;%   ## 過濾未出現的題目
-  mutate(summary = ifelse(NH == &quot;N&quot; &amp; OSA == &quot;Y&quot;, &quot;OSA&quot;,ifelse(NH == &quot;N&quot; &amp; OSA == &quot;N&quot;, &quot;PLS&quot;,&quot;NH_PLS&quot;))) %&gt;%                                                             #將摘要分類為PLS、OSA、NH_PLS
+<pre class="r"><code>## 參與者分項評分總計   
+P_accuracy &lt;- (dm_knowledge &lt;- df_knowledge %&gt;% 
+  filter(!(jatosStudyResultId %in% strange_id)) %&gt;%   ## 過濾極端參與者
+  mutate(article_type = ifelse(NH == &quot;N&quot; &amp; OSA == &quot;Y&quot;, &quot;OSA&quot;,ifelse(NH == &quot;N&quot; &amp; OSA == &quot;N&quot;, &quot;PLS&quot;,&quot;PLS_NH&quot;))) %&gt;%                                                             #將摘要分類為PLS、OSA、NH_PLS
   mutate(response = ifelse(response == &quot;是&quot;,&quot;y&quot;,&quot;n&quot;)) %&gt;%       #轉換參與者回答&quot;是&quot;換成&quot;y&quot;
-  mutate(score = ifelse(response == correct_response,1,0)) %&gt;%  #檢測如果回答等於正確答案得1分
-  group_by(summary) %&gt;%                                         #以摘要分組
-  summarise(Correct_rate = mean(score)#sum(score)/n()
+  mutate(score = ifelse(response == correct_response,1,0)) ) %&gt;%    #檢測如果回答等於正確答案得1分
+  group_by(jatosStudyResultId, article_type) %&gt;% #以個別參與者及摘要分組
+  summarise(p_accuracy = sum(score)/length(score)
+              ) #%&gt;%
+
+## 分項評分總計   
+tb_knowledge1 &lt;- P_accuracy %&gt;%
+  group_by(article_type) %&gt;%                                         #以摘要分組
+  summarise(N = n(), M = mean(p_accuracy,na.rm=TRUE), SD = sd(p_accuracy,na.rm=TRUE)#sum(score)/n()
               )                      #計算正確率
+## Retrieve the participants had all types of questions
+#full_id &lt;- P_accuracy %&gt;% count(jatosStudyResultId) %&gt;%
+#  filter(n==3) %&gt;% pull(jatosStudyResultId)
+#tb_knowledge2 &lt;- P_accuracy %&gt;%
+#  filter(jatosStudyResultId %in% full_id) %&gt;%
+#  group_by(article_type) %&gt;%                                         #以摘要分組
+#  summarise(N = n(), M = mean(p_accuracy,na.rm=TRUE), SD = sd(p_accuracy,na.rm=TRUE)#sum(score)/n()
+#             )                      #計算正確率
 
 ## 資料整理
 knowledge &lt;- df_knowledge %&gt;% 
-  filter(Q_presented == 1 &amp; !(jatosStudyResultId %in% strange_id)) %&gt;%   ## 過濾未出現的題目
+  filter(!(jatosStudyResultId %in% strange_id)) %&gt;%   ## 過濾未出現的題目
   mutate(summary = ifelse(NH == &quot;N&quot; &amp; OSA == &quot;Y&quot;, &quot;OSA&quot;,ifelse(NH == &quot;N&quot; &amp; OSA == &quot;N&quot;, &quot;PLS&quot;,&quot;NH_PLS&quot;))) %&gt;%                                                             #將摘要分類為PLS、OSA、NH_PLS
   mutate(response = ifelse(response == &quot;是&quot;,&quot;y&quot;,&quot;n&quot;)) %&gt;%       #轉換參與者回答&quot;是&quot;換成&quot;y&quot;
   mutate(score = ifelse(response == correct_response,1,0))      #檢測如果回答等於正確答案得1分
-
 ## 總正確數
 table(knowledge$score)</code></pre>
 <pre><code>## 
@@ -583,17 +689,600 @@ table(knowledge$score)/sum(table(knowledge$score))</code></pre>
 <pre class="r"><code>## 各類摘要錯誤率
 table(knowledge$score, knowledge$summary)[1,]/colSums(table(knowledge$score, knowledge$summary))</code></pre>
 <pre><code>##    NH_PLS       OSA       PLS 
-## 0.2758945 0.2692308 0.2791262</code></pre>
-<pre class="r"><code>## 各類摘要正確率
-table(knowledge$score, knowledge$summary)[2,]/colSums(table(knowledge$score, knowledge$summary))</code></pre>
+## 0.2590580 0.2925725 0.2735507</code></pre>
+<pre class="r"><code>print(&quot;各類摘要正確率&quot;)</code></pre>
+<pre><code>## [1] &quot;各類摘要正確率&quot;</code></pre>
+<pre class="r"><code>table(knowledge$score, knowledge$summary)[2,]/colSums(table(knowledge$score, knowledge$summary))</code></pre>
 <pre><code>##    NH_PLS       OSA       PLS 
-## 0.7241055 0.7307692 0.7208738</code></pre>
+## 0.7409420 0.7074275 0.7264493</code></pre>
+<p>三種文本閱讀正確率平均值及標準差</p>
+<p>納入所有非極端值的參與者</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">article_type</th>
+<th align="right">N</th>
+<th align="right">M</th>
+<th align="right">SD</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">OSA</td>
+<td align="right">138</td>
+<td align="right">0.7074275</td>
+<td align="right">0.1623114</td>
+</tr>
+<tr class="even">
+<td align="left">PLS</td>
+<td align="right">138</td>
+<td align="right">0.7264493</td>
+<td align="right">0.1580783</td>
+</tr>
+<tr class="odd">
+<td align="left">PLS_NH</td>
+<td align="right">138</td>
+<td align="right">0.7409420</td>
+<td align="right">0.1469254</td>
+</tr>
+</tbody>
+</table>
 <ul>
 <li>出口回饋(Exit)</li>
 </ul>
 </div>
 <div id="預先註冊分析項目" class="section level2">
 <h2>預先註冊分析項目</h2>
+<!--- 各項分析方法同Kerwer et al.(2021)的腳本：20200921_Analysis.Rmd，以下各部分chunk標示對應該腳本的部分 --->
+</div>
+<div id="確證性分析" class="section level2">
+<h2>確證性分析</h2>
+<div id="可理解程度評估" class="section level3">
+<h3>1. 可理解程度評估</h3>
+<p>對於摘要的理解</p>
+<ul>
+<li>主觀評分</li>
+</ul>
+<pre class="r"><code># Confirmatory Analyses
+
+## H1 Comprehensibility
+
+## 轉換獨變項
+df_Post &lt;- df_Post %&gt;%
+mutate(article_type = ifelse(NH == &quot;N&quot; &amp; OSA == &quot;Y&quot;, &quot;OSA&quot;,ifelse(NH == &quot;N&quot; &amp; OSA == &quot;N&quot;, &quot;PLS&quot;,&quot;PLS_NH&quot;))) 
+
+
+## 計算參與者單位及文章單位的組內相關程度ICC
+
+# conduct icc
+
+m0 &lt;- lmer(response ~ (1 | jatosStudyResultId), data = subset(df_Post, Topic == &quot;Comprehensibility&quot;) )
+
+summary(m0)</code></pre>
+<pre><code>## Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [
+## lmerModLmerTest]
+## Formula: response ~ (1 | jatosStudyResultId)
+##    Data: subset(df_Post, Topic == &quot;Comprehensibility&quot;)
+## 
+## REML criterion at convergence: 6598
+## 
+## Scaled residuals: 
+##     Min      1Q  Median      3Q     Max 
+## -3.9737 -0.4766  0.1345  0.6586  2.0158 
+## 
+## Random effects:
+##  Groups             Name        Variance Std.Dev.
+##  jatosStudyResultId (Intercept) 0.4966   0.7047  
+##  Residual                       2.0388   1.4279  
+## Number of obs: 1800, groups:  jatosStudyResultId, 150
+## 
+## Fixed effects:
+##              Estimate Std. Error        df t value Pr(&gt;|t|)    
+## (Intercept)   5.96444    0.06666 148.99999   89.48   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<pre class="r"><code>performance::icc(m0)</code></pre>
+<pre><code>## # Intraclass Correlation Coefficient
+## 
+##      Adjusted ICC: 0.196
+##   Conditional ICC: 0.196</code></pre>
+<pre class="r"><code>m00 &lt;- lmer(response ~ (1 | Test_id), data = subset(df_Post, Topic == &quot;Comprehensibility&quot;))
+
+summary(m00)</code></pre>
+<pre><code>## Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [
+## lmerModLmerTest]
+## Formula: response ~ (1 | Test_id)
+##    Data: subset(df_Post, Topic == &quot;Comprehensibility&quot;)
+## 
+## REML criterion at convergence: 6776.9
+## 
+## Scaled residuals: 
+##     Min      1Q  Median      3Q     Max 
+## -3.2126 -0.5772  0.0548  0.6867  1.4516 
+## 
+## Random effects:
+##  Groups   Name        Variance Std.Dev.
+##  Test_id  (Intercept) 0.03727  0.1931  
+##  Residual             2.50419  1.5825  
+## Number of obs: 1800, groups:  Test_id, 13
+## 
+## Fixed effects:
+##             Estimate Std. Error       df t value Pr(&gt;|t|)    
+## (Intercept)  5.97302    0.06681 10.44563    89.4   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<pre class="r"><code>performance::icc(m00)</code></pre>
+<pre><code>## # Intraclass Correlation Coefficient
+## 
+##      Adjusted ICC: 0.015
+##   Conditional ICC: 0.015</code></pre>
+<pre class="r"><code>## mixed-effect models
+## 確認最適模型
+
+m1 &lt;- lmer(response ~ (1 | jatosStudyResultId) + article_type + (1 | Text_id), data = subset(df_Post, Topic == &quot;Comprehensibility&quot;))
+
+anova(m0,m1) ## fittest is m1</code></pre>
+<pre><code>## Data: subset(df_Post, Topic == &quot;Comprehensibility&quot;)
+## Models:
+## m0: response ~ (1 | jatosStudyResultId)
+## m1: response ~ (1 | jatosStudyResultId) + article_type + (1 | Text_id)
+##    npar    AIC    BIC  logLik deviance  Chisq Df Pr(&gt;Chisq)    
+## m0    3 6600.4 6616.9 -3297.2   6594.4                         
+## m1    6 6238.2 6271.1 -3113.1   6226.2 368.28  3  &lt; 2.2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<pre class="r"><code>summary(m1)</code></pre>
+<pre><code>## Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [
+## lmerModLmerTest]
+## Formula: response ~ (1 | jatosStudyResultId) + article_type + (1 | Text_id)
+##    Data: subset(df_Post, Topic == &quot;Comprehensibility&quot;)
+## 
+## REML criterion at convergence: 6235.4
+## 
+## Scaled residuals: 
+##     Min      1Q  Median      3Q     Max 
+## -4.3343 -0.5224  0.0922  0.6816  2.8226 
+## 
+## Random effects:
+##  Groups             Name        Variance Std.Dev.
+##  jatosStudyResultId (Intercept) 0.5331   0.7302  
+##  Text_id            (Intercept) 0.1809   0.4253  
+##  Residual                       1.6004   1.2651  
+## Number of obs: 1800, groups:  jatosStudyResultId, 150; Text_id, 12
+## 
+## Fixed effects:
+##                     Estimate Std. Error        df t value Pr(&gt;|t|)    
+## (Intercept)        5.336e+00  1.459e-01 1.947e+01  36.562   &lt;2e-16 ***
+## article_typePLS    1.180e+00  7.313e-02 1.637e+03  16.133   &lt;2e-16 ***
+## article_typePLS_NH 7.047e-01  7.313e-02 1.637e+03   9.636   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Correlation of Fixed Effects:
+##             (Intr) ar_PLS
+## artcl_tyPLS -0.251       
+## artc_PLS_NH -0.251  0.500</code></pre>
+<pre class="r"><code>## Tukey test
+## 文章型態多重比較
+
+test = glht(m1,linfct=mcp(article_type=&quot;Tukey&quot;))
+summary(test, test = adjusted(&quot;none&quot;))</code></pre>
+<pre><code>## 
+##   Simultaneous Tests for General Linear Hypotheses
+## 
+## Multiple Comparisons of Means: Tukey Contrasts
+## 
+## 
+## Fit: lmer(formula = response ~ (1 | jatosStudyResultId) + article_type + 
+##     (1 | Text_id), data = subset(df_Post, Topic == &quot;Comprehensibility&quot;))
+## 
+## Linear Hypotheses:
+##                   Estimate Std. Error z value Pr(&gt;|z|)    
+## PLS - OSA == 0     1.17975    0.07313  16.133  &lt; 2e-16 ***
+## PLS_NH - OSA == 0  0.70467    0.07313   9.636  &lt; 2e-16 ***
+## PLS_NH - PLS == 0 -0.47508    0.07313  -6.497  8.2e-11 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## (Adjusted p values reported -- none method)</code></pre>
+</div>
+<div id="知識獲取度評估" class="section level3">
+<h3>2. 知識獲取度評估</h3>
+<p>理解測驗正確率</p>
+<pre class="r"><code># Confirmatory Analyses
+
+## H2 Knowledge Test
+## 轉換獨變項, 依變項數值
+
+df_knowledge &lt;- df_knowledge %&gt;% 
+  filter(!(jatosStudyResultId %in% strange_id)) %&gt;%   ## 過濾極端參與者
+  mutate(article_type = ifelse(NH == &quot;N&quot; &amp; OSA == &quot;Y&quot;, &quot;OSA&quot;,ifelse(NH == &quot;N&quot; &amp; OSA == &quot;N&quot;, &quot;PLS&quot;,&quot;PLS_NH&quot;))) %&gt;%                                                             #將摘要分類為PLS、OSA、NH_PLS
+  mutate(response = ifelse(response == &quot;是&quot;,&quot;y&quot;,&quot;n&quot;)) %&gt;%       #轉換參與者回答&quot;是&quot;換成&quot;y&quot;
+  mutate(score = ifelse(response == correct_response,1,0)) 
+
+# mixed-effect models
+## 確認最適模型
+m0 &lt;- glmer(score ~ (1 | jatosStudyResultId), family = binomial(&quot;logit&quot;), data = df_knowledge)
+
+m00 &lt;- glmer(score ~ (1 | Test_id), family = binomial(&quot;logit&quot;), data = df_knowledge)
+
+
+m1 &lt;- glmer(score ~ (1 | jatosStudyResultId) + article_type + (1 | Test_id), family = binomial(&quot;logit&quot;), data = df_knowledge)
+
+anova(m0,m1)</code></pre>
+<pre><code>## Data: df_knowledge
+## Models:
+## m0: score ~ (1 | jatosStudyResultId)
+## m1: score ~ (1 | jatosStudyResultId) + article_type + (1 | Test_id)
+##    npar    AIC    BIC  logLik deviance  Chisq Df Pr(&gt;Chisq)    
+## m0    2 3900.0 3912.2 -1948.0   3896.0                         
+## m1    5 3759.1 3789.7 -1874.6   3749.1 146.83  3  &lt; 2.2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<pre class="r"><code>summary(m1)</code></pre>
+<pre><code>## Generalized linear mixed model fit by maximum likelihood (Laplace
+##   Approximation) [glmerMod]
+##  Family: binomial  ( logit )
+## Formula: score ~ (1 | jatosStudyResultId) + article_type + (1 | Test_id)
+##    Data: df_knowledge
+## 
+##      AIC      BIC   logLik deviance df.resid 
+##   3759.1   3789.7  -1874.6   3749.1     3307 
+## 
+## Scaled residuals: 
+##     Min      1Q  Median      3Q     Max 
+## -3.7901 -1.2324  0.5391  0.6655  0.9019 
+## 
+## Random effects:
+##  Groups             Name        Variance Std.Dev.
+##  jatosStudyResultId (Intercept) 0.03229  0.1797  
+##  Test_id            (Intercept) 0.39385  0.6276  
+## Number of obs: 3312, groups:  jatosStudyResultId, 138; Test_id, 12
+## 
+## Fixed effects:
+##                    Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)         0.96008    0.19481   4.928  8.3e-07 ***
+## article_typePLS     0.12509    0.09742   1.284   0.1991    
+## article_typePLS_NH  0.18998    0.09822   1.934   0.0531 .  
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Correlation of Fixed Effects:
+##             (Intr) ar_PLS
+## artcl_tyPLS -0.243       
+## artc_PLS_NH -0.242  0.488</code></pre>
+<pre class="r"><code>## Tukey test
+## 文章型態多重比較
+
+test = glht(m1,linfct=mcp(article_type=&quot;Tukey&quot;))
+summary(test, test = adjusted(&quot;none&quot;))</code></pre>
+<pre><code>## 
+##   Simultaneous Tests for General Linear Hypotheses
+## 
+## Multiple Comparisons of Means: Tukey Contrasts
+## 
+## 
+## Fit: glmer(formula = score ~ (1 | jatosStudyResultId) + article_type + 
+##     (1 | Test_id), data = df_knowledge, family = binomial(&quot;logit&quot;))
+## 
+## Linear Hypotheses:
+##                   Estimate Std. Error z value Pr(&gt;|z|)  
+## PLS - OSA == 0     0.12509    0.09742   1.284   0.1991  
+## PLS_NH - OSA == 0  0.18998    0.09822   1.934   0.0531 .
+## PLS_NH - PLS == 0  0.06489    0.09900   0.655   0.5122  
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## (Adjusted p values reported -- none method)</code></pre>
+</div>
+<div id="來源可信度評估" class="section level3">
+<h3>3. 來源可信度評估</h3>
+<p>對摘要來源的可信度</p>
+<pre class="r"><code># Confirmatory Analyses
+
+## H3 Credibility
+
+
+## 計算參與者單位及文章單位的組內相關程度ICC
+
+
+## 確認最適模型
+
+
+
+## 文章型態多重比較</code></pre>
+</div>
+<div id="內容真實性評估" class="section level3">
+<h3>4. 內容真實性評估</h3>
+<p>評估摘要內容的真實性</p>
+<pre class="r"><code># Confirmatory Analyses
+
+## H4 Ability to Evaluate
+
+
+## 計算參與者單位及文章單位的組內相關程度ICC
+
+
+## 確認最適模型
+
+
+## 文章型態多重比較</code></pre>
+</div>
+<div id="資訊充足度評估" class="section level3">
+<h3>5. 資訊充足度評估</h3>
+<p>不需獲取更多資訊能理解更多內容</p>
+<pre class="r"><code># Confirmatory Analyses
+
+## H5 Ability to Make a Decision
+
+
+## 計算參與者單位及文章單位的組內相關程度ICC
+
+
+## 確認最適模型
+
+
+## 文章型態多重比較</code></pre>
+</div>
+</div>
+<div id="探索性分析" class="section level2">
+<h2>探索性分析</h2>
+<div id="內容科學性評估" class="section level3">
+<h3>內容科學性評估</h3>
+<p>對於摘要內容的科學性</p>
+<p>Kerwer et al.(2021)發現科學性與來源可信度有高相關性(r &gt; .77)，故論文未報告科學性分析，分析腳本保存科學性的文本比較。</p>
+<pre class="r"><code># Exploratory
+
+## Scientificness
+
+
+## 計算參與者單位及文章單位的組內相關程度ICC
+
+
+
+## 確認最適模型
+
+
+## 文章型態多重比較</code></pre>
+</div>
+<div id="索取全文意願" class="section level3">
+<h3>索取全文意願</h3>
+<pre class="r"><code># Exploratory
+
+## Full Text Access
+
+
+## 確認最適模型
+
+
+## 文章型態多重比較</code></pre>
+<p>知識背景包括知識信念(belief)與科學活動經驗(self eval)</p>
+<pre class="r"><code>## 準備知識信念及科學活動經驗指標分數，合併至原始資料集
+df_Post_ext &lt;- df_Belief %&gt;% group_by(jatosStudyResultId, Topic) %&gt;%
+  summarise(score = mean(as.numeric(response))) %&gt;%
+  pivot_wider(names_from = &quot;Topic&quot;,values_from = &quot;score&quot;) %&gt;%
+  right_join(df_Post, by=c(&quot;jatosStudyResultId&quot;))</code></pre>
+</div>
+<div id="知識背景影響分析主觀理解度" class="section level3">
+<h3>知識背景影響分析：主觀理解度</h3>
+<pre class="r"><code># Model Tests Interindividuell Differences
+## Comprehensibility
+
+## 決定未加入個別差異因素的最佳模型
+
+# Random Intercepts
+
+m00 &lt;- lmer(response ~ NH + OSA +(1 | Text_id), data = subset(df_Post_ext, Topic == &quot;Comprehensibility&quot;))
+
+m1 &lt;- lmer(response ~(1 | Text_id) + NH + OSA +  (1 | jatosStudyResultId), subset(df_Post_ext, Topic == &quot;Comprehensibility&quot;))
+
+anova(m00, m1)  ## fittest is m1</code></pre>
+<pre><code>## Data: subset(df_Post_ext, Topic == &quot;Comprehensibility&quot;)
+## Models:
+## m00: response ~ NH + OSA + (1 | Text_id)
+## m1: response ~ (1 | Text_id) + NH + OSA + (1 | jatosStudyResultId)
+##     npar    AIC    BIC  logLik deviance  Chisq Df Pr(&gt;Chisq)    
+## m00    5 6510.8 6538.3 -3250.4   6500.8                         
+## m1     6 6238.2 6271.1 -3113.1   6226.2 274.66  1  &lt; 2.2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<pre class="r"><code># Random Slopes
+
+m2a &lt;- lmer(response ~(1 | Text_id) + NH + OSA +   (OSA | jatosStudyResultId), data = subset(df_Post_ext, Topic == &quot;Comprehensibility&quot;))
+
+
+m2b &lt;- lmer(response ~(1 | Text_id) + NH + OSA +   (NH | jatosStudyResultId), data = subset(df_Post_ext, Topic == &quot;Comprehensibility&quot;), REML = F)
+#summary(m2b)
+
+
+
+anova(m2a, m1) ## fittest is m1</code></pre>
+<pre><code>## Data: subset(df_Post_ext, Topic == &quot;Comprehensibility&quot;)
+## Models:
+## m1: response ~ (1 | Text_id) + NH + OSA + (1 | jatosStudyResultId)
+## m2a: response ~ (1 | Text_id) + NH + OSA + (OSA | jatosStudyResultId)
+##     npar    AIC    BIC  logLik deviance  Chisq Df Pr(&gt;Chisq)
+## m1     6 6238.2 6271.1 -3113.1   6226.2                     
+## m2a    8 6239.6 6283.6 -3111.8   6223.6 2.5432  2     0.2804</code></pre>
+<pre class="r"><code>anova(m2b, m1) ## fittest is m1</code></pre>
+<pre><code>## Data: subset(df_Post_ext, Topic == &quot;Comprehensibility&quot;)
+## Models:
+## m1: response ~ (1 | Text_id) + NH + OSA + (1 | jatosStudyResultId)
+## m2b: response ~ (1 | Text_id) + NH + OSA + (NH | jatosStudyResultId)
+##     npar    AIC    BIC  logLik deviance  Chisq Df Pr(&gt;Chisq)
+## m1     6 6238.2 6271.1 -3113.1   6226.2                     
+## m2b    8 6241.1 6285.1 -3112.6   6225.1 1.0607  2     0.5884</code></pre>
+<pre class="r"><code>summary(m1)</code></pre>
+<pre><code>## Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [
+## lmerModLmerTest]
+## Formula: response ~ (1 | Text_id) + NH + OSA + (1 | jatosStudyResultId)
+##    Data: subset(df_Post_ext, Topic == &quot;Comprehensibility&quot;)
+## 
+## REML criterion at convergence: 6235.4
+## 
+## Scaled residuals: 
+##     Min      1Q  Median      3Q     Max 
+## -4.3343 -0.5224  0.0922  0.6816  2.8226 
+## 
+## Random effects:
+##  Groups             Name        Variance Std.Dev.
+##  jatosStudyResultId (Intercept) 0.5331   0.7302  
+##  Text_id            (Intercept) 0.1809   0.4253  
+##  Residual                       1.6004   1.2651  
+## Number of obs: 1800, groups:  jatosStudyResultId, 150; Text_id, 12
+## 
+## Fixed effects:
+##               Estimate Std. Error         df t value Pr(&gt;|t|)    
+## (Intercept)    6.51605    0.14595   19.46955  44.646  &lt; 2e-16 ***
+## NHY           -0.47508    0.07313 1637.45798  -6.497 1.09e-10 ***
+## OSAY          -1.17975    0.07313 1637.45798 -16.133  &lt; 2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Correlation of Fixed Effects:
+##      (Intr) NHY   
+## NHY  -0.251       
+## OSAY -0.251  0.500</code></pre>
+<pre class="r"><code>## 評估知識信念
+
+
+m3a &lt;- lmer(response ~(1 | Text_id) + NH+ OSA + JA + PJ + MS +   (OSA | jatosStudyResultId), data = subset(df_Post_ext, Topic == &quot;Comprehensibility&quot;))
+m3b &lt;- lmer(response ~(1 | Text_id) + NH+ OSA * JA   + OSA * PJ + OSA * MS +   (OSA | jatosStudyResultId), data = subset(df_Post_ext, Topic == &quot;Comprehensibility&quot;))
+
+
+anova(m1,m3a) ## fittest is m3a</code></pre>
+<pre><code>## Data: subset(df_Post_ext, Topic == &quot;Comprehensibility&quot;)
+## Models:
+## m1: response ~ (1 | Text_id) + NH + OSA + (1 | jatosStudyResultId)
+## m3a: response ~ (1 | Text_id) + NH + OSA + JA + PJ + MS + (OSA | jatosStudyResultId)
+##     npar    AIC    BIC  logLik deviance  Chisq Df Pr(&gt;Chisq)  
+## m1     6 6238.2 6271.1 -3113.1   6226.2                       
+## m3a   11 6235.0 6295.5 -3106.5   6213.0 13.155  5    0.02197 *
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<pre class="r"><code>anova(m1,m3b) ## fittest is m3b </code></pre>
+<pre><code>## Data: subset(df_Post_ext, Topic == &quot;Comprehensibility&quot;)
+## Models:
+## m1: response ~ (1 | Text_id) + NH + OSA + (1 | jatosStudyResultId)
+## m3b: response ~ (1 | Text_id) + NH + OSA * JA + OSA * PJ + OSA * MS + (OSA | jatosStudyResultId)
+##     npar    AIC    BIC  logLik deviance  Chisq Df Pr(&gt;Chisq)  
+## m1     6 6238.2 6271.1 -3113.1   6226.2                       
+## m3b   14 6235.0 6311.9 -3103.5   6207.0 19.205  8     0.0138 *
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<pre class="r"><code>anova(m3a,m3b) ## fittest is m3a</code></pre>
+<pre><code>## Data: subset(df_Post_ext, Topic == &quot;Comprehensibility&quot;)
+## Models:
+## m3a: response ~ (1 | Text_id) + NH + OSA + JA + PJ + MS + (OSA | jatosStudyResultId)
+## m3b: response ~ (1 | Text_id) + NH + OSA * JA + OSA * PJ + OSA * MS + (OSA | jatosStudyResultId)
+##     npar  AIC    BIC  logLik deviance  Chisq Df Pr(&gt;Chisq)
+## m3a   11 6235 6295.5 -3106.5     6213                     
+## m3b   14 6235 6311.9 -3103.5     6207 6.0497  3     0.1092</code></pre>
+<pre class="r"><code>summary(m3a)</code></pre>
+<pre><code>## Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [
+## lmerModLmerTest]
+## Formula: 
+## response ~ (1 | Text_id) + NH + OSA + JA + PJ + MS + (OSA | jatosStudyResultId)
+##    Data: subset(df_Post_ext, Topic == &quot;Comprehensibility&quot;)
+## 
+## REML criterion at convergence: 6231.4
+## 
+## Scaled residuals: 
+##     Min      1Q  Median      3Q     Max 
+## -4.3989 -0.5358  0.0930  0.6719  2.9317 
+## 
+## Random effects:
+##  Groups             Name        Variance Std.Dev. Corr
+##  jatosStudyResultId (Intercept) 0.44703  0.6686       
+##                     OSAY        0.06062  0.2462   0.51
+##  Text_id            (Intercept) 0.18146  0.4260       
+##  Residual                       1.58573  1.2593       
+## Number of obs: 1800, groups:  jatosStudyResultId, 150; Text_id, 12
+## 
+## Fixed effects:
+##               Estimate Std. Error         df t value Pr(&gt;|t|)    
+## (Intercept)    4.91907    0.59877  155.99130   8.215 7.58e-14 ***
+## NHY           -0.47506    0.07279 1488.09059  -6.526 9.21e-11 ***
+## OSAY          -1.18022    0.07552  247.78240 -15.628  &lt; 2e-16 ***
+## JA             0.05755    0.08142  146.01748   0.707  0.48081    
+## PJ            -0.06474    0.08618  146.02900  -0.751  0.45368    
+## MS             0.31188    0.09815  146.02830   3.177  0.00181 ** 
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Correlation of Fixed Effects:
+##      (Intr) NHY    OSAY   JA     PJ    
+## NHY  -0.061                            
+## OSAY -0.046  0.482                     
+## JA   -0.286  0.000  0.000              
+## PJ   -0.277  0.000  0.000 -0.337       
+## MS   -0.799  0.000  0.000 -0.057 -0.030</code></pre>
+<pre class="r"><code>## 評估科學活動經驗
+
+#m3a &lt;- lmer(vst ~(1 | study) + NH+ OSA + Englisch +   (OSA | id), data = df)
+#m3b &lt;- lmer(vst ~(1 | study) + NH+ OSA * Englisch +   (OSA | id), data = df)
+
+
+#anova(m2a,m3a)
+#anova(m3a,m3b)
+
+
+#summary(m3a)</code></pre>
+</div>
+<div id="知識背景影響分析理解測驗正確率" class="section level3">
+<h3>知識背景影響分析：理解測驗正確率</h3>
+<pre class="r"><code># Model Tests Interindividuell Differences
+
+## Knowledge Test
+
+
+## 決定未加入個別差異因素的最佳模型
+
+
+## 評估知識信念
+
+
+## 評估科學活動經驗</code></pre>
+</div>
+<div id="知識背景影響分析來源可信度評估" class="section level3">
+<h3>知識背景影響分析：來源可信度評估</h3>
+<pre class="r"><code># Model Tests Interindividuell Differences
+
+## Credibility
+
+
+## 決定未加入個別差異因素的最佳模型
+
+
+## 評估知識信念</code></pre>
+</div>
+<div id="知識背景影響分析內容真實性評估" class="section level3">
+<h3>知識背景影響分析：內容真實性評估</h3>
+<pre class="r"><code># Model Tests Interindividuell Differences
+
+## Ability to Evaluate
+
+
+## 決定未加入個別差異因素的最佳模型
+
+
+## 評估知識信念
+
+
+## 評估科學活動經驗</code></pre>
+</div>
+<div id="知識背景影響分析資訊充足度評估" class="section level3">
+<h3>知識背景影響分析：資訊充足度評估</h3>
+<pre class="r"><code># Model Tests Interindividuell Differences
+
+## Ability to Make Decision
+
+## 決定未加入個別差異因素的最佳模型
+
+
+## 評估知識信念
+
+
+## 評估科學活動經驗</code></pre>
+</div>
 </div>
 
 
