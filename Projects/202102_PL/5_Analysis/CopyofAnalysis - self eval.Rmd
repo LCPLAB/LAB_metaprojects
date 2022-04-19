@@ -177,7 +177,7 @@ df_Basic %>% filter(Topic=="birth" & !(jatosStudyResultId %in% strange_id)) %>%
 
 
 - 科學活動經驗(self eval)
-
+>>>>> 
 (明翰)
 ```{r self ecal}
 
