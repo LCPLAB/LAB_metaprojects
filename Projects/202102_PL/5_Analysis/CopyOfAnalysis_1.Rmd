@@ -705,9 +705,7 @@ summary(m3a)
 
 ```{r knowledge-belief}
 # Model Tests Interindividuell Differences
-
 ## Knowledge Test
-
 
 ## 決定未加入個別差異因素的最佳模型
 
@@ -726,13 +724,64 @@ summary(m3a)
 # Model Tests Interindividuell Differences
 
 ## Credibility
+#Random Intercept
 
+#原始分析
 
+#m00 <- lmer(vtr ~ NH + OSA + (1 | study), data = df)
+#m <- lmer(vtr ~ NH + OSA + (1 | study) +  (1 | id), data = df)
+#anova(m00, m)
+
+m00 <- lmer(response ~ NH + OSA +(1 | Text_id), data = subset(df_Post_ext, Topic == "Credibility"))
+
+m1<- lmer(response ~(1 | Text_id) + NH + OSA +  (1 | jatosStudyResultId), subset(df_Post_ext, Topic == "Credibility"))
+
+anova(m00, m1)
+
+#Random Slopes
 ## 決定未加入個別差異因素的最佳模型
 
+#原始分析
+#m2a <- lmer(vtr ~(1 | study) + NH + OSA +   (OSA | id), data = df)
+#m2b <- lmer(vtr ~(1 | study) + NH + OSA +   (NH | id), data = df)
+#m2b <- lmer(vtr ~(1 | study) + NH + OSA +   (NH | id), data = df, REML = F)
+#summary(m2b)
+#anova(m2a, m)
+#anova(m2b,m)
+#summary(m2a)
+
+#m3a <- lmer(vtr ~(1 | study) + NH + OSA + j_ja   + j_pj +  j_ms +   (OSA | id), data = df)
+#m3b <- lmer(vtr ~(1 | study) + NH + OSA * j_ja   + OSA * j_pj + OSA * j_ms +   (OSA | id), data = df)
+#anova(m2a,m3a,m3b)
+#summary(m3a)
+
+m2a <- lmer(response ~(1 | Text_id) + NH + OSA +   (OSA | jatosStudyResultId), data = subset(df_Post_ext, Topic == "Credibility"))
+
+m2b <- lmer(response ~(1 | Text_id) + NH + OSA +   (NH | jatosStudyResultId), data = subset(df_Post_ext, Topic == "Credibility"), REML = F)
+
+summary(m2b)
+
+
+anova(m2a,m1)
+anova(m2b,m1)
+
+summary(m2a)
 
 ## 評估知識信念
 
+m3a <- lmer(response ~(1 | Text_id) + NH+ OSA + JA + PJ + MS +   (OSA | jatosStudyResultId), data = subset(df_Post_ext, Topic == "Credibility"))
+m3b <- lmer(response ~(1 | Text_id) + NH+ OSA * JA   + OSA * PJ + OSA * MS +   (OSA | jatosStudyResultId), data = subset(df_Post_ext, Topic == "Credibility"))
+
+anova(m2a,m3a,m3b)
+
+summary(m3a)
+
+#non-convergence
+#原始分析(是否要做？)
+#m3a <- lmer(vtr ~(1 | study) + NH+ OSA + Englisch +   (OSA | id), data = df, REML = F)
+#m3b <- lmer(vtr ~(1 | study) + NH+ OSA * Englisch +   (OSA | id), data = df)
+#anova(m2a,m3a, m3b)
+#anova(m2a,m3b)
 
 ```
 
@@ -744,14 +793,65 @@ summary(m3a)
 
 ## Ability to Evaluate
 
+# Random Intercept
+#原始分析
+#m00 <- lmer(wahr ~ NH + OSA + (1 | study), data = df)
+#m <- lmer(wahr ~ NH + OSA + (1 | study) +  (1 | id), data = df)
+#anova(m00, m)
 
+m00 <- lmer(response ~ NH + OSA +(1 | Text_id), data = subset(df_Post_ext, Topic == 
+"Veracity"))
+
+m1<- lmer(response ~(1 | Text_id) + NH + OSA +  (1 | jatosStudyResultId), subset(df_Post_ext, Topic == "Veracity"))
+
+anova(m00, m1)
+
+# Random Slopes
 ## 決定未加入個別差異因素的最佳模型
+#原始分析
+#m2a <- lmer(wahr ~(1 | study) + NH + OSA +   (OSA | id), data = df)
+
+m2a <- lmer(response ~(1 | Text_id) + NH + OSA +   (OSA | jatosStudyResultId), data = subset(df_Post_ext, Topic == "Veracity"))
+
+m2b <- lmer(response ~(1 | Text_id) + NH + OSA +   (NH | jatosStudyResultId), data = subset(df_Post_ext, Topic == "Veracity"), REML = F)
+
+summary(m2b)
+
+
+anova(m2a,m1)
+anova(m2b,m1)
+
+summary(m2a)
+
+#non-convergence
+#原始分析(是否要做？)
+#m2b <- lmer(wahr ~(1 | study) + NH + OSA +   (NH | id), data = df, REML = T)
+#m2b <- lmer(wahr ~(1 | study) + NH + OSA +   (NH | id), data = df, REML = F)
+#summary(m2b)
+#anova(m2a, m)
+#summary(m2a)
 
 
 ## 評估知識信念
+#原始分析
+#m3a <- lmer(wahr ~(1 | study) + NH + OSA + j_ja   + j_pj +  j_ms +   (OSA | id), data = df)
+#m3b <- lmer(wahr ~(1 | study) + NH + OSA * j_ja   + OSA * j_pj + OSA * j_ms +   (OSA | id), data = df)
+#anova(m2a,m3a,m3b)
+#summary(m3a)
 
+
+m3a <- lmer(response ~(1 | Text_id) + NH+ OSA + JA + PJ + MS +   (OSA | jatosStudyResultId), data = subset(df_Post_ext, Topic == "Veracity"))
+m3b <- lmer(response ~(1 | Text_id) + NH+ OSA * JA   + OSA * PJ + OSA * MS +   (OSA | jatosStudyResultId), data = subset(df_Post_ext, Topic == "Veracity"))
+
+anova(m2a,m3a,m3b)
+
+summary(m3a)
 
 ## 評估科學活動經驗
+#m3a <- lmer(wahr ~(1 | study) + NH+ OSA + Englisch +   (OSA | id), data = df)
+#m3b <- lmer(wahr ~(1 | study) + NH+ OSA * Englisch +   (OSA | id), data = df)
+#anova(m2a,m3a)
+#anova(m2a,m3b)
 
 ```
 
@@ -763,12 +863,63 @@ summary(m3a)
 
 ## Ability to Make Decision
 
+# Random Intercept
+#m00 <- lmer(ent ~ NH + OSA + (1 | study), data = df)
+#m <- lmer(ent ~ NH + OSA + (1 | study) +  (1 | id), data = df)
+#anova(m00, m)
+
+m00 <- lmer(response ~ NH + OSA +(1 | Text_id), data = subset(df_Post_ext, Topic == 
+"Decision"))
+
+m1<- lmer(response ~(1 | Text_id) + NH + OSA +  (1 | jatosStudyResultId), subset(df_Post_ext, Topic == "Decision"))
+
+anova(m00, m1)
+
+# Random Slopes
+#原始分析
+#m2a <- lmer(wahr ~(1 | study) + NH + OSA +   (OSA | id), data = df)
+
+# Non-convergence
+#m2a <- lmer(ent ~(1 | study) + NH + OSA +   (OSA | id), data = df, REML = F)
+
+#converged nicht
+#m2b <- lmer(ent ~(1 | study) + NH + OSA +   (NH | id), data = df)
+#summary(m2b)
+#m2b <- lmer(ent ~(1 | study) + NH + OSA +   (NH | id), data = df, REML = F)
+#summary(m2b)
+#anova(m, m2b)
+#summary(m)
+
+
+
+m2a <- lmer(response ~(1 | Text_id) + NH + OSA +   (OSA | jatosStudyResultId), data = subset(df_Post_ext, Topic == "Decision"))
+
+m2b <- lmer(response ~(1 | Text_id) + NH + OSA +   (NH | jatosStudyResultId), data = subset(df_Post_ext, Topic == "Decision"), REML = F)
+
+summary(m2b)
+
+
+anova(m2a,m1)
+anova(m2b,m1)
+
+summary(m2a)
 ## 決定未加入個別差異因素的最佳模型
 
 
 ## 評估知識信念
+#原始分析
+#m3a <- lmer(ent ~(1 | study) + NH + OSA + j_ja   + j_pj +  j_ms +   (1 | id), data = df)
+#anova(m,m3a)
+#summary(m3a)
+m3a <- lmer(response ~(1 | Text_id) + NH+ OSA + JA + PJ + MS +   (OSA | jatosStudyResultId), data = subset(df_Post_ext, Topic == "Decision"))
+m3b <- lmer(response ~(1 | Text_id) + NH+ OSA * JA   + OSA * PJ + OSA * MS +   (OSA | jatosStudyResultId), data = subset(df_Post_ext, Topic == "Decision"))
 
+anova(m2a,m3a,m3b)
+
+summary(m3a)
 
 ## 評估科學活動經驗
+#m3a <- lmer(ent ~(1 | study) + NH+ OSA + Englisch +   (1 | id), data = df)
+#anova(m,m3a)
 
 ```
