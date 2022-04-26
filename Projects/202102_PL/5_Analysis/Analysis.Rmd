@@ -441,7 +441,7 @@ m00 <- glmer(score ~ (1 | Test_id), family = binomial("logit"), data = df_knowle
 
 m1 <- glmer(score ~ (1 | jatosStudyResultId) + article_type + (1 | Test_id), family = binomial("logit"), data = df_knowledge)
 
-anova(m0,m1)
+anova(m0,m1) ## fittest is m1
 
 
 summary(m1)
@@ -466,15 +466,31 @@ summary(test, test = adjusted("none"))
 
 ## H3 Credibility
 
-
 ## 計算參與者單位及文章單位的組內相關程度ICC
 
+m0 <- lmer(response ~ (1 | jatosStudyResultId), data = subset(df_Post, Topic == "Credibility"))
+m00 <- lmer(response ~ (1 | Test_id), data = subset(df_Post, Topic == "Credibility"))
+
+summary(m0)
+performance::icc(m0)
+
+summary(m00)
+performance::icc(m00)
 
 ## 確認最適模型
 
+m1 <- lmer(response ~ (1 | jatosStudyResultId) + article_type + (1 | Text_id), data = subset(df_Post, Topic == "Credibility"))
+
+anova(m0, m1)  ## fittest is m1
+
+
+summary(m1)
 
 
 ## 文章型態多重比較
+
+test = glht(m1,linfct=mcp(article_type="Tukey"))
+summary(test, test = adjusted("none"))
 
 ```
 
@@ -487,15 +503,30 @@ summary(test, test = adjusted("none"))
 # Confirmatory Analyses
 
 ## H4 Ability to Evaluate
-
-
 ## 計算參與者單位及文章單位的組內相關程度ICC
+
+m0 <- lmer(response ~ (1 | jatosStudyResultId), data = subset(df_Post, Topic == "Veracity"))
+m00 <- lmer(response ~ (1 | Test_id), data = subset(df_Post, Topic == "Veracity"))
+
+summary(m0)
+performance::icc(m0)
+
+summary(m00)
+performance::icc(m00)
 
 
 ## 確認最適模型
 
 
+m1 <- lmer(response ~ (1 | jatosStudyResultId) + article_type + (1 | Text_id), data = subset(df_Post, Topic == "Veracity"))
+
+anova(m0,m1)  ## fittest is m1
+
+summary(m1)
+
 ## 文章型態多重比較
+test = glht(m1,linfct=mcp(article_type="Tukey"))
+summary(test, test = adjusted("none"))
 
 ```
 
@@ -512,11 +543,29 @@ summary(test, test = adjusted("none"))
 
 ## 計算參與者單位及文章單位的組內相關程度ICC
 
+m0 <- lmer(response ~ (1 | jatosStudyResultId), data = subset(df_Post, Topic == "Decision"))
+m00 <- lmer(response ~ (1 | Test_id), data = subset(df_Post, Topic == "Decision"))
+
+summary(m0)
+performance::icc(m0)
+
+summary(m00)
+performance::icc(m00)
+
 
 ## 確認最適模型
 
 
+m1 <- lmer(response ~ (1 | jatosStudyResultId) + article_type + (1 | Text_id), data = subset(df_Post, Topic == "Decision"))
+
+anova(m0,m1)  ## fittest is m1
+
+summary(m1)
+
+
 ## 文章型態多重比較
+test = glht(m1,linfct=mcp(article_type="Tukey"))
+summary(test, test = adjusted("none"))
 
 ```
 
@@ -539,12 +588,29 @@ Kerwer et al.(2021)發現科學性與來源可信度有高相關性(r > .77)，�
 
 ## 計算參與者單位及文章單位的組內相關程度ICC
 
+m0 <- lmer(response ~ (1 | jatosStudyResultId), data = subset(df_Post, Topic == "Scientificness"))
+m00 <- lmer(response ~ (1 | Test_id), data = subset(df_Post, Topic == "Scientificness"))
+
+summary(m0)
+performance::icc(m0)
+
+summary(m00)
+performance::icc(m00)
 
 
 ## 確認最適模型
 
 
+m1 <- lmer(response ~ (1 | jatosStudyResultId) + article_type + (1 | Text_id), data = subset(df_Post, Topic == "Scientificness"))
+ 
+anova(m0,m1)  ## fittest is m1
+
+summary(m1)
+
+
 ## 文章型態多重比較
+test = glht(m1,linfct=mcp(article_type="Tukey"))
+summary(test, test = adjusted("none"))
 
 ```
 
@@ -558,9 +624,19 @@ Kerwer et al.(2021)發現科學性與來源可信度有高相關性(r > .77)，�
 
 
 ## 確認最適模型
+m0 <- glmer(response ~ (1 | jatosStudyResultId), family = binomial("logit"), data = subset(df_Post, Topic == "Access"))
+
+
+m1 <- glmer(response ~ (1 | jatosStudyResultId) + article_type + (1 | Text_id), family = binomial("logit"), data = subset(df_Post, Topic == "Access"))
+
+anova(m0,m1)
+
+summary(m1) # mi
 
 
 ## 文章型態多重比較
+test = glht(m1,linfct=mcp(article_type="Tukey"))
+summary(test, test = adjusted("none"))
 
 ```
 
@@ -620,6 +696,8 @@ anova(m3a,m3b) ## fittest is m3a
 
 
 summary(m3a)
+
+
 
 ## 評估科學活動經驗
 
