@@ -592,7 +592,7 @@ performance::icc(m0)
 summary(m00)
 performance::icc(m00)
 
-
+.
 ## 確認最適模型
 
 
@@ -708,7 +708,41 @@ summary(m3a)
 ## Knowledge Test
 
 ## 決定未加入個別差異因素的最佳模型
+dm_knowledge$NH <- dm_knowledge$PLS == "No Heading"
+dm_knowledge$OSA <- dm_knowledge$PLS == "Non PLS"
 
+#Random Intercept
+
+m00 <- glmer(score ~ NH + OSA +(1 | study/item), data = dm_knowledge, family = binomial("logit"))
+m1 <- glmer(score ~ NH + OSA + (1 | study/item) + (1 | id), data = dm_knowledge, family = binomial("logit"))
+
+anova(m00, m1)
+
+m1 <- glmer(score ~ (1 | study/item) + NH + OSA  + (1 | id), data = dm_knowledge, family = binomial("logit"))
+
+#non-convergence
+m2a <- glmer(score ~ (1 | study/item) + NH + OSA + (OSA | id), data = dm_knowledge, family = binomial("logit"))
+summary(m2a)
+
+m2b <- glmer(score ~ (1 | study/item) + NH + OSA + (NH | id), data = dm_knowledge, family = binomial("logit"))
+summary(m2b)
+
+anova(m1, m2b)
+
+m3 <- glmer(score ~ (1 | study/item) + NH + OSA + j_pj + j_ja + j_ms  + (1 | id), data = dm_knowledge, family = binomial("logit"))
+
+anova(m1, m3)
+
+
+summary(m3)
+
+
+m3 <- glmer(score ~ (1 | study/item) + NH + OSA + Englisch + (1 | id), data = dm_knowledge, family = binomial("logit"))
+
+anova(m1, m3)
+
+
+summary(m3)
 
 ## 評估知識信念
 
