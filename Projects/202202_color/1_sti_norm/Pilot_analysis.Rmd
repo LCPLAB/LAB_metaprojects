@@ -1,0 +1,184 @@
+---
+title: "Pilot analysis"
+author: "Sau-Chin Chen"
+date: "2022/4/26"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+	echo = TRUE,
+	message = FALSE,
+	warning = FALSE
+)
+library(tidyverse)
+library(broom)
+library(effectsize)
+```
+
+## Data sheet structure
+
+- ID: by-participant unit
+- term: by-item unit
+
+- Design:
+- Color_pic:
+
+- RT:
+- Correct: 
+
+```{r build_data_sheet}
+df <- tibble(
+  ID = paste0("s",rep(1:39,each=96*2)),
+  gender=rep(c("Female","Male"),c(96*2*35,96*2*4)),
+  age=rep(sample(17:26,size=39,replace = TRUE,prob = c(rep(0.15,6),rep(0.1/4,4))),each=96*2),
+  Color_pic	= rep(rep(rep(c("Y","N"),each=48),2),39),
+  Design = rep(rep(c("Critical","Filler"),each=96),39),
+  term = rep(paste0("i",c(rep(1:48,2),rep(49:96,2))),39),
+  RT = c(replicate(4*39,round(rnorm(48,500,10),0) )),
+  Correct = c(replicate(4*39,sample(0:1,size = 48,replace = TRUE,prob=c(.01,.99)) ))
+)
+
+## count how many female participants
+femaleN <- df %>% filter(gender=="Female") %>% summarise(N = length(unique(ID)) ) %>% pull(N)
+
+## count the range of ages
+age_range <- df %>% summarise(ages = range(age)) %>% pull(ages)
+```
+
+
+## Demographic summary
+
+In the simulated data, there are __ female participants, age range: __ years.
+
+
+## Making of analytic table
+
+Build the tables for by-participant and by-item t-tests.
+
+```{r by-particiant-table, echo=FALSE}
+## for t-test on accuracy
+p_Acc <- df %>%
+  group_by(ID, Design, Color_pic) %>%
+  summarise(Acc=mean(Correct))
+
+## Making of p_table
+p_Acc_tb <- p_Acc %>%
+  group_by(Design, Color_pic) %>%
+  summarise(Accuracy = mean(Acc))
+
+## for t-test on RT
+p_RT <- df %>%
+  filter(Correct==1) %>%
+  group_by(ID, Design, Color_pic) %>%
+  summarise(pRT= mean(RT))
+
+
+## Making of p_table
+p_RT_tb <- p_RT %>%
+  group_by(Design, Color_pic) %>%
+  summarise(mRT = mean(pRT))
+
+```
+
+Summary by participants
+
+`r knitr::kable(p_RT_tb)`
+
+
+`r knitr::kable(p_Acc_tb)`
+
+```{r by-item-table, echo=FALSE}
+## for t-test on accuracy
+i_Acc <- df %>%
+  group_by(term, Design, Color_pic) %>%
+  summarise(Acc=mean(Correct))
+
+## Making of i_table
+i_Acc_tb <- i_Acc %>%
+  group_by(Design, Color_pic) %>%
+  summarise(Accuracy = mean(Acc))
+
+
+## for t-test on RT
+i_RT <- df %>%
+  filter(Correct==1) %>%
+  group_by(term, Design, Color_pic) %>%
+  summarise(iRT = mean(RT))
+
+## Making of p_table
+i_RT_tb <- i_RT %>%
+  group_by(Design, Color_pic) %>%
+  summarise(mRT = mean(iRT))
+```
+
+Summary by items
+
+`r knitr::kable(i_RT_tb)`
+
+
+`r knitr::kable(i_Acc_tb)`
+
+
+## T-tests by condition and by measurement
+
+```{r planned_ttest, echo=FALSE}
+## by-participant RT analysis 
+result_p_Critical_RT <- t.test(pRT ~ Color_pic,
+       paired = TRUE,
+       data=subset(p_RT,Design=="Critical"),
+       alternative = "less") %>%
+  tidy()
+
+result_p_Filler_RT <- t.test(pRT ~ Color_pic,
+       paired = TRUE,
+       data=subset(p_RT,Design=="Filler"),
+       alternative = "less") %>%
+  tidy()
+
+## by-item RT analysis 
+result_i_Critical_RT <- t.test(iRT ~ Color_pic,
+       paired = TRUE,
+       data=subset(i_RT,Design=="Critical"),
+       alternative = "less") %>%
+  tidy()
+
+result_i_Filler_RT <- t.test(iRT ~ Color_pic,
+       paired = TRUE,
+       data=subset(i_RT,Design=="Filler"),
+       alternative = "less") %>%
+  tidy()
+
+
+
+## by-participant Accuracy analysis
+result_p_Critical_Acc <- t.test(Acc ~ Color_pic,
+       paired = TRUE,
+       data=subset(p_Acc,Design=="Critical"),
+       alternative = "less") %>%
+  tidy()
+
+result_p_Filler_Acc <- t.test(Acc ~ Color_pic,
+       paired = TRUE,
+       data=subset(p_Acc,Design=="Filler"),
+       alternative = "less") %>%
+  tidy()
+
+## by-item Accuracy analysis
+result_i_Critical_Acc <- t.test(Acc ~ Color_pic,
+       paired = TRUE,
+       data=subset(i_Acc,Design=="Critical"),
+       alternative = "less") %>%
+  tidy()
+
+result_i_Filler_Acc <- t.test(Acc ~ Color_pic,
+       paired = TRUE,
+       data=subset(i_Acc,Design=="Filler"),
+       alternative = "less") %>%
+  tidy()
+
+```
+
+In this document we generated the simulated data and reproduced the analysis summary as Hoeben Mannaert et al. ( 2021) on p. 131.
+
+> A paired-samples t test found no significant color advantage in the response times for either experimental items, $t_1$(`r round(result_p_Critical_RT$parameter, 2)`) = `r round(result_p_Critical_RT$statistic, 2)`, *p* = `r round(result_p_Critical_RT$p.value, 3)`; $t_2$(`r round(result_i_Critical_RT$parameter, 2)`) = `r round(result_i_Critical_RT$statistic, 2)`, *p* = `r round(result_i_Critical_RT$p.value, 3)`, or for filler items,  $t_1$(`r round(result_p_Filler_RT$parameter, 2)`) = `r round(result_p_Filler_RT$statistic, 2)`, *p* = `r round(result_p_Filler_RT$p.value, 3)`; $t_2$(`r round(result_i_Filler_RT$parameter, 2)`) = `r round(result_i_Filler_RT$statistic, 2)`, *p* = `r round(result_i_Filler_RT$p.value, 3)`. (Cotinue to Accuracy analysis)

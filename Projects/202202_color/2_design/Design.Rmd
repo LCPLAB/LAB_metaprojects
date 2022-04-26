@@ -1,0 +1,57 @@
+---
+title: "Making of stimuli lists"
+author: "Sau-Chin Chen"
+date: "2022/4/24"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+	echo = TRUE,
+	message = FALSE,
+	warning = FALSE
+)
+library(tidyverse)
+source("LS_fun.R")  ## loading the function for counter balance
+```
+
+## 實驗設計說明
+
+
+Design：目標圖片是句子提到的物件(Critical, Filler)，各有96組刺激句及96張目標圖片
+Sen_pic: 第二句提示物件的顏色(Yes, No)；Critical及Filler各有48組
+Color_pic: 目標圖片是彩色或黑白(Color, Blank)；Critical及Filler各有48張
+
+根據Sen_pic及Color_pic，一項物件有四種配對。
+
+
+## 拉丁方格組合
+
+|| List 1 | List 2 | List 3 | List 4 |
+|---|:---:|:---:|:---:|:---:|
+|Sti 1|Critical<br/>Sen_pic(Y)<br/>Color_pic(Color)|Critical<br/>Sen_pic(Y)<br/>Color_pic(Blank)|Filler<br/>Sen_pic(N)<br/>Color_pic(Color)|Filler<br/>Sen_pic(N)<br/>Color_pic(Blank)|
+|Sti 2|Critical<br/>Sen_pic(Y)<br/>Color_pic(Blank)|Filler<br/>Sen_pic(N)<br/>Color_pic(Color)|Critical<br/>Sen_pic(N)<br/>Color_pic(Blank)|Filler<br/>Sen_pic(Y)<br/>Color_pic(Color)|
+|Sti 3|Filler<br/>Sen_pic(N)<br/>Color_pic(Color)|Filler<br/>Sen_pic(N)<br/>Color_pic(Blank)|Critical<br/>Sen_pic(Y)<br/>Color_pic(Color)|Critical<br/>Sen_pic(Y)<br/>Color_pic(Blank)|
+|Sti 4|Filler<br/>Sen_pic(N)<br/>Color_pic(Blank)|Critical<br/>Sen_pic(Y)<br/>Color_pic(Color)|Filler<br/>Sen_pic(Y)<br/>Color_pic(Blank)|Critical<br/>Sen_pic(N)<br/>Color_pic(Color)|
+
+依照排列組合，一份刺激列表有96項句子及圖片配對。Critical及Filler各有48項。
+
+
+
+## 刺激列表序列索引碼
+
+```{r gen_list, echo=TRUE}
+lists <- ifelse(latinsquare(4,rep=96/2,seed = 20220501)%%2==1,1,0)
+colnames(lists) <- c(paste0("List0",1:4))
+
+for(i in colnames(lists)){
+  lists[which(lists[,i]==1),i] = 1:96 
+}
+
+apply(lists!=0,2,sum)
+
+write.csv(lists, file="lists.csv",row.names = FALSE)
+```
+
+以上程式碼製造四份刺激列表的序列索引碼，各列表皆有96項，匯出後可複製至刺激表Objects與Sentences。
+
