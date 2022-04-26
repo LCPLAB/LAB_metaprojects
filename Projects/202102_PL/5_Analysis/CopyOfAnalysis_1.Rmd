@@ -918,6 +918,7 @@ anova(m2a,m3a,m3b)
 
 summary(m3a)
 
+
 ## 評估科學活動經驗
 #m3a <- lmer(ent ~(1 | study) + NH+ OSA + Englisch +   (1 | id), data = df)
 #anova(m,m3a)
