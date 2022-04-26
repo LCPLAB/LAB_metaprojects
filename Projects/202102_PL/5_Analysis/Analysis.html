@@ -11,7 +11,7 @@
 
 <meta name="author" content="LCP lab" />
 
-<meta name="date" content="2022-04-19" />
+<meta name="date" content="2022-04-26" />
 
 <title>Analysis ~ Replication study of Kerwer et al.(2020)</title>
 
@@ -259,7 +259,7 @@ div.tocify {
 
 <h1 class="title toc-ignore">Analysis ~ Replication study of Kerwer et al.(2020)</h1>
 <h4 class="author">LCP lab</h4>
-<h4 class="date">2022-04-19</h4>
+<h4 class="date">2022-04-26</h4>
 
 </div>
 
@@ -273,7 +273,7 @@ df &lt;- read_csv(unz(zip_path, filename = &quot;rawdata.csv&quot;))
 ## import text id table; script did not log text_id
 text &lt;- read_csv(&quot;../4_OS_Result/text_id.csv&quot;)
 ## Append text id to rawdata df</code></pre>
-<p>整合有效參與者的原始回應資料檔”rawdata.csv”，存放路徑是../4_OS_Result/jatos_results.zip。資料欄位共有57項，來自150位參與者，41850筆回應資料。</p>
+<p>整合有效參與者的原始回應資料檔“rawdata.csv”，存放路徑是../4_OS_Result/jatos_results.zip。資料欄位共有57項，來自150位參與者，41850筆回應資料。</p>
 <p>資料編碼薄以<a href="codebook.Rmd">codebook套件</a>製作，製作完成存放路徑與本文件相同。</p>
 <pre class="r"><code>## Extract the system variables
 df_sys &lt;- df %&gt;% dplyr::select(starts_with(c(&quot;identifier&quot;,&quot;jatos&quot;,&quot;browser_&quot;,&quot;count_&quot;,&quot;date_&quot;,&quot;experiment_&quot;,&quot;screen_&quot;,&quot;system_&quot;,&quot;Start &quot;,&quot;Last &quot;,&quot;Duration&quot;,&quot;Batch&quot;,&quot;Worker &quot;,&quot;State&quot;,&quot;Message&quot;)))
@@ -1015,15 +1015,133 @@ summary(test, test = adjusted(&quot;none&quot;))</code></pre>
 
 ## H3 Credibility
 
-
 ## 計算參與者單位及文章單位的組內相關程度ICC
 
+m0 &lt;- lmer(response ~ (1 | jatosStudyResultId), data = subset(df_Post, Topic == &quot;Credibility&quot;))
+m00 &lt;- lmer(response ~ (1 | Test_id), data = subset(df_Post, Topic == &quot;Credibility&quot;))
 
-## 確認最適模型
+summary(m0)</code></pre>
+<pre><code>## Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [
+## lmerModLmerTest]
+## Formula: response ~ (1 | jatosStudyResultId)
+##    Data: subset(df_Post, Topic == &quot;Credibility&quot;)
+## 
+## REML criterion at convergence: 5708.4
+## 
+## Scaled residuals: 
+##     Min      1Q  Median      3Q     Max 
+## -4.2044 -0.5564  0.0304  0.6172  2.8694 
+## 
+## Random effects:
+##  Groups             Name        Variance Std.Dev.
+##  jatosStudyResultId (Intercept) 0.6876   0.8292  
+##  Residual                       1.1716   1.0824  
+## Number of obs: 1800, groups:  jatosStudyResultId, 150
+## 
+## Fixed effects:
+##              Estimate Std. Error        df t value Pr(&gt;|t|)    
+## (Intercept)   5.32222    0.07235 149.00000   73.56   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<pre class="r"><code>performance::icc(m0)</code></pre>
+<pre><code>## # Intraclass Correlation Coefficient
+## 
+##      Adjusted ICC: 0.370
+##   Conditional ICC: 0.370</code></pre>
+<pre class="r"><code>summary(m00)</code></pre>
+<pre><code>## Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [
+## lmerModLmerTest]
+## Formula: response ~ (1 | Test_id)
+##    Data: subset(df_Post, Topic == &quot;Credibility&quot;)
+## 
+## REML criterion at convergence: 6217.2
+## 
+## Scaled residuals: 
+##     Min      1Q  Median      3Q     Max 
+## -3.2728 -0.8078 -0.0981  0.5556  2.1449 
+## 
+## Random effects:
+##  Groups   Name        Variance Std.Dev.
+##  Test_id  (Intercept) 0.02549  0.1596  
+##  Residual             1.83514  1.3547  
+## Number of obs: 1800, groups:  Test_id, 13
+## 
+## Fixed effects:
+##             Estimate Std. Error       df t value Pr(&gt;|t|)    
+## (Intercept)  5.33517    0.05593 10.35602   95.38   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<pre class="r"><code>performance::icc(m00)</code></pre>
+<pre><code>## # Intraclass Correlation Coefficient
+## 
+##      Adjusted ICC: 0.014
+##   Conditional ICC: 0.014</code></pre>
+<pre class="r"><code>## 確認最適模型
 
+m1 &lt;- lmer(response ~ (1 | jatosStudyResultId) + article_type + (1 | Text_id), data = subset(df_Post, Topic == &quot;Credibility&quot;))
 
+summary(m1)</code></pre>
+<pre><code>## Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [
+## lmerModLmerTest]
+## Formula: response ~ (1 | jatosStudyResultId) + article_type + (1 | Text_id)
+##    Data: subset(df_Post, Topic == &quot;Credibility&quot;)
+## 
+## REML criterion at convergence: 5623.3
+## 
+## Scaled residuals: 
+##     Min      1Q  Median      3Q     Max 
+## -3.9142 -0.5517  0.0370  0.6312  2.8963 
+## 
+## Random effects:
+##  Groups             Name        Variance Std.Dev.
+##  jatosStudyResultId (Intercept) 0.69410  0.8331  
+##  Text_id            (Intercept) 0.05392  0.2322  
+##  Residual                       1.09320  1.0456  
+## Number of obs: 1800, groups:  jatosStudyResultId, 150; Text_id, 12
+## 
+## Fixed effects:
+##                     Estimate Std. Error        df t value Pr(&gt;|t|)    
+## (Intercept)        5.109e+00  1.046e-01 4.698e+01  48.831  &lt; 2e-16 ***
+## article_typePLS    3.676e-01  6.043e-02 1.638e+03   6.084 1.46e-09 ***
+## article_typePLS_NH 2.726e-01  6.043e-02 1.638e+03   4.510 6.94e-06 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Correlation of Fixed Effects:
+##             (Intr) ar_PLS
+## artcl_tyPLS -0.289       
+## artc_PLS_NH -0.289  0.500</code></pre>
+<pre class="r"><code>anova(m0, m1)</code></pre>
+<pre><code>## Data: subset(df_Post, Topic == &quot;Credibility&quot;)
+## Models:
+## m0: response ~ (1 | jatosStudyResultId)
+## m1: response ~ (1 | jatosStudyResultId) + article_type + (1 | Text_id)
+##    npar    AIC    BIC  logLik deviance  Chisq Df Pr(&gt;Chisq)    
+## m0    3 5711.0 5727.5 -2852.5   5705.0                         
+## m1    6 5624.7 5657.7 -2806.3   5612.7 92.282  3  &lt; 2.2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<pre class="r"><code>## 文章型態多重比較
 
-## 文章型態多重比較</code></pre>
+test = glht(m1,linfct=mcp(article_type=&quot;Tukey&quot;))
+summary(test, test = adjusted(&quot;none&quot;))</code></pre>
+<pre><code>## 
+##   Simultaneous Tests for General Linear Hypotheses
+## 
+## Multiple Comparisons of Means: Tukey Contrasts
+## 
+## 
+## Fit: lmer(formula = response ~ (1 | jatosStudyResultId) + article_type + 
+##     (1 | Text_id), data = subset(df_Post, Topic == &quot;Credibility&quot;))
+## 
+## Linear Hypotheses:
+##                   Estimate Std. Error z value Pr(&gt;|z|)    
+## PLS - OSA == 0     0.36765    0.06043   6.084 1.18e-09 ***
+## PLS_NH - OSA == 0  0.27255    0.06043   4.510 6.48e-06 ***
+## PLS_NH - PLS == 0 -0.09509    0.06043  -1.574    0.116    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## (Adjusted p values reported -- none method)</code></pre>
 </div>
 <div id="內容真實性評估" class="section level3">
 <h3>4. 內容真實性評估</h3>
@@ -1031,15 +1149,133 @@ summary(test, test = adjusted(&quot;none&quot;))</code></pre>
 <pre class="r"><code># Confirmatory Analyses
 
 ## H4 Ability to Evaluate
-
-
 ## 計算參與者單位及文章單位的組內相關程度ICC
 
+m0 &lt;- lmer(response ~ (1 | jatosStudyResultId), data = subset(df_Post, Topic == &quot;Veracity&quot;))
+m00 &lt;- lmer(response ~ (1 | Test_id), data = subset(df_Post, Topic == &quot;Veracity&quot;))
 
-## 確認最適模型
+summary(m0)</code></pre>
+<pre><code>## Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [
+## lmerModLmerTest]
+## Formula: response ~ (1 | jatosStudyResultId)
+##    Data: subset(df_Post, Topic == &quot;Veracity&quot;)
+## 
+## REML criterion at convergence: 6043.8
+## 
+## Scaled residuals: 
+##     Min      1Q  Median      3Q     Max 
+## -3.7517 -0.6138  0.0732  0.6053  2.7712 
+## 
+## Random effects:
+##  Groups             Name        Variance Std.Dev.
+##  jatosStudyResultId (Intercept) 0.952    0.9757  
+##  Residual                       1.396    1.1817  
+## Number of obs: 1800, groups:  jatosStudyResultId, 150
+## 
+## Fixed effects:
+##              Estimate Std. Error        df t value Pr(&gt;|t|)    
+## (Intercept)   4.88722    0.08439 148.99999   57.91   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<pre class="r"><code>performance::icc(m0)</code></pre>
+<pre><code>## # Intraclass Correlation Coefficient
+## 
+##      Adjusted ICC: 0.405
+##   Conditional ICC: 0.405</code></pre>
+<pre class="r"><code>summary(m00)</code></pre>
+<pre><code>## Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [
+## lmerModLmerTest]
+## Formula: response ~ (1 | Test_id)
+##    Data: subset(df_Post, Topic == &quot;Veracity&quot;)
+## 
+## REML criterion at convergence: 6644.1
+## 
+## Scaled residuals: 
+##      Min       1Q   Median       3Q      Max 
+## -2.56007 -0.58182  0.07767  0.73142  2.05367 
+## 
+## Random effects:
+##  Groups   Name        Variance Std.Dev.
+##  Test_id  (Intercept) 0.003206 0.05662 
+##  Residual             2.339782 1.52963 
+## Number of obs: 1800, groups:  Test_id, 13
+## 
+## Fixed effects:
+##             Estimate Std. Error      df t value Pr(&gt;|t|)    
+## (Intercept)  4.88741    0.04023 4.69155   121.5 2.18e-09 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<pre class="r"><code>performance::icc(m00)</code></pre>
+<pre><code>## # Intraclass Correlation Coefficient
+## 
+##      Adjusted ICC: 0.001
+##   Conditional ICC: 0.001</code></pre>
+<pre class="r"><code>## 確認最適模型
 
 
-## 文章型態多重比較</code></pre>
+m1 &lt;- lmer(response ~ (1 | jatosStudyResultId) + article_type + (1 | Text_id), data = subset(df_Post, Topic == &quot;Veracity&quot;))
+
+anova(m0,m1)</code></pre>
+<pre><code>## Data: subset(df_Post, Topic == &quot;Veracity&quot;)
+## Models:
+## m0: response ~ (1 | jatosStudyResultId)
+## m1: response ~ (1 | jatosStudyResultId) + article_type + (1 | Text_id)
+##    npar    AIC    BIC  logLik deviance  Chisq Df Pr(&gt;Chisq)    
+## m0    3 6046.7 6063.1 -3020.3   6040.7                         
+## m1    6 5941.5 5974.5 -2964.8   5929.5 111.16  3  &lt; 2.2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<pre class="r"><code>summary(m1)</code></pre>
+<pre><code>## Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [
+## lmerModLmerTest]
+## Formula: response ~ (1 | jatosStudyResultId) + article_type + (1 | Text_id)
+##    Data: subset(df_Post, Topic == &quot;Veracity&quot;)
+## 
+## REML criterion at convergence: 5939.6
+## 
+## Scaled residuals: 
+##     Min      1Q  Median      3Q     Max 
+## -3.7010 -0.5447  0.0525  0.6303  2.9275 
+## 
+## Random effects:
+##  Groups             Name        Variance Std.Dev.
+##  jatosStudyResultId (Intercept) 0.96090  0.9803  
+##  Text_id            (Intercept) 0.05504  0.2346  
+##  Residual                       1.28921  1.1354  
+## Number of obs: 1800, groups:  jatosStudyResultId, 150; Text_id, 12
+## 
+## Fixed effects:
+##                     Estimate Std. Error        df t value Pr(&gt;|t|)    
+## (Intercept)        4.583e+00  1.147e-01 5.963e+01   39.98  &lt; 2e-16 ***
+## article_typePLS    5.302e-01  6.563e-02 1.638e+03    8.08 1.25e-15 ***
+## article_typePLS_NH 3.813e-01  6.563e-02 1.638e+03    5.81 7.47e-09 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Correlation of Fixed Effects:
+##             (Intr) ar_PLS
+## artcl_tyPLS -0.286       
+## artc_PLS_NH -0.286  0.500</code></pre>
+<pre class="r"><code>## 文章型態多重比較
+test = glht(m1,linfct=mcp(article_type=&quot;Tukey&quot;))
+summary(test, test = adjusted(&quot;none&quot;))</code></pre>
+<pre><code>## 
+##   Simultaneous Tests for General Linear Hypotheses
+## 
+## Multiple Comparisons of Means: Tukey Contrasts
+## 
+## 
+## Fit: lmer(formula = response ~ (1 | jatosStudyResultId) + article_type + 
+##     (1 | Text_id), data = subset(df_Post, Topic == &quot;Veracity&quot;))
+## 
+## Linear Hypotheses:
+##                   Estimate Std. Error z value Pr(&gt;|z|)    
+## PLS - OSA == 0     0.53024    0.06563   8.080 6.66e-16 ***
+## PLS_NH - OSA == 0  0.38132    0.06563   5.810 6.23e-09 ***
+## PLS_NH - PLS == 0 -0.14893    0.06563  -2.269   0.0233 *  
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## (Adjusted p values reported -- none method)</code></pre>
 </div>
 <div id="資訊充足度評估" class="section level3">
 <h3>5. 資訊充足度評估</h3>
@@ -1051,11 +1287,131 @@ summary(test, test = adjusted(&quot;none&quot;))</code></pre>
 
 ## 計算參與者單位及文章單位的組內相關程度ICC
 
+m0 &lt;- lmer(response ~ (1 | jatosStudyResultId), data = subset(df_Post, Topic == &quot;Decision&quot;))
+m00 &lt;- lmer(response ~ (1 | Test_id), data = subset(df_Post, Topic == &quot;Decision&quot;))
 
-## 確認最適模型
+summary(m0)</code></pre>
+<pre><code>## Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [
+## lmerModLmerTest]
+## Formula: response ~ (1 | jatosStudyResultId)
+##    Data: subset(df_Post, Topic == &quot;Decision&quot;)
+## 
+## REML criterion at convergence: 6364.9
+## 
+## Scaled residuals: 
+##     Min      1Q  Median      3Q     Max 
+## -3.4033 -0.5635 -0.0379  0.6098  3.2277 
+## 
+## Random effects:
+##  Groups             Name        Variance Std.Dev.
+##  jatosStudyResultId (Intercept) 1.337    1.156   
+##  Residual                       1.648    1.284   
+## Number of obs: 1800, groups:  jatosStudyResultId, 150
+## 
+## Fixed effects:
+##              Estimate Std. Error        df t value Pr(&gt;|t|)    
+## (Intercept)   4.08722    0.09915 148.99999   41.22   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<pre class="r"><code>performance::icc(m0)</code></pre>
+<pre><code>## # Intraclass Correlation Coefficient
+## 
+##      Adjusted ICC: 0.448
+##   Conditional ICC: 0.448</code></pre>
+<pre class="r"><code>summary(m00)</code></pre>
+<pre><code>## Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [
+## lmerModLmerTest]
+## Formula: response ~ (1 | Test_id)
+##    Data: subset(df_Post, Topic == &quot;Decision&quot;)
+## 
+## REML criterion at convergence: 7068.9
+## 
+## Scaled residuals: 
+##      Min       1Q   Median       3Q      Max 
+## -1.90211 -0.67600 -0.06522  0.63821  2.38343 
+## 
+## Random effects:
+##  Groups   Name        Variance Std.Dev.
+##  Test_id  (Intercept) 0.01806  0.1344  
+##  Residual             2.95487  1.7190  
+## Number of obs: 1800, groups:  Test_id, 13
+## 
+## Fixed effects:
+##             Estimate Std. Error       df t value Pr(&gt;|t|)    
+## (Intercept)  4.13105    0.05679 17.59259   72.75   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<pre class="r"><code>performance::icc(m00)</code></pre>
+<pre><code>## # Intraclass Correlation Coefficient
+## 
+##      Adjusted ICC: 0.006
+##   Conditional ICC: 0.006</code></pre>
+<pre class="r"><code>## 確認最適模型
 
 
-## 文章型態多重比較</code></pre>
+m1 &lt;- lmer(response ~ (1 | jatosStudyResultId) + article_type + (1 | Text_id), data = subset(df_Post, Topic == &quot;Decision&quot;))
+
+anova(m0,m1)</code></pre>
+<pre><code>## Data: subset(df_Post, Topic == &quot;Decision&quot;)
+## Models:
+## m0: response ~ (1 | jatosStudyResultId)
+## m1: response ~ (1 | jatosStudyResultId) + article_type + (1 | Text_id)
+##    npar    AIC    BIC  logLik deviance  Chisq Df Pr(&gt;Chisq)    
+## m0    3 6368.1 6384.6 -3181.0   6362.1                         
+## m1    6 6241.3 6274.3 -3114.6   6229.3 132.79  3  &lt; 2.2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<pre class="r"><code>summary(m1)</code></pre>
+<pre><code>## Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [
+## lmerModLmerTest]
+## Formula: response ~ (1 | jatosStudyResultId) + article_type + (1 | Text_id)
+##    Data: subset(df_Post, Topic == &quot;Decision&quot;)
+## 
+## REML criterion at convergence: 6238.9
+## 
+## Scaled residuals: 
+##     Min      1Q  Median      3Q     Max 
+## -3.5022 -0.5794 -0.0193  0.5884  3.1187 
+## 
+## Random effects:
+##  Groups             Name        Variance Std.Dev.
+##  jatosStudyResultId (Intercept) 1.34940  1.1616  
+##  Text_id            (Intercept) 0.05218  0.2284  
+##  Residual                       1.50332  1.2261  
+## Number of obs: 1800, groups:  jatosStudyResultId, 150; Text_id, 12
+## 
+## Fixed effects:
+##                     Estimate Std. Error        df t value Pr(&gt;|t|)    
+## (Intercept)        3.688e+00  1.259e-01 8.127e+01  29.293  &lt; 2e-16 ***
+## article_typePLS    6.999e-01  7.086e-02 1.638e+03   9.876  &lt; 2e-16 ***
+## article_typePLS_NH 4.970e-01  7.086e-02 1.638e+03   7.013  3.4e-12 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Correlation of Fixed Effects:
+##             (Intr) ar_PLS
+## artcl_tyPLS -0.281       
+## artc_PLS_NH -0.281  0.500</code></pre>
+<pre class="r"><code>## 文章型態多重比較
+test = glht(m1,linfct=mcp(article_type=&quot;Tukey&quot;))
+summary(test, test = adjusted(&quot;none&quot;))</code></pre>
+<pre><code>## 
+##   Simultaneous Tests for General Linear Hypotheses
+## 
+## Multiple Comparisons of Means: Tukey Contrasts
+## 
+## 
+## Fit: lmer(formula = response ~ (1 | jatosStudyResultId) + article_type + 
+##     (1 | Text_id), data = subset(df_Post, Topic == &quot;Decision&quot;))
+## 
+## Linear Hypotheses:
+##                   Estimate Std. Error z value Pr(&gt;|z|)    
+## PLS - OSA == 0     0.69988    0.07086   9.876  &lt; 2e-16 ***
+## PLS_NH - OSA == 0  0.49695    0.07086   7.013 2.34e-12 ***
+## PLS_NH - PLS == 0 -0.20293    0.07086  -2.864  0.00419 ** 
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## (Adjusted p values reported -- none method)</code></pre>
 </div>
 </div>
 <div id="探索性分析" class="section level2">
@@ -1071,12 +1427,131 @@ summary(test, test = adjusted(&quot;none&quot;))</code></pre>
 
 ## 計算參與者單位及文章單位的組內相關程度ICC
 
+m0 &lt;- lmer(response ~ (1 | jatosStudyResultId), data = subset(df_Post, Topic == &quot;Scientificness&quot;))
+m00 &lt;- lmer(response ~ (1 | Test_id), data = subset(df_Post, Topic == &quot;Scientificness&quot;))
+
+summary(m0)</code></pre>
+<pre><code>## Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [
+## lmerModLmerTest]
+## Formula: response ~ (1 | jatosStudyResultId)
+##    Data: subset(df_Post, Topic == &quot;Scientificness&quot;)
+## 
+## REML criterion at convergence: 5904.7
+## 
+## Scaled residuals: 
+##     Min      1Q  Median      3Q     Max 
+## -3.8690 -0.5892  0.0754  0.6386  2.9129 
+## 
+## Random effects:
+##  Groups             Name        Variance Std.Dev.
+##  jatosStudyResultId (Intercept) 0.5756   0.7587  
+##  Residual                       1.3357   1.1557  
+## Number of obs: 1800, groups:  jatosStudyResultId, 150
+## 
+## Fixed effects:
+##              Estimate Std. Error        df t value Pr(&gt;|t|)    
+## (Intercept)   5.32389    0.06767 148.99998   78.67   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<pre class="r"><code>performance::icc(m0)</code></pre>
+<pre><code>## # Intraclass Correlation Coefficient
+## 
+##      Adjusted ICC: 0.301
+##   Conditional ICC: 0.301</code></pre>
+<pre class="r"><code>summary(m00)</code></pre>
+<pre><code>## Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [
+## lmerModLmerTest]
+## Formula: response ~ (1 | Test_id)
+##    Data: subset(df_Post, Topic == &quot;Scientificness&quot;)
+## 
+## REML criterion at convergence: 6263.3
+## 
+## Scaled residuals: 
+##     Min      1Q  Median      3Q     Max 
+## -3.2810 -0.8127 -0.0790  0.5659  2.1085 
+## 
+## Random effects:
+##  Groups   Name        Variance Std.Dev.
+##  Test_id  (Intercept) 0.03292  0.1815  
+##  Residual             1.88088  1.3715  
+## Number of obs: 1800, groups:  Test_id, 13
+## 
+## Fixed effects:
+##             Estimate Std. Error       df t value Pr(&gt;|t|)    
+## (Intercept)  5.34158    0.06112 11.17514   87.39   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<pre class="r"><code>performance::icc(m00)</code></pre>
+<pre><code>## # Intraclass Correlation Coefficient
+## 
+##      Adjusted ICC: 0.017
+##   Conditional ICC: 0.017</code></pre>
+<pre class="r"><code>## 確認最適模型
 
 
-## 確認最適模型
+m1 &lt;- lmer(response ~ (1 | jatosStudyResultId) + article_type + (1 | Text_id), data = subset(df_Post, Topic == &quot;Scientificness&quot;))
 
-
-## 文章型態多重比較</code></pre>
+anova(m0,m1)</code></pre>
+<pre><code>## Data: subset(df_Post, Topic == &quot;Scientificness&quot;)
+## Models:
+## m0: response ~ (1 | jatosStudyResultId)
+## m1: response ~ (1 | jatosStudyResultId) + article_type + (1 | Text_id)
+##    npar    AIC    BIC  logLik deviance  Chisq Df Pr(&gt;Chisq)    
+## m0    3 5907.2 5923.7 -2950.6   5901.2                         
+## m1    6 5789.6 5822.6 -2888.8   5777.6 123.59  3  &lt; 2.2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<pre class="r"><code>summary(m1)</code></pre>
+<pre><code>## Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [
+## lmerModLmerTest]
+## Formula: response ~ (1 | jatosStudyResultId) + article_type + (1 | Text_id)
+##    Data: subset(df_Post, Topic == &quot;Scientificness&quot;)
+## 
+## REML criterion at convergence: 5787.8
+## 
+## Scaled residuals: 
+##     Min      1Q  Median      3Q     Max 
+## -4.2055 -0.5768  0.0485  0.6040  3.2388 
+## 
+## Random effects:
+##  Groups             Name        Variance Std.Dev.
+##  jatosStudyResultId (Intercept) 0.58535  0.7651  
+##  Text_id            (Intercept) 0.09604  0.3099  
+##  Residual                       1.21917  1.1042  
+## Number of obs: 1800, groups:  jatosStudyResultId, 150; Text_id, 12
+## 
+## Fixed effects:
+##                     Estimate Std. Error        df t value Pr(&gt;|t|)    
+## (Intercept)        5.170e+00  1.181e-01 2.780e+01  43.790  &lt; 2e-16 ***
+## article_typePLS    3.435e-01  6.382e-02 1.638e+03   5.382 8.44e-08 ***
+## article_typePLS_NH 1.171e-01  6.382e-02 1.638e+03   1.835   0.0667 .  
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Correlation of Fixed Effects:
+##             (Intr) ar_PLS
+## artcl_tyPLS -0.270       
+## artc_PLS_NH -0.270  0.500</code></pre>
+<pre class="r"><code>## 文章型態多重比較
+test = glht(m1,linfct=mcp(article_type=&quot;Tukey&quot;))
+summary(test, test = adjusted(&quot;none&quot;))</code></pre>
+<pre><code>## 
+##   Simultaneous Tests for General Linear Hypotheses
+## 
+## Multiple Comparisons of Means: Tukey Contrasts
+## 
+## 
+## Fit: lmer(formula = response ~ (1 | jatosStudyResultId) + article_type + 
+##     (1 | Text_id), data = subset(df_Post, Topic == &quot;Scientificness&quot;))
+## 
+## Linear Hypotheses:
+##                   Estimate Std. Error z value Pr(&gt;|z|)    
+## PLS - OSA == 0     0.34348    0.06382   5.382 7.37e-08 ***
+## PLS_NH - OSA == 0  0.11712    0.06382   1.835  0.06650 .  
+## PLS_NH - PLS == 0 -0.22637    0.06382  -3.547  0.00039 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## (Adjusted p values reported -- none method)</code></pre>
 </div>
 <div id="索取全文意願" class="section level3">
 <h3>索取全文意願</h3>
@@ -1086,9 +1561,74 @@ summary(test, test = adjusted(&quot;none&quot;))</code></pre>
 
 
 ## 確認最適模型
+m0 &lt;- glmer(response ~ (1 | jatosStudyResultId), family = binomial(&quot;logit&quot;), data = subset(df_Post, Topic == &quot;Access&quot;))
 
 
-## 文章型態多重比較</code></pre>
+m1 &lt;- glmer(response ~ (1 | jatosStudyResultId) + article_type + (1 | Text_id), family = binomial(&quot;logit&quot;), data = subset(df_Post, Topic == &quot;Access&quot;))
+
+anova(m0,m1)</code></pre>
+<pre><code>## Data: subset(df_Post, Topic == &quot;Access&quot;)
+## Models:
+## m0: response ~ (1 | jatosStudyResultId)
+## m1: response ~ (1 | jatosStudyResultId) + article_type + (1 | Text_id)
+##    npar    AIC    BIC  logLik deviance  Chisq Df Pr(&gt;Chisq)   
+## m0    2 1636.5 1647.5 -816.27   1632.5                        
+## m1    5 1627.2 1654.7 -808.62   1617.2 15.296  3    0.00158 **
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<pre class="r"><code>summary(m1)</code></pre>
+<pre><code>## Generalized linear mixed model fit by maximum likelihood (Laplace
+##   Approximation) [glmerMod]
+##  Family: binomial  ( logit )
+## Formula: response ~ (1 | jatosStudyResultId) + article_type + (1 | Text_id)
+##    Data: subset(df_Post, Topic == &quot;Access&quot;)
+## 
+##      AIC      BIC   logLik deviance df.resid 
+##   1627.2   1654.7   -808.6   1617.2     1795 
+## 
+## Scaled residuals: 
+##     Min      1Q  Median      3Q     Max 
+## -3.9680 -0.4267 -0.2160  0.2556  4.0303 
+## 
+## Random effects:
+##  Groups             Name        Variance Std.Dev.
+##  jatosStudyResultId (Intercept) 6.77931  2.6037  
+##  Text_id            (Intercept) 0.07996  0.2828  
+## Number of obs: 1800, groups:  jatosStudyResultId, 150; Text_id, 12
+## 
+## Fixed effects:
+##                    Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)         -0.9906     0.2610  -3.796 0.000147 ***
+## article_typePLS      0.5080     0.1628   3.121 0.001800 ** 
+## article_typePLS_NH   0.1192     0.1647   0.724 0.469358    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Correlation of Fixed Effects:
+##             (Intr) ar_PLS
+## artcl_tyPLS -0.330       
+## artc_PLS_NH -0.322  0.516</code></pre>
+<pre class="r"><code>## 文章型態多重比較
+test = glht(m1,linfct=mcp(article_type=&quot;Tukey&quot;))
+summary(test, test = adjusted(&quot;none&quot;))</code></pre>
+<pre><code>## 
+##   Simultaneous Tests for General Linear Hypotheses
+## 
+## Multiple Comparisons of Means: Tukey Contrasts
+## 
+## 
+## Fit: glmer(formula = response ~ (1 | jatosStudyResultId) + article_type + 
+##     (1 | Text_id), data = subset(df_Post, Topic == &quot;Access&quot;), 
+##     family = binomial(&quot;logit&quot;))
+## 
+## Linear Hypotheses:
+##                   Estimate Std. Error z value Pr(&gt;|z|)   
+## PLS - OSA == 0      0.5080     0.1628   3.121   0.0018 **
+## PLS_NH - OSA == 0   0.1192     0.1647   0.724   0.4694   
+## PLS_NH - PLS == 0  -0.3889     0.1610  -2.415   0.0158 * 
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## (Adjusted p values reported -- none method)</code></pre>
 <p>知識背景包括知識信念(belief)與科學活動經驗(self eval)</p>
 <pre class="r"><code>## 準備知識信念及科學活動經驗指標分數，合併至原始資料集
 df_Post_ext &lt;- df_Belief %&gt;% group_by(jatosStudyResultId, Topic) %&gt;%
