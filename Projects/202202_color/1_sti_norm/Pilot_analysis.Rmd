@@ -16,16 +16,19 @@ library(broom)
 library(effectsize)
 ```
 
+In this document we generated the pseudo data and reproduced the analysis summary as the norming study in [Hoeben Mannaert et al. (2021)](https://link.springer.com/article/10.3758/s13421-020-01078-6#Sec4) (p. 131).
+
+
 ## Data sheet structure
 
 - ID: by-participant unit
 - term: by-item unit
 
-- Design:
-- Color_pic:
+- Design: Pictures are the "critical" objects or "fillers".
+- Color_pic: Picture is color (Y) or blank (N).
 
-- RT:
-- Correct: 
+- RT: Pseudo response time.
+- Correct: Pseudo correctness.
 
 ```{r build_data_sheet}
 df <- tibble(
@@ -179,6 +182,5 @@ result_i_Filler_Acc <- t.test(Acc ~ Color_pic,
 
 ```
 
-In this document we generated the simulated data and reproduced the analysis summary as Hoeben Mannaert et al. ( 2021) on p. 131.
 
 > A paired-samples t test found no significant color advantage in the response times for either experimental items, $t_1$(`r round(result_p_Critical_RT$parameter, 2)`) = `r round(result_p_Critical_RT$statistic, 2)`, *p* = `r round(result_p_Critical_RT$p.value, 3)`; $t_2$(`r round(result_i_Critical_RT$parameter, 2)`) = `r round(result_i_Critical_RT$statistic, 2)`, *p* = `r round(result_i_Critical_RT$p.value, 3)`, or for filler items,  $t_1$(`r round(result_p_Filler_RT$parameter, 2)`) = `r round(result_p_Filler_RT$statistic, 2)`, *p* = `r round(result_p_Filler_RT$p.value, 3)`; $t_2$(`r round(result_i_Filler_RT$parameter, 2)`) = `r round(result_i_Filler_RT$statistic, 2)`, *p* = `r round(result_i_Filler_RT$p.value, 3)`. (Cotinue to Accuracy analysis)

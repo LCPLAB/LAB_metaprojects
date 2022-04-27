@@ -175,24 +175,37 @@ pre code {
 </div>
 
 
+<p>In this document we generated the pseudo data and reproduced the analysis summary as the norming study in <a href="https://link.springer.com/article/10.3758/s13421-020-01078-6#Sec4">Hoeben Mannaert et al. (2021)</a> (p. 131).</p>
 <div id="data-sheet-structure" class="section level2">
 <h2>Data sheet structure</h2>
 <ul>
 <li><p>ID: by-participant unit</p></li>
 <li><p>term: by-item unit</p></li>
-<li><p>Design:</p></li>
-<li><p>Color_pic:</p></li>
-<li><p>RT:</p></li>
-<li><p>Correct:</p></li>
+<li><p>Design: Pictures are the “critical” objects or “fillers”.</p></li>
+<li><p>Color_pic: Picture is color (Y) or blank (N).</p></li>
+<li><p>RT: Pseudo response time.</p></li>
+<li><p>Correct: Pseudo correctness.</p></li>
 </ul>
 <pre class="r"><code>df &lt;- tibble(
   ID = paste0(&quot;s&quot;,rep(1:39,each=96*2)),
+  gender=rep(c(&quot;Female&quot;,&quot;Male&quot;),c(96*2*35,96*2*4)),
+  age=rep(sample(17:26,size=39,replace = TRUE,prob = c(rep(0.15,6),rep(0.1/4,4))),each=96*2),
   Color_pic = rep(rep(rep(c(&quot;Y&quot;,&quot;N&quot;),each=48),2),39),
   Design = rep(rep(c(&quot;Critical&quot;,&quot;Filler&quot;),each=96),39),
   term = rep(paste0(&quot;i&quot;,c(rep(1:48,2),rep(49:96,2))),39),
   RT = c(replicate(4*39,round(rnorm(48,500,10),0) )),
   Correct = c(replicate(4*39,sample(0:1,size = 48,replace = TRUE,prob=c(.01,.99)) ))
-)</code></pre>
+)
+
+## count how many female participants
+femaleN &lt;- df %&gt;% filter(gender==&quot;Female&quot;) %&gt;% summarise(N = length(unique(ID)) ) %&gt;% pull(N)
+
+## count the range of ages
+age_range &lt;- df %&gt;% summarise(ages = range(age)) %&gt;% pull(ages)</code></pre>
+</div>
+<div id="demographic-summary" class="section level2">
+<h2>Demographic summary</h2>
+<p>In the simulated data, there are __ female participants, age range: __ years.</p>
 </div>
 <div id="making-of-analytic-table" class="section level2">
 <h2>Making of analytic table</h2>
@@ -210,22 +223,22 @@ pre code {
 <tr class="odd">
 <td align="left">Critical</td>
 <td align="left">N</td>
-<td align="right">499.5413</td>
+<td align="right">500.0127</td>
 </tr>
 <tr class="even">
 <td align="left">Critical</td>
 <td align="left">Y</td>
-<td align="right">499.7793</td>
+<td align="right">500.0490</td>
 </tr>
 <tr class="odd">
 <td align="left">Filler</td>
 <td align="left">N</td>
-<td align="right">500.2948</td>
+<td align="right">499.8376</td>
 </tr>
 <tr class="even">
 <td align="left">Filler</td>
 <td align="left">Y</td>
-<td align="right">500.0342</td>
+<td align="right">499.9994</td>
 </tr>
 </tbody>
 </table>
@@ -241,22 +254,22 @@ pre code {
 <tr class="odd">
 <td align="left">Critical</td>
 <td align="left">N</td>
-<td align="right">0.9914530</td>
+<td align="right">0.9855769</td>
 </tr>
 <tr class="even">
 <td align="left">Critical</td>
 <td align="left">Y</td>
-<td align="right">0.9893162</td>
+<td align="right">0.9925214</td>
 </tr>
 <tr class="odd">
 <td align="left">Filler</td>
 <td align="left">N</td>
-<td align="right">0.9903846</td>
+<td align="right">0.9877137</td>
 </tr>
 <tr class="even">
 <td align="left">Filler</td>
 <td align="left">Y</td>
-<td align="right">0.9946581</td>
+<td align="right">0.9893162</td>
 </tr>
 </tbody>
 </table>
@@ -273,22 +286,22 @@ pre code {
 <tr class="odd">
 <td align="left">Critical</td>
 <td align="left">N</td>
-<td align="right">499.5404</td>
+<td align="right">500.0145</td>
 </tr>
 <tr class="even">
 <td align="left">Critical</td>
 <td align="left">Y</td>
-<td align="right">499.7941</td>
+<td align="right">500.0489</td>
 </tr>
 <tr class="odd">
 <td align="left">Filler</td>
 <td align="left">N</td>
-<td align="right">500.2893</td>
+<td align="right">499.8290</td>
 </tr>
 <tr class="even">
 <td align="left">Filler</td>
 <td align="left">Y</td>
-<td align="right">500.0343</td>
+<td align="right">500.0018</td>
 </tr>
 </tbody>
 </table>
@@ -304,31 +317,30 @@ pre code {
 <tr class="odd">
 <td align="left">Critical</td>
 <td align="left">N</td>
-<td align="right">0.9914530</td>
+<td align="right">0.9855769</td>
 </tr>
 <tr class="even">
 <td align="left">Critical</td>
 <td align="left">Y</td>
-<td align="right">0.9893162</td>
+<td align="right">0.9925214</td>
 </tr>
 <tr class="odd">
 <td align="left">Filler</td>
 <td align="left">N</td>
-<td align="right">0.9903846</td>
+<td align="right">0.9877137</td>
 </tr>
 <tr class="even">
 <td align="left">Filler</td>
 <td align="left">Y</td>
-<td align="right">0.9946581</td>
+<td align="right">0.9893162</td>
 </tr>
 </tbody>
 </table>
 </div>
 <div id="t-tests-by-condition-and-by-measurement" class="section level2">
 <h2>T-tests by condition and by measurement</h2>
-<p>In this document we generated the simulated data and reproduced the analysis summary as Hoeben Mannaert et al. ( 2021) on p. 131.</p>
 <blockquote>
-<p>A paired-samples t test found no significant color advantage in the response times for either experimental items, <span class="math inline">\(t_1\)</span>(38) = -0.81, <em>p</em> = 0.212; <span class="math inline">\(t_2\)</span>(47) = -0.84, <em>p</em> = 0.202, or for filler items, <span class="math inline">\(t_1\)</span>(38) = 0.78, <em>p</em> = 0.78; <span class="math inline">\(t_2\)</span>(47) = 0.86, <em>p</em> = 0.802. (Cotinue to Accuracy analysis)</p>
+<p>A paired-samples t test found no significant color advantage in the response times for either experimental items, <span class="math inline">\(t_1\)</span>(38) = -0.11, <em>p</em> = 0.455; <span class="math inline">\(t_2\)</span>(47) = -0.12, <em>p</em> = 0.453, or for filler items, <span class="math inline">\(t_1\)</span>(38) = -0.41, <em>p</em> = 0.343; <span class="math inline">\(t_2\)</span>(47) = -0.59, <em>p</em> = 0.279. (Cotinue to Accuracy analysis)</p>
 </blockquote>
 </div>
 
