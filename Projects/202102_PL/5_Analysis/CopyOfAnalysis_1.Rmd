@@ -228,13 +228,17 @@ filter(!(jatosStudyResultId %in% strange_id)) %>%
 dm_self_eval <- df_self_eval %>%#$response <- #filter(.data = df_self_eval, Topic %in% c("ability","familiarity")) %>%
 filter(!(jatosStudyResultId %in% strange_id)) %>%
   mutate(response=as.numeric(response))
-# df_self_eval$response <- sapply(
-#  strsplit(
- #   gsub(df_self_eval,pattern = "",replacement = ""),
-#    split = ":"
-#  ),
-#  "[[",
- # 1
+
+df_self_eval$response <- sapply(
+ strsplit(
+ gsub(df_self_eval$response,pattern = " ",replacement = ""),
+ split = ":"
+ ),
+ "[[",
+ 1
+ )
+
+
   #)
 # 因為每個題目都有出現過至少一次，所有題目皆有過參與者填答，故不需要過濾。
 # 以摘要分組
@@ -636,7 +640,14 @@ summary(test, test = adjusted("none"))
 df_Post_ext <- df_Belief %>% group_by(jatosStudyResultId, Topic) %>%
   summarise(score = mean(as.numeric(response))) %>%
   pivot_wider(names_from = "Topic",values_from = "score") %>%
-  right_join(df_Post, by=c("jatosStudyResultId"))
+  right_join(df_Post, by=c("jatosStudyResultId")) 
+
+df_Post_ext2 <- df_self_eval %>% group_by(jatosStudyResultId, Topic) %>%
+  summarise(score = mean(as.numeric(response))) %>%
+  pivot_wider(names_from = "Topic",values_from = "score") %>%
+  right_join(df_Post_ext, by=c("jatosStudyResultId")) 
+
+
 ```
 
 
@@ -954,7 +965,12 @@ summary(m3a)
 
 
 ## 評估科學活動經驗
-#m3a <- lmer(ent ~(1 | study) + NH+ OSA + Englisch +   (1 | id), data = df)
-#anova(m,m3a)
+m3a <- lmer(response ~(1 | Text_id)  + NH+ OSA + ability + familiarity + (OSA | jatosStudyResultId), data = subset(df_Post_ext2, Topic == "Decision"))
+
+m3b <- lmer(response ~(1 | Text_id)  + NH+ OSA + OSA*ability + OSA*familiarity + (OSA | jatosStudyResultId), data = subset(df_Post_ext2, Topic == "Decision"))
+
+
+anova(m3a,m3b)
+
 
 ```
