@@ -646,6 +646,13 @@ left_join(df_self_eval %>% group_by(jatosStudyResultId, Topic) %>%
   pivot_wider(names_from = "Topic",values_from = "score"), by=c("jatosStudyResultId")) 
 
 
+df_knowledge_ext <- df_Belief %>% group_by(jatosStudyResultId, Topic) %>%
+  summarise(score = mean(as.numeric(response))) %>%
+  pivot_wider(names_from = "Topic",values_from = "score") %>%
+  right_join(df_knowledge, by=c("jatosStudyResultId")) %>%
+left_join(df_self_eval %>% group_by(jatosStudyResultId, Topic) %>%
+  summarise(score = mean(as.numeric(response))) %>%
+  pivot_wider(names_from = "Topic",values_from = "score"), by=c("jatosStudyResultId")) 
 ```
 
 
