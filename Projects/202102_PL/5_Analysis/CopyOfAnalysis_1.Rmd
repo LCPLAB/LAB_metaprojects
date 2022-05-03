@@ -909,82 +909,57 @@ summary(m3b)
 
 ### 知識背景影響分析：資訊充足度評估
 
-
 ```{r decision-belief}
 # Model Tests Interindividuell Differences
+## Decision
 
-## Ability to Make Decision
+## 決定未加入個別差異因素的最佳模型
 
-# Random Intercept
-#m00 <- lmer(ent ~ NH + OSA + (1 | study), data = df)
-#m <- lmer(ent ~ NH + OSA + (1 | study) +  (1 | id), data = df)
-#anova(m00, m)
+# Random Intercepts
 
-m00 <- lmer(response ~ NH + OSA +(1 | Text_id), data = subset(df_Post_ext, Topic == 
-"Decision"))
+m00 <- lmer(response ~ NH + OSA +(1 | Text_id), data = subset(df_Post_ext, Topic == "Decision"))
 
-m1<- lmer(response ~(1 | Text_id) + NH + OSA +  (1 | jatosStudyResultId), subset(df_Post_ext, Topic == "Decision"))
+m1 <- lmer(response ~(1 | Text_id) + NH + OSA +  (1 | jatosStudyResultId), subset(df_Post_ext, Topic == "Decision"))
 
-anova(m00, m1)
+anova(m00, m1)  ## fittest is m1
 
 # Random Slopes
-#原始分析
-#m2a <- lmer(wahr ~(1 | study) + NH + OSA +   (OSA | id), data = df)
-
-# Non-convergence
-#m2a <- lmer(ent ~(1 | study) + NH + OSA +   (OSA | id), data = df, REML = F)
-
-#converged nicht
-#m2b <- lmer(ent ~(1 | study) + NH + OSA +   (NH | id), data = df)
-#summary(m2b)
-#m2b <- lmer(ent ~(1 | study) + NH + OSA +   (NH | id), data = df, REML = F)
-#summary(m2b)
-#anova(m, m2b)
-#summary(m)
-
-
 
 m2a <- lmer(response ~(1 | Text_id) + NH + OSA +   (OSA | jatosStudyResultId), data = subset(df_Post_ext, Topic == "Decision"))
 
+
 m2b <- lmer(response ~(1 | Text_id) + NH + OSA +   (NH | jatosStudyResultId), data = subset(df_Post_ext, Topic == "Decision"), REML = F)
+#summary(m2b)
 
-summary(m2b)
 
 
-anova(m2a,m1)
-anova(m2b,m1)
-
-summary(m2a)
-## 決定未加入個別差異因素的最佳模型
+anova(m2a, m1) ## fittest is m1
+anova(m2b, m1) ## fittest is m1
+anova(m2a, m2b) ## fittest is m2a m2b
 
 
 ## 評估知識信念
-#原始分析
-#m3a <- lmer(ent ~(1 | study) + NH + OSA + j_ja   + j_pj +  j_ms +   (1 | id), data = df)
-#anova(m,m3a)
-#summary(m3a)
+
+
 m3a <- lmer(response ~(1 | Text_id) + NH+ OSA + JA + PJ + MS +   (OSA | jatosStudyResultId), data = subset(df_Post_ext, Topic == "Decision"))
 m3b <- lmer(response ~(1 | Text_id) + NH+ OSA * JA   + OSA * PJ + OSA * MS +   (OSA | jatosStudyResultId), data = subset(df_Post_ext, Topic == "Decision"))
 
-anova(m2a,m3a) ## fittest is m3a
-anova(m3a,m3b)
 
-
-summary(m3a)
-
+anova(m1,m3a) ## fittest is m3a
+anova(m1,m3b) ## fittest is m3b 
+anova(m3a,m3b) ## fittest is m3a
 
 
 
 ## 評估科學活動經驗
-m4a <- lmer(response ~(1 | Text_id)  + NH+ OSA + ability + familiarity + (OSA | jatosStudyResultId), data = subset(df_Post_ext, Topic == "Decision"))
 
-m4b <- lmer(response ~(1 | Text_id)  + NH+ OSA + OSA*ability + OSA*familiarity + (OSA | jatosStudyResultId), data = subset(df_Post_ext, Topic == "Decision"))
+m4a <- lmer(response ~(1 | Text_id) + NH+ OSA + ability + familiarity +  (OSA | jatosStudyResultId), data = subset(df_Post_ext, Topic == "Decision"))
+m4b <- lmer(response ~(1 | Text_id) + NH+ OSA * ability +  OSA * familiarity + (OSA | jatosStudyResultId), data = subset(df_Post_ext, Topic == "Decision"))
 
 
 anova(m3a,m4a) ## fittest is m3a
-anova(m3a,m4b) 
+anova(m3a,m4b) ## fittest is m3a
 
 summary(m3a)
-
 
 ```
