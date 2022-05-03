@@ -11,7 +11,7 @@
 
 <meta name="author" content="LCP lab" />
 
-<meta name="date" content="2022-04-26" />
+<meta name="date" content="2022-05-03" />
 
 <title>Analysis ~ Replication study of Kerwer et al.(2020)</title>
 
@@ -259,7 +259,7 @@ div.tocify {
 
 <h1 class="title toc-ignore">Analysis ~ Replication study of Kerwer et al.(2020)</h1>
 <h4 class="author">LCP lab</h4>
-<h4 class="date">2022-04-26</h4>
+<h4 class="date">2022-05-03</h4>
 
 </div>
 
@@ -293,7 +293,7 @@ df_Belief &lt;- filter(df, Q_type == &quot;Belief&quot;)
 df_Belief &lt;- df_Belief[,which(colSums(df_Belief!=&quot;None&quot;,na.rm = TRUE) != 0 )]
 
 ## Split self evaluation data
-df_self_eval &lt;- filter(df, Q_type == &quot;self_eval&quot;)
+df_self_eval &lt;- filter(df, Q_type == &quot;self_eval&quot;) 
 ## Exclude the variables full of &quot;None&quot;
 df_self_eval &lt;- df_self_eval[,which(colSums(df_self_eval!=&quot;None&quot;,na.rm = TRUE) != 0)]
 
@@ -459,17 +459,19 @@ filter(!(jatosStudyResultId %in% strange_id)) %&gt;%
 <ul>
 <li>科學活動經驗(self eval) (明翰)</li>
 </ul>
-<pre class="r"><code>dm_self_eval &lt;- df_self_eval %&gt;%#$response &lt;- #filter(.data = df_self_eval, Topic %in% c(&quot;ability&quot;,&quot;familiarity&quot;)) %&gt;%
+<pre class="r"><code>df_self_eval$response &lt;- sapply(
+ strsplit(
+ gsub(df_self_eval$response,pattern = &quot; &quot;,replacement = &quot;&quot;),
+ split = &quot;:&quot;
+ ),
+ &quot;[[&quot;,
+ 1
+ )
+
+dm_self_eval &lt;- df_self_eval %&gt;%#$response &lt;- #filter(.data = df_self_eval, Topic %in% c(&quot;ability&quot;,&quot;familiarity&quot;)) %&gt;%
 filter(!(jatosStudyResultId %in% strange_id)) %&gt;%
   mutate(response=as.numeric(response))
-# df_self_eval$response &lt;- sapply(
-#  strsplit(
- #   gsub(df_self_eval,pattern = &quot;&quot;,replacement = &quot;&quot;),
-#    split = &quot;:&quot;
-#  ),
-#  &quot;[[&quot;,
- # 1
-  #)
+
 # 因為每個題目都有出現過至少一次，所有題目皆有過參與者填答，故不需要過濾。
 # 以摘要分組
 dm_self_eval %&gt;%
@@ -478,20 +480,8 @@ summarise(N = n(), M = mean(as.numeric(response),na.rm=TRUE ), SD = sd(as.numeri
 <pre><code>## # A tibble: 2 x 5
 ##   Topic           N     M    SD Missing
 ##   &lt;chr&gt;       &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;int&gt;
-## 1 ability       138  4.27  1.25       3
-## 2 familiarity   138  3.87  1.65      41</code></pre>
-<pre class="r"><code>## 總正確數
-#table(df_self_eval$response$score)
-
-## 總正確率
-#table(df_self_eval$response$score)/sum(table(df_self_eval$response$score))
-
-## 各類摘要錯誤率
-#table(score, df_self_eval$response$summary)[1,]/colSums(table(df_self_eval$response$score, df_self_eval$response$summary))
-
-## 各類摘要正確率
-#table(df_self_eval$response$score,
-#df_self_eval$response$summary)[2,]/colSums(table(df_self_eval$response$score, df_self_eva$response$summary))</code></pre>
+## 1 ability       138  4.25  1.33       0
+## 2 familiarity   138  3.37  2.14       0</code></pre>
 <ul>
 <li>讀後調查(Post Survey) (祥偉)</li>
 </ul>
@@ -943,7 +933,7 @@ m00 &lt;- glmer(score ~ (1 | Test_id), family = binomial(&quot;logit&quot;), dat
 
 m1 &lt;- glmer(score ~ (1 | jatosStudyResultId) + article_type + (1 | Test_id), family = binomial(&quot;logit&quot;), data = df_knowledge)
 
-anova(m0,m1)</code></pre>
+anova(m0,m1) ## fittest is m1</code></pre>
 <pre><code>## Data: df_knowledge
 ## Models:
 ## m0: score ~ (1 | jatosStudyResultId)
@@ -1080,7 +1070,17 @@ summary(m0)</code></pre>
 
 m1 &lt;- lmer(response ~ (1 | jatosStudyResultId) + article_type + (1 | Text_id), data = subset(df_Post, Topic == &quot;Credibility&quot;))
 
-summary(m1)</code></pre>
+anova(m0, m1)  ## fittest is m1</code></pre>
+<pre><code>## Data: subset(df_Post, Topic == &quot;Credibility&quot;)
+## Models:
+## m0: response ~ (1 | jatosStudyResultId)
+## m1: response ~ (1 | jatosStudyResultId) + article_type + (1 | Text_id)
+##    npar    AIC    BIC  logLik deviance  Chisq Df Pr(&gt;Chisq)    
+## m0    3 5711.0 5727.5 -2852.5   5705.0                         
+## m1    6 5624.7 5657.7 -2806.3   5612.7 92.282  3  &lt; 2.2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<pre class="r"><code>summary(m1)</code></pre>
 <pre><code>## Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [
 ## lmerModLmerTest]
 ## Formula: response ~ (1 | jatosStudyResultId) + article_type + (1 | Text_id)
@@ -1111,16 +1111,6 @@ summary(m1)</code></pre>
 ##             (Intr) ar_PLS
 ## artcl_tyPLS -0.289       
 ## artc_PLS_NH -0.289  0.500</code></pre>
-<pre class="r"><code>anova(m0, m1)</code></pre>
-<pre><code>## Data: subset(df_Post, Topic == &quot;Credibility&quot;)
-## Models:
-## m0: response ~ (1 | jatosStudyResultId)
-## m1: response ~ (1 | jatosStudyResultId) + article_type + (1 | Text_id)
-##    npar    AIC    BIC  logLik deviance  Chisq Df Pr(&gt;Chisq)    
-## m0    3 5711.0 5727.5 -2852.5   5705.0                         
-## m1    6 5624.7 5657.7 -2806.3   5612.7 92.282  3  &lt; 2.2e-16 ***
-## ---
-## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
 <pre class="r"><code>## 文章型態多重比較
 
 test = glht(m1,linfct=mcp(article_type=&quot;Tukey&quot;))
@@ -1215,7 +1205,7 @@ summary(m0)</code></pre>
 
 m1 &lt;- lmer(response ~ (1 | jatosStudyResultId) + article_type + (1 | Text_id), data = subset(df_Post, Topic == &quot;Veracity&quot;))
 
-anova(m0,m1)</code></pre>
+anova(m0,m1)  ## fittest is m1</code></pre>
 <pre><code>## Data: subset(df_Post, Topic == &quot;Veracity&quot;)
 ## Models:
 ## m0: response ~ (1 | jatosStudyResultId)
@@ -1351,7 +1341,7 @@ summary(m0)</code></pre>
 
 m1 &lt;- lmer(response ~ (1 | jatosStudyResultId) + article_type + (1 | Text_id), data = subset(df_Post, Topic == &quot;Decision&quot;))
 
-anova(m0,m1)</code></pre>
+anova(m0,m1)  ## fittest is m1</code></pre>
 <pre><code>## Data: subset(df_Post, Topic == &quot;Decision&quot;)
 ## Models:
 ## m0: response ~ (1 | jatosStudyResultId)
@@ -1490,8 +1480,8 @@ summary(m0)</code></pre>
 
 
 m1 &lt;- lmer(response ~ (1 | jatosStudyResultId) + article_type + (1 | Text_id), data = subset(df_Post, Topic == &quot;Scientificness&quot;))
-
-anova(m0,m1)</code></pre>
+ 
+anova(m0,m1)  ## fittest is m1</code></pre>
 <pre><code>## Data: subset(df_Post, Topic == &quot;Scientificness&quot;)
 ## Models:
 ## m0: response ~ (1 | jatosStudyResultId)
@@ -1576,7 +1566,7 @@ anova(m0,m1)</code></pre>
 ## m1    5 1627.2 1654.7 -808.62   1617.2 15.296  3    0.00158 **
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
-<pre class="r"><code>summary(m1)</code></pre>
+<pre class="r"><code>summary(m1) # mi</code></pre>
 <pre><code>## Generalized linear mixed model fit by maximum likelihood (Laplace
 ##   Approximation) [glmerMod]
 ##  Family: binomial  ( logit )
@@ -1629,15 +1619,20 @@ summary(test, test = adjusted(&quot;none&quot;))</code></pre>
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## (Adjusted p values reported -- none method)</code></pre>
+</div>
+<div id="知識背景影響分析" class="section level3">
+<h3>知識背景影響分析</h3>
 <p>知識背景包括知識信念(belief)與科學活動經驗(self eval)</p>
 <pre class="r"><code>## 準備知識信念及科學活動經驗指標分數，合併至原始資料集
 df_Post_ext &lt;- df_Belief %&gt;% group_by(jatosStudyResultId, Topic) %&gt;%
   summarise(score = mean(as.numeric(response))) %&gt;%
   pivot_wider(names_from = &quot;Topic&quot;,values_from = &quot;score&quot;) %&gt;%
-  right_join(df_Post, by=c(&quot;jatosStudyResultId&quot;))</code></pre>
-</div>
-<div id="知識背景影響分析主觀理解度" class="section level3">
-<h3>知識背景影響分析：主觀理解度</h3>
+  right_join(df_Post, by=c(&quot;jatosStudyResultId&quot;)) %&gt;%
+left_join(df_self_eval %&gt;% group_by(jatosStudyResultId, Topic) %&gt;%
+  summarise(score = mean(as.numeric(response))) %&gt;%
+  pivot_wider(names_from = &quot;Topic&quot;,values_from = &quot;score&quot;), by=c(&quot;jatosStudyResultId&quot;)) </code></pre>
+<div id="主觀理解度" class="section level4">
+<h4>主觀理解度</h4>
 <pre class="r"><code># Model Tests Interindividuell Differences
 ## Comprehensibility
 
@@ -1751,7 +1746,32 @@ anova(m1,m3a) ## fittest is m3a</code></pre>
 ##     npar  AIC    BIC  logLik deviance  Chisq Df Pr(&gt;Chisq)
 ## m3a   11 6235 6295.5 -3106.5     6213                     
 ## m3b   14 6235 6311.9 -3103.5     6207 6.0497  3     0.1092</code></pre>
-<pre class="r"><code>summary(m3a)</code></pre>
+<pre class="r"><code>## 評估科學活動經驗
+
+m4a &lt;- lmer(response ~(1 | Text_id) + NH+ OSA + ability + familiarity +  (OSA | jatosStudyResultId), data = subset(df_Post_ext, Topic == &quot;Comprehensibility&quot;))
+m4b &lt;- lmer(response ~(1 | Text_id) + NH+ OSA * ability +  OSA * familiarity + (OSA | jatosStudyResultId), data = subset(df_Post_ext, Topic == &quot;Comprehensibility&quot;))
+
+
+anova(m3a,m4a) ## fittest is m3a</code></pre>
+<pre><code>## Data: subset(df_Post_ext, Topic == &quot;Comprehensibility&quot;)
+## Models:
+## m4a: response ~ (1 | Text_id) + NH + OSA + ability + familiarity + (OSA | jatosStudyResultId)
+## m3a: response ~ (1 | Text_id) + NH + OSA + JA + PJ + MS + (OSA | jatosStudyResultId)
+##     npar    AIC    BIC  logLik deviance  Chisq Df Pr(&gt;Chisq)  
+## m4a   10 6238.7 6293.7 -3109.4   6218.7                       
+## m3a   11 6235.0 6295.5 -3106.5   6213.0 5.7233  1    0.01674 *
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<pre class="r"><code>anova(m3a,m4b) ## fittest is m3a</code></pre>
+<pre><code>## Data: subset(df_Post_ext, Topic == &quot;Comprehensibility&quot;)
+## Models:
+## m3a: response ~ (1 | Text_id) + NH + OSA + JA + PJ + MS + (OSA | jatosStudyResultId)
+## m4b: response ~ (1 | Text_id) + NH + OSA * ability + OSA * familiarity + (OSA | jatosStudyResultId)
+##     npar    AIC    BIC  logLik deviance Chisq Df Pr(&gt;Chisq)
+## m3a   11 6235.0 6295.5 -3106.5   6213.0                    
+## m4b   12 6238.7 6304.7 -3107.4   6214.7     0  1          1</code></pre>
+<pre class="r"><code>## &quot;Comprehensibility&quot;的反應資料加入知識信念有最高解釋力，加入科學活動經驗不影響解釋力
+summary(m3a)</code></pre>
 <pre><code>## Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [
 ## lmerModLmerTest]
 ## Formula: 
@@ -1790,20 +1810,9 @@ anova(m1,m3a) ## fittest is m3a</code></pre>
 ## JA   -0.286  0.000  0.000              
 ## PJ   -0.277  0.000  0.000 -0.337       
 ## MS   -0.799  0.000  0.000 -0.057 -0.030</code></pre>
-<pre class="r"><code>## 評估科學活動經驗
-
-#m3a &lt;- lmer(vst ~(1 | study) + NH+ OSA + Englisch +   (OSA | id), data = df)
-#m3b &lt;- lmer(vst ~(1 | study) + NH+ OSA * Englisch +   (OSA | id), data = df)
-
-
-#anova(m2a,m3a)
-#anova(m3a,m3b)
-
-
-#summary(m3a)</code></pre>
 </div>
-<div id="知識背景影響分析理解測驗正確率" class="section level3">
-<h3>知識背景影響分析：理解測驗正確率</h3>
+<div id="理解測驗正確率" class="section level4">
+<h4>理解測驗正確率</h4>
 <pre class="r"><code># Model Tests Interindividuell Differences
 
 ## Knowledge Test
@@ -1817,8 +1826,8 @@ anova(m1,m3a) ## fittest is m3a</code></pre>
 
 ## 評估科學活動經驗</code></pre>
 </div>
-<div id="知識背景影響分析來源可信度評估" class="section level3">
-<h3>知識背景影響分析：來源可信度評估</h3>
+<div id="來源可信度評估-1" class="section level4">
+<h4>來源可信度評估</h4>
 <pre class="r"><code># Model Tests Interindividuell Differences
 
 ## Credibility
@@ -1829,8 +1838,8 @@ anova(m1,m3a) ## fittest is m3a</code></pre>
 
 ## 評估知識信念</code></pre>
 </div>
-<div id="知識背景影響分析內容真實性評估" class="section level3">
-<h3>知識背景影響分析：內容真實性評估</h3>
+<div id="內容真實性評估-1" class="section level4">
+<h4>內容真實性評估</h4>
 <pre class="r"><code># Model Tests Interindividuell Differences
 
 ## Ability to Evaluate
@@ -1844,8 +1853,8 @@ anova(m1,m3a) ## fittest is m3a</code></pre>
 
 ## 評估科學活動經驗</code></pre>
 </div>
-<div id="知識背景影響分析資訊充足度評估" class="section level3">
-<h3>知識背景影響分析：資訊充足度評估</h3>
+<div id="資訊充足度評估-1" class="section level4">
+<h4>資訊充足度評估</h4>
 <pre class="r"><code># Model Tests Interindividuell Differences
 
 ## Ability to Make Decision
@@ -1857,6 +1866,7 @@ anova(m1,m3a) ## fittest is m3a</code></pre>
 
 
 ## 評估科學活動經驗</code></pre>
+</div>
 </div>
 </div>
 
