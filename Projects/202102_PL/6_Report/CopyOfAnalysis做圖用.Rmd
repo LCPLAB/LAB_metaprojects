@@ -118,7 +118,7 @@ minutes_count%>%
 
 ```{r duration-post-analysis, echo=TRUE, message=FALSE, warning=FALSE}
 ## Convert duration to minutes
-df_post_trend <- (df_sys %>% distinct() %>%
+df_post_trend  <- (df_sys %>% distinct() %>%
   dplyr::select(jatosStudyResultId, Duration) %>%
   mutate(minutes_count = 
                     (Duration %>% hms() %>% hour())*60 +
@@ -130,6 +130,11 @@ df_post_trend <- (df_sys %>% distinct() %>%
   group_by(jatosStudyResultId) %>%                               #以個人分組
   summarise(Correct_rate = mean(score))),    #計算正確率
 by="jatosStudyResultId")
+
+Correct_rate <- df_post_trend %>% 
+  summarise(CR = mean(Correct_rate)) %>%
+  print()
+
 
 ggplot(df_post_trend,aes(x=Correct_rate, y=minutes_count))+
    geom_point()
@@ -293,10 +298,6 @@ mutate(article_type = ifelse(NH == "N" & OSA == "Y", "OSA",ifelse(NH == "N" & OS
 ) 
   
 
-table <- tb_Post %>%
-  pivot_wider(names_from = article_type, values_from = c(M,SD))
-
-table <- table[,c(1,2,4,7,5,8,3,6)]
 
 
 
@@ -708,6 +709,9 @@ m1 <- lmer(response ~(1 | Text_id) + NH + OSA +  (1 | jatosStudyResultId), subse
 
 anova(m00, m1)  ## fittest is m1
 
+H1_1 <- (anova(m00, m1) %>% # Random Intercept Participant 
+dplyr::select("Chisq":"Pr(>Chisq)"))[-1,]
+
 # Random Slopes
 
 m2a <- lmer(response ~(1 | Text_id) + NH + OSA +   (OSA | jatosStudyResultId), data = subset(df_Post_ext, Topic == "Comprehensibility"))
@@ -716,7 +720,11 @@ m2a <- lmer(response ~(1 | Text_id) + NH + OSA +   (OSA | jatosStudyResultId), d
 m2b <- lmer(response ~(1 | Text_id) + NH + OSA +   (NH | jatosStudyResultId), data = subset(df_Post_ext, Topic == "Comprehensibility"), REML = F)
 #summary(m2b)
 
+H1_2 <- (anova(m2a, m1) %>% 	# Random Slope OSA by Participant 
+dplyr::select("Chisq":"Pr(>Chisq)"))[-1,]
 
+H1_3 <- (anova(m2b, m1)%>% 	# Random Slope No Subheadings by Participant 
+dplyr::select("Chisq":"Pr(>Chisq)"))[-1,] 
 
 anova(m2a, m1) ## fittest is m1
 anova(m2b, m1) ## fittest is m1
@@ -728,6 +736,11 @@ anova(m2b, m1) ## fittest is m1
 m3a <- lmer(response ~(1 | Text_id) + NH+ OSA + JA + PJ + MS +   (1 | jatosStudyResultId), data = subset(df_Post_ext, Topic == "Comprehensibility"))
 m3b <- lmer(response ~(1 | Text_id) + NH+ OSA * JA   + OSA * PJ + OSA * MS +   (1 | jatosStudyResultId), data = subset(df_Post_ext, Topic == "Comprehensibility"))
 
+H1_4 <- (anova(m1,m3a) %>% # Justification Beliefs on Random Intercept 	
+dplyr::select("Chisq":"Pr(>Chisq)"))[-1,]
+
+H1_5 <- (anova(m3a,m3b) %>% # Justification Beliefs on Random Slope OSA 	
+dplyr::select("Chisq":"Pr(>Chisq)"))[-1,]
 
 anova(m1,m3a) ## fittest is m3a
 anova(m1,m3b) ## fittest is m3b 
@@ -739,6 +752,16 @@ anova(m3a,m3b) ## fittest is m3a
 m4a <- lmer(response ~(1 | Text_id) + NH+ OSA + ability + familiarity +  (1| jatosStudyResultId), data = subset(df_Post_ext, Topic == "Comprehensibility"))
 m4b <- lmer(response ~(1 | Text_id) + NH+ OSA * ability +  OSA * familiarity + (1| jatosStudyResultId), data = subset(df_Post_ext, Topic == "Comprehensibility"))
 
+H1_6 <- (anova(m1,m4a) %>% # 科學活動 on Random Intercept 	
+dplyr::select("Chisq":"Pr(>Chisq)"))[-1,]
+
+H1_7 <- (anova(m4a,m4b) %>% # 科學活動 on Random Slope OSA 	
+dplyr::select("Chisq":"Pr(>Chisq)"))[-1,]
+
+Likelihood_Ratio_Test = c("Random Intercept Participant","Random Slope OSA by Participant","Random Slope No Subheadings by Participant","Justification Beliefs on Random Intercept","Justification Beliefs on Random Slope OSA","科學活動 on Random Intercept","科學活動 on Random Slope OSA")
+
+H1_ratio_tests <- (bind_rows(H1_1,H1_2,H1_3,H1_4,H1_5,H1_6,H1_7) %>%
+  mutate(Likelihood_Ratio_Test))[,c(4,1,2,3)]
 
 anova(m1,m4a) ## fittest is m1, but m4a approach the fittest
 anova(m1,m4b) ## fittest is m1, but m4b approach the fittest
@@ -765,13 +788,24 @@ summary(m3a)
 m0a <- glmer(score ~ NH + OSA +(1 | Test_id), data = df_knowledge_ext, family = binomial("logit"))
 m0b <- glmer(score ~ NH + OSA + (1 | Test_id) + (1 | jatosStudyResultId), data = df_knowledge_ext, family = binomial("logit"))
 
+H2_1 <- (anova(m0a, m0b) %>%  #Random Intercept Participant 	
+dplyr::select("Chisq":"Pr(>Chisq)"))[-1,]
+
 anova(m0a, m0b) # fittest is m0a
 
 
 ## Random Slopes
 
 m1a <- glmer(score ~ NH + OSA +(1 | Test_id)+   (OSA | jatosStudyResultId), data = df_knowledge_ext, family = binomial("logit"))
+
 m1b <- glmer(score ~ NH + OSA + (1 | Test_id) + (NH | jatosStudyResultId), data = df_knowledge_ext, family = binomial("logit"))
+
+H2_2 <- (anova(m0a, m1a) %>%  #Random Slope OSA by Participant  	
+dplyr::select("Chisq":"Pr(>Chisq)"))[-1,]
+
+H2_3 <- (anova(m0b, m1b)%>% 	# Random Slope No Subheadings by Participant 
+dplyr::select("Chisq":"Pr(>Chisq)"))[-1,] 
+
 
 anova(m0a,m1a) ## fittest is m0a
 anova(m0a,m1b) ## fittest is m0a
@@ -780,12 +814,19 @@ anova(m0a,m1b) ## fittest is m0a
 
 m2 <- glmer(score ~ (1 | Test_id) + NH + OSA + PJ + JA + MS, data = df_knowledge_ext, family = binomial("logit"))
 
+
 anova(m0a, m2) # fittest is m2
 
 
 m2a <- glmer(score ~ (1 | Test_id) + NH + OSA + PJ + JA + MS + (OSA | jatosStudyResultId), data = df_knowledge_ext, family = binomial("logit"))
 
 m2b <- glmer(score ~(1 | Test_id) + NH+ OSA * JA   + OSA * PJ + OSA * MS +   (OSA | jatosStudyResultId), data = df_knowledge_ext, family = binomial("logit"))
+
+#H2_4 <- (anova(m2, m2a) %>% # Justification Beliefs on Random Intercept 	
+#dplyr::select("Chisq":"Pr(>Chisq)"))[-1,]
+
+#H2_5 <- (anova(m2,m2b) %>% # Justification Beliefs on Random Slope OSA 	
+#dplyr::select("Chisq":"Pr(>Chisq)"))[-1,]
 
 anova(m2,m2a)  ## fittest is m2
 anova(m2,m2b)  ## fittest is m2
@@ -796,7 +837,16 @@ summary(m2)
 ## 評估科學活動經驗
 m3 <- glmer(score ~ (1 | Test_id) + NH + OSA + ability + familiarity, data = df_knowledge_ext, family = binomial("logit"))
 
+H2_6 <- (anova(m0a,m3) %>% # 科學活動 on Random Intercept 	
+dplyr::select("Chisq":"Pr(>Chisq)"))[-1,]
+
+#H2_7 <- (anova(m4a,m4b) %>% # 科學活動 on Random Slope OSA 	
+#dplyr::select("Chisq":"Pr(>Chisq)"))[-1,]
+
 anova(m0a, m3) # fittest is m0
+
+#H2_ratio_tests <- bind_rows(H2_1,H2_2,H2_3,H2_4,H2_5,H2_6)%>%
+#  mutate(Likelihood_Ratio_Test)
 
 
 ## "Knowledge"的反應資料加入知識信念顯著提高解釋力，加入科學活動經驗不影響解釋力
@@ -821,6 +871,9 @@ m00 <- lmer(response ~ NH + OSA +(1 | Text_id), data = subset(df_Post_ext, Topic
 
 m1<- lmer(response ~(1 | Text_id) + NH + OSA +  (1 | jatosStudyResultId), subset(df_Post_ext, Topic == "Credibility"))
 
+H3_1 <- (anova(m00, m1) %>% # Random Intercept Participant 
+dplyr::select("Chisq":"Pr(>Chisq)"))[-1,]
+
 anova(m00, m1) ## fittest is m1
 
 #Random Slopes
@@ -828,6 +881,13 @@ anova(m00, m1) ## fittest is m1
 m2a <- lmer(response ~(1 | Text_id) + NH + OSA +   (OSA | jatosStudyResultId), data = subset(df_Post_ext, Topic == "Credibility"))
 
 m2b <- lmer(response ~(1 | Text_id) + NH + OSA +   (NH | jatosStudyResultId), data = subset(df_Post_ext, Topic == "Credibility"), REML = F)
+
+H3_2 <- (anova(m2a, m1) %>% 	# Random Slope OSA by Participant 
+dplyr::select("Chisq":"Pr(>Chisq)"))[-1,]
+
+H3_3 <- (anova(m2b, m1)%>% 	# Random Slope No Subheadings by Participant 
+dplyr::select("Chisq":"Pr(>Chisq)"))[-1,] 
+
 
 anova(m1,m2a) ## fittest is m2a
 anova(m1,m2b) ## ftttest is m1
@@ -840,6 +900,13 @@ summary(m2a)
 m3a <- lmer(response ~(1 | Text_id) + NH+ OSA + JA + PJ + MS +   (OSA | jatosStudyResultId), data = subset(df_Post_ext, Topic == "Credibility"))
 m3b <- lmer(response ~(1 | Text_id) + NH+ OSA * JA   + OSA * PJ + OSA * MS +   (OSA | jatosStudyResultId), data = subset(df_Post_ext, Topic == "Credibility"))
 
+H3_4 <- (anova(m2a,m3a) %>% # Justification Beliefs on Random Intercept 	
+dplyr::select("Chisq":"Pr(>Chisq)"))[-1,]
+
+H3_5 <- (anova(m2a,m3b) %>% # Justification Beliefs on Random Slope OSA 	
+dplyr::select("Chisq":"Pr(>Chisq)"))[-1,]
+
+
 anova(m2a,m3a) ## fittest is m3a
 anova(m2a,m3b) ## fittest is m3b
 anova(m3a,m3b) ## fittest is m3a
@@ -851,6 +918,15 @@ summary(m3a)
 
 m4a <- lmer(response ~(1 | Text_id) + NH+ OSA + ability + familiarity +  (OSA | jatosStudyResultId), data = subset(df_Post_ext, Topic == "Credibility"))
 m4b <- lmer(response ~(1 | Text_id) + NH+ OSA * ability +  OSA * familiarity + (OSA | jatosStudyResultId), data = subset(df_Post_ext, Topic == "Credibility"))
+
+H3_6 <- (anova(m2a,m4a) %>% # 科學活動 on Random Intercept 	
+dplyr::select("Chisq":"Pr(>Chisq)"))[-1,]
+
+H3_7 <- (anova(m2a,m4b) %>% # 科學活動 on Random Slope OSA 	
+dplyr::select("Chisq":"Pr(>Chisq)"))[-1,]
+
+H3_ratio_tests <- bind_rows(H3_1,H3_2,H3_3,H3_4,H3_5,H3_6,H3_7) %>%
+  mutate(Likelihood_Ratio_Test)
 
 
 anova(m2a,m4a) ## fittest is m4a
@@ -877,6 +953,11 @@ m00 <- lmer(response ~ NH + OSA +(1 | Text_id), data = subset(df_Post_ext, Topic
 
 m1<- lmer(response ~(1 | Text_id) + NH + OSA +  (1 | jatosStudyResultId), subset(df_Post_ext, Topic == "Veracity"))
 
+
+H4_1 <- (anova(m00, m1) %>% # Random Intercept Participant 
+dplyr::select("Chisq":"Pr(>Chisq)"))[-1,]
+
+
 anova(m00, m1) # fittest is m1
 
 # Random Slopes
@@ -888,6 +969,11 @@ m2b <- lmer(response ~(1 | Text_id) + NH + OSA +   (NH | jatosStudyResultId), da
 
 summary(m2b)
 
+H4_2 <- (anova(m2a, m1) %>% 	# Random Slope OSA by Participant 
+dplyr::select("Chisq":"Pr(>Chisq)"))[-1,]
+
+H4_3 <- (anova(m2b, m1)%>% 	# Random Slope No Subheadings by Participant 
+dplyr::select("Chisq":"Pr(>Chisq)"))[-1,] 
 
 anova(m2a,m1) ## fittest is m1
 anova(m2b,m1) ## fittest is m1
@@ -898,6 +984,14 @@ summary(m1)
 
 m3a <- lmer(response ~(1 | Text_id) + NH+ OSA + JA + PJ + MS +   (1 | jatosStudyResultId), data = subset(df_Post_ext, Topic == "Veracity"))
 m3b <- lmer(response ~(1 | Text_id) + NH+ OSA * JA   + OSA * PJ + OSA * MS +   (1 | jatosStudyResultId), data = subset(df_Post_ext, Topic == "Veracity"))
+
+H4_4 <- (anova(m1,m3a) %>% # Justification Beliefs on Random Intercept 	
+dplyr::select("Chisq":"Pr(>Chisq)"))[-1,]
+
+H4_5 <- (anova(m1,m3b) %>% # Justification Beliefs on Random Slope OSA 	
+dplyr::select("Chisq":"Pr(>Chisq)"))[-1,]
+
+
 
 anova(m1,m3a) ## fittest is m3a
 anova(m1,m3b) ## fittest is m3b
@@ -911,6 +1005,14 @@ summary(m3b)
 m4a <- lmer(response ~(1 | Text_id) + NH+ OSA + ability + familiarity +  (1 | jatosStudyResultId), data = subset(df_Post_ext, Topic == "Veracity"))
 m4b <- lmer(response ~(1 | Text_id) + NH+ OSA * ability +  OSA * familiarity + (1 | jatosStudyResultId), data = subset(df_Post_ext, Topic == "Veracity"))
 
+H4_6 <- (anova(m1,m4a) %>% # 科學活動 on Random Intercept 	
+dplyr::select("Chisq":"Pr(>Chisq)"))[-1,]
+
+H4_7 <- (anova(m1,m4b) %>% # 科學活動 on Random Slope OSA 	
+dplyr::select("Chisq":"Pr(>Chisq)"))[-1,]
+
+H4_ratio_tests <- bind_rows(H4_1,H4_2,H4_3,H4_4,H4_5,H4_6,H4_7) %>%
+  mutate(Likelihood_Ratio_Test)
 
 anova(m1,m4a) ## fittest is m4a
 anova(m1,m4b) ## fittest is m4b
@@ -938,6 +1040,11 @@ m00 <- lmer(response ~ NH + OSA +(1 | Text_id), data = subset(df_Post_ext, Topic
 
 m1 <- lmer(response ~(1 | Text_id) + NH + OSA +  (1 | jatosStudyResultId), subset(df_Post_ext, Topic == "Decision"))
 
+
+H5_1 <- (anova(m00, m1) %>% # Random Intercept Participant 
+dplyr::select("Chisq":"Pr(>Chisq)"))[-1,]
+
+
 anova(m00, m1)  ## fittest is m1
 
 # Random Slopes
@@ -949,6 +1056,11 @@ m2b <- lmer(response ~(1 | Text_id) + NH + OSA +   (NH | jatosStudyResultId), da
 #summary(m2b)
 
 
+H5_2 <- (anova(m2a, m1) %>% 	# Random Slope OSA by Participant 
+dplyr::select("Chisq":"Pr(>Chisq)"))[-1,]
+
+H5_3 <- (anova(m2b, m1)%>% 	# Random Slope No Subheadings by Participant 
+dplyr::select("Chisq":"Pr(>Chisq)"))[-1,] 
 
 anova(m2a, m1) ## fittest is m1
 anova(m2b, m1) ## fittest is m1
@@ -961,6 +1073,11 @@ anova(m2a, m2b) ## fittest is m2a m2b
 m3a <- lmer(response ~(1 | Text_id) + NH+ OSA + JA + PJ + MS +   (1 | jatosStudyResultId), data = subset(df_Post_ext, Topic == "Decision"))
 m3b <- lmer(response ~(1 | Text_id) + NH+ OSA * JA   + OSA * PJ + OSA * MS +   (1 | jatosStudyResultId), data = subset(df_Post_ext, Topic == "Decision"))
 
+H5_4 <- (anova(m1,m3a) %>% # Justification Beliefs on Random Intercept 	
+dplyr::select("Chisq":"Pr(>Chisq)"))[-1,]
+
+H5_5 <- (anova(m1,m3b) %>% # Justification Beliefs on Random Slope OSA 	
+dplyr::select("Chisq":"Pr(>Chisq)"))[-1,]
 
 anova(m1,m3a) ## fittest is m3a
 anova(m1,m3b) ## fittest is m3b 
@@ -974,6 +1091,15 @@ summary(m3a)
 m4a <- lmer(response ~(1 | Text_id) + NH+ OSA + ability + familiarity +  (1 | jatosStudyResultId), data = subset(df_Post_ext, Topic == "Decision"))
 m4b <- lmer(response ~(1 | Text_id) + NH+ OSA * ability +  OSA * familiarity + (1 | jatosStudyResultId), data = subset(df_Post_ext, Topic == "Decision"))
 
+H5_6 <- (anova(m1,m4a) %>% # 科學活動 on Random Intercept 	
+dplyr::select("Chisq":"Pr(>Chisq)"))[-1,]
+
+H5_7 <- (anova(m1,m4b) %>% # 科學活動 on Random Slope OSA 	
+dplyr::select("Chisq":"Pr(>Chisq)"))[-1,]
+
+
+H5_ratio_tests <- bind_rows(H5_1,H5_2,H5_3,H5_4,H5_5,H5_6,H5_7) %>%
+  mutate(Likelihood_Ratio_Test)
 
 anova(m1,m4a) ## fittest is m3a
 anova(m1,m4b) ## fittest is m3a
@@ -986,14 +1112,27 @@ anova(m1,m4b) ## fittest is m3a
 
 ```{r table}
 
+table <- (tb_Post %>%
+  pivot_wider(names_from = article_type, values_from = c(M,SD)))[,c(1,2,4,7,5,8,3,6)]
+
+
+Topic = c("Comprehensibility","Credibility","Veracity","Decision","Scientificness","Access")
+
+ICC_Participants = c(H1_participant_icc,H3_participant_icc,H4_participant_icc,H5_participant_icc,Scientificness_participant_icc,Access_participant_icc)
+
+ICC_Study = c(H1_study_icc,H3_study_icc,H4_study_icc,H5_study_icc,Scientificness_study_icc,Access_study_icc)
+
 ICC_table <- tibble(
-  Topic = c("Comprehensibility","Credibility","Veracity","Decision","Scientificness","Access"),
-  ICC_Participants = c(H1_participant_icc,H3_participant_icc,H4_participant_icc,H5_participant_icc,Scientificness_participant_icc,Access_participant_icc),
-  ICC_Study = c(H1_study_icc,H3_study_icc,H4_study_icc,H5_study_icc,Scientificness_study_icc,Access_study_icc)
-)
+  Topic = Topic,
+  ICC_Participants = ICC_Participants,
+  ICC_Study = ICC_Study)
 
 table3 <- left_join(ICC_table, table, by = "Topic") 
 
+
+table6 <- left_join(H1_ratio_tests, H3_ratio_tests, by = "Likelihood_Ratio_Test") %>%
+  left_join(H4_ratio_tests, by = "Likelihood_Ratio_Test") %>%
+  left_join(H5_ratio_tests, by = "Likelihood_Ratio_Test")
 
 
 ```
