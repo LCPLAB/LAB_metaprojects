@@ -390,20 +390,47 @@ performance::icc(m00)
 ## mixed-effect models
 ## 確認最適模型
 
-m1 <- lmer(response ~ (1 | jatosStudyResultId) + article_type + (1 | Text_id), data = subset(df_Post, Topic == "Comprehensibility"))
+H1_m1 <- lmer(response ~ (1 | jatosStudyResultId) + article_type + (1 | Text_id), data = subset(df_Post, Topic == "Comprehensibility"))
 
-anova(m0,m1) ## fittest is m1
+anova(m0,H1_m1) ## fittest is H1_m1
 
 
-summary(m1)
+H1_m1.sum <- summary(H1_m1)
+
+## 取出隨機效果變異數
+H1_table <- as.tibble(H1_m1.sum$varcor)[,c(1,4)] %>%
+  rename(Parameter = grp, EST = vcov) %>%
+  mutate(EST = as.character(round(EST,3) )) %>%
+bind_rows(
+## 取出固定效果
+H1_m1.sum$coefficients[,c("Estimate","Std. Error","Pr(>|t|)")] %>% round(3) %>% cbind(STD.EST = round(fixef(H1_m1)/sigma(H1_m1),3)) %>% as.tibble() %>%
+  rename(EST = Estimate, SE = `Std. Error`, p = `Pr(>|t|)`) %>%
+  mutate(EST = as.character(EST),
+         SE = as.character(SE),
+         p = if_else(p==0,"<.001",as.character(p) ))
+) %>%
+bind_rows(
+tibble(
+Parameter = "R^2",
+## 計算R square
+EST = (r.squaredGLMM(H1_m1) %>% round(3) %>% paste(collapse = "/"))
+ )
+) %>%
+  mutate(Parameter = c("參與者隨機效果","文本隨機效果","殘差","截距(學術摘要)","有標題學術摘要","無標題學術摘要","R2")) %>%
+  mutate(SE = if_else(is.na(SE),"",SE),
+         p = if_else(is.na(p),"",p),
+         STD.EST = if_else(is.na(STD.EST),"",as.character(STD.EST)))
 
 ## Tukey test
 ## 文章型態多重比較
 
-test = glht(m1,linfct=mcp(article_type="Tukey"))
+test = glht(H1_m1,linfct=mcp(article_type="Tukey"))
 summary(test, test = adjusted("none"))
 
 ```
+
+
+`r knitr::kable(H1_table)`
 
 ### 2. 知識獲取度評估
 
@@ -669,7 +696,12 @@ m00 <- lmer(response ~ NH + OSA +(1 | Text_id), data = subset(df_Post_ext, Topic
 
 m1 <- lmer(response ~(1 | Text_id) + NH + OSA +  (1 | jatosStudyResultId), subset(df_Post_ext, Topic == "Comprehensibility"))
 
-anova(m00, m1)  ## fittest is m1
+anova(m00, m1) ## fittest is m1
+
+test_m1 <- anova(m00, m1) %>% broom::tidy() %>%
+  filter(term == "m1")
+
+test_m1 <- test_m1[c("statistic","df","p.value")] %>% as.data.frame() %>% round(3)
 
 # Random Slopes
 
@@ -683,7 +715,19 @@ m2b <- lmer(response ~(1 | Text_id) + NH + OSA +   (NH | jatosStudyResultId), da
 
 anova(m2a, m1) ## fittest is m1
 anova(m2b, m1) ## fittest is m1
-#summary(m1)
+
+
+test_m2a <- anova(m2a, m1) %>% broom::tidy() %>%
+  filter(term == "m2a")
+
+test_m2a <- test_m2a[c("statistic","df","p.value")] %>% as.data.frame() %>% round(3)
+
+test_m2b <- anova(m2b, m1) %>% broom::tidy() %>%
+  filter(term == "m2b")
+
+test_m2b <- test_m2b[c("statistic","df","p.value")] %>% as.data.frame() %>% round(3)
+
+
 
 ## 評估知識信念
 
@@ -697,6 +741,18 @@ anova(m1,m3b) ## fittest is m3b
 anova(m3a,m3b) ## fittest is m3a
 
 
+test_m3a <- anova(m3a, m1) %>% broom::tidy() %>%
+  filter(term == "m3a")
+
+test_m3a <- test_m3a[c("statistic","df","p.value")] %>% as.data.frame() %>% round(3)
+
+test_m3b <- anova(m3b, m1) %>% broom::tidy() %>%
+  filter(term == "m3b")
+
+test_m3b <- test_m3b[c("statistic","df","p.value")] %>% as.data.frame() %>% round(3)
+
+
+
 ## 評估科學活動經驗
 
 m4a <- lmer(response ~(1 | Text_id) + NH+ OSA + ability + familiarity +  (1| jatosStudyResultId), data = subset(df_Post_ext, Topic == "Comprehensibility"))
@@ -707,12 +763,46 @@ anova(m1,m4a) ## fittest is m1, but m4a approach the fittest
 anova(m1,m4b) ## fittest is m1, but m4b approach the fittest
 anova(m4a,m4b) ## either m4a or m4b have equal fitness
 
+
+test_m4a <- anova(m4a, m1) %>% broom::tidy() %>%
+  filter(term == "m4a")
+
+test_m4a <- test_m4a[c("statistic","df","p.value")] %>% as.data.frame() %>% round(3)
+
+test_m4b <- anova(m4b, m1) %>% broom::tidy() %>%
+  filter(term == "m4b")
+
+test_m4b <- test_m4b[c("statistic","df","p.value")] %>% as.data.frame() %>% round(3)
+
+
 ## "Comprehensibility"的反應資料加入知識信念有最高解釋力，加入科學活動經驗不影響解釋力
 summary(m1)
 summary(m3a)
 
+explore_table_Comprehensibility <- bind_cols(
+  Parameters = c(
+    "Random Intercept Participant",
+    "Random Slope OSA by Participant",
+    "Random Slope No Subheadings by Participant",
+    "Justification Beliefs on Random Intercept",
+    "Justification Beliefs on Random Slope OSA",
+    "Research Experience on Random Intercept",
+    "Research Experience on Random Slope OSA"
+  ),
+bind_rows(test_m1,
+          test_m2a,
+          test_m2b,
+          test_m3a,
+          test_m3b,
+          test_m4a,
+          test_m4b)
+) %>%
+    mutate(p.value=if_else(p.value == 0, "<.001",as.character(p.value)) ) %>%
+  rename(chisq=statistic, p = p.value)
+
 ```
 
+`r knitr::kable(explore_table_Comprehensibility )
 
 ### 知識背景影響分析：理解測驗正確率
 
