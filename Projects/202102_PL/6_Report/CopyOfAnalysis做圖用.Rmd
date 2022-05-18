@@ -1,0 +1,1140 @@
+---
+title: "Analysis ~ Replication study of Kerwer et al.(2020)"
+author: "LCP lab"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    toc: true
+    toc_depth: 4
+    toc_float: true
+    code_folding: 'hide'
+    self_contained: true
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+	echo = TRUE,
+	message = FALSE,
+	warning = FALSE
+)
+library(tidyverse)
+
+library(lubridate)
+library(effectsize)
+
+
+library(lme4)
+library(lmerTest)
+library(sjstats)
+library(MuMIn)
+library(multcomp)
+```
+
+
+## 匯入及預覽資料欄位資訊
+
+```{r rawdata, echo=TRUE}
+## locate the rawdata file
+zip_path <- list.files(path = "..",pattern = "jatos_results.zip",include.dirs = TRUE,recursive = TRUE,full.names = TRUE)
+## import raw data
+df <- read_csv(unz(zip_path, filename = "rawdata.csv"))
+## import text id table; script did not log text_id
+text <- read_csv("../4_OS_Result/text_id.csv")
+## Append text id to rawdata df
+```
+
+
+整合有效參與者的原始回應資料檔"rawdata.csv"，存放路徑是`r zip_path`。資料欄位共有`r dim(df)[2]`項，來自`r length(unique(df$jatosStudyResultId))`位參與者，`r dim(df)[1]`筆回應資料。
+
+資料編碼薄以[codebook套件](codebook.Rmd)製作，製作完成存放路徑與本文件相同。
+
+
+```{r data-split}
+## Extract the system variables
+df_sys <- df %>% dplyr::select(starts_with(c("identifier","jatos","browser_","count_","date_","experiment_","screen_","system_","Start ","Last ","Duration","Batch","Worker ","State","Message")))
+
+## Reserve the analytic variables in rawdata df
+df <- df %>% dplyr::select(!names(df_sys)[-c(1,2)])
+
+## Split basic data
+df_Basic <- filter(df, Q_type == "Basic")
+## Exclude the variables full of "None"
+df_Basic <- df_Basic[,(colSums(df_Basic!="None",na.rm = TRUE) != 0 ) # Get "response"
+]
+
+## Split Belief data
+df_Belief <- filter(df, Q_type == "Belief")
+## Exclude the variables full of "None"
+df_Belief <- df_Belief[,which(colSums(df_Belief!="None",na.rm = TRUE) != 0 )]
+
+## Split self evaluation data
+df_self_eval <- filter(df, Q_type == "self_eval") 
+## Exclude the variables full of "None"
+df_self_eval <- df_self_eval[,which(colSums(df_self_eval!="None",na.rm = TRUE) != 0)]
+
+## Split post reading Question data
+df_Post <- dplyr::filter(df, Q_type == "Post_survey") %>% left_join(text, by= "Content") 
+## Exclude the variables full of "None"
+df_Post <- df_Post[,which(colSums(df_Post!="None",na.rm = TRUE) != 0)] %>% mutate(Text_id = as.character(Text_id))
+
+## Split knowledge data
+df_knowledge <- filter(df, Q_type == "Knowledge" & Q_presented == 1) ## Reserved presented questions
+## Exclude the variables full of "None"
+df_knowledge <- left_join(dplyr::select(df_knowledge[,which(colSums(df_knowledge!="None",na.rm = TRUE) != 0)], -c("NH","OSA","text_order")), ## Erase IV variables because they are meaningless in test loop
+  dplyr::select(df_Post, jatosStudyResultId, NH, OSA, Text_id, text_order) %>% distinct(),## Extract IV variables from df_Post
+by=c("jatosStudyResultId","Test_id"="Text_id")) ## Add IV vriables to df_knowledge by Test_id 
+
+## Split Exit
+df_Exit <- filter(df, Q_type == "Exit")
+## Exclude the variables full of "None"
+df_Exit <- df_Exit[,which(colSums(df_Exit!="None",na.rm = TRUE) != 0)]
+```
+
+
+## 參與者基本資訊統計
+
+
+- 作答時間分佈
+
+
+```{r duration}
+## Convert duration to minutes
+minutes_count <- ((df_sys$Duration %>% hms() %>% hour()*60)+
+(df_sys$Duration %>% hms() %>% minute())) 
+
+## Summary of study duration by minutes 
+minutes_count %>% summary()
+
+## draw a box plot
+minutes_count%>%
+  log10() %>% ## convert minutes to log10
+  boxplot(ylab="log10(minutes)")
+```
+
+
+
+### 作答時間與理解正確率散佈趨勢
+
+```{r duration-post-analysis, echo=TRUE, message=FALSE, warning=FALSE}
+## Convert duration to minutes
+df_post_trend  <- (df_sys %>% distinct() %>%
+  dplyr::select(jatosStudyResultId, Duration) %>%
+  mutate(minutes_count = 
+                    (Duration %>% hms() %>% hour())*60 +
+                    Duration %>% hms() %>% minute() )) %>%
+  left_join( (df_knowledge %>% 
+#  filter(Q_presented == 1) %>%   ## 過濾未出現的題目
+  mutate(response = ifelse(response == "是","y","n")) %>%       #轉換參與者回答"是"換成"y"
+  mutate(score = ifelse(response == correct_response,1,0)) %>%  #檢測如果回答等於正確答案得1分
+  group_by(jatosStudyResultId) %>%                               #以個人分組
+  summarise(Correct_rate = mean(score))),    #計算正確率
+by="jatosStudyResultId")
+
+Correct_rate <- df_post_trend %>% 
+  summarise(CR = mean(Correct_rate)) %>%
+  print()
+
+
+ggplot(df_post_trend,aes(x=Correct_rate, y=minutes_count))+
+   geom_point()
+```
+
+以下程式碼挑出極端參與者
+
+```{r strange-participants}
+strange_id <- df_post_trend %>%
+  filter(!(Correct_rate >0.5) | minutes_count > 200 ) %>%
+  pull(jatosStudyResultId)
+```
+
+
+共有`r length(strange_id)`參與者理解題正確率未超過50%或作答時間超過200分鐘。排除後，採用`r length(unique(df_sys$jatosStudyResultId)) - length(strange_id)`
+參與者資料進行以下資料處理及統計分析。
+
+**參與者性別人數**
+
+```{r basic-gender}
+df_Basic %>% filter(Topic=="gender" & !(jatosStudyResultId %in% strange_id)) %>%
+  ggplot(aes(x = response, fill = response)) +
+  geom_bar(show.legend = FALSE) +
+  scale_x_discrete(name = "參與者性別") +
+  scale_y_continuous(name = "參與者人數") +
+  theme_minimal() +
+  scale_fill_viridis_d(option = "E")
+```
+
+**參與者年齡分佈**
+
+```{r basic-birth}
+## Confirm the median and MAD
+response_b <- df_Basic %>% filter(Topic=="birth" & !(jatosStudyResultId %in% strange_id)) %>%
+  summarise(M = median(as.numeric(response),na.rm = TRUE), 
+            dev= mad(as.numeric(response),na.rm = TRUE),
+            min(as.numeric(response),na.rm = TRUE),
+            max(as.numeric(response),na.rm = TRUE))
+## median = 2, MAD = 1.48; median +/- 66 MAD are acceptable responses.
+df_Basic %>% filter(Topic=="birth" & !(jatosStudyResultId %in% strange_id)) %>%
+  mutate(last_two = ifelse(as.numeric(response)< response_b$M + 66*response_b$dev,as.numeric(response),NA), ## Turn strange response to missing value NA
+         age = ifelse(!is.na(last_two),ifelse(last_two>50,2022-(1900+last_two),2022-(2000+last_two) ),NA )) %>% ## Estimate participant's age
+#df_Basic %>% filter(Topic=="birth") %>%
+  ggplot(aes(x = as.character(age), fill = as.character(age))) +
+  geom_bar(show.legend = FALSE) +
+  scale_x_discrete(name = "參與者年齡") +
+  scale_y_continuous(name = "參與者人數") +
+  theme_minimal() +
+  scale_fill_viridis_d(option = "E")
+```
+
+## 問卷反應項目描述統計
+
+> 依問題型態摘要
+
+- 知識信念(belief)
+(采妤)
+
+```{r belief}
+df_Belief$response <- sapply(
+ strsplit(
+ gsub(df_Belief$response,pattern = " ",replacement = ""),
+ split = "："
+ ),
+ "[[",
+ 1
+ )
+
+tb_Belief <- df_Belief %>% #filter(response %>%
+#  summarise("6：完全正確" = mean(rating == 6),
+#"5：大部份正確" = mean(rating == 5),
+#"4：有點正確" = mean(rating == 4),
+#"3：不太可能是正確的" = mean(rating == 3),
+#"2：大部份不正確" = mean(rating == 2),
+#"1：完全不正確" = mean(rating == 1))) %>%
+filter(!(jatosStudyResultId %in% strange_id)) %>%
+  group_by(jatosStudyResultId, Q_type,Topic) %>%
+         summarise(score = mean(as.numeric(response),na.rm = TRUE)) %>% ## 參與者分項評分總計   
+        group_by(Q_type,Topic) %>%
+         summarise(N = n(),
+                   M = mean(score),
+                   SD = sd(score)) ## 表列評分總計
+#  ggplot(df_Belief, aes(Question, response, fill=Q)) +
+#  stat_summary(fun = mean, geom = "col", alpha = 0.5) +
+#  stat_summary(fun.data = mean_se, geom = "errorbar",
+#               width = 0.25) +
+#  coord_cartesian(ylim = c(1, 5))
+```
+
+`r knitr::kable(tb_Belief)`
+
+- 科學活動經驗(self eval)
+(明翰)
+
+```{r self ecal}
+df_self_eval$response <- sapply(
+ strsplit(
+ gsub(df_self_eval$response,pattern = " ",replacement = ""),
+ split = ":"
+ ),
+ "[[",
+ 1
+ )
+
+dm_self_eval <- df_self_eval %>%#$response <- #filter(.data = df_self_eval, Topic %in% c("ability","familiarity")) %>%
+filter(!(jatosStudyResultId %in% strange_id)) %>%
+  mutate(response=as.numeric(response))
+
+# 因為每個題目都有出現過至少一次，所有題目皆有過參與者填答，故不需要過濾。
+# 以摘要分組
+dm_self_eval %>%
+group_by(Topic) %>% 
+summarise(N = n(), M = mean(as.numeric(response),na.rm=TRUE ), SD = sd(as.numeric(response),na.rm=TRUE ), Missing = sum(is.na(response)))#sum(score)/n() #計算正確率
+
+```
+
+
+- 讀後調查(Post Survey)
+(祥偉)
+
+```{r post-study, echo=TRUE, results='show', message=TRUE, warning=TRUE, include=T}
+df_Post$response <- sapply(
+ strsplit(
+ gsub(df_Post$response,pattern = " ",replacement = ""),
+ split = ":"
+ ),
+ "[[",
+ 1
+ )
+
+## Change full access response to numeric
+df_Post$response = ifelse(df_Post$response == "想", 1, ifelse(df_Post$response == "不想",0,df_Post$response))
+
+## convert df_Post responses to numeric
+df_Post$response = as.numeric(df_Post$response)
+
+#new_post <- filter(.data = df_Post,Topic %in% c("Comprehensibility","Scientificness","Credibility","Veracity","Decision") & !(jatosStudyResultId %in% strange_id)) %>% 
+##抓出要分析的TOPIC
+  
+#mutate(summary = ifelse(NH == "N" & OSA == "Y", "OSA",ifelse(NH == "N" & OSA == "N", "PLS","NH_PLS"))) 
+#將摘要分類為PLS、OSA、NH_PLS
+#new_post$response <- gsub("8: 完全讀得懂", 8, new_post$response)
+#new_post$response <- gsub("8: 非常有科學性", 8, new_post$response)
+#new_post$response <- gsub("8: 非常可信", 8, new_post$response)
+#new_post$response <- gsub("8: 我認為一定可以", 8, new_post$response)
+#new_post$response <- gsub("1: 完全不可信", 1, new_post$response)
+#new_post$response <- gsub("1: 完全沒有科學性", 1, new_post$response)
+#new_post$response <- gsub("1: 完全讀不懂", 1, new_post$response)
+#new_post$response <- gsub("1: 我認為完全不可以", 1, new_post$response) 
+##將包含中文的response替換數字
+tb_Post <- (dm_Post <- df_Post %>% filter(Topic %in% c("Comprehensibility","Scientificness","Credibility","Veracity","Decision","Access") & !(jatosStudyResultId %in% strange_id)) %>%
+mutate(article_type = ifelse(NH == "N" & OSA == "Y", "OSA",ifelse(NH == "N" & OSA == "N", "PLS","PLS_NH"))) ) %>%
+#table3_cells <- new_post %>%
+#        filter(summary == "PLS")   %>%
+        group_by(jatosStudyResultId,Topic,article_type) %>%
+        summarise(post_score = mean(as.numeric(response),na.rm = TRUE)) %>% ## 參與者分項評分總計   
+  group_by(Topic, article_type) %>%
+         summarise(N = n(),
+                   M = mean(post_score,na.rm = TRUE),
+                   SD = sd(post_score,na.rm = TRUE)
+) 
+  
+
+
+
+
+```     
+
+`r knitr::kable(tb_Post)`
+
+
+- 閱讀理解(Knowledge)
+(子渝)
+
+```{r Knowledge}
+## 參與者分項評分總計   
+P_accuracy <- (dm_knowledge <- df_knowledge %>% 
+  filter(!(jatosStudyResultId %in% strange_id)) %>%   ## 過濾極端參與者
+  mutate(article_type = ifelse(NH == "N" & OSA == "Y", "OSA",ifelse(NH == "N" & OSA == "N", "PLS","PLS_NH"))) %>%                                                             #將摘要分類為PLS、OSA、NH_PLS
+  mutate(response = ifelse(response == "是","y","n")) %>%       #轉換參與者回答"是"換成"y"
+  mutate(score = ifelse(response == correct_response,1,0)) ) %>%    #檢測如果回答等於正確答案得1分
+  group_by(jatosStudyResultId, article_type) %>% #以個別參與者及摘要分組
+  summarise(p_accuracy = sum(score)/length(score)
+              ) #%>%
+
+## 分項評分總計   
+tb_knowledge1 <- P_accuracy %>%
+  group_by(article_type) %>%                                         #以摘要分組
+  summarise(N = n(), M = mean(p_accuracy,na.rm=TRUE), SD = sd(p_accuracy,na.rm=TRUE)#sum(score)/n()
+              )                      #計算正確率
+## Retrieve the participants had all types of questions
+#full_id <- P_accuracy %>% count(jatosStudyResultId) %>%
+#  filter(n==3) %>% pull(jatosStudyResultId)
+#tb_knowledge2 <- P_accuracy %>%
+#  filter(jatosStudyResultId %in% full_id) %>%
+#  group_by(article_type) %>%                                         #以摘要分組
+#  summarise(N = n(), M = mean(p_accuracy,na.rm=TRUE), SD = sd(p_accuracy,na.rm=TRUE)#sum(score)/n()
+#             )                      #計算正確率
+
+## 資料整理
+knowledge <- df_knowledge %>% 
+  filter(!(jatosStudyResultId %in% strange_id)) %>%   ## 過濾未出現的題目
+  mutate(summary = ifelse(NH == "N" & OSA == "Y", "OSA",ifelse(NH == "N" & OSA == "N", "PLS","NH_PLS"))) %>%                                                             #將摘要分類為PLS、OSA、NH_PLS
+  mutate(response = ifelse(response == "是","y","n")) %>%       #轉換參與者回答"是"換成"y"
+  mutate(score = ifelse(response == correct_response,1,0))      #檢測如果回答等於正確答案得1分
+## 總正確數
+table(knowledge$score)
+## 總正確率
+table(knowledge$score)/sum(table(knowledge$score))
+## 各類摘要錯誤率
+table(knowledge$score, knowledge$summary)[1,]/colSums(table(knowledge$score, knowledge$summary))
+print("各類摘要正確率")
+table(knowledge$score, knowledge$summary)[2,]/colSums(table(knowledge$score, knowledge$summary))
+```
+
+三種文本閱讀正確率平均值及標準差
+
+納入所有非極端值的參與者 
+`r knitr::kable(tb_knowledge1)`
+
+
+- 出口回饋(Exit)
+
+
+## 預先註冊分析項目
+
+<!--- 各項分析方法同Kerwer et al.(2021)的腳本：20200921_Analysis.Rmd，以下各部分chunk標示對應該腳本的部分 --->
+
+## 確證性分析
+
+### 1. 可理解程度評估
+
+對於摘要的理解
+
+- 主觀評分
+
+
+```{r comprehension-stat}
+
+# Confirmatory Analyses
+
+## H1 Comprehensibility
+
+## 轉換獨變項
+df_Post <- df_Post %>%
+mutate(article_type = ifelse(NH == "N" & OSA == "Y", "OSA",ifelse(NH == "N" & OSA == "N", "PLS","PLS_NH"))) 
+
+
+## 計算參與者單位及文章單位的組內相關程度ICC
+
+# conduct icc
+
+m0 <- lmer(response ~ (1 | jatosStudyResultId), data = subset(df_Post, Topic == "Comprehensibility") )
+
+summary(m0)
+performance::icc(m0)
+
+H1_participant_icc <- (performance::icc(m0) %>% unlist())[1]
+
+m00 <- lmer(response ~ (1 | Test_id), data = subset(df_Post, Topic == "Comprehensibility"))
+
+summary(m00)
+performance::icc(m00)
+
+H1_study_icc <- (performance::icc(m00) %>% unlist())[1]
+
+## mixed-effect models
+## 確認最適模型
+
+m1 <- lmer(response ~ (1 | jatosStudyResultId) + article_type + (1 | Text_id), data = subset(df_Post, Topic == "Comprehensibility"))
+
+anova(m0,m1) ## fittest is m1
+
+
+summary(m1)
+
+## Tukey test
+## 文章型態多重比較
+
+test = glht(m1,linfct=mcp(article_type="Tukey"))
+summary(test, test = adjusted("none"))
+
+```
+
+### 2. 知識獲取度評估
+
+理解測驗正確率
+
+```{r knowledge-stat}
+
+# Confirmatory Analyses
+
+## H2 Knowledge Test
+## 轉換獨變項, 依變項數值
+
+df_knowledge <- df_knowledge %>% 
+  filter(!(jatosStudyResultId %in% strange_id)) %>%   ## 過濾極端參與者
+  mutate(article_type = ifelse(NH == "N" & OSA == "Y", "OSA",ifelse(NH == "N" & OSA == "N", "PLS","PLS_NH"))) %>%                                                             #將摘要分類為PLS、OSA、NH_PLS
+  mutate(response = ifelse(response == "是","y","n")) %>%       #轉換參與者回答"是"換成"y"
+  mutate(score = ifelse(response == correct_response,1,0)) 
+
+# mixed-effect models
+## 確認最適模型
+m0 <- glmer(score ~ (1 | jatosStudyResultId), family = binomial("logit"), data = df_knowledge)
+
+m00 <- glmer(score ~ (1 | Test_id), family = binomial("logit"), data = df_knowledge)
+
+
+m1 <- glmer(score ~ (1 | jatosStudyResultId) + article_type + (1 | Test_id), family = binomial("logit"), data = df_knowledge)
+
+anova(m0,m1) ## fittest is m1
+
+
+summary(m1)
+
+
+## Tukey test
+## 文章型態多重比較
+
+test = glht(m1,linfct=mcp(article_type="Tukey"))
+summary(test, test = adjusted("none"))
+```
+
+
+
+
+### 3. 來源可信度評估
+
+對摘要來源的可信度
+
+```{r credibility-stat}
+# Confirmatory Analyses
+
+## H3 Credibility
+
+## 計算參與者單位及文章單位的組內相關程度ICC
+
+m0 <- lmer(response ~ (1 | jatosStudyResultId), data = subset(df_Post, Topic == "Credibility"))
+m00 <- lmer(response ~ (1 | Test_id), data = subset(df_Post, Topic == "Credibility"))
+
+summary(m0)
+performance::icc(m0)
+
+H3_participant_icc <- (performance::icc(m0) %>% unlist())[1]
+
+summary(m00)
+performance::icc(m00)
+
+H3_study_icc <- (performance::icc(m00) %>% unlist())[1]
+
+## 確認最適模型
+
+m1 <- lmer(response ~ (1 | jatosStudyResultId) + article_type + (1 | Text_id), data = subset(df_Post, Topic == "Credibility"))
+
+anova(m0, m1)  ## fittest is m1
+
+
+summary(m1)
+
+
+## 文章型態多重比較
+
+test = glht(m1,linfct=mcp(article_type="Tukey"))
+summary(test, test = adjusted("none"))
+
+```
+
+
+### 4. 內容真實性評估
+
+評估摘要內容的真實性
+
+```{r evaluate-stat}
+# Confirmatory Analyses
+
+## H4 Ability to Evaluate
+## 計算參與者單位及文章單位的組內相關程度ICC
+
+m0 <- lmer(response ~ (1 | jatosStudyResultId), data = subset(df_Post, Topic == "Veracity"))
+m00 <- lmer(response ~ (1 | Test_id), data = subset(df_Post, Topic == "Veracity"))
+
+summary(m0)
+performance::icc(m0)
+
+H4_participant_icc <- (performance::icc(m0) %>% unlist())[1]
+
+
+
+summary(m00)
+performance::icc(m00)
+
+H4_study_icc <- (performance::icc(m00) %>% unlist())[1]
+
+## 確認最適模型
+
+
+m1 <- lmer(response ~ (1 | jatosStudyResultId) + article_type + (1 | Text_id), data = subset(df_Post, Topic == "Veracity"))
+
+anova(m0,m1)  ## fittest is m1
+
+summary(m1)
+
+## 文章型態多重比較
+test = glht(m1,linfct=mcp(article_type="Tukey"))
+summary(test, test = adjusted("none"))
+
+```
+
+
+### 5. 資訊充足度評估
+
+不需獲取更多資訊能理解更多內容
+
+```{r decision-stat}
+# Confirmatory Analyses
+
+## H5 Ability to Make a Decision
+
+
+## 計算參與者單位及文章單位的組內相關程度ICC
+
+m0 <- lmer(response ~ (1 | jatosStudyResultId), data = subset(df_Post, Topic == "Decision"))
+m00 <- lmer(response ~ (1 | Test_id), data = subset(df_Post, Topic == "Decision"))
+
+summary(m0)
+performance::icc(m0)
+
+H5_participant_icc <- (performance::icc(m0) %>% unlist())[1]
+
+
+summary(m00)
+performance::icc(m00)
+
+H5_study_icc <- (performance::icc(m00) %>% unlist())[1]
+
+## 確認最適模型
+
+
+m1 <- lmer(response ~ (1 | jatosStudyResultId) + article_type + (1 | Text_id), data = subset(df_Post, Topic == "Decision"))
+
+anova(m0,m1)  ## fittest is m1
+
+summary(m1)
+
+
+## 文章型態多重比較
+test = glht(m1,linfct=mcp(article_type="Tukey"))
+summary(test, test = adjusted("none"))
+
+
+```
+
+
+## 探索性分析
+
+
+### 內容科學性評估
+
+對於摘要內容的科學性
+
+Kerwer et al.(2021)發現科學性與來源可信度有高相關性(r > .77)，故論文未報告科學性分析，分析腳本保存科學性的文本比較。
+
+
+```{r scientificness-stat}
+# Exploratory
+
+## Scientificness
+
+
+## 計算參與者單位及文章單位的組內相關程度ICC
+
+m0 <- lmer(response ~ (1 | jatosStudyResultId), data = subset(df_Post, Topic == "Scientificness"))
+m00 <- lmer(response ~ (1 | Test_id), data = subset(df_Post, Topic == "Scientificness"))
+
+summary(m0)
+performance::icc(m0)
+
+Scientificness_participant_icc <- (performance::icc(m0) %>% unlist())[1]
+
+
+summary(m00)
+performance::icc(m00)
+
+Scientificness_study_icc <- (performance::icc(m00) %>% unlist())[1] ## retrieve study icc
+
+
+## 確認最適模型
+
+
+m1 <- lmer(response ~ (1 | jatosStudyResultId) + article_type + (1 | Text_id), data = subset(df_Post, Topic == "Scientificness"))
+ 
+anova(m0,m1)  ## fittest is m1
+
+summary(m1)
+
+
+## 文章型態多重比較
+test = glht(m1,linfct=mcp(article_type="Tukey"))
+summary(test, test = adjusted("none"))
+
+```
+
+
+### 索取全文意願
+
+```{r access-stat}
+# Exploratory
+
+## Full Text Access
+
+
+## 確認最適模型
+m0 <- glmer(response ~ (1 | jatosStudyResultId), family = binomial("logit"), data = subset(df_Post, Topic == "Access"))
+
+Access_participant_icc <- (performance::icc(m0) %>% unlist())[1]
+
+m1 <- glmer(response ~ (1 | jatosStudyResultId) + article_type + (1 | Text_id), family = binomial("logit"), data = subset(df_Post, Topic == "Access"))
+
+anova(m0,m1)
+
+summary(m1) # mi
+
+m00 <- lmer(response ~ (1 | Test_id), data = subset(df_Post, Topic == "Access"))
+
+Access_study_icc <- (performance::icc(m00) %>% unlist())[1]
+
+
+## 文章型態多重比較
+test = glht(m1,linfct=mcp(article_type="Tukey"))
+summary(test, test = adjusted("none"))
+
+```
+
+
+### 知識背景影響分析
+
+知識背景包括知識信念(belief)與科學活動經驗(self eval)
+
+```{r data-ext}
+## 準備知識信念及科學活動經驗指標分數，合併至原始資料集
+df_Post_ext <- df_Belief %>% group_by(jatosStudyResultId, Topic) %>%
+  summarise(score = mean(as.numeric(response))) %>%
+  pivot_wider(names_from = "Topic",values_from = "score") %>%
+  right_join(df_Post, by=c("jatosStudyResultId")) %>%
+left_join(df_self_eval %>% group_by(jatosStudyResultId, Topic) %>%
+  summarise(score = mean(as.numeric(response))) %>%
+  pivot_wider(names_from = "Topic",values_from = "score"), by=c("jatosStudyResultId")) 
+
+df_knowledge_ext <- df_Belief %>% group_by(jatosStudyResultId, Topic) %>%
+  summarise(score = mean(as.numeric(response))) %>%
+  pivot_wider(names_from = "Topic",values_from = "score") %>%
+  right_join(df_knowledge, by=c("jatosStudyResultId")) %>%
+left_join(df_self_eval %>% group_by(jatosStudyResultId, Topic) %>%
+  summarise(score = mean(as.numeric(response))) %>%
+  pivot_wider(names_from = "Topic",values_from = "score"), by=c("jatosStudyResultId")) 
+```
+
+
+### 知識背景影響分析：主觀理解度
+
+```{r comprehension-belief}
+# Model Tests Interindividuell Differences
+## Comprehensibility
+
+## 決定未加入個別差異因素的最佳模型
+
+# Random Intercepts
+
+m00 <- lmer(response ~ NH + OSA +(1 | Text_id), data = subset(df_Post_ext, Topic == "Comprehensibility"))
+
+m1 <- lmer(response ~(1 | Text_id) + NH + OSA +  (1 | jatosStudyResultId), subset(df_Post_ext, Topic == "Comprehensibility"))
+
+anova(m00, m1)  ## fittest is m1
+
+H1_1 <- (anova(m00, m1) %>% # Random Intercept Participant 
+dplyr::select("Chisq":"Pr(>Chisq)"))[-1,]
+
+# Random Slopes
+
+m2a <- lmer(response ~(1 | Text_id) + NH + OSA +   (OSA | jatosStudyResultId), data = subset(df_Post_ext, Topic == "Comprehensibility"))
+
+
+m2b <- lmer(response ~(1 | Text_id) + NH + OSA +   (NH | jatosStudyResultId), data = subset(df_Post_ext, Topic == "Comprehensibility"), REML = F)
+#summary(m2b)
+
+H1_2 <- (anova(m2a, m1) %>% 	# Random Slope OSA by Participant 
+dplyr::select("Chisq":"Pr(>Chisq)"))[-1,]
+
+H1_3 <- (anova(m2b, m1)%>% 	# Random Slope No Subheadings by Participant 
+dplyr::select("Chisq":"Pr(>Chisq)"))[-1,] 
+
+anova(m2a, m1) ## fittest is m1
+anova(m2b, m1) ## fittest is m1
+#summary(m1)
+
+## 評估知識信念
+
+
+m3a <- lmer(response ~(1 | Text_id) + NH+ OSA + JA + PJ + MS +   (1 | jatosStudyResultId), data = subset(df_Post_ext, Topic == "Comprehensibility"))
+m3b <- lmer(response ~(1 | Text_id) + NH+ OSA * JA   + OSA * PJ + OSA * MS +   (1 | jatosStudyResultId), data = subset(df_Post_ext, Topic == "Comprehensibility"))
+
+H1_4 <- (anova(m1,m3a) %>% # Justification Beliefs on Random Intercept 	
+dplyr::select("Chisq":"Pr(>Chisq)"))[-1,]
+
+H1_5 <- (anova(m3a,m3b) %>% # Justification Beliefs on Random Slope OSA 	
+dplyr::select("Chisq":"Pr(>Chisq)"))[-1,]
+
+anova(m1,m3a) ## fittest is m3a
+anova(m1,m3b) ## fittest is m3b 
+anova(m3a,m3b) ## fittest is m3a
+
+
+## 評估科學活動經驗
+
+m4a <- lmer(response ~(1 | Text_id) + NH+ OSA + ability + familiarity +  (1| jatosStudyResultId), data = subset(df_Post_ext, Topic == "Comprehensibility"))
+m4b <- lmer(response ~(1 | Text_id) + NH+ OSA * ability +  OSA * familiarity + (1| jatosStudyResultId), data = subset(df_Post_ext, Topic == "Comprehensibility"))
+
+H1_6 <- (anova(m1,m4a) %>% # 科學活動 on Random Intercept 	
+dplyr::select("Chisq":"Pr(>Chisq)"))[-1,]
+
+H1_7 <- (anova(m4a,m4b) %>% # 科學活動 on Random Slope OSA 	
+dplyr::select("Chisq":"Pr(>Chisq)"))[-1,]
+
+Likelihood_Ratio_Test = c("Random Intercept Participant","Random Slope OSA by Participant","Random Slope No Subheadings by Participant","Justification Beliefs on Random Intercept","Justification Beliefs on Random Slope OSA","科學活動 on Random Intercept","科學活動 on Random Slope OSA")
+
+H1_ratio_tests <- (bind_rows(H1_1,H1_2,H1_3,H1_4,H1_5,H1_6,H1_7) %>%
+  mutate(Likelihood_Ratio_Test))[,c(4,1,2,3)]
+
+anova(m1,m4a) ## fittest is m1, but m4a approach the fittest
+anova(m1,m4b) ## fittest is m1, but m4b approach the fittest
+anova(m4a,m4b) ## either m4a or m4b have equal fitness
+
+## "Comprehensibility"的反應資料加入知識信念有最高解釋力，加入科學活動經驗不影響解釋力
+summary(m1)
+summary(m3a)
+
+```
+
+
+### 知識背景影響分析：理解測驗正確率
+
+
+```{r knowledge-belief}
+# Model Tests Interindividuell Differences
+## Knowledge Test
+
+## 決定未加入個別差異因素的最佳模型
+
+## Random Intercept
+
+m0a <- glmer(score ~ NH + OSA +(1 | Test_id), data = df_knowledge_ext, family = binomial("logit"))
+m0b <- glmer(score ~ NH + OSA + (1 | Test_id) + (1 | jatosStudyResultId), data = df_knowledge_ext, family = binomial("logit"))
+
+H2_1 <- (anova(m0a, m0b) %>%  #Random Intercept Participant 	
+dplyr::select("Chisq":"Pr(>Chisq)"))[-1,]
+
+anova(m0a, m0b) # fittest is m0a
+
+
+## Random Slopes
+
+m1a <- glmer(score ~ NH + OSA +(1 | Test_id)+   (OSA | jatosStudyResultId), data = df_knowledge_ext, family = binomial("logit"))
+
+m1b <- glmer(score ~ NH + OSA + (1 | Test_id) + (NH | jatosStudyResultId), data = df_knowledge_ext, family = binomial("logit"))
+
+H2_2 <- (anova(m0a, m1a) %>%  #Random Slope OSA by Participant  	
+dplyr::select("Chisq":"Pr(>Chisq)"))[-1,]
+
+H2_3 <- (anova(m0b, m1b)%>% 	# Random Slope No Subheadings by Participant 
+dplyr::select("Chisq":"Pr(>Chisq)"))[-1,] 
+
+
+anova(m0a,m1a) ## fittest is m0a
+anova(m0a,m1b) ## fittest is m0a
+
+## 評估知識信念
+
+m2 <- glmer(score ~ (1 | Test_id) + NH + OSA + PJ + JA + MS, data = df_knowledge_ext, family = binomial("logit"))
+
+
+anova(m0a, m2) # fittest is m2
+
+
+m2a <- glmer(score ~ (1 | Test_id) + NH + OSA + PJ + JA + MS + (OSA | jatosStudyResultId), data = df_knowledge_ext, family = binomial("logit"))
+
+m2b <- glmer(score ~(1 | Test_id) + NH+ OSA * JA   + OSA * PJ + OSA * MS +   (OSA | jatosStudyResultId), data = df_knowledge_ext, family = binomial("logit"))
+
+#H2_4 <- (anova(m2, m2a) %>% # Justification Beliefs on Random Intercept 	
+#dplyr::select("Chisq":"Pr(>Chisq)"))[-1,]
+
+#H2_5 <- (anova(m2,m2b) %>% # Justification Beliefs on Random Slope OSA 	
+#dplyr::select("Chisq":"Pr(>Chisq)"))[-1,]
+
+anova(m2,m2a)  ## fittest is m2
+anova(m2,m2b)  ## fittest is m2
+
+summary(m2)
+
+
+## 評估科學活動經驗
+m3 <- glmer(score ~ (1 | Test_id) + NH + OSA + ability + familiarity, data = df_knowledge_ext, family = binomial("logit"))
+
+H2_6 <- (anova(m0a,m3) %>% # 科學活動 on Random Intercept 	
+dplyr::select("Chisq":"Pr(>Chisq)"))[-1,]
+
+#H2_7 <- (anova(m4a,m4b) %>% # 科學活動 on Random Slope OSA 	
+#dplyr::select("Chisq":"Pr(>Chisq)"))[-1,]
+
+anova(m0a, m3) # fittest is m0
+
+#H2_ratio_tests <- bind_rows(H2_1,H2_2,H2_3,H2_4,H2_5,H2_6)%>%
+#  mutate(Likelihood_Ratio_Test)
+
+
+## "Knowledge"的反應資料加入知識信念顯著提高解釋力，加入科學活動經驗不影響解釋力
+
+```
+
+### 知識背景影響分析：來源可信度評估
+
+
+```{r credibility-belief}
+# Model Tests Interindividuell Differences
+
+## Credibility
+
+
+## 決定未加入個別差異因素的最佳模型
+
+#Random Intercept
+
+
+m00 <- lmer(response ~ NH + OSA +(1 | Text_id), data = subset(df_Post_ext, Topic == "Credibility"))
+
+m1<- lmer(response ~(1 | Text_id) + NH + OSA +  (1 | jatosStudyResultId), subset(df_Post_ext, Topic == "Credibility"))
+
+H3_1 <- (anova(m00, m1) %>% # Random Intercept Participant 
+dplyr::select("Chisq":"Pr(>Chisq)"))[-1,]
+
+anova(m00, m1) ## fittest is m1
+
+#Random Slopes
+
+m2a <- lmer(response ~(1 | Text_id) + NH + OSA +   (OSA | jatosStudyResultId), data = subset(df_Post_ext, Topic == "Credibility"))
+
+m2b <- lmer(response ~(1 | Text_id) + NH + OSA +   (NH | jatosStudyResultId), data = subset(df_Post_ext, Topic == "Credibility"), REML = F)
+
+H3_2 <- (anova(m2a, m1) %>% 	# Random Slope OSA by Participant 
+dplyr::select("Chisq":"Pr(>Chisq)"))[-1,]
+
+H3_3 <- (anova(m2b, m1)%>% 	# Random Slope No Subheadings by Participant 
+dplyr::select("Chisq":"Pr(>Chisq)"))[-1,] 
+
+
+anova(m1,m2a) ## fittest is m2a
+anova(m1,m2b) ## ftttest is m1
+anova(m2a,m2b) ## equal fitness
+
+summary(m2a)
+
+## 評估知識信念
+
+m3a <- lmer(response ~(1 | Text_id) + NH+ OSA + JA + PJ + MS +   (OSA | jatosStudyResultId), data = subset(df_Post_ext, Topic == "Credibility"))
+m3b <- lmer(response ~(1 | Text_id) + NH+ OSA * JA   + OSA * PJ + OSA * MS +   (OSA | jatosStudyResultId), data = subset(df_Post_ext, Topic == "Credibility"))
+
+H3_4 <- (anova(m2a,m3a) %>% # Justification Beliefs on Random Intercept 	
+dplyr::select("Chisq":"Pr(>Chisq)"))[-1,]
+
+H3_5 <- (anova(m2a,m3b) %>% # Justification Beliefs on Random Slope OSA 	
+dplyr::select("Chisq":"Pr(>Chisq)"))[-1,]
+
+
+anova(m2a,m3a) ## fittest is m3a
+anova(m2a,m3b) ## fittest is m3b
+anova(m3a,m3b) ## fittest is m3a
+
+
+summary(m3a)
+
+## 評估科學活動經驗
+
+m4a <- lmer(response ~(1 | Text_id) + NH+ OSA + ability + familiarity +  (OSA | jatosStudyResultId), data = subset(df_Post_ext, Topic == "Credibility"))
+m4b <- lmer(response ~(1 | Text_id) + NH+ OSA * ability +  OSA * familiarity + (OSA | jatosStudyResultId), data = subset(df_Post_ext, Topic == "Credibility"))
+
+H3_6 <- (anova(m2a,m4a) %>% # 科學活動 on Random Intercept 	
+dplyr::select("Chisq":"Pr(>Chisq)"))[-1,]
+
+H3_7 <- (anova(m2a,m4b) %>% # 科學活動 on Random Slope OSA 	
+dplyr::select("Chisq":"Pr(>Chisq)"))[-1,]
+
+H3_ratio_tests <- bind_rows(H3_1,H3_2,H3_3,H3_4,H3_5,H3_6,H3_7) %>%
+  mutate(Likelihood_Ratio_Test)
+
+
+anova(m2a,m4a) ## fittest is m4a
+anova(m2a,m4b) ## fittest is m2a
+
+summary(m4a)
+
+## "Credibility"的反應資料加入知識信念顯著提高解釋力，加入科學活動經驗顯著提高解釋力
+```
+
+#### 知識背景影響分析：內容真實性評估
+
+
+```{r evaluate-belief}
+# Model Tests Interindividuell Differences
+
+## Ability to Evaluate
+
+# Random Intercept
+
+
+m00 <- lmer(response ~ NH + OSA +(1 | Text_id), data = subset(df_Post_ext, Topic == 
+"Veracity"))
+
+m1<- lmer(response ~(1 | Text_id) + NH + OSA +  (1 | jatosStudyResultId), subset(df_Post_ext, Topic == "Veracity"))
+
+
+H4_1 <- (anova(m00, m1) %>% # Random Intercept Participant 
+dplyr::select("Chisq":"Pr(>Chisq)"))[-1,]
+
+
+anova(m00, m1) # fittest is m1
+
+# Random Slopes
+## 決定未加入個別差異因素的最佳模型
+
+m2a <- lmer(response ~(1 | Text_id) + NH + OSA +   (OSA | jatosStudyResultId), data = subset(df_Post_ext, Topic == "Veracity"))
+
+m2b <- lmer(response ~(1 | Text_id) + NH + OSA +   (NH | jatosStudyResultId), data = subset(df_Post_ext, Topic == "Veracity"), REML = F)
+
+summary(m2b)
+
+H4_2 <- (anova(m2a, m1) %>% 	# Random Slope OSA by Participant 
+dplyr::select("Chisq":"Pr(>Chisq)"))[-1,]
+
+H4_3 <- (anova(m2b, m1)%>% 	# Random Slope No Subheadings by Participant 
+dplyr::select("Chisq":"Pr(>Chisq)"))[-1,] 
+
+anova(m2a,m1) ## fittest is m1
+anova(m2b,m1) ## fittest is m1
+
+summary(m1)
+
+## 評估知識信念
+
+m3a <- lmer(response ~(1 | Text_id) + NH+ OSA + JA + PJ + MS +   (1 | jatosStudyResultId), data = subset(df_Post_ext, Topic == "Veracity"))
+m3b <- lmer(response ~(1 | Text_id) + NH+ OSA * JA   + OSA * PJ + OSA * MS +   (1 | jatosStudyResultId), data = subset(df_Post_ext, Topic == "Veracity"))
+
+H4_4 <- (anova(m1,m3a) %>% # Justification Beliefs on Random Intercept 	
+dplyr::select("Chisq":"Pr(>Chisq)"))[-1,]
+
+H4_5 <- (anova(m1,m3b) %>% # Justification Beliefs on Random Slope OSA 	
+dplyr::select("Chisq":"Pr(>Chisq)"))[-1,]
+
+
+
+anova(m1,m3a) ## fittest is m3a
+anova(m1,m3b) ## fittest is m3b
+anova(m3a,m3b) ## fittest is m3b
+
+
+summary(m3b)
+
+## 評估科學活動經驗
+
+m4a <- lmer(response ~(1 | Text_id) + NH+ OSA + ability + familiarity +  (1 | jatosStudyResultId), data = subset(df_Post_ext, Topic == "Veracity"))
+m4b <- lmer(response ~(1 | Text_id) + NH+ OSA * ability +  OSA * familiarity + (1 | jatosStudyResultId), data = subset(df_Post_ext, Topic == "Veracity"))
+
+H4_6 <- (anova(m1,m4a) %>% # 科學活動 on Random Intercept 	
+dplyr::select("Chisq":"Pr(>Chisq)"))[-1,]
+
+H4_7 <- (anova(m1,m4b) %>% # 科學活動 on Random Slope OSA 	
+dplyr::select("Chisq":"Pr(>Chisq)"))[-1,]
+
+H4_ratio_tests <- bind_rows(H4_1,H4_2,H4_3,H4_4,H4_5,H4_6,H4_7) %>%
+  mutate(Likelihood_Ratio_Test)
+
+anova(m1,m4a) ## fittest is m4a
+anova(m1,m4b) ## fittest is m4b
+anova(m4a,m4b) ## fittest is m4a
+
+summary(m4a)
+
+
+## "Veracity"的反應資料加入知識信念顯著提高解釋力，加入科學活動經驗顯著提高解釋力
+
+```
+
+#### 知識背景影響分析：資訊充足度評估
+
+
+```{r decision-belief}
+# Model Tests Interindividuell Differences
+## Decision
+
+## 決定未加入個別差異因素的最佳模型
+
+# Random Intercepts
+
+m00 <- lmer(response ~ NH + OSA +(1 | Text_id), data = subset(df_Post_ext, Topic == "Decision"))
+
+m1 <- lmer(response ~(1 | Text_id) + NH + OSA +  (1 | jatosStudyResultId), subset(df_Post_ext, Topic == "Decision"))
+
+
+H5_1 <- (anova(m00, m1) %>% # Random Intercept Participant 
+dplyr::select("Chisq":"Pr(>Chisq)"))[-1,]
+
+
+anova(m00, m1)  ## fittest is m1
+
+# Random Slopes
+
+m2a <- lmer(response ~(1 | Text_id) + NH + OSA +   (OSA | jatosStudyResultId), data = subset(df_Post_ext, Topic == "Decision"))
+
+
+m2b <- lmer(response ~(1 | Text_id) + NH + OSA +   (NH | jatosStudyResultId), data = subset(df_Post_ext, Topic == "Decision"), REML = F)
+#summary(m2b)
+
+
+H5_2 <- (anova(m2a, m1) %>% 	# Random Slope OSA by Participant 
+dplyr::select("Chisq":"Pr(>Chisq)"))[-1,]
+
+H5_3 <- (anova(m2b, m1)%>% 	# Random Slope No Subheadings by Participant 
+dplyr::select("Chisq":"Pr(>Chisq)"))[-1,] 
+
+anova(m2a, m1) ## fittest is m1
+anova(m2b, m1) ## fittest is m1
+anova(m2a, m2b) ## fittest is m2a m2b
+
+
+## 評估知識信念
+
+
+m3a <- lmer(response ~(1 | Text_id) + NH+ OSA + JA + PJ + MS +   (1 | jatosStudyResultId), data = subset(df_Post_ext, Topic == "Decision"))
+m3b <- lmer(response ~(1 | Text_id) + NH+ OSA * JA   + OSA * PJ + OSA * MS +   (1 | jatosStudyResultId), data = subset(df_Post_ext, Topic == "Decision"))
+
+H5_4 <- (anova(m1,m3a) %>% # Justification Beliefs on Random Intercept 	
+dplyr::select("Chisq":"Pr(>Chisq)"))[-1,]
+
+H5_5 <- (anova(m1,m3b) %>% # Justification Beliefs on Random Slope OSA 	
+dplyr::select("Chisq":"Pr(>Chisq)"))[-1,]
+
+anova(m1,m3a) ## fittest is m3a
+anova(m1,m3b) ## fittest is m3b 
+anova(m3a,m3b) ## fittest is m3a
+
+summary(m3a)
+
+
+## 評估科學活動經驗
+
+m4a <- lmer(response ~(1 | Text_id) + NH+ OSA + ability + familiarity +  (1 | jatosStudyResultId), data = subset(df_Post_ext, Topic == "Decision"))
+m4b <- lmer(response ~(1 | Text_id) + NH+ OSA * ability +  OSA * familiarity + (1 | jatosStudyResultId), data = subset(df_Post_ext, Topic == "Decision"))
+
+H5_6 <- (anova(m1,m4a) %>% # 科學活動 on Random Intercept 	
+dplyr::select("Chisq":"Pr(>Chisq)"))[-1,]
+
+H5_7 <- (anova(m1,m4b) %>% # 科學活動 on Random Slope OSA 	
+dplyr::select("Chisq":"Pr(>Chisq)"))[-1,]
+
+
+H5_ratio_tests <- bind_rows(H5_1,H5_2,H5_3,H5_4,H5_5,H5_6,H5_7) %>%
+  mutate(Likelihood_Ratio_Test)
+
+anova(m1,m4a) ## fittest is m3a
+anova(m1,m4b) ## fittest is m3a
+
+
+## "Decision"的反應資料加入知識信念有最高解釋力，加入科學活動經驗不影響解釋力
+```
+
+## 表
+
+```{r table}
+
+table <- (tb_Post %>%
+  pivot_wider(names_from = article_type, values_from = c(M,SD)))[,c(1,2,4,7,5,8,3,6)]
+
+
+Topic = c("Comprehensibility","Credibility","Veracity","Decision","Scientificness","Access")
+
+ICC_Participants = c(H1_participant_icc,H3_participant_icc,H4_participant_icc,H5_participant_icc,Scientificness_participant_icc,Access_participant_icc)
+
+ICC_Study = c(H1_study_icc,H3_study_icc,H4_study_icc,H5_study_icc,Scientificness_study_icc,Access_study_icc)
+
+ICC_table <- tibble(
+  Topic = Topic,
+  ICC_Participants = ICC_Participants,
+  ICC_Study = ICC_Study)
+
+table3 <- left_join(ICC_table, table, by = "Topic") 
+
+
+table6 <- left_join(H1_ratio_tests, H3_ratio_tests, by = "Likelihood_Ratio_Test") %>%
+  left_join(H4_ratio_tests, by = "Likelihood_Ratio_Test") %>%
+  left_join(H5_ratio_tests, by = "Likelihood_Ratio_Test")
+
+
+```
+
+`r knitr::kable(table3 )`
