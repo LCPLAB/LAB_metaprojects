@@ -816,9 +816,11 @@ bind_rows(test_m1,
 ## Random Intercept
 
 m0a <- glmer(score ~ NH + OSA +(1 | Test_id), data = df_knowledge_ext, family = binomial("logit"))
+
 m0b <- glmer(score ~ NH + OSA + (1 | Test_id) + (1 | jatosStudyResultId), data = df_knowledge_ext, family = binomial("logit"))
 
 anova(m0a, m0b) # fittest is m0a
+
 
 
 ## Random Slopes
@@ -828,6 +830,11 @@ m1b <- glmer(score ~ NH + OSA + (1 | Test_id) + (NH | jatosStudyResultId), data 
 
 anova(m0a,m1a) ## fittest is m0a
 anova(m0a,m1b) ## fittest is m0a
+
+### addional analysis
+anova(m0b,m1a)
+anova(m0b,m1b)
+
 
 ## 評估知識信念
 
