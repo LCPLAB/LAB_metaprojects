@@ -850,6 +850,8 @@ test_m4b <- test_m4b[c("statistic","df","p.value")] %>% as.data.frame() %>% roun
 ## "Comprehensibility"的反應資料加入知識信念有最高解釋力，加入科學活動經驗不影響解釋力
 summary(m1)
 summary(m3a)
+summary(m3b)
+
 
 explore_table_Comprehensibility <- bind_cols(
   Parameters = c(
@@ -980,6 +982,7 @@ m4b <- lmer(response ~(1 | Text_id) + NH+ OSA * ability +  OSA * familiarity + (
 
 anova(m2a,m4a) ## fittest is m4a
 anova(m2a,m4b) ## fittest is m2a
+anova(m4a,m4b)
 
 summary(m4a)
 
@@ -1100,9 +1103,9 @@ m4a <- lmer(response ~(1 | Text_id) + NH+ OSA + ability + familiarity +  (1 | ja
 m4b <- lmer(response ~(1 | Text_id) + NH+ OSA * ability +  OSA * familiarity + (1 | jatosStudyResultId), data = subset(df_Post_ext, Topic == "Decision"))
 
 
-anova(m1,m4a) ## fittest is m3a
-anova(m1,m4b) ## fittest is m3a
-
+anova(m1,m4a) ## fittest is m4a
+anova(m1,m4b) ## fittest is m4b
+anova(m4a,m4b)
 
 ## "Decision"的反應資料加入知識信念有最高解釋力，加入科學活動經驗不影響解釋力
 ```
