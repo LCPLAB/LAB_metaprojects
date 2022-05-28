@@ -485,28 +485,28 @@ summary(test, test = adjusted("none"))
 
 ## 計算參與者單位及文章單位的組內相關程度ICC
 
-m0 <- lmer(response ~ (1 | jatosStudyResultId), data = subset(df_Post, Topic == "Credibility"))
-m00 <- lmer(response ~ (1 | Test_id), data = subset(df_Post, Topic == "Credibility"))
+cre_m0 <- lmer(response ~ (1 | jatosStudyResultId), data = subset(df_Post, Topic == "Credibility"))
+cre_m00 <- lmer(response ~ (1 | Test_id), data = subset(df_Post, Topic == "Credibility"))
 
-summary(m0)
-performance::icc(m0)
+summary(cre_m0)
+performance::icc(cre_m0)
 
-summary(m00)
-performance::icc(m00)
+summary(cre_m00)
+performance::icc(cre_m00)
 
 ## 確認最適模型
 
-m1 <- lmer(response ~ (1 | jatosStudyResultId) + article_type + (1 | Text_id), data = subset(df_Post, Topic == "Credibility"))
+cre_m1 <- lmer(response ~ (1 | jatosStudyResultId) + article_type + (1 | Text_id), data = subset(df_Post, Topic == "Credibility"))
 
-anova(m0, m1)  ## fittest is m1
+anova(cre_m0, cre_m1)  ## fittest is m1
 
 
-summary(m1)
+summary(cre_m1)
 
 
 ## 文章型態多重比較
 
-test = glht(m1,linfct=mcp(article_type="Tukey"))
+test = glht(cre_m1,linfct=mcp(article_type="Tukey"))
 summary(test, test = adjusted("none"))
 
 ```
@@ -598,6 +598,11 @@ Kerwer et al.(2021)發現科學性與來源可信度有高相關性(r > .77)，�
 
 
 ```{r scientificness-stat}
+# Correlation of credibility and Scientificness
+cor_result <- cor.test( unlist(subset(df_Post, Topic == "Credibility")[,"response"]), unlist(subset(df_Post, Topic == "Scientificness")[,"response"]))
+
+cor_result
+
 # Exploratory
 
 ## Scientificness
@@ -605,28 +610,33 @@ Kerwer et al.(2021)發現科學性與來源可信度有高相關性(r > .77)，�
 
 ## 計算參與者單位及文章單位的組內相關程度ICC
 
-m0 <- lmer(response ~ (1 | jatosStudyResultId), data = subset(df_Post, Topic == "Scientificness"))
-m00 <- lmer(response ~ (1 | Test_id), data = subset(df_Post, Topic == "Scientificness"))
+sci_m0 <- lmer(response ~ (1 | jatosStudyResultId), data = subset(df_Post, Topic == "Scientificness"))
+sci_m00 <- lmer(response ~ (1 | Test_id), data = subset(df_Post, Topic == "Scientificness"))
+sci_m0a <- lmer(response ~ (1 | jatosStudyResultId) + (1 | Test_id), data = subset(df_Post, Topic == "Scientificness"))
 
-summary(m0)
-performance::icc(m0)
+summary(sci_m0)
+performance::icc(sci_m0)
 
-summary(m00)
-performance::icc(m00)
+summary(sci_m00)
+performance::icc(sci_m00)
+
+##AIC(sci_m00) < AIC(sci_m0) # FALSE
+##AIC(sci_m0a) < AIC(sci_m0) # TRUE
 
 
 ## 確認最適模型
 
 
-m1 <- lmer(response ~ (1 | jatosStudyResultId) + article_type + (1 | Text_id), data = subset(df_Post, Topic == "Scientificness"))
- 
-anova(m0,m1)  ## fittest is m1
+sci_m1 <- lmer(response ~ (1 | jatosStudyResultId) + article_type + (1 | Text_id), data = subset(df_Post, Topic == "Scientificness"))
 
-summary(m1)
+
+anova(sci_m0a,sci_m1)  ## fittest is m1
+
+summary(sci_m1)
 
 
 ## 文章型態多重比較
-test = glht(m1,linfct=mcp(article_type="Tukey"))
+test = glht(sci_m1,linfct=mcp(article_type="Tukey"))
 summary(test, test = adjusted("none"))
 
 ```

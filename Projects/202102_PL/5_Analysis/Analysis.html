@@ -11,7 +11,7 @@
 
 <meta name="author" content="LCP lab" />
 
-<meta name="date" content="2022-05-18" />
+<meta name="date" content="2022-05-28" />
 
 <title>Analysis ~ Replication study of Kerwer et al.(2020)</title>
 
@@ -259,7 +259,7 @@ div.tocify {
 
 <h1 class="title toc-ignore">Analysis ~ Replication study of Kerwer et al.(2020)</h1>
 <h4 class="author">LCP lab</h4>
-<h4 class="date">2022-05-18</h4>
+<h4 class="date">2022-05-28</h4>
 
 </div>
 
@@ -1064,10 +1064,10 @@ summary(test, test = adjusted(&quot;none&quot;))</code></pre>
 
 ## 計算參與者單位及文章單位的組內相關程度ICC
 
-m0 &lt;- lmer(response ~ (1 | jatosStudyResultId), data = subset(df_Post, Topic == &quot;Credibility&quot;))
-m00 &lt;- lmer(response ~ (1 | Test_id), data = subset(df_Post, Topic == &quot;Credibility&quot;))
+cre_m0 &lt;- lmer(response ~ (1 | jatosStudyResultId), data = subset(df_Post, Topic == &quot;Credibility&quot;))
+cre_m00 &lt;- lmer(response ~ (1 | Test_id), data = subset(df_Post, Topic == &quot;Credibility&quot;))
 
-summary(m0)</code></pre>
+summary(cre_m0)</code></pre>
 <pre><code>## Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [
 ## lmerModLmerTest]
 ## Formula: response ~ (1 | jatosStudyResultId)
@@ -1090,12 +1090,12 @@ summary(m0)</code></pre>
 ## (Intercept)   5.32222    0.07235 149.00000   73.56   &lt;2e-16 ***
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
-<pre class="r"><code>performance::icc(m0)</code></pre>
+<pre class="r"><code>performance::icc(cre_m0)</code></pre>
 <pre><code>## # Intraclass Correlation Coefficient
 ## 
 ##      Adjusted ICC: 0.370
 ##   Conditional ICC: 0.370</code></pre>
-<pre class="r"><code>summary(m00)</code></pre>
+<pre class="r"><code>summary(cre_m00)</code></pre>
 <pre><code>## Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [
 ## lmerModLmerTest]
 ## Formula: response ~ (1 | Test_id)
@@ -1118,26 +1118,26 @@ summary(m0)</code></pre>
 ## (Intercept)  5.33517    0.05593 10.35602   95.38   &lt;2e-16 ***
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
-<pre class="r"><code>performance::icc(m00)</code></pre>
+<pre class="r"><code>performance::icc(cre_m00)</code></pre>
 <pre><code>## # Intraclass Correlation Coefficient
 ## 
 ##      Adjusted ICC: 0.014
 ##   Conditional ICC: 0.014</code></pre>
 <pre class="r"><code>## 確認最適模型
 
-m1 &lt;- lmer(response ~ (1 | jatosStudyResultId) + article_type + (1 | Text_id), data = subset(df_Post, Topic == &quot;Credibility&quot;))
+cre_m1 &lt;- lmer(response ~ (1 | jatosStudyResultId) + article_type + (1 | Text_id), data = subset(df_Post, Topic == &quot;Credibility&quot;))
 
-anova(m0, m1)  ## fittest is m1</code></pre>
+anova(cre_m0, cre_m1)  ## fittest is m1</code></pre>
 <pre><code>## Data: subset(df_Post, Topic == &quot;Credibility&quot;)
 ## Models:
-## m0: response ~ (1 | jatosStudyResultId)
-## m1: response ~ (1 | jatosStudyResultId) + article_type + (1 | Text_id)
-##    npar    AIC    BIC  logLik deviance  Chisq Df Pr(&gt;Chisq)    
-## m0    3 5711.0 5727.5 -2852.5   5705.0                         
-## m1    6 5624.7 5657.7 -2806.3   5612.7 92.282  3  &lt; 2.2e-16 ***
+## cre_m0: response ~ (1 | jatosStudyResultId)
+## cre_m1: response ~ (1 | jatosStudyResultId) + article_type + (1 | Text_id)
+##        npar    AIC    BIC  logLik deviance  Chisq Df Pr(&gt;Chisq)    
+## cre_m0    3 5711.0 5727.5 -2852.5   5705.0                         
+## cre_m1    6 5624.7 5657.7 -2806.3   5612.7 92.282  3  &lt; 2.2e-16 ***
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
-<pre class="r"><code>summary(m1)</code></pre>
+<pre class="r"><code>summary(cre_m1)</code></pre>
 <pre><code>## Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [
 ## lmerModLmerTest]
 ## Formula: response ~ (1 | jatosStudyResultId) + article_type + (1 | Text_id)
@@ -1170,7 +1170,7 @@ anova(m0, m1)  ## fittest is m1</code></pre>
 ## artc_PLS_NH -0.289  0.500</code></pre>
 <pre class="r"><code>## 文章型態多重比較
 
-test = glht(m1,linfct=mcp(article_type=&quot;Tukey&quot;))
+test = glht(cre_m1,linfct=mcp(article_type=&quot;Tukey&quot;))
 summary(test, test = adjusted(&quot;none&quot;))</code></pre>
 <pre><code>## 
 ##   Simultaneous Tests for General Linear Hypotheses
@@ -1467,6 +1467,21 @@ summary(test, test = adjusted(&quot;none&quot;))</code></pre>
 <h3>內容科學性評估</h3>
 <p>對於摘要內容的科學性</p>
 <p>Kerwer et al.(2021)發現科學性與來源可信度有高相關性(r &gt; .77)，故論文未報告科學性分析，分析腳本保存科學性的文本比較。</p>
+<pre class="r"><code># Correlation of credibility and Scientificness
+cor_result &lt;- cor.test( unlist(subset(df_Post, Topic == &quot;Credibility&quot;)[,&quot;response&quot;]), unlist(subset(df_Post, Topic == &quot;Scientificness&quot;)[,&quot;response&quot;]))
+
+cor_result</code></pre>
+<pre><code>## 
+##  Pearson&#39;s product-moment correlation
+## 
+## data:  unlist(subset(df_Post, Topic == &quot;Credibility&quot;)[, &quot;response&quot;]) and unlist(subset(df_Post, Topic == &quot;Scientificness&quot;)[, &quot;response&quot;])
+## t = 55.663, df = 1798, p-value &lt; 2.2e-16
+## alternative hypothesis: true correlation is not equal to 0
+## 95 percent confidence interval:
+##  0.7778650 0.8118432
+## sample estimates:
+##       cor 
+## 0.7954785</code></pre>
 <pre class="r"><code># Exploratory
 
 ## Scientificness
@@ -1474,10 +1489,11 @@ summary(test, test = adjusted(&quot;none&quot;))</code></pre>
 
 ## 計算參與者單位及文章單位的組內相關程度ICC
 
-m0 &lt;- lmer(response ~ (1 | jatosStudyResultId), data = subset(df_Post, Topic == &quot;Scientificness&quot;))
-m00 &lt;- lmer(response ~ (1 | Test_id), data = subset(df_Post, Topic == &quot;Scientificness&quot;))
+sci_m0 &lt;- lmer(response ~ (1 | jatosStudyResultId), data = subset(df_Post, Topic == &quot;Scientificness&quot;))
+sci_m00 &lt;- lmer(response ~ (1 | Test_id), data = subset(df_Post, Topic == &quot;Scientificness&quot;))
+sci_m0a &lt;- lmer(response ~ (1 | jatosStudyResultId) + (1 | Test_id), data = subset(df_Post, Topic == &quot;Scientificness&quot;))
 
-summary(m0)</code></pre>
+summary(sci_m0)</code></pre>
 <pre><code>## Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [
 ## lmerModLmerTest]
 ## Formula: response ~ (1 | jatosStudyResultId)
@@ -1500,12 +1516,12 @@ summary(m0)</code></pre>
 ## (Intercept)   5.32389    0.06767 148.99998   78.67   &lt;2e-16 ***
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
-<pre class="r"><code>performance::icc(m0)</code></pre>
+<pre class="r"><code>performance::icc(sci_m0)</code></pre>
 <pre><code>## # Intraclass Correlation Coefficient
 ## 
 ##      Adjusted ICC: 0.301
 ##   Conditional ICC: 0.301</code></pre>
-<pre class="r"><code>summary(m00)</code></pre>
+<pre class="r"><code>summary(sci_m00)</code></pre>
 <pre><code>## Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [
 ## lmerModLmerTest]
 ## Formula: response ~ (1 | Test_id)
@@ -1528,27 +1544,32 @@ summary(m0)</code></pre>
 ## (Intercept)  5.34158    0.06112 11.17514   87.39   &lt;2e-16 ***
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
-<pre class="r"><code>performance::icc(m00)</code></pre>
+<pre class="r"><code>performance::icc(sci_m00)</code></pre>
 <pre><code>## # Intraclass Correlation Coefficient
 ## 
 ##      Adjusted ICC: 0.017
 ##   Conditional ICC: 0.017</code></pre>
-<pre class="r"><code>## 確認最適模型
+<pre class="r"><code>##AIC(sci_m00) &lt; AIC(sci_m0) # FALSE
+##AIC(sci_m0a) &lt; AIC(sci_m0) # TRUE
 
 
-m1 &lt;- lmer(response ~ (1 | jatosStudyResultId) + article_type + (1 | Text_id), data = subset(df_Post, Topic == &quot;Scientificness&quot;))
- 
-anova(m0,m1)  ## fittest is m1</code></pre>
+## 確認最適模型
+
+
+sci_m1 &lt;- lmer(response ~ (1 | jatosStudyResultId) + article_type + (1 | Text_id), data = subset(df_Post, Topic == &quot;Scientificness&quot;))
+
+
+anova(sci_m0a,sci_m1)  ## fittest is m1</code></pre>
 <pre><code>## Data: subset(df_Post, Topic == &quot;Scientificness&quot;)
 ## Models:
-## m0: response ~ (1 | jatosStudyResultId)
-## m1: response ~ (1 | jatosStudyResultId) + article_type + (1 | Text_id)
-##    npar    AIC    BIC  logLik deviance  Chisq Df Pr(&gt;Chisq)    
-## m0    3 5907.2 5923.7 -2950.6   5901.2                         
-## m1    6 5789.6 5822.6 -2888.8   5777.6 123.59  3  &lt; 2.2e-16 ***
+## sci_m0a: response ~ (1 | jatosStudyResultId) + (1 | Test_id)
+## sci_m1: response ~ (1 | jatosStudyResultId) + article_type + (1 | Text_id)
+##         npar    AIC    BIC  logLik deviance  Chisq Df Pr(&gt;Chisq)    
+## sci_m0a    4 5899.8 5921.8 -2945.9   5891.8                         
+## sci_m1     6 5789.6 5822.6 -2888.8   5777.6 114.19  2  &lt; 2.2e-16 ***
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
-<pre class="r"><code>summary(m1)</code></pre>
+<pre class="r"><code>summary(sci_m1)</code></pre>
 <pre><code>## Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [
 ## lmerModLmerTest]
 ## Formula: response ~ (1 | jatosStudyResultId) + article_type + (1 | Text_id)
@@ -1580,7 +1601,7 @@ anova(m0,m1)  ## fittest is m1</code></pre>
 ## artcl_tyPLS -0.270       
 ## artc_PLS_NH -0.270  0.500</code></pre>
 <pre class="r"><code>## 文章型態多重比較
-test = glht(m1,linfct=mcp(article_type=&quot;Tukey&quot;))
+test = glht(sci_m1,linfct=mcp(article_type=&quot;Tukey&quot;))
 summary(test, test = adjusted(&quot;none&quot;))</code></pre>
 <pre><code>## 
 ##   Simultaneous Tests for General Linear Hypotheses
@@ -1959,6 +1980,7 @@ bind_rows(test_m1,
 ## Random Intercept
 
 m0a &lt;- glmer(score ~ NH + OSA +(1 | Test_id), data = df_knowledge_ext, family = binomial(&quot;logit&quot;))
+
 m0b &lt;- glmer(score ~ NH + OSA + (1 | Test_id) + (1 | jatosStudyResultId), data = df_knowledge_ext, family = binomial(&quot;logit&quot;))
 
 anova(m0a, m0b) # fittest is m0a</code></pre>
@@ -1990,6 +2012,23 @@ anova(m0a,m1a) ## fittest is m0a</code></pre>
 ##     npar    AIC    BIC  logLik deviance  Chisq Df Pr(&gt;Chisq)
 ## m0a    4 3758.4 3782.9 -1875.2   3750.4                     
 ## m1b    7 3763.1 3805.9 -1874.6   3749.1 1.3097  3     0.7268</code></pre>
+<pre class="r"><code>### addional analysis
+anova(m0b,m1a)</code></pre>
+<pre><code>## Data: df_knowledge_ext
+## Models:
+## m0b: score ~ NH + OSA + (1 | Test_id) + (1 | jatosStudyResultId)
+## m1a: score ~ NH + OSA + (1 | Test_id) + (OSA | jatosStudyResultId)
+##     npar    AIC    BIC  logLik deviance  Chisq Df Pr(&gt;Chisq)
+## m0b    5 3759.1 3789.7 -1874.6   3749.1                     
+## m1a    7 3762.8 3805.5 -1874.4   3748.8 0.3711  2     0.8307</code></pre>
+<pre class="r"><code>anova(m0b,m1b)</code></pre>
+<pre><code>## Data: df_knowledge_ext
+## Models:
+## m0b: score ~ NH + OSA + (1 | Test_id) + (1 | jatosStudyResultId)
+## m1b: score ~ NH + OSA + (1 | Test_id) + (NH | jatosStudyResultId)
+##     npar    AIC    BIC  logLik deviance Chisq Df Pr(&gt;Chisq)
+## m0b    5 3759.1 3789.7 -1874.6   3749.1                    
+## m1b    7 3763.1 3805.9 -1874.6   3749.1 7e-04  2     0.9996</code></pre>
 <pre class="r"><code>## 評估知識信念
 
 m2 &lt;- glmer(score ~ (1 | Test_id) + NH + OSA + PJ + JA + MS, data = df_knowledge_ext, family = binomial(&quot;logit&quot;))
