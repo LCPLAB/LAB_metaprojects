@@ -721,6 +721,10 @@ test_m1 <- anova(m00, m1) %>% broom::tidy() %>%
 
 test_m1 <- test_m1[c("statistic","df","p.value")] %>% as.data.frame() %>% round(3)
 
+H1_1 <- (anova(m00, m1) %>% # Random Intercept Participant 
+ dplyr::select("Chisq":"Pr(>Chisq)"))[-1,]
+
+
 # Random Slopes
 
 m2a <- lmer(response ~(1 | Text_id) + NH + OSA +   (OSA | jatosStudyResultId), data = subset(df_Post_ext, Topic == "Comprehensibility"))
