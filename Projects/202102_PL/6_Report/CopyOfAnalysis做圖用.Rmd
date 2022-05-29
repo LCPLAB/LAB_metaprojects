@@ -710,7 +710,9 @@ m1 <- lmer(response ~(1 | Text_id) + NH + OSA +  (1 | jatosStudyResultId), subse
 anova(m00, m1)  ## fittest is m1
 
 H1_1 <- (anova(m00, m1) %>% # Random Intercept Participant 
-dplyr::select("Chisq":"Pr(>Chisq)"))[-1,]
+ dplyr::select("Chisq":"Pr(>Chisq)"))[-1,]
+
+H1_1
 
 # Random Slopes
 

@@ -598,6 +598,7 @@ Kerwer et al.(2021)發現科學性與來源可信度有高相關性(r > .77)，�
 
 
 ```{r scientificness-stat}
+
 # Exploratory
 
 ## Scientificness
@@ -921,7 +922,7 @@ summary(m4a)
 ## "Credibility"的反應資料加入知識信念顯著提高解釋力，加入科學活動經驗顯著提高解釋力
 ```
 
-#### 知識背景影響分析：內容真實性評估
+### 知識背景影響分析：內容真實性評估
 
 
 ```{r evaluate-belief}
@@ -983,7 +984,7 @@ summary(m4a)
 
 ```
 
-#### 知識背景影響分析：資訊充足度評估
+### 知識背景影響分析：資訊充足度評估
 
 
 ```{r decision-belief}
