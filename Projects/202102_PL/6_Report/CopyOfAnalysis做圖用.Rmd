@@ -618,7 +618,7 @@ Scientificness_participant_icc <- (performance::icc(m0) %>% unlist())[1]
 summary(m00)
 performance::icc(m00)
 
-Scientificness_study_icc <- (performance::icc(m00) %>% unlist())[1] ## retrieve study icc
+Scientificness_study_icc <- (performance::icc(m00) %>% unlist())[1]
 
 
 ## 確認最適模型
@@ -645,6 +645,13 @@ summary(test, test = adjusted("none"))
 
 ## Full Text Access
 
+Access <- df_Post %>% 
+  filter(Topic == "Access") %>%
+#  group_by(article_type) %>%
+  summarise(percent = sum(response)/n(),
+            n = n(),
+            yes = sum(response))
+  
 
 ## 確認最適模型
 m0 <- glmer(response ~ (1 | jatosStudyResultId), family = binomial("logit"), data = subset(df_Post, Topic == "Access"))
@@ -707,7 +714,12 @@ m00 <- lmer(response ~ NH + OSA +(1 | Text_id), data = subset(df_Post_ext, Topic
 
 m1 <- lmer(response ~(1 | Text_id) + NH + OSA +  (1 | jatosStudyResultId), subset(df_Post_ext, Topic == "Comprehensibility"))
 
-anova(m00, m1)  ## fittest is m1
+anova(m00, m1) ## fittest is m1
+
+test_m1 <- anova(m00, m1) %>% broom::tidy() %>%
+  filter(term == "m1")
+
+test_m1 <- test_m1[c("statistic","df","p.value")] %>% as.data.frame() %>% round(2)
 
 H1_1 <- (anova(m00, m1) %>% # Random Intercept Participant 
  dplyr::select("Chisq":"Pr(>Chisq)"))[-1,]
@@ -722,15 +734,23 @@ m2a <- lmer(response ~(1 | Text_id) + NH + OSA +   (OSA | jatosStudyResultId), d
 m2b <- lmer(response ~(1 | Text_id) + NH + OSA +   (NH | jatosStudyResultId), data = subset(df_Post_ext, Topic == "Comprehensibility"), REML = F)
 #summary(m2b)
 
-H1_2 <- (anova(m2a, m1) %>% 	# Random Slope OSA by Participant 
-dplyr::select("Chisq":"Pr(>Chisq)"))[-1,]
 
-H1_3 <- (anova(m2b, m1)%>% 	# Random Slope No Subheadings by Participant 
-dplyr::select("Chisq":"Pr(>Chisq)"))[-1,] 
 
 anova(m2a, m1) ## fittest is m1
 anova(m2b, m1) ## fittest is m1
-#summary(m1)
+
+
+test_m2a <- anova(m2a, m1) %>% broom::tidy() %>%
+  filter(term == "m2a")
+
+test_m2a <- test_m2a[c("statistic","df","p.value")] %>% as.data.frame() %>% round(2)
+
+test_m2b <- anova(m2b, m1) %>% broom::tidy() %>%
+  filter(term == "m2b")
+
+test_m2b <- test_m2b[c("statistic","df","p.value")] %>% as.data.frame() %>% round(2)
+
+
 
 ## 評估知識信念
 
@@ -738,15 +758,22 @@ anova(m2b, m1) ## fittest is m1
 m3a <- lmer(response ~(1 | Text_id) + NH+ OSA + JA + PJ + MS +   (1 | jatosStudyResultId), data = subset(df_Post_ext, Topic == "Comprehensibility"))
 m3b <- lmer(response ~(1 | Text_id) + NH+ OSA * JA   + OSA * PJ + OSA * MS +   (1 | jatosStudyResultId), data = subset(df_Post_ext, Topic == "Comprehensibility"))
 
-H1_4 <- (anova(m1,m3a) %>% # Justification Beliefs on Random Intercept 	
-dplyr::select("Chisq":"Pr(>Chisq)"))[-1,]
-
-H1_5 <- (anova(m3a,m3b) %>% # Justification Beliefs on Random Slope OSA 	
-dplyr::select("Chisq":"Pr(>Chisq)"))[-1,]
 
 anova(m1,m3a) ## fittest is m3a
 anova(m1,m3b) ## fittest is m3b 
 anova(m3a,m3b) ## fittest is m3a
+
+
+test_m3a <- anova(m3a, m1) %>% broom::tidy() %>%
+  filter(term == "m3a")
+
+test_m3a <- test_m3a[c("statistic","df","p.value")] %>% as.data.frame() %>% round(2)
+
+test_m3b <- anova(m3b, m1) %>% broom::tidy() %>%
+  filter(term == "m3b")
+
+test_m3b <- test_m3b[c("statistic","df","p.value")] %>% as.data.frame() %>% round(2)
+
 
 
 ## 評估科學活動經驗
@@ -754,26 +781,51 @@ anova(m3a,m3b) ## fittest is m3a
 m4a <- lmer(response ~(1 | Text_id) + NH+ OSA + ability + familiarity +  (1| jatosStudyResultId), data = subset(df_Post_ext, Topic == "Comprehensibility"))
 m4b <- lmer(response ~(1 | Text_id) + NH+ OSA * ability +  OSA * familiarity + (1| jatosStudyResultId), data = subset(df_Post_ext, Topic == "Comprehensibility"))
 
-H1_6 <- (anova(m1,m4a) %>% # 科學活動 on Random Intercept 	
-dplyr::select("Chisq":"Pr(>Chisq)"))[-1,]
-
-H1_7 <- (anova(m4a,m4b) %>% # 科學活動 on Random Slope OSA 	
-dplyr::select("Chisq":"Pr(>Chisq)"))[-1,]
-
-Likelihood_Ratio_Test = c("Random Intercept Participant","Random Slope OSA by Participant","Random Slope No Subheadings by Participant","Justification Beliefs on Random Intercept","Justification Beliefs on Random Slope OSA","科學活動 on Random Intercept","科學活動 on Random Slope OSA")
-
-H1_ratio_tests <- (bind_rows(H1_1,H1_2,H1_3,H1_4,H1_5,H1_6,H1_7) %>%
-  mutate(Likelihood_Ratio_Test))[,c(4,1,2,3)]
 
 anova(m1,m4a) ## fittest is m1, but m4a approach the fittest
 anova(m1,m4b) ## fittest is m1, but m4b approach the fittest
 anova(m4a,m4b) ## either m4a or m4b have equal fitness
 
+
+test_m4a <- anova(m4a, m1) %>% broom::tidy() %>%
+  filter(term == "m4a")
+
+test_m4a <- test_m4a[c("statistic","df","p.value")] %>% as.data.frame() %>% round(2)
+
+test_m4b <- anova(m4b, m1) %>% broom::tidy() %>%
+  filter(term == "m4b")
+
+test_m4b <- test_m4b[c("statistic","df","p.value")] %>% as.data.frame() %>% round(2)
+
+
 ## "Comprehensibility"的反應資料加入知識信念有最高解釋力，加入科學活動經驗不影響解釋力
 summary(m1)
 summary(m3a)
 
+explore_table_Comprehensibility <- bind_cols(
+  Parameters = c(
+    "Random Intercept Participant",
+    "Random Slope OSA by Participant",
+    "Random Slope No Subheadings by Participant",
+    "Justification Beliefs on Random Intercept",
+    "Justification Beliefs on Random Slope OSA",
+    "Research Experience on Random Intercept",
+    "Research Experience on Random Slope OSA"
+  ),
+bind_rows(test_m1,
+          test_m2a,
+          test_m2b,
+          test_m3a,
+          test_m3b,
+          test_m4a,
+          test_m4b)
+) %>%
+    mutate(p.value=if_else(p.value == 0 , "<.01",as.character(p.value)) ) %>%
+  rename(chisq=statistic, p = p.value)
+
 ```
+
+`r knitr::kable(explore_table_Comprehensibility )`
 
 
 ### 知識背景影響分析：理解測驗正確率
@@ -790,10 +842,13 @@ summary(m3a)
 m0a <- glmer(score ~ NH + OSA +(1 | Test_id), data = df_knowledge_ext, family = binomial("logit"))
 m0b <- glmer(score ~ NH + OSA + (1 | Test_id) + (1 | jatosStudyResultId), data = df_knowledge_ext, family = binomial("logit"))
 
-H2_1 <- (anova(m0a, m0b) %>%  #Random Intercept Participant 	
-dplyr::select("Chisq":"Pr(>Chisq)"))[-1,]
 
 anova(m0a, m0b) # fittest is m0a
+
+test_m0b <- anova(m0a, m0b) %>% broom::tidy() %>%
+  filter(term == "m0b")
+
+test_m0b <- test_m0b[c("statistic","df","p.value")] %>% as.data.frame() %>% round(2)
 
 
 ## Random Slopes
@@ -802,15 +857,19 @@ m1a <- glmer(score ~ NH + OSA +(1 | Test_id)+   (OSA | jatosStudyResultId), data
 
 m1b <- glmer(score ~ NH + OSA + (1 | Test_id) + (NH | jatosStudyResultId), data = df_knowledge_ext, family = binomial("logit"))
 
-H2_2 <- (anova(m0a, m1a) %>%  #Random Slope OSA by Participant  	
-dplyr::select("Chisq":"Pr(>Chisq)"))[-1,]
-
-H2_3 <- (anova(m0b, m1b)%>% 	# Random Slope No Subheadings by Participant 
-dplyr::select("Chisq":"Pr(>Chisq)"))[-1,] 
-
 
 anova(m0a,m1a) ## fittest is m0a
 anova(m0a,m1b) ## fittest is m0a
+
+test_m1a <- anova(m0a, m1a) %>% broom::tidy() %>%
+  filter(term == "m1a")
+
+test_m1a <- test_m1a[c("statistic","df","p.value")] %>% as.data.frame() %>% round(2)
+
+test_m1b <- anova(m0a, m1b) %>% broom::tidy() %>%
+  filter(term == "m1b")
+
+test_m1b <- test_m1b[c("statistic","df","p.value")] %>% as.data.frame() %>% round(2)
 
 ## 評估知識信念
 
@@ -819,19 +878,25 @@ m2 <- glmer(score ~ (1 | Test_id) + NH + OSA + PJ + JA + MS, data = df_knowledge
 
 anova(m0a, m2) # fittest is m2
 
-
 m2a <- glmer(score ~ (1 | Test_id) + NH + OSA + PJ + JA + MS + (OSA | jatosStudyResultId), data = df_knowledge_ext, family = binomial("logit"))
 
 m2b <- glmer(score ~(1 | Test_id) + NH+ OSA * JA   + OSA * PJ + OSA * MS +   (OSA | jatosStudyResultId), data = df_knowledge_ext, family = binomial("logit"))
 
-#H2_4 <- (anova(m2, m2a) %>% # Justification Beliefs on Random Intercept 	
-#dplyr::select("Chisq":"Pr(>Chisq)"))[-1,]
 
-#H2_5 <- (anova(m2,m2b) %>% # Justification Beliefs on Random Slope OSA 	
-#dplyr::select("Chisq":"Pr(>Chisq)"))[-1,]
 
 anova(m2,m2a)  ## fittest is m2
 anova(m2,m2b)  ## fittest is m2
+
+test_m2a <- anova(m2, m2a) %>% broom::tidy() %>%
+  filter(term == "m2a")
+
+test_m2a <- test_m2a[c("statistic","df","p.value")] %>% as.data.frame() %>% round(2)
+
+test_m2b <- anova(m2, m2b) %>% broom::tidy() %>%
+  filter(term == "m2b")
+
+test_m2b <- test_m2b[c("statistic","df","p.value")] %>% as.data.frame() %>% round(2)
+
 
 summary(m2)
 
@@ -839,21 +904,54 @@ summary(m2)
 ## 評估科學活動經驗
 m3 <- glmer(score ~ (1 | Test_id) + NH + OSA + ability + familiarity, data = df_knowledge_ext, family = binomial("logit"))
 
-H2_6 <- (anova(m0a,m3) %>% # 科學活動 on Random Intercept 	
-dplyr::select("Chisq":"Pr(>Chisq)"))[-1,]
-
-#H2_7 <- (anova(m4a,m4b) %>% # 科學活動 on Random Slope OSA 	
-#dplyr::select("Chisq":"Pr(>Chisq)"))[-1,]
-
 anova(m0a, m3) # fittest is m0
 
-#H2_ratio_tests <- bind_rows(H2_1,H2_2,H2_3,H2_4,H2_5,H2_6)%>%
-#  mutate(Likelihood_Ratio_Test)
+
+m3b <- glmer(score ~(1 | Test_id) + NH+ OSA * ability +  OSA * familiarity + (1| jatosStudyResultId), data = df_knowledge_ext, family = binomial("logit"))
+
+anova(m0a, m3b) 
+
+
+test_m3 <- anova(m0a, m3) %>% broom::tidy() %>%
+  filter(term == "m4a")
+
+test_m3 <- test_m3[c("statistic","df","p.value")] %>% as.data.frame() %>% round(2)
+
+test_m3b <- anova(m0a, m3b) %>% broom::tidy() %>%
+  filter(term == "m4b")
+
+test_m3b <- test_m3b[c("statistic","df","p.value")] %>% as.data.frame() %>% round(2)
 
 
 ## "Knowledge"的反應資料加入知識信念顯著提高解釋力，加入科學活動經驗不影響解釋力
+explore_table_Knowledge <- bind_cols(
+  Parameters = c(
+    "Random Intercept Participant",
+    "Random Slope OSA by Participant",
+    "Random Slope No Subheadings by Participant",
+    "Justification Beliefs on Random Intercept",
+    "Justification Beliefs on Random Slope OSA",
+    "Research Experience on Random Intercept",
+    "Research Experience on Random Slope OSA"
+  ),
+bind_rows(test_m0b,
+          test_m1a,
+          test_m1b,
+          test_m2a,
+          test_m2b,
+          test_m4a,
+          test_m4b
+)
+) %>%
+    mutate(p.value=if_else(p.value == 0 , "<.01",as.character(p.value)) ) %>%
+  rename(chisq=statistic, p = p.value)
+
 
 ```
+
+`r knitr::kable(explore_table_Knowledge)`
+
+
 
 ### 知識背景影響分析：來源可信度評估
 
@@ -873,10 +971,13 @@ m00 <- lmer(response ~ NH + OSA +(1 | Text_id), data = subset(df_Post_ext, Topic
 
 m1<- lmer(response ~(1 | Text_id) + NH + OSA +  (1 | jatosStudyResultId), subset(df_Post_ext, Topic == "Credibility"))
 
-H3_1 <- (anova(m00, m1) %>% # Random Intercept Participant 
-dplyr::select("Chisq":"Pr(>Chisq)"))[-1,]
-
 anova(m00, m1) ## fittest is m1
+
+test_m1 <- anova(m00, m1) %>% broom::tidy() %>%
+  filter(term == "m1")
+
+test_m1 <- test_m1[c("statistic","df","p.value")] %>% as.data.frame() %>% round(2)
+
 
 #Random Slopes
 
@@ -884,16 +985,32 @@ m2a <- lmer(response ~(1 | Text_id) + NH + OSA +   (OSA | jatosStudyResultId), d
 
 m2b <- lmer(response ~(1 | Text_id) + NH + OSA +   (NH | jatosStudyResultId), data = subset(df_Post_ext, Topic == "Credibility"), REML = F)
 
-H3_2 <- (anova(m2a, m1) %>% 	# Random Slope OSA by Participant 
-dplyr::select("Chisq":"Pr(>Chisq)"))[-1,]
-
-H3_3 <- (anova(m2b, m1)%>% 	# Random Slope No Subheadings by Participant 
-dplyr::select("Chisq":"Pr(>Chisq)"))[-1,] 
-
 
 anova(m1,m2a) ## fittest is m2a
 anova(m1,m2b) ## ftttest is m1
 anova(m2a,m2b) ## equal fitness
+
+test_m2a <- anova(m2a, m1) %>% broom::tidy() %>%
+  filter(term == "m2a")
+
+test_m2a <- test_m2a[c("statistic","df","p.value")] %>% as.data.frame() %>% round(2)
+
+test_m2b <- anova(m2b, m1) %>% broom::tidy() %>%
+  filter(term == "m2b")
+
+test_m2b <- test_m2b[c("statistic","df","p.value")] %>% as.data.frame() %>% round(2)
+
+
+test_m2a <- anova(m2a, m1) %>% broom::tidy() %>%
+  filter(term == "m2a")
+
+test_m2a <- test_m2a[c("statistic","df","p.value")] %>% as.data.frame() %>% round(2)
+
+test_m2b <- anova(m2b, m1) %>% broom::tidy() %>%
+  filter(term == "m2b")
+
+test_m2b <- test_m2b[c("statistic","df","p.value")] %>% as.data.frame() %>% round(2)
+
 
 summary(m2a)
 
@@ -902,17 +1019,21 @@ summary(m2a)
 m3a <- lmer(response ~(1 | Text_id) + NH+ OSA + JA + PJ + MS +   (OSA | jatosStudyResultId), data = subset(df_Post_ext, Topic == "Credibility"))
 m3b <- lmer(response ~(1 | Text_id) + NH+ OSA * JA   + OSA * PJ + OSA * MS +   (OSA | jatosStudyResultId), data = subset(df_Post_ext, Topic == "Credibility"))
 
-H3_4 <- (anova(m2a,m3a) %>% # Justification Beliefs on Random Intercept 	
-dplyr::select("Chisq":"Pr(>Chisq)"))[-1,]
-
-H3_5 <- (anova(m2a,m3b) %>% # Justification Beliefs on Random Slope OSA 	
-dplyr::select("Chisq":"Pr(>Chisq)"))[-1,]
-
 
 anova(m2a,m3a) ## fittest is m3a
 anova(m2a,m3b) ## fittest is m3b
 anova(m3a,m3b) ## fittest is m3a
 
+
+test_m3a <- anova(m2a, m3a) %>% broom::tidy() %>%
+  filter(term == "m3a")
+
+test_m3a <- test_m3a[c("statistic","df","p.value")] %>% as.data.frame() %>% round(2)
+
+test_m3b <- anova(m2a, m3b) %>% broom::tidy() %>%
+  filter(term == "m3b")
+
+test_m3b <- test_m3b[c("statistic","df","p.value")] %>% as.data.frame() %>% round(2)
 
 summary(m3a)
 
@@ -921,23 +1042,48 @@ summary(m3a)
 m4a <- lmer(response ~(1 | Text_id) + NH+ OSA + ability + familiarity +  (OSA | jatosStudyResultId), data = subset(df_Post_ext, Topic == "Credibility"))
 m4b <- lmer(response ~(1 | Text_id) + NH+ OSA * ability +  OSA * familiarity + (OSA | jatosStudyResultId), data = subset(df_Post_ext, Topic == "Credibility"))
 
-H3_6 <- (anova(m2a,m4a) %>% # 科學活動 on Random Intercept 	
-dplyr::select("Chisq":"Pr(>Chisq)"))[-1,]
-
-H3_7 <- (anova(m2a,m4b) %>% # 科學活動 on Random Slope OSA 	
-dplyr::select("Chisq":"Pr(>Chisq)"))[-1,]
-
-H3_ratio_tests <- bind_rows(H3_1,H3_2,H3_3,H3_4,H3_5,H3_6,H3_7) %>%
-  mutate(Likelihood_Ratio_Test)
-
-
 anova(m2a,m4a) ## fittest is m4a
 anova(m2a,m4b) ## fittest is m2a
+
+test_m4a <- anova(m2a, m4a) %>% broom::tidy() %>%
+  filter(term == "m4a")
+
+test_m4a <- test_m4a[c("statistic","df","p.value")] %>% as.data.frame() %>% round(2)
+
+test_m4b <- anova(m2a, m4b) %>% broom::tidy() %>%
+  filter(term == "m4b")
+
+test_m4b <- test_m4b[c("statistic","df","p.value")] %>% as.data.frame() %>% round(2)
 
 summary(m4a)
 
 ## "Credibility"的反應資料加入知識信念顯著提高解釋力，加入科學活動經驗顯著提高解釋力
+
+explore_table_Credibility <- bind_cols(
+  Parameters = c(
+    "Random Intercept Participant",
+    "Random Slope OSA by Participant",
+    "Random Slope No Subheadings by Participant",
+    "Justification Beliefs on Random Intercept",
+    "Justification Beliefs on Random Slope OSA",
+    "Research Experience on Random Intercept",
+    "Research Experience on Random Slope OSA"
+  ),
+bind_rows(test_m1,
+          test_m2a,
+          test_m2b,
+          test_m3a,
+          test_m3b,
+          test_m4a,
+          test_m4b)
+) %>%
+    mutate(p.value=if_else(p.value == 0 , "<.01",as.character(p.value)) ) %>%
+  rename(chisq=statistic, p = p.value)
+
+
 ```
+`r knitr::kable(explore_table_Credibility)`
+
 
 #### 知識背景影響分析：內容真實性評估
 
@@ -956,11 +1102,13 @@ m00 <- lmer(response ~ NH + OSA +(1 | Text_id), data = subset(df_Post_ext, Topic
 m1<- lmer(response ~(1 | Text_id) + NH + OSA +  (1 | jatosStudyResultId), subset(df_Post_ext, Topic == "Veracity"))
 
 
-H4_1 <- (anova(m00, m1) %>% # Random Intercept Participant 
-dplyr::select("Chisq":"Pr(>Chisq)"))[-1,]
-
-
 anova(m00, m1) # fittest is m1
+
+test_m1 <- anova(m00, m1) %>% broom::tidy() %>%
+  filter(term == "m1")
+
+test_m1 <- test_m1[c("statistic","df","p.value")] %>% as.data.frame() %>% round(2)
+
 
 # Random Slopes
 ## 決定未加入個別差異因素的最佳模型
@@ -971,14 +1119,18 @@ m2b <- lmer(response ~(1 | Text_id) + NH + OSA +   (NH | jatosStudyResultId), da
 
 summary(m2b)
 
-H4_2 <- (anova(m2a, m1) %>% 	# Random Slope OSA by Participant 
-dplyr::select("Chisq":"Pr(>Chisq)"))[-1,]
-
-H4_3 <- (anova(m2b, m1)%>% 	# Random Slope No Subheadings by Participant 
-dplyr::select("Chisq":"Pr(>Chisq)"))[-1,] 
-
 anova(m2a,m1) ## fittest is m1
 anova(m2b,m1) ## fittest is m1
+
+test_m2a <- anova(m2a, m1) %>% broom::tidy() %>%
+  filter(term == "m2a")
+
+test_m2a <- test_m2a[c("statistic","df","p.value")] %>% as.data.frame() %>% round(2)
+
+test_m2b <- anova(m2b, m1) %>% broom::tidy() %>%
+  filter(term == "m2b")
+
+test_m2b <- test_m2b[c("statistic","df","p.value")] %>% as.data.frame() %>% round(2)
 
 summary(m1)
 
@@ -987,18 +1139,20 @@ summary(m1)
 m3a <- lmer(response ~(1 | Text_id) + NH+ OSA + JA + PJ + MS +   (1 | jatosStudyResultId), data = subset(df_Post_ext, Topic == "Veracity"))
 m3b <- lmer(response ~(1 | Text_id) + NH+ OSA * JA   + OSA * PJ + OSA * MS +   (1 | jatosStudyResultId), data = subset(df_Post_ext, Topic == "Veracity"))
 
-H4_4 <- (anova(m1,m3a) %>% # Justification Beliefs on Random Intercept 	
-dplyr::select("Chisq":"Pr(>Chisq)"))[-1,]
-
-H4_5 <- (anova(m1,m3b) %>% # Justification Beliefs on Random Slope OSA 	
-dplyr::select("Chisq":"Pr(>Chisq)"))[-1,]
-
-
-
 anova(m1,m3a) ## fittest is m3a
 anova(m1,m3b) ## fittest is m3b
 anova(m3a,m3b) ## fittest is m3b
 
+
+test_m3a <- anova(m3a, m1) %>% broom::tidy() %>%
+  filter(term == "m3a")
+
+test_m3a <- test_m3a[c("statistic","df","p.value")] %>% as.data.frame() %>% round(2)
+
+test_m3b <- anova(m3b, m1) %>% broom::tidy() %>%
+  filter(term == "m3b")
+
+test_m3b <- test_m3b[c("statistic","df","p.value")] %>% as.data.frame() %>% round(2)
 
 summary(m3b)
 
@@ -1007,25 +1161,49 @@ summary(m3b)
 m4a <- lmer(response ~(1 | Text_id) + NH+ OSA + ability + familiarity +  (1 | jatosStudyResultId), data = subset(df_Post_ext, Topic == "Veracity"))
 m4b <- lmer(response ~(1 | Text_id) + NH+ OSA * ability +  OSA * familiarity + (1 | jatosStudyResultId), data = subset(df_Post_ext, Topic == "Veracity"))
 
-H4_6 <- (anova(m1,m4a) %>% # 科學活動 on Random Intercept 	
-dplyr::select("Chisq":"Pr(>Chisq)"))[-1,]
-
-H4_7 <- (anova(m1,m4b) %>% # 科學活動 on Random Slope OSA 	
-dplyr::select("Chisq":"Pr(>Chisq)"))[-1,]
-
-H4_ratio_tests <- bind_rows(H4_1,H4_2,H4_3,H4_4,H4_5,H4_6,H4_7) %>%
-  mutate(Likelihood_Ratio_Test)
-
 anova(m1,m4a) ## fittest is m4a
 anova(m1,m4b) ## fittest is m4b
 anova(m4a,m4b) ## fittest is m4a
+
+test_m4a <- anova(m4a, m1) %>% broom::tidy() %>%
+  filter(term == "m4a")
+
+test_m4a <- test_m4a[c("statistic","df","p.value")] %>% as.data.frame() %>% round(2)
+
+test_m4b <- anova(m4b, m1) %>% broom::tidy() %>%
+  filter(term == "m4b")
+
+test_m4b <- test_m4b[c("statistic","df","p.value")] %>% as.data.frame() %>% round(2)
 
 summary(m4a)
 
 
 ## "Veracity"的反應資料加入知識信念顯著提高解釋力，加入科學活動經驗顯著提高解釋力
 
+explore_table_Veracity <- bind_cols(
+  Parameters = c(
+    "Random Intercept Participant",
+    "Random Slope OSA by Participant",
+    "Random Slope No Subheadings by Participant",
+    "Justification Beliefs on Random Intercept",
+    "Justification Beliefs on Random Slope OSA",
+    "Research Experience on Random Intercept",
+    "Research Experience on Random Slope OSA"
+  ),
+bind_rows(test_m1,
+          test_m2a,
+          test_m2b,
+          test_m3a,
+          test_m3b,
+          test_m4a,
+          test_m4b)
+) %>%
+    mutate(p.value=if_else(p.value == 0 , "<.01",as.character(p.value)) ) %>%
+  rename(chisq=statistic, p = p.value)
+
 ```
+`r knitr::kable(explore_table_Veracity)`
+
 
 #### 知識背景影響分析：資訊充足度評估
 
@@ -1043,11 +1221,13 @@ m00 <- lmer(response ~ NH + OSA +(1 | Text_id), data = subset(df_Post_ext, Topic
 m1 <- lmer(response ~(1 | Text_id) + NH + OSA +  (1 | jatosStudyResultId), subset(df_Post_ext, Topic == "Decision"))
 
 
-H5_1 <- (anova(m00, m1) %>% # Random Intercept Participant 
-dplyr::select("Chisq":"Pr(>Chisq)"))[-1,]
-
-
 anova(m00, m1)  ## fittest is m1
+
+test_m1 <- anova(m00, m1) %>% broom::tidy() %>%
+  filter(term == "m1")
+
+test_m1 <- test_m1[c("statistic","df","p.value")] %>% as.data.frame() %>% round(2)
+
 
 # Random Slopes
 
@@ -1057,17 +1237,19 @@ m2a <- lmer(response ~(1 | Text_id) + NH + OSA +   (OSA | jatosStudyResultId), d
 m2b <- lmer(response ~(1 | Text_id) + NH + OSA +   (NH | jatosStudyResultId), data = subset(df_Post_ext, Topic == "Decision"), REML = F)
 #summary(m2b)
 
-
-H5_2 <- (anova(m2a, m1) %>% 	# Random Slope OSA by Participant 
-dplyr::select("Chisq":"Pr(>Chisq)"))[-1,]
-
-H5_3 <- (anova(m2b, m1)%>% 	# Random Slope No Subheadings by Participant 
-dplyr::select("Chisq":"Pr(>Chisq)"))[-1,] 
-
 anova(m2a, m1) ## fittest is m1
 anova(m2b, m1) ## fittest is m1
 anova(m2a, m2b) ## fittest is m2a m2b
 
+test_m2a <- anova(m2a, m1) %>% broom::tidy() %>%
+  filter(term == "m2a")
+
+test_m2a <- test_m2a[c("statistic","df","p.value")] %>% as.data.frame() %>% round(2)
+
+test_m2b <- anova(m2b, m1) %>% broom::tidy() %>%
+  filter(term == "m2b")
+
+test_m2b <- test_m2b[c("statistic","df","p.value")] %>% as.data.frame() %>% round(2)
 
 ## 評估知識信念
 
@@ -1075,15 +1257,20 @@ anova(m2a, m2b) ## fittest is m2a m2b
 m3a <- lmer(response ~(1 | Text_id) + NH+ OSA + JA + PJ + MS +   (1 | jatosStudyResultId), data = subset(df_Post_ext, Topic == "Decision"))
 m3b <- lmer(response ~(1 | Text_id) + NH+ OSA * JA   + OSA * PJ + OSA * MS +   (1 | jatosStudyResultId), data = subset(df_Post_ext, Topic == "Decision"))
 
-H5_4 <- (anova(m1,m3a) %>% # Justification Beliefs on Random Intercept 	
-dplyr::select("Chisq":"Pr(>Chisq)"))[-1,]
-
-H5_5 <- (anova(m1,m3b) %>% # Justification Beliefs on Random Slope OSA 	
-dplyr::select("Chisq":"Pr(>Chisq)"))[-1,]
-
 anova(m1,m3a) ## fittest is m3a
 anova(m1,m3b) ## fittest is m3b 
 anova(m3a,m3b) ## fittest is m3a
+
+test_m3a <- anova(m3a, m1) %>% broom::tidy() %>%
+  filter(term == "m3a")
+
+test_m3a <- test_m3a[c("statistic","df","p.value")] %>% as.data.frame() %>% round(2)
+
+test_m3b <- anova(m3b, m1) %>% broom::tidy() %>%
+  filter(term == "m3b")
+
+test_m3b <- test_m3b[c("statistic","df","p.value")] %>% as.data.frame() %>% round(2)
+
 
 summary(m3a)
 
@@ -1093,22 +1280,47 @@ summary(m3a)
 m4a <- lmer(response ~(1 | Text_id) + NH+ OSA + ability + familiarity +  (1 | jatosStudyResultId), data = subset(df_Post_ext, Topic == "Decision"))
 m4b <- lmer(response ~(1 | Text_id) + NH+ OSA * ability +  OSA * familiarity + (1 | jatosStudyResultId), data = subset(df_Post_ext, Topic == "Decision"))
 
-H5_6 <- (anova(m1,m4a) %>% # 科學活動 on Random Intercept 	
-dplyr::select("Chisq":"Pr(>Chisq)"))[-1,]
-
-H5_7 <- (anova(m1,m4b) %>% # 科學活動 on Random Slope OSA 	
-dplyr::select("Chisq":"Pr(>Chisq)"))[-1,]
-
-
-H5_ratio_tests <- bind_rows(H5_1,H5_2,H5_3,H5_4,H5_5,H5_6,H5_7) %>%
-  mutate(Likelihood_Ratio_Test)
-
 anova(m1,m4a) ## fittest is m3a
 anova(m1,m4b) ## fittest is m3a
 
+test_m4a <- anova(m4a, m1) %>% broom::tidy() %>%
+  filter(term == "m4a")
+
+test_m4a <- test_m4a[c("statistic","df","p.value")] %>% as.data.frame() %>% round(2)
+
+test_m4b <- anova(m4b, m1) %>% broom::tidy() %>%
+  filter(term == "m4b")
+
+test_m4b <- test_m4b[c("statistic","df","p.value")] %>% as.data.frame() %>% round(2)
+
 
 ## "Decision"的反應資料加入知識信念有最高解釋力，加入科學活動經驗不影響解釋力
+
+explore_table_Decision <- bind_cols(
+  Parameters = c(
+    "Random Intercept Participant",
+    "Random Slope OSA by Participant",
+    "Random Slope No Subheadings by Participant",
+    "Justification Beliefs on Random Intercept",
+    "Justification Beliefs on Random Slope OSA",
+    "Research Experience on Random Intercept",
+    "Research Experience on Random Slope OSA"
+  ),
+bind_rows(test_m1,
+          test_m2a,
+          test_m2b,
+          test_m3a,
+          test_m3b,
+          test_m4a,
+          test_m4b)
+) %>%
+    mutate(p.value=if_else(p.value == 0 , "<.01",as.character(p.value)) ) %>%
+  rename(chisq=statistic, p = p.value)
+
 ```
+
+`r knitr::kable(explore_table_Decision)`
+
 
 ## 表
 
@@ -1132,11 +1344,28 @@ ICC_table <- tibble(
 table3 <- left_join(ICC_table, table, by = "Topic") 
 
 
-table6 <- left_join(H1_ratio_tests, H3_ratio_tests, by = "Likelihood_Ratio_Test") %>%
-  left_join(H4_ratio_tests, by = "Likelihood_Ratio_Test") %>%
-  left_join(H5_ratio_tests, by = "Likelihood_Ratio_Test")
+table6 <- left_join(explore_table_Comprehensibility,explore_table_Knowledge, by = "Parameters") %>% 
+  left_join(explore_table_Credibility, by = "Parameters") %>%
+  left_join(explore_table_Veracity, by = "Parameters") %>%
+  left_join(explore_table_Decision, by = "Parameters")
 
+names(table6) <- c("Parameters",
+                   "Comprehensibility_chisq",
+                   "Comprehensibility_df",
+                   "Comprehensibility_p",
+                   "Credibility_chisq",
+                   "Credibility_df",
+                   "Credibility_p",
+                   "Veracity_chisq",
+                   "Veracity_df",
+                   "Veracity_p",
+                   "Decision_chisq",
+                   "Decision_df",
+                   "Decision_p"
+                   )
 
 ```
 
 `r knitr::kable(table3 )`
+`r knitr::kable(table6 )`
+

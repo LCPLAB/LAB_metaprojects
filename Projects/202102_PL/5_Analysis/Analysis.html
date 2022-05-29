@@ -11,7 +11,7 @@
 
 <meta name="author" content="LCP lab" />
 
-<meta name="date" content="2022-05-28" />
+<meta name="date" content="2022-05-29" />
 
 <title>Analysis ~ Replication study of Kerwer et al.(2020)</title>
 
@@ -259,7 +259,7 @@ div.tocify {
 
 <h1 class="title toc-ignore">Analysis ~ Replication study of Kerwer et al.(2020)</h1>
 <h4 class="author">LCP lab</h4>
-<h4 class="date">2022-05-28</h4>
+<h4 class="date">2022-05-29</h4>
 
 </div>
 
@@ -1064,10 +1064,10 @@ summary(test, test = adjusted(&quot;none&quot;))</code></pre>
 
 ## 計算參與者單位及文章單位的組內相關程度ICC
 
-cre_m0 &lt;- lmer(response ~ (1 | jatosStudyResultId), data = subset(df_Post, Topic == &quot;Credibility&quot;))
-cre_m00 &lt;- lmer(response ~ (1 | Test_id), data = subset(df_Post, Topic == &quot;Credibility&quot;))
+m0 &lt;- lmer(response ~ (1 | jatosStudyResultId), data = subset(df_Post, Topic == &quot;Credibility&quot;))
+m00 &lt;- lmer(response ~ (1 | Test_id), data = subset(df_Post, Topic == &quot;Credibility&quot;))
 
-summary(cre_m0)</code></pre>
+summary(m0)</code></pre>
 <pre><code>## Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [
 ## lmerModLmerTest]
 ## Formula: response ~ (1 | jatosStudyResultId)
@@ -1090,12 +1090,12 @@ summary(cre_m0)</code></pre>
 ## (Intercept)   5.32222    0.07235 149.00000   73.56   &lt;2e-16 ***
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
-<pre class="r"><code>performance::icc(cre_m0)</code></pre>
+<pre class="r"><code>performance::icc(m0)</code></pre>
 <pre><code>## # Intraclass Correlation Coefficient
 ## 
 ##      Adjusted ICC: 0.370
 ##   Conditional ICC: 0.370</code></pre>
-<pre class="r"><code>summary(cre_m00)</code></pre>
+<pre class="r"><code>summary(m00)</code></pre>
 <pre><code>## Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [
 ## lmerModLmerTest]
 ## Formula: response ~ (1 | Test_id)
@@ -1118,59 +1118,55 @@ summary(cre_m0)</code></pre>
 ## (Intercept)  5.33517    0.05593 10.35602   95.38   &lt;2e-16 ***
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
-<pre class="r"><code>performance::icc(cre_m00)</code></pre>
+<pre class="r"><code>performance::icc(m00)</code></pre>
 <pre><code>## # Intraclass Correlation Coefficient
 ## 
 ##      Adjusted ICC: 0.014
 ##   Conditional ICC: 0.014</code></pre>
 <pre class="r"><code>## 確認最適模型
 
-cre_m1 &lt;- lmer(response ~ (1 | jatosStudyResultId) + article_type + (1 | Text_id), data = subset(df_Post, Topic == &quot;Credibility&quot;))
+H3_m1 &lt;- lmer(response ~ (1 | jatosStudyResultId) + article_type + (1 | Text_id), data = subset(df_Post, Topic == &quot;Credibility&quot;))
 
-anova(cre_m0, cre_m1)  ## fittest is m1</code></pre>
+anova(m0, H3_m1)  ## fittest is m1</code></pre>
 <pre><code>## Data: subset(df_Post, Topic == &quot;Credibility&quot;)
 ## Models:
-## cre_m0: response ~ (1 | jatosStudyResultId)
-## cre_m1: response ~ (1 | jatosStudyResultId) + article_type + (1 | Text_id)
-##        npar    AIC    BIC  logLik deviance  Chisq Df Pr(&gt;Chisq)    
-## cre_m0    3 5711.0 5727.5 -2852.5   5705.0                         
-## cre_m1    6 5624.7 5657.7 -2806.3   5612.7 92.282  3  &lt; 2.2e-16 ***
+## m0: response ~ (1 | jatosStudyResultId)
+## H3_m1: response ~ (1 | jatosStudyResultId) + article_type + (1 | Text_id)
+##       npar    AIC    BIC  logLik deviance  Chisq Df Pr(&gt;Chisq)    
+## m0       3 5711.0 5727.5 -2852.5   5705.0                         
+## H3_m1    6 5624.7 5657.7 -2806.3   5612.7 92.282  3  &lt; 2.2e-16 ***
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
-<pre class="r"><code>summary(cre_m1)</code></pre>
-<pre><code>## Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [
-## lmerModLmerTest]
-## Formula: response ~ (1 | jatosStudyResultId) + article_type + (1 | Text_id)
-##    Data: subset(df_Post, Topic == &quot;Credibility&quot;)
-## 
-## REML criterion at convergence: 5623.3
-## 
-## Scaled residuals: 
-##     Min      1Q  Median      3Q     Max 
-## -3.9142 -0.5517  0.0370  0.6312  2.8963 
-## 
-## Random effects:
-##  Groups             Name        Variance Std.Dev.
-##  jatosStudyResultId (Intercept) 0.69410  0.8331  
-##  Text_id            (Intercept) 0.05392  0.2322  
-##  Residual                       1.09320  1.0456  
-## Number of obs: 1800, groups:  jatosStudyResultId, 150; Text_id, 12
-## 
-## Fixed effects:
-##                     Estimate Std. Error        df t value Pr(&gt;|t|)    
-## (Intercept)        5.109e+00  1.046e-01 4.698e+01  48.831  &lt; 2e-16 ***
-## article_typePLS    3.676e-01  6.043e-02 1.638e+03   6.084 1.46e-09 ***
-## article_typePLS_NH 2.726e-01  6.043e-02 1.638e+03   4.510 6.94e-06 ***
-## ---
-## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
-## 
-## Correlation of Fixed Effects:
-##             (Intr) ar_PLS
-## artcl_tyPLS -0.289       
-## artc_PLS_NH -0.289  0.500</code></pre>
-<pre class="r"><code>## 文章型態多重比較
+<pre class="r"><code>H3_m1.sum &lt;- summary(H3_m1)
 
-test = glht(cre_m1,linfct=mcp(article_type=&quot;Tukey&quot;))
+## 取出隨機效果變異數
+H3_table &lt;- as.tibble(H3_m1.sum$varcor)[,c(1,4)] %&gt;%
+  rename(Parameter = grp, EST = vcov) %&gt;%
+  mutate(EST = as.character(round(EST,3) )) %&gt;%
+bind_rows(
+## 取出固定效果
+H3_m1.sum$coefficients[,c(&quot;Estimate&quot;,&quot;Std. Error&quot;,&quot;Pr(&gt;|t|)&quot;)] %&gt;% round(3) %&gt;% cbind(STD.EST = round(fixef(H3_m1)/sigma(H3_m1),3)) %&gt;% as.tibble() %&gt;%
+  rename(EST = Estimate, SE = `Std. Error`, p = `Pr(&gt;|t|)`) %&gt;%
+  mutate(EST = as.character(EST),
+         SE = as.character(SE),
+         p = if_else(p==0,&quot;&lt;.001&quot;,as.character(p) ))
+) %&gt;%
+bind_rows(
+tibble(
+Parameter = &quot;R^2&quot;,
+## 計算R square
+EST = (r.squaredGLMM(H3_m1) %&gt;% round(3) %&gt;% paste(collapse = &quot;/&quot;))
+ )
+) %&gt;%
+  mutate(Parameter = c(&quot;參與者隨機效果&quot;,&quot;文本隨機效果&quot;,&quot;殘差&quot;,&quot;截距(學術摘要)&quot;,&quot;有標題學術摘要&quot;,&quot;無標題學術摘要&quot;,&quot;R2&quot;)) %&gt;%
+  mutate(SE = if_else(is.na(SE),&quot;&quot;,SE),
+         p = if_else(is.na(p),&quot;&quot;,p),
+         STD.EST = if_else(is.na(STD.EST),&quot;&quot;,as.character(STD.EST)))
+
+## Tukey test
+## 文章型態多重比較
+
+test = glht(H3_m1,linfct=mcp(article_type=&quot;Tukey&quot;))
 summary(test, test = adjusted(&quot;none&quot;))</code></pre>
 <pre><code>## 
 ##   Simultaneous Tests for General Linear Hypotheses
@@ -1189,6 +1185,68 @@ summary(test, test = adjusted(&quot;none&quot;))</code></pre>
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## (Adjusted p values reported -- none method)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Parameter</th>
+<th align="left">EST</th>
+<th align="left">SE</th>
+<th align="left">p</th>
+<th align="left">STD.EST</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">參與者隨機效果</td>
+<td align="left">0.694</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left">文本隨機效果</td>
+<td align="left">0.054</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">殘差</td>
+<td align="left">1.093</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left">截距(學術摘要)</td>
+<td align="left">5.109</td>
+<td align="left">0.105</td>
+<td align="left">&lt;.001</td>
+<td align="left">4.886</td>
+</tr>
+<tr class="odd">
+<td align="left">有標題學術摘要</td>
+<td align="left">0.368</td>
+<td align="left">0.06</td>
+<td align="left">&lt;.001</td>
+<td align="left">0.352</td>
+</tr>
+<tr class="even">
+<td align="left">無標題學術摘要</td>
+<td align="left">0.273</td>
+<td align="left">0.06</td>
+<td align="left">&lt;.001</td>
+<td align="left">0.261</td>
+</tr>
+<tr class="odd">
+<td align="left">R2</td>
+<td align="left">0.013/0.414</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+</tbody>
+</table>
 </div>
 <div id="內容真實性評估" class="section level3">
 <h3>4. 內容真實性評估</h3>
@@ -1260,51 +1318,47 @@ summary(m0)</code></pre>
 <pre class="r"><code>## 確認最適模型
 
 
-m1 &lt;- lmer(response ~ (1 | jatosStudyResultId) + article_type + (1 | Text_id), data = subset(df_Post, Topic == &quot;Veracity&quot;))
+H4_m1 &lt;- lmer(response ~ (1 | jatosStudyResultId) + article_type + (1 | Text_id), data = subset(df_Post, Topic == &quot;Veracity&quot;))
 
-anova(m0,m1)  ## fittest is m1</code></pre>
+anova(m0,H4_m1)  ## fittest is H4_m1</code></pre>
 <pre><code>## Data: subset(df_Post, Topic == &quot;Veracity&quot;)
 ## Models:
 ## m0: response ~ (1 | jatosStudyResultId)
-## m1: response ~ (1 | jatosStudyResultId) + article_type + (1 | Text_id)
-##    npar    AIC    BIC  logLik deviance  Chisq Df Pr(&gt;Chisq)    
-## m0    3 6046.7 6063.1 -3020.3   6040.7                         
-## m1    6 5941.5 5974.5 -2964.8   5929.5 111.16  3  &lt; 2.2e-16 ***
+## H4_m1: response ~ (1 | jatosStudyResultId) + article_type + (1 | Text_id)
+##       npar    AIC    BIC  logLik deviance  Chisq Df Pr(&gt;Chisq)    
+## m0       3 6046.7 6063.1 -3020.3   6040.7                         
+## H4_m1    6 5941.5 5974.5 -2964.8   5929.5 111.16  3  &lt; 2.2e-16 ***
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
-<pre class="r"><code>summary(m1)</code></pre>
-<pre><code>## Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [
-## lmerModLmerTest]
-## Formula: response ~ (1 | jatosStudyResultId) + article_type + (1 | Text_id)
-##    Data: subset(df_Post, Topic == &quot;Veracity&quot;)
-## 
-## REML criterion at convergence: 5939.6
-## 
-## Scaled residuals: 
-##     Min      1Q  Median      3Q     Max 
-## -3.7010 -0.5447  0.0525  0.6303  2.9275 
-## 
-## Random effects:
-##  Groups             Name        Variance Std.Dev.
-##  jatosStudyResultId (Intercept) 0.96090  0.9803  
-##  Text_id            (Intercept) 0.05504  0.2346  
-##  Residual                       1.28921  1.1354  
-## Number of obs: 1800, groups:  jatosStudyResultId, 150; Text_id, 12
-## 
-## Fixed effects:
-##                     Estimate Std. Error        df t value Pr(&gt;|t|)    
-## (Intercept)        4.583e+00  1.147e-01 5.963e+01   39.98  &lt; 2e-16 ***
-## article_typePLS    5.302e-01  6.563e-02 1.638e+03    8.08 1.25e-15 ***
-## article_typePLS_NH 3.813e-01  6.563e-02 1.638e+03    5.81 7.47e-09 ***
-## ---
-## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
-## 
-## Correlation of Fixed Effects:
-##             (Intr) ar_PLS
-## artcl_tyPLS -0.286       
-## artc_PLS_NH -0.286  0.500</code></pre>
-<pre class="r"><code>## 文章型態多重比較
-test = glht(m1,linfct=mcp(article_type=&quot;Tukey&quot;))
+<pre class="r"><code>H4_m1.sum &lt;- summary(H4_m1)
+
+## 取出隨機效果變異數
+H4_table &lt;- as.tibble(H4_m1.sum$varcor)[,c(1,4)] %&gt;%
+  rename(Parameter = grp, EST = vcov) %&gt;%
+  mutate(EST = as.character(round(EST,3) )) %&gt;%
+bind_rows(
+## 取出固定效果
+H4_m1.sum$coefficients[,c(&quot;Estimate&quot;,&quot;Std. Error&quot;,&quot;Pr(&gt;|t|)&quot;)] %&gt;% round(3) %&gt;% cbind(STD.EST = round(fixef(H4_m1)/sigma(H4_m1),3)) %&gt;% as.tibble() %&gt;%
+  rename(EST = Estimate, SE = `Std. Error`, p = `Pr(&gt;|t|)`) %&gt;%
+  mutate(EST = as.character(EST),
+         SE = as.character(SE),
+         p = if_else(p==0,&quot;&lt;.001&quot;,as.character(p) ))
+) %&gt;%
+bind_rows(
+tibble(
+Parameter = &quot;R^2&quot;,
+## 計算R square
+EST = (r.squaredGLMM(H4_m1) %&gt;% round(3) %&gt;% paste(collapse = &quot;/&quot;))
+ )
+) %&gt;%
+  mutate(Parameter = c(&quot;參與者隨機效果&quot;,&quot;文本隨機效果&quot;,&quot;殘差&quot;,&quot;截距(學術摘要)&quot;,&quot;有標題學術摘要&quot;,&quot;無標題學術摘要&quot;,&quot;R2&quot;)) %&gt;%
+  mutate(SE = if_else(is.na(SE),&quot;&quot;,SE),
+         p = if_else(is.na(p),&quot;&quot;,p),
+         STD.EST = if_else(is.na(STD.EST),&quot;&quot;,as.character(STD.EST)))
+
+## Tukey test
+## 文章型態多重比較
+test = glht(H4_m1,linfct=mcp(article_type=&quot;Tukey&quot;))
 summary(test, test = adjusted(&quot;none&quot;))</code></pre>
 <pre><code>## 
 ##   Simultaneous Tests for General Linear Hypotheses
@@ -1323,6 +1377,68 @@ summary(test, test = adjusted(&quot;none&quot;))</code></pre>
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## (Adjusted p values reported -- none method)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Parameter</th>
+<th align="left">EST</th>
+<th align="left">SE</th>
+<th align="left">p</th>
+<th align="left">STD.EST</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">參與者隨機效果</td>
+<td align="left">0.961</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left">文本隨機效果</td>
+<td align="left">0.055</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">殘差</td>
+<td align="left">1.289</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left">截距(學術摘要)</td>
+<td align="left">4.583</td>
+<td align="left">0.115</td>
+<td align="left">&lt;.001</td>
+<td align="left">4.037</td>
+</tr>
+<tr class="odd">
+<td align="left">有標題學術摘要</td>
+<td align="left">0.53</td>
+<td align="left">0.066</td>
+<td align="left">&lt;.001</td>
+<td align="left">0.467</td>
+</tr>
+<tr class="even">
+<td align="left">無標題學術摘要</td>
+<td align="left">0.381</td>
+<td align="left">0.066</td>
+<td align="left">&lt;.001</td>
+<td align="left">0.336</td>
+</tr>
+<tr class="odd">
+<td align="left">R2</td>
+<td align="left">0.021/0.453</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+</tbody>
+</table>
 </div>
 <div id="資訊充足度評估" class="section level3">
 <h3>5. 資訊充足度評估</h3>
@@ -1396,51 +1512,47 @@ summary(m0)</code></pre>
 <pre class="r"><code>## 確認最適模型
 
 
-m1 &lt;- lmer(response ~ (1 | jatosStudyResultId) + article_type + (1 | Text_id), data = subset(df_Post, Topic == &quot;Decision&quot;))
+H5_m1 &lt;- lmer(response ~ (1 | jatosStudyResultId) + article_type + (1 | Text_id), data = subset(df_Post, Topic == &quot;Decision&quot;))
 
-anova(m0,m1)  ## fittest is m1</code></pre>
+anova(m0,H5_m1)  ## fittest is H5_m1</code></pre>
 <pre><code>## Data: subset(df_Post, Topic == &quot;Decision&quot;)
 ## Models:
 ## m0: response ~ (1 | jatosStudyResultId)
-## m1: response ~ (1 | jatosStudyResultId) + article_type + (1 | Text_id)
-##    npar    AIC    BIC  logLik deviance  Chisq Df Pr(&gt;Chisq)    
-## m0    3 6368.1 6384.6 -3181.0   6362.1                         
-## m1    6 6241.3 6274.3 -3114.6   6229.3 132.79  3  &lt; 2.2e-16 ***
+## H5_m1: response ~ (1 | jatosStudyResultId) + article_type + (1 | Text_id)
+##       npar    AIC    BIC  logLik deviance  Chisq Df Pr(&gt;Chisq)    
+## m0       3 6368.1 6384.6 -3181.0   6362.1                         
+## H5_m1    6 6241.3 6274.3 -3114.6   6229.3 132.79  3  &lt; 2.2e-16 ***
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
-<pre class="r"><code>summary(m1)</code></pre>
-<pre><code>## Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [
-## lmerModLmerTest]
-## Formula: response ~ (1 | jatosStudyResultId) + article_type + (1 | Text_id)
-##    Data: subset(df_Post, Topic == &quot;Decision&quot;)
-## 
-## REML criterion at convergence: 6238.9
-## 
-## Scaled residuals: 
-##     Min      1Q  Median      3Q     Max 
-## -3.5022 -0.5794 -0.0193  0.5884  3.1187 
-## 
-## Random effects:
-##  Groups             Name        Variance Std.Dev.
-##  jatosStudyResultId (Intercept) 1.34940  1.1616  
-##  Text_id            (Intercept) 0.05218  0.2284  
-##  Residual                       1.50332  1.2261  
-## Number of obs: 1800, groups:  jatosStudyResultId, 150; Text_id, 12
-## 
-## Fixed effects:
-##                     Estimate Std. Error        df t value Pr(&gt;|t|)    
-## (Intercept)        3.688e+00  1.259e-01 8.127e+01  29.293  &lt; 2e-16 ***
-## article_typePLS    6.999e-01  7.086e-02 1.638e+03   9.876  &lt; 2e-16 ***
-## article_typePLS_NH 4.970e-01  7.086e-02 1.638e+03   7.013  3.4e-12 ***
-## ---
-## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
-## 
-## Correlation of Fixed Effects:
-##             (Intr) ar_PLS
-## artcl_tyPLS -0.281       
-## artc_PLS_NH -0.281  0.500</code></pre>
-<pre class="r"><code>## 文章型態多重比較
-test = glht(m1,linfct=mcp(article_type=&quot;Tukey&quot;))
+<pre class="r"><code>H5_m1.sum &lt;- summary(H5_m1)
+
+## 取出隨機效果變異數
+H5_table &lt;- as.tibble(H5_m1.sum$varcor)[,c(1,4)] %&gt;%
+  rename(Parameter = grp, EST = vcov) %&gt;%
+  mutate(EST = as.character(round(EST,3) )) %&gt;%
+bind_rows(
+## 取出固定效果
+H5_m1.sum$coefficients[,c(&quot;Estimate&quot;,&quot;Std. Error&quot;,&quot;Pr(&gt;|t|)&quot;)] %&gt;% round(3) %&gt;% cbind(STD.EST = round(fixef(H5_m1)/sigma(H5_m1),3)) %&gt;% as.tibble() %&gt;%
+  rename(EST = Estimate, SE = `Std. Error`, p = `Pr(&gt;|t|)`) %&gt;%
+  mutate(EST = as.character(EST),
+         SE = as.character(SE),
+         p = if_else(p==0,&quot;&lt;.001&quot;,as.character(p) ))
+) %&gt;%
+bind_rows(
+tibble(
+Parameter = &quot;R^2&quot;,
+## 計算R square
+EST = (r.squaredGLMM(H5_m1) %&gt;% round(3) %&gt;% paste(collapse = &quot;/&quot;))
+ )
+) %&gt;%
+  mutate(Parameter = c(&quot;參與者隨機效果&quot;,&quot;文本隨機效果&quot;,&quot;殘差&quot;,&quot;截距(學術摘要)&quot;,&quot;有標題學術摘要&quot;,&quot;無標題學術摘要&quot;,&quot;R2&quot;)) %&gt;%
+  mutate(SE = if_else(is.na(SE),&quot;&quot;,SE),
+         p = if_else(is.na(p),&quot;&quot;,p),
+         STD.EST = if_else(is.na(STD.EST),&quot;&quot;,as.character(STD.EST)))
+
+## Tukey test
+## 文章型態多重比較
+test = glht(H5_m1,linfct=mcp(article_type=&quot;Tukey&quot;))
 summary(test, test = adjusted(&quot;none&quot;))</code></pre>
 <pre><code>## 
 ##   Simultaneous Tests for General Linear Hypotheses
@@ -1459,6 +1571,68 @@ summary(test, test = adjusted(&quot;none&quot;))</code></pre>
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## (Adjusted p values reported -- none method)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Parameter</th>
+<th align="left">EST</th>
+<th align="left">SE</th>
+<th align="left">p</th>
+<th align="left">STD.EST</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">參與者隨機效果</td>
+<td align="left">1.349</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left">文本隨機效果</td>
+<td align="left">0.052</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">殘差</td>
+<td align="left">1.503</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left">截距(學術摘要)</td>
+<td align="left">3.688</td>
+<td align="left">0.126</td>
+<td align="left">&lt;.001</td>
+<td align="left">3.008</td>
+</tr>
+<tr class="odd">
+<td align="left">有標題學術摘要</td>
+<td align="left">0.7</td>
+<td align="left">0.071</td>
+<td align="left">&lt;.001</td>
+<td align="left">0.571</td>
+</tr>
+<tr class="even">
+<td align="left">無標題學術摘要</td>
+<td align="left">0.497</td>
+<td align="left">0.071</td>
+<td align="left">&lt;.001</td>
+<td align="left">0.405</td>
+</tr>
+<tr class="odd">
+<td align="left">R2</td>
+<td align="left">0.029/0.497</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 <div id="探索性分析" class="section level2">
@@ -1782,9 +1956,38 @@ test_m2b &lt;- anova(m2b, m1) %&gt;% broom::tidy() %&gt;%
 
 test_m2b &lt;- test_m2b[c(&quot;statistic&quot;,&quot;df&quot;,&quot;p.value&quot;)] %&gt;% as.data.frame() %&gt;% round(3)
 
-
-
-## 評估知識信念
+summary(m1)</code></pre>
+<pre><code>## Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [
+## lmerModLmerTest]
+## Formula: response ~ (1 | Text_id) + NH + OSA + (1 | jatosStudyResultId)
+##    Data: subset(df_Post_ext, Topic == &quot;Comprehensibility&quot;)
+## 
+## REML criterion at convergence: 6235.4
+## 
+## Scaled residuals: 
+##     Min      1Q  Median      3Q     Max 
+## -4.3343 -0.5224  0.0922  0.6816  2.8226 
+## 
+## Random effects:
+##  Groups             Name        Variance Std.Dev.
+##  jatosStudyResultId (Intercept) 0.5331   0.7302  
+##  Text_id            (Intercept) 0.1809   0.4253  
+##  Residual                       1.6004   1.2651  
+## Number of obs: 1800, groups:  jatosStudyResultId, 150; Text_id, 12
+## 
+## Fixed effects:
+##               Estimate Std. Error         df t value Pr(&gt;|t|)    
+## (Intercept)    6.51605    0.14595   19.46955  44.646  &lt; 2e-16 ***
+## NHY           -0.47508    0.07313 1637.45798  -6.497 1.09e-10 ***
+## OSAY          -1.17975    0.07313 1637.45798 -16.133  &lt; 2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Correlation of Fixed Effects:
+##      (Intr) NHY   
+## NHY  -0.251       
+## OSAY -0.251  0.500</code></pre>
+<pre class="r"><code>## 評估知識信念
 
 
 m3a &lt;- lmer(response ~(1 | Text_id) + NH+ OSA + JA + PJ + MS +   (1 | jatosStudyResultId), data = subset(df_Post_ext, Topic == &quot;Comprehensibility&quot;))
@@ -1981,16 +2184,16 @@ bind_rows(test_m1,
 
 m0a &lt;- glmer(score ~ NH + OSA +(1 | Test_id), data = df_knowledge_ext, family = binomial(&quot;logit&quot;))
 
-m0b &lt;- glmer(score ~ NH + OSA + (1 | Test_id) + (1 | jatosStudyResultId), data = df_knowledge_ext, family = binomial(&quot;logit&quot;))
+m1 &lt;- glmer(score ~ NH + OSA + (1 | Test_id) + (1 | jatosStudyResultId), data = df_knowledge_ext, family = binomial(&quot;logit&quot;))
 
-anova(m0a, m0b) # fittest is m0a</code></pre>
+anova(m0a, m1) # fittest is m0a</code></pre>
 <pre><code>## Data: df_knowledge_ext
 ## Models:
 ## m0a: score ~ NH + OSA + (1 | Test_id)
-## m0b: score ~ NH + OSA + (1 | Test_id) + (1 | jatosStudyResultId)
+## m1: score ~ NH + OSA + (1 | Test_id) + (1 | jatosStudyResultId)
 ##     npar    AIC    BIC  logLik deviance Chisq Df Pr(&gt;Chisq)
 ## m0a    4 3758.4 3782.9 -1875.2   3750.4                    
-## m0b    5 3759.1 3789.7 -1874.6   3749.1 1.309  1     0.2526</code></pre>
+## m1     5 3759.1 3789.7 -1874.6   3749.1 1.309  1     0.2526</code></pre>
 <pre class="r"><code>## Random Slopes
 
 m1a &lt;- glmer(score ~ NH + OSA +(1 | Test_id)+   (OSA | jatosStudyResultId), data = df_knowledge_ext, family = binomial(&quot;logit&quot;))
@@ -2013,22 +2216,41 @@ anova(m0a,m1a) ## fittest is m0a</code></pre>
 ## m0a    4 3758.4 3782.9 -1875.2   3750.4                     
 ## m1b    7 3763.1 3805.9 -1874.6   3749.1 1.3097  3     0.7268</code></pre>
 <pre class="r"><code>### addional analysis
-anova(m0b,m1a)</code></pre>
-<pre><code>## Data: df_knowledge_ext
-## Models:
-## m0b: score ~ NH + OSA + (1 | Test_id) + (1 | jatosStudyResultId)
-## m1a: score ~ NH + OSA + (1 | Test_id) + (OSA | jatosStudyResultId)
-##     npar    AIC    BIC  logLik deviance  Chisq Df Pr(&gt;Chisq)
-## m0b    5 3759.1 3789.7 -1874.6   3749.1                     
-## m1a    7 3762.8 3805.5 -1874.4   3748.8 0.3711  2     0.8307</code></pre>
-<pre class="r"><code>anova(m0b,m1b)</code></pre>
-<pre><code>## Data: df_knowledge_ext
-## Models:
-## m0b: score ~ NH + OSA + (1 | Test_id) + (1 | jatosStudyResultId)
-## m1b: score ~ NH + OSA + (1 | Test_id) + (NH | jatosStudyResultId)
-##     npar    AIC    BIC  logLik deviance Chisq Df Pr(&gt;Chisq)
-## m0b    5 3759.1 3789.7 -1874.6   3749.1                    
-## m1b    7 3763.1 3805.9 -1874.6   3749.1 7e-04  2     0.9996</code></pre>
+#anova(m0b,m1a)
+#anova(m0b,m1b)
+#
+## report best fit model
+summary(m0a)</code></pre>
+<pre><code>## Generalized linear mixed model fit by maximum likelihood (Laplace
+##   Approximation) [glmerMod]
+##  Family: binomial  ( logit )
+## Formula: score ~ NH + OSA + (1 | Test_id)
+##    Data: df_knowledge_ext
+## 
+##      AIC      BIC   logLik deviance df.resid 
+##   3758.4   3782.9  -1875.2   3750.4     3308 
+## 
+## Scaled residuals: 
+##     Min      1Q  Median      3Q     Max 
+## -3.8582 -1.2544  0.5438  0.6626  0.8478 
+## 
+## Random effects:
+##  Groups  Name        Variance Std.Dev.
+##  Test_id (Intercept) 0.3897   0.6243  
+## Number of obs: 3312, groups:  Test_id, 12
+## 
+## Fixed effects:
+##             Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)  1.07681    0.19376   5.558 2.74e-08 ***
+## NHY          0.06607    0.09877   0.669    0.504    
+## OSAY        -0.12313    0.09717  -1.267    0.205    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Correlation of Fixed Effects:
+##      (Intr) NHY   
+## NHY  -0.251       
+## OSAY -0.257  0.500</code></pre>
 <pre class="r"><code>## 評估知識信念
 
 m2 &lt;- glmer(score ~ (1 | Test_id) + NH + OSA + PJ + JA + MS, data = df_knowledge_ext, family = binomial(&quot;logit&quot;))
@@ -2171,7 +2393,8 @@ anova(m1,m2a) ## fittest is m2a</code></pre>
 ##     npar    AIC    BIC  logLik deviance Chisq Df Pr(&gt;Chisq)
 ## m2a    8 5617.0 5660.9 -2800.5   5601.0                    
 ## m2b    8 5628.4 5672.4 -2806.2   5612.4     0  0</code></pre>
-<pre class="r"><code>summary(m2a)</code></pre>
+<pre class="r"><code>## report best fit model
+summary(m2a)</code></pre>
 <pre><code>## Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [
 ## lmerModLmerTest]
 ## Formula: response ~ (1 | Text_id) + NH + OSA + (OSA | jatosStudyResultId)
@@ -2236,7 +2459,8 @@ anova(m2a,m3a) ## fittest is m3a</code></pre>
 ##     npar    AIC    BIC  logLik deviance  Chisq Df Pr(&gt;Chisq)
 ## m3a   11 5613.9 5674.3 -2795.9   5591.9                     
 ## m3b   14 5614.2 5691.2 -2793.1   5586.2 5.6067  3     0.1324</code></pre>
-<pre class="r"><code>summary(m3a)</code></pre>
+<pre class="r"><code>## report best fit model
+summary(m3a)</code></pre>
 <pre><code>## Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [
 ## lmerModLmerTest]
 ## Formula: 
@@ -2299,7 +2523,8 @@ anova(m2a,m4a) ## fittest is m4a</code></pre>
 ##     npar    AIC    BIC  logLik deviance  Chisq Df Pr(&gt;Chisq)
 ## m2a    8 5617.0 5660.9 -2800.5   5601.0                     
 ## m4b   12 5617.8 5683.8 -2796.9   5593.8 7.1743  4      0.127</code></pre>
-<pre class="r"><code>summary(m4a)</code></pre>
+<pre class="r"><code>## report best fit model
+summary(m4a)</code></pre>
 <pre><code>## Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [
 ## lmerModLmerTest]
 ## Formula: response ~ (1 | Text_id) + NH + OSA + ability + familiarity +  
@@ -2337,8 +2562,9 @@ anova(m2a,m4a) ## fittest is m4a</code></pre>
 ## ability     -0.793  0.000  0.000       
 ## familiarity -0.071  0.000  0.000 -0.425</code></pre>
 <pre class="r"><code>## &quot;Credibility&quot;的反應資料加入知識信念顯著提高解釋力，加入科學活動經驗顯著提高解釋力</code></pre>
-<div id="知識背景影響分析內容真實性評估" class="section level4">
-<h4>知識背景影響分析：內容真實性評估</h4>
+</div>
+<div id="知識背景影響分析內容真實性評估" class="section level3">
+<h3>知識背景影響分析：內容真實性評估</h3>
 <pre class="r"><code># Model Tests Interindividuell Differences
 
 ## Ability to Evaluate
@@ -2368,42 +2594,10 @@ m2a &lt;- lmer(response ~(1 | Text_id) + NH + OSA +   (OSA | jatosStudyResultId)
 
 m2b &lt;- lmer(response ~(1 | Text_id) + NH + OSA +   (NH | jatosStudyResultId), data = subset(df_Post_ext, Topic == &quot;Veracity&quot;), REML = F)
 
-summary(m2b)</code></pre>
-<pre><code>## Linear mixed model fit by maximum likelihood . t-tests use Satterthwaite&#39;s
-##   method [lmerModLmerTest]
-## Formula: response ~ (1 | Text_id) + NH + OSA + (NH | jatosStudyResultId)
-##    Data: subset(df_Post_ext, Topic == &quot;Veracity&quot;)
-## 
-##      AIC      BIC   logLik deviance df.resid 
-##   5945.5   5989.5  -2964.7   5929.5     1792 
-## 
-## Scaled residuals: 
-##     Min      1Q  Median      3Q     Max 
-## -3.7030 -0.5442  0.0521  0.6298  2.9315 
-## 
-## Random effects:
-##  Groups             Name        Variance  Std.Dev. Corr 
-##  jatosStudyResultId (Intercept) 9.578e-01 0.978696      
-##                     NHY         3.483e-06 0.001866 -1.00
-##  Text_id            (Intercept) 5.258e-02 0.229304      
-##  Residual                       1.288e+00 1.134763      
-## Number of obs: 1800, groups:  jatosStudyResultId, 150; Text_id, 12
-## 
-## Fixed effects:
-##               Estimate Std. Error         df t value Pr(&gt;|t|)    
-## (Intercept)    5.11362    0.11365   63.90964  44.994  &lt; 2e-16 ***
-## NHY           -0.14896    0.06559 1639.89517  -2.271   0.0233 *  
-## OSAY          -0.53023    0.06559 1640.01231  -8.084  1.2e-15 ***
-## ---
-## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
-## 
-## Correlation of Fixed Effects:
-##      (Intr) NHY   
-## NHY  -0.290       
-## OSAY -0.289  0.500
-## optimizer (nloptwrap) convergence code: 0 (OK)
-## boundary (singular) fit: see help(&#39;isSingular&#39;)</code></pre>
-<pre class="r"><code>anova(m2a,m1) ## fittest is m1</code></pre>
+#summary(m2b)
+
+
+anova(m2a,m1) ## fittest is m1</code></pre>
 <pre><code>## Data: subset(df_Post_ext, Topic == &quot;Veracity&quot;)
 ## Models:
 ## m1: response ~ (1 | Text_id) + NH + OSA + (1 | jatosStudyResultId)
@@ -2419,7 +2613,8 @@ summary(m2b)</code></pre>
 ##     npar    AIC    BIC  logLik deviance Chisq Df Pr(&gt;Chisq)
 ## m1     6 5941.5 5974.5 -2964.8   5929.5                    
 ## m2b    8 5945.5 5989.5 -2964.8   5929.5 0.001  2     0.9995</code></pre>
-<pre class="r"><code>summary(m1)</code></pre>
+<pre class="r"><code>## report best fit model
+summary(m1)</code></pre>
 <pre><code>## Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [
 ## lmerModLmerTest]
 ## Formula: response ~ (1 | Text_id) + NH + OSA + (1 | jatosStudyResultId)
@@ -2485,7 +2680,8 @@ anova(m1,m3a) ## fittest is m3a</code></pre>
 ## m3b   12 5935.3 6001.2 -2955.6   5911.3 9.784  3    0.02049 *
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
-<pre class="r"><code>summary(m3b)</code></pre>
+<pre class="r"><code>## report best fit model
+summary(m3b)</code></pre>
 <pre><code>## Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [
 ## lmerModLmerTest]
 ## Formula: response ~ (1 | Text_id) + NH + OSA * JA + OSA * PJ + OSA * MS +  
@@ -2563,7 +2759,8 @@ anova(m1,m4a) ## fittest is m4a</code></pre>
 ##     npar    AIC    BIC  logLik deviance Chisq Df Pr(&gt;Chisq)
 ## m4a    8 5939.3 5983.3 -2961.7   5923.3                    
 ## m4b   10 5939.4 5994.4 -2959.7   5919.4 3.931  2     0.1401</code></pre>
-<pre class="r"><code>summary(m4a)</code></pre>
+<pre class="r"><code>## report best fit model
+summary(m4a)</code></pre>
 <pre><code>## Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [
 ## lmerModLmerTest]
 ## Formula: response ~ (1 | Text_id) + NH + OSA + ability + familiarity +  
@@ -2601,8 +2798,8 @@ anova(m1,m4a) ## fittest is m4a</code></pre>
 ## familiarity -0.072  0.000  0.000 -0.425</code></pre>
 <pre class="r"><code>## &quot;Veracity&quot;的反應資料加入知識信念顯著提高解釋力，加入科學活動經驗顯著提高解釋力</code></pre>
 </div>
-<div id="知識背景影響分析資訊充足度評估" class="section level4">
-<h4>知識背景影響分析：資訊充足度評估</h4>
+<div id="知識背景影響分析資訊充足度評估" class="section level3">
+<h3>知識背景影響分析：資訊充足度評估</h3>
 <pre class="r"><code># Model Tests Interindividuell Differences
 ## Decision
 
@@ -2658,6 +2855,38 @@ anova(m2a, m1) ## fittest is m1</code></pre>
 ##     npar    AIC    BIC  logLik deviance Chisq Df Pr(&gt;Chisq)
 ## m2a    8 6242.8 6286.8 -3113.4   6226.8                    
 ## m2b    8 6245.2 6289.2 -3114.6   6229.2     0  0</code></pre>
+<pre class="r"><code>## report best fit model
+summary(m1)</code></pre>
+<pre><code>## Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [
+## lmerModLmerTest]
+## Formula: response ~ (1 | Text_id) + NH + OSA + (1 | jatosStudyResultId)
+##    Data: subset(df_Post_ext, Topic == &quot;Decision&quot;)
+## 
+## REML criterion at convergence: 6238.9
+## 
+## Scaled residuals: 
+##     Min      1Q  Median      3Q     Max 
+## -3.5022 -0.5794 -0.0193  0.5884  3.1187 
+## 
+## Random effects:
+##  Groups             Name        Variance Std.Dev.
+##  jatosStudyResultId (Intercept) 1.34940  1.1616  
+##  Text_id            (Intercept) 0.05218  0.2284  
+##  Residual                       1.50332  1.2261  
+## Number of obs: 1800, groups:  jatosStudyResultId, 150; Text_id, 12
+## 
+## Fixed effects:
+##               Estimate Std. Error         df t value Pr(&gt;|t|)    
+## (Intercept)    4.38816    0.12591   81.27330  34.852  &lt; 2e-16 ***
+## NHY           -0.20293    0.07086 1638.30030  -2.864  0.00424 ** 
+## OSAY          -0.69988    0.07086 1638.30030  -9.876  &lt; 2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Correlation of Fixed Effects:
+##      (Intr) NHY   
+## NHY  -0.281       
+## OSAY -0.281  0.500</code></pre>
 <pre class="r"><code>## 評估知識信念
 
 
@@ -2693,7 +2922,8 @@ anova(m1,m3a) ## fittest is m3a</code></pre>
 ##     npar    AIC    BIC  logLik deviance  Chisq Df Pr(&gt;Chisq)
 ## m3a    9 6227.8 6277.3 -3104.9   6209.8                     
 ## m3b   12 6229.5 6295.5 -3102.8   6205.5 4.2843  3     0.2324</code></pre>
-<pre class="r"><code>summary(m3a)</code></pre>
+<pre class="r"><code>## report best fit model
+summary(m3a)</code></pre>
 <pre><code>## Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [
 ## lmerModLmerTest]
 ## Formula: 
@@ -2737,7 +2967,7 @@ m4a &lt;- lmer(response ~(1 | Text_id) + NH+ OSA + ability + familiarity +  (1 |
 m4b &lt;- lmer(response ~(1 | Text_id) + NH+ OSA * ability +  OSA * familiarity + (1 | jatosStudyResultId), data = subset(df_Post_ext, Topic == &quot;Decision&quot;))
 
 
-anova(m1,m4a) ## fittest is m3a</code></pre>
+anova(m1,m4a) ## fittest is m1</code></pre>
 <pre><code>## Data: subset(df_Post_ext, Topic == &quot;Decision&quot;)
 ## Models:
 ## m1: response ~ (1 | Text_id) + NH + OSA + (1 | jatosStudyResultId)
@@ -2745,7 +2975,7 @@ anova(m1,m4a) ## fittest is m3a</code></pre>
 ##     npar    AIC    BIC  logLik deviance  Chisq Df Pr(&gt;Chisq)
 ## m1     6 6241.3 6274.3 -3114.6   6229.3                     
 ## m4a    8 6241.0 6284.9 -3112.5   6225.0 4.3261  2      0.115</code></pre>
-<pre class="r"><code>anova(m1,m4b) ## fittest is m3a</code></pre>
+<pre class="r"><code>anova(m1,m4b) ## fittest is m1</code></pre>
 <pre><code>## Data: subset(df_Post_ext, Topic == &quot;Decision&quot;)
 ## Models:
 ## m1: response ~ (1 | Text_id) + NH + OSA + (1 | jatosStudyResultId)
@@ -2756,7 +2986,6 @@ anova(m1,m4a) ## fittest is m3a</code></pre>
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
 <pre class="r"><code>## &quot;Decision&quot;的反應資料加入知識信念有最高解釋力，加入科學活動經驗不影響解釋力</code></pre>
-</div>
 </div>
 </div>
 

@@ -11,7 +11,7 @@
 
 <meta name="author" content="LCP lab" />
 
-<meta name="date" content="2022-05-18" />
+<meta name="date" content="2022-05-29" />
 
 <title>Analysis ~ Replication study of Kerwer et al.(2020)</title>
 
@@ -259,7 +259,7 @@ div.tocify {
 
 <h1 class="title toc-ignore">Analysis ~ Replication study of Kerwer et al.(2020)</h1>
 <h4 class="author">LCP lab</h4>
-<h4 class="date">2022-05-18</h4>
+<h4 class="date">2022-05-29</h4>
 
 </div>
 
@@ -273,7 +273,7 @@ df &lt;- read_csv(unz(zip_path, filename = &quot;rawdata.csv&quot;))
 ## import text id table; script did not log text_id
 text &lt;- read_csv(&quot;../4_OS_Result/text_id.csv&quot;)
 ## Append text id to rawdata df</code></pre>
-<p>整合有效參與者的原始回應資料檔”rawdata.csv”，存放路徑是../4_OS_Result/jatos_results.zip。資料欄位共有57項，來自150位參與者，41850筆回應資料。</p>
+<p>整合有效參與者的原始回應資料檔“rawdata.csv”，存放路徑是../4_OS_Result/jatos_results.zip。資料欄位共有57項，來自150位參與者，41850筆回應資料。</p>
 <p>資料編碼薄以<a href="codebook.Rmd">codebook套件</a>製作，製作完成存放路徑與本文件相同。</p>
 <pre class="r"><code>## Extract the system variables
 df_sys &lt;- df %&gt;% dplyr::select(starts_with(c(&quot;identifier&quot;,&quot;jatos&quot;,&quot;browser_&quot;,&quot;count_&quot;,&quot;date_&quot;,&quot;experiment_&quot;,&quot;screen_&quot;,&quot;system_&quot;,&quot;Start &quot;,&quot;Last &quot;,&quot;Duration&quot;,&quot;Batch&quot;,&quot;Worker &quot;,&quot;State&quot;,&quot;Message&quot;)))
@@ -1505,7 +1505,7 @@ summary(m00)</code></pre>
 ## 
 ##      Adjusted ICC: 0.017
 ##   Conditional ICC: 0.017</code></pre>
-<pre class="r"><code>Scientificness_study_icc &lt;- (performance::icc(m00) %&gt;% unlist())[1] ## retrieve study icc
+<pre class="r"><code>Scientificness_study_icc &lt;- (performance::icc(m00) %&gt;% unlist())[1]
 
 
 ## 確認最適模型
@@ -1581,6 +1581,13 @@ summary(test, test = adjusted(&quot;none&quot;))</code></pre>
 
 ## Full Text Access
 
+Access &lt;- df_Post %&gt;% 
+  filter(Topic == &quot;Access&quot;) %&gt;%
+#  group_by(article_type) %&gt;%
+  summarise(percent = sum(response)/n(),
+            n = n(),
+            yes = sum(response))
+  
 
 ## 確認最適模型
 m0 &lt;- glmer(response ~ (1 | jatosStudyResultId), family = binomial(&quot;logit&quot;), data = subset(df_Post, Topic == &quot;Access&quot;))
@@ -1691,7 +1698,7 @@ m00 &lt;- lmer(response ~ NH + OSA +(1 | Text_id), data = subset(df_Post_ext, To
 
 m1 &lt;- lmer(response ~(1 | Text_id) + NH + OSA +  (1 | jatosStudyResultId), subset(df_Post_ext, Topic == &quot;Comprehensibility&quot;))
 
-anova(m00, m1)  ## fittest is m1</code></pre>
+anova(m00, m1) ## fittest is m1</code></pre>
 <pre><code>## Data: subset(df_Post_ext, Topic == &quot;Comprehensibility&quot;)
 ## Models:
 ## m00: response ~ NH + OSA + (1 | Text_id)
@@ -1701,7 +1708,12 @@ anova(m00, m1)  ## fittest is m1</code></pre>
 ## m1     6 6238.2 6271.1 -3113.1   6226.2 274.66  1  &lt; 2.2e-16 ***
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
-<pre class="r"><code>H1_1 &lt;- (anova(m00, m1) %&gt;% # Random Intercept Participant 
+<pre class="r"><code>test_m1 &lt;- anova(m00, m1) %&gt;% broom::tidy() %&gt;%
+  filter(term == &quot;m1&quot;)
+
+test_m1 &lt;- test_m1[c(&quot;statistic&quot;,&quot;df&quot;,&quot;p.value&quot;)] %&gt;% as.data.frame() %&gt;% round(2)
+
+H1_1 &lt;- (anova(m00, m1) %&gt;% # Random Intercept Participant 
  dplyr::select(&quot;Chisq&quot;:&quot;Pr(&gt;Chisq)&quot;))[-1,]
 
 H1_1</code></pre>
@@ -1717,11 +1729,7 @@ m2a &lt;- lmer(response ~(1 | Text_id) + NH + OSA +   (OSA | jatosStudyResultId)
 m2b &lt;- lmer(response ~(1 | Text_id) + NH + OSA +   (NH | jatosStudyResultId), data = subset(df_Post_ext, Topic == &quot;Comprehensibility&quot;), REML = F)
 #summary(m2b)
 
-H1_2 &lt;- (anova(m2a, m1) %&gt;%     # Random Slope OSA by Participant 
-dplyr::select(&quot;Chisq&quot;:&quot;Pr(&gt;Chisq)&quot;))[-1,]
 
-H1_3 &lt;- (anova(m2b, m1)%&gt;%  # Random Slope No Subheadings by Participant 
-dplyr::select(&quot;Chisq&quot;:&quot;Pr(&gt;Chisq)&quot;))[-1,] 
 
 anova(m2a, m1) ## fittest is m1</code></pre>
 <pre><code>## Data: subset(df_Post_ext, Topic == &quot;Comprehensibility&quot;)
@@ -1739,7 +1747,17 @@ anova(m2a, m1) ## fittest is m1</code></pre>
 ##     npar    AIC    BIC  logLik deviance  Chisq Df Pr(&gt;Chisq)
 ## m1     6 6238.2 6271.1 -3113.1   6226.2                     
 ## m2b    8 6241.1 6285.1 -3112.6   6225.1 1.0607  2     0.5884</code></pre>
-<pre class="r"><code>#summary(m1)
+<pre class="r"><code>test_m2a &lt;- anova(m2a, m1) %&gt;% broom::tidy() %&gt;%
+  filter(term == &quot;m2a&quot;)
+
+test_m2a &lt;- test_m2a[c(&quot;statistic&quot;,&quot;df&quot;,&quot;p.value&quot;)] %&gt;% as.data.frame() %&gt;% round(2)
+
+test_m2b &lt;- anova(m2b, m1) %&gt;% broom::tidy() %&gt;%
+  filter(term == &quot;m2b&quot;)
+
+test_m2b &lt;- test_m2b[c(&quot;statistic&quot;,&quot;df&quot;,&quot;p.value&quot;)] %&gt;% as.data.frame() %&gt;% round(2)
+
+
 
 ## 評估知識信念
 
@@ -1747,11 +1765,6 @@ anova(m2a, m1) ## fittest is m1</code></pre>
 m3a &lt;- lmer(response ~(1 | Text_id) + NH+ OSA + JA + PJ + MS +   (1 | jatosStudyResultId), data = subset(df_Post_ext, Topic == &quot;Comprehensibility&quot;))
 m3b &lt;- lmer(response ~(1 | Text_id) + NH+ OSA * JA   + OSA * PJ + OSA * MS +   (1 | jatosStudyResultId), data = subset(df_Post_ext, Topic == &quot;Comprehensibility&quot;))
 
-H1_4 &lt;- (anova(m1,m3a) %&gt;% # Justification Beliefs on Random Intercept  
-dplyr::select(&quot;Chisq&quot;:&quot;Pr(&gt;Chisq)&quot;))[-1,]
-
-H1_5 &lt;- (anova(m3a,m3b) %&gt;% # Justification Beliefs on Random Slope OSA     
-dplyr::select(&quot;Chisq&quot;:&quot;Pr(&gt;Chisq)&quot;))[-1,]
 
 anova(m1,m3a) ## fittest is m3a</code></pre>
 <pre><code>## Data: subset(df_Post_ext, Topic == &quot;Comprehensibility&quot;)
@@ -1783,21 +1796,23 @@ anova(m1,m3a) ## fittest is m3a</code></pre>
 ## m3b   12 6234.9 6300.8 -3105.4   6210.9 6.4638  3     0.0911 .
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
-<pre class="r"><code>## 評估科學活動經驗
+<pre class="r"><code>test_m3a &lt;- anova(m3a, m1) %&gt;% broom::tidy() %&gt;%
+  filter(term == &quot;m3a&quot;)
+
+test_m3a &lt;- test_m3a[c(&quot;statistic&quot;,&quot;df&quot;,&quot;p.value&quot;)] %&gt;% as.data.frame() %&gt;% round(2)
+
+test_m3b &lt;- anova(m3b, m1) %&gt;% broom::tidy() %&gt;%
+  filter(term == &quot;m3b&quot;)
+
+test_m3b &lt;- test_m3b[c(&quot;statistic&quot;,&quot;df&quot;,&quot;p.value&quot;)] %&gt;% as.data.frame() %&gt;% round(2)
+
+
+
+## 評估科學活動經驗
 
 m4a &lt;- lmer(response ~(1 | Text_id) + NH+ OSA + ability + familiarity +  (1| jatosStudyResultId), data = subset(df_Post_ext, Topic == &quot;Comprehensibility&quot;))
 m4b &lt;- lmer(response ~(1 | Text_id) + NH+ OSA * ability +  OSA * familiarity + (1| jatosStudyResultId), data = subset(df_Post_ext, Topic == &quot;Comprehensibility&quot;))
 
-H1_6 &lt;- (anova(m1,m4a) %&gt;% # 科學活動 on Random Intercept   
-dplyr::select(&quot;Chisq&quot;:&quot;Pr(&gt;Chisq)&quot;))[-1,]
-
-H1_7 &lt;- (anova(m4a,m4b) %&gt;% # 科學活動 on Random Slope OSA  
-dplyr::select(&quot;Chisq&quot;:&quot;Pr(&gt;Chisq)&quot;))[-1,]
-
-Likelihood_Ratio_Test = c(&quot;Random Intercept Participant&quot;,&quot;Random Slope OSA by Participant&quot;,&quot;Random Slope No Subheadings by Participant&quot;,&quot;Justification Beliefs on Random Intercept&quot;,&quot;Justification Beliefs on Random Slope OSA&quot;,&quot;科學活動 on Random Intercept&quot;,&quot;科學活動 on Random Slope OSA&quot;)
-
-H1_ratio_tests &lt;- (bind_rows(H1_1,H1_2,H1_3,H1_4,H1_5,H1_6,H1_7) %&gt;%
-  mutate(Likelihood_Ratio_Test))[,c(4,1,2,3)]
 
 anova(m1,m4a) ## fittest is m1, but m4a approach the fittest</code></pre>
 <pre><code>## Data: subset(df_Post_ext, Topic == &quot;Comprehensibility&quot;)
@@ -1827,7 +1842,18 @@ anova(m1,m4a) ## fittest is m1, but m4a approach the fittest</code></pre>
 ##     npar    AIC    BIC  logLik deviance  Chisq Df Pr(&gt;Chisq)
 ## m4a    8 6237.3 6281.3 -3110.7   6221.3                     
 ## m4b   10 6237.0 6292.0 -3108.5   6217.0 4.2754  2     0.1179</code></pre>
-<pre class="r"><code>## &quot;Comprehensibility&quot;的反應資料加入知識信念有最高解釋力，加入科學活動經驗不影響解釋力
+<pre class="r"><code>test_m4a &lt;- anova(m4a, m1) %&gt;% broom::tidy() %&gt;%
+  filter(term == &quot;m4a&quot;)
+
+test_m4a &lt;- test_m4a[c(&quot;statistic&quot;,&quot;df&quot;,&quot;p.value&quot;)] %&gt;% as.data.frame() %&gt;% round(2)
+
+test_m4b &lt;- anova(m4b, m1) %&gt;% broom::tidy() %&gt;%
+  filter(term == &quot;m4b&quot;)
+
+test_m4b &lt;- test_m4b[c(&quot;statistic&quot;,&quot;df&quot;,&quot;p.value&quot;)] %&gt;% as.data.frame() %&gt;% round(2)
+
+
+## &quot;Comprehensibility&quot;的反應資料加入知識信念有最高解釋力，加入科學活動經驗不影響解釋力
 summary(m1)</code></pre>
 <pre><code>## Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [
 ## lmerModLmerTest]
@@ -1897,6 +1923,80 @@ summary(m1)</code></pre>
 ## JA   -0.286  0.000  0.000              
 ## PJ   -0.277  0.000  0.000 -0.337       
 ## MS   -0.799  0.000  0.000 -0.057 -0.030</code></pre>
+<pre class="r"><code>explore_table_Comprehensibility &lt;- bind_cols(
+  Parameters = c(
+    &quot;Random Intercept Participant&quot;,
+    &quot;Random Slope OSA by Participant&quot;,
+    &quot;Random Slope No Subheadings by Participant&quot;,
+    &quot;Justification Beliefs on Random Intercept&quot;,
+    &quot;Justification Beliefs on Random Slope OSA&quot;,
+    &quot;Research Experience on Random Intercept&quot;,
+    &quot;Research Experience on Random Slope OSA&quot;
+  ),
+bind_rows(test_m1,
+          test_m2a,
+          test_m2b,
+          test_m3a,
+          test_m3b,
+          test_m4a,
+          test_m4b)
+) %&gt;%
+    mutate(p.value=if_else(p.value == 0 , &quot;&lt;.01&quot;,as.character(p.value)) ) %&gt;%
+  rename(chisq=statistic, p = p.value)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Parameters</th>
+<th align="right">chisq</th>
+<th align="right">df</th>
+<th align="left">p</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Random Intercept Participant</td>
+<td align="right">274.66</td>
+<td align="right">1</td>
+<td align="left">&lt;.01</td>
+</tr>
+<tr class="even">
+<td align="left">Random Slope OSA by Participant</td>
+<td align="right">2.54</td>
+<td align="right">2</td>
+<td align="left">0.28</td>
+</tr>
+<tr class="odd">
+<td align="left">Random Slope No Subheadings by Participant</td>
+<td align="right">1.06</td>
+<td align="right">2</td>
+<td align="left">0.59</td>
+</tr>
+<tr class="even">
+<td align="left">Justification Beliefs on Random Intercept</td>
+<td align="right">8.84</td>
+<td align="right">3</td>
+<td align="left">0.03</td>
+</tr>
+<tr class="odd">
+<td align="left">Justification Beliefs on Random Slope OSA</td>
+<td align="right">15.30</td>
+<td align="right">6</td>
+<td align="left">0.02</td>
+</tr>
+<tr class="even">
+<td align="left">Research Experience on Random Intercept</td>
+<td align="right">4.87</td>
+<td align="right">2</td>
+<td align="left">0.09</td>
+</tr>
+<tr class="odd">
+<td align="left">Research Experience on Random Slope OSA</td>
+<td align="right">9.14</td>
+<td align="right">4</td>
+<td align="left">0.06</td>
+</tr>
+</tbody>
+</table>
 </div>
 <div id="知識背景影響分析理解測驗正確率" class="section level3">
 <h3>知識背景影響分析：理解測驗正確率</h3>
@@ -1910,8 +2010,6 @@ summary(m1)</code></pre>
 m0a &lt;- glmer(score ~ NH + OSA +(1 | Test_id), data = df_knowledge_ext, family = binomial(&quot;logit&quot;))
 m0b &lt;- glmer(score ~ NH + OSA + (1 | Test_id) + (1 | jatosStudyResultId), data = df_knowledge_ext, family = binomial(&quot;logit&quot;))
 
-H2_1 &lt;- (anova(m0a, m0b) %&gt;%  #Random Intercept Participant     
-dplyr::select(&quot;Chisq&quot;:&quot;Pr(&gt;Chisq)&quot;))[-1,]
 
 anova(m0a, m0b) # fittest is m0a</code></pre>
 <pre><code>## Data: df_knowledge_ext
@@ -1921,17 +2019,17 @@ anova(m0a, m0b) # fittest is m0a</code></pre>
 ##     npar    AIC    BIC  logLik deviance Chisq Df Pr(&gt;Chisq)
 ## m0a    4 3758.4 3782.9 -1875.2   3750.4                    
 ## m0b    5 3759.1 3789.7 -1874.6   3749.1 1.309  1     0.2526</code></pre>
-<pre class="r"><code>## Random Slopes
+<pre class="r"><code>test_m0b &lt;- anova(m0a, m0b) %&gt;% broom::tidy() %&gt;%
+  filter(term == &quot;m0b&quot;)
+
+test_m0b &lt;- test_m0b[c(&quot;statistic&quot;,&quot;df&quot;,&quot;p.value&quot;)] %&gt;% as.data.frame() %&gt;% round(2)
+
+
+## Random Slopes
 
 m1a &lt;- glmer(score ~ NH + OSA +(1 | Test_id)+   (OSA | jatosStudyResultId), data = df_knowledge_ext, family = binomial(&quot;logit&quot;))
 
 m1b &lt;- glmer(score ~ NH + OSA + (1 | Test_id) + (NH | jatosStudyResultId), data = df_knowledge_ext, family = binomial(&quot;logit&quot;))
-
-H2_2 &lt;- (anova(m0a, m1a) %&gt;%  #Random Slope OSA by Participant      
-dplyr::select(&quot;Chisq&quot;:&quot;Pr(&gt;Chisq)&quot;))[-1,]
-
-H2_3 &lt;- (anova(m0b, m1b)%&gt;%     # Random Slope No Subheadings by Participant 
-dplyr::select(&quot;Chisq&quot;:&quot;Pr(&gt;Chisq)&quot;))[-1,] 
 
 
 anova(m0a,m1a) ## fittest is m0a</code></pre>
@@ -1950,7 +2048,17 @@ anova(m0a,m1a) ## fittest is m0a</code></pre>
 ##     npar    AIC    BIC  logLik deviance  Chisq Df Pr(&gt;Chisq)
 ## m0a    4 3758.4 3782.9 -1875.2   3750.4                     
 ## m1b    7 3763.1 3805.9 -1874.6   3749.1 1.3097  3     0.7268</code></pre>
-<pre class="r"><code>## 評估知識信念
+<pre class="r"><code>test_m1a &lt;- anova(m0a, m1a) %&gt;% broom::tidy() %&gt;%
+  filter(term == &quot;m1a&quot;)
+
+test_m1a &lt;- test_m1a[c(&quot;statistic&quot;,&quot;df&quot;,&quot;p.value&quot;)] %&gt;% as.data.frame() %&gt;% round(2)
+
+test_m1b &lt;- anova(m0a, m1b) %&gt;% broom::tidy() %&gt;%
+  filter(term == &quot;m1b&quot;)
+
+test_m1b &lt;- test_m1b[c(&quot;statistic&quot;,&quot;df&quot;,&quot;p.value&quot;)] %&gt;% as.data.frame() %&gt;% round(2)
+
+## 評估知識信念
 
 m2 &lt;- glmer(score ~ (1 | Test_id) + NH + OSA + PJ + JA + MS, data = df_knowledge_ext, family = binomial(&quot;logit&quot;))
 
@@ -1969,11 +2077,7 @@ anova(m0a, m2) # fittest is m2</code></pre>
 
 m2b &lt;- glmer(score ~(1 | Test_id) + NH+ OSA * JA   + OSA * PJ + OSA * MS +   (OSA | jatosStudyResultId), data = df_knowledge_ext, family = binomial(&quot;logit&quot;))
 
-#H2_4 &lt;- (anova(m2, m2a) %&gt;% # Justification Beliefs on Random Intercept    
-#dplyr::select(&quot;Chisq&quot;:&quot;Pr(&gt;Chisq)&quot;))[-1,]
 
-#H2_5 &lt;- (anova(m2,m2b) %&gt;% # Justification Beliefs on Random Slope OSA     
-#dplyr::select(&quot;Chisq&quot;:&quot;Pr(&gt;Chisq)&quot;))[-1,]
 
 anova(m2,m2a)  ## fittest is m2</code></pre>
 <pre><code>## Data: df_knowledge_ext
@@ -1991,7 +2095,18 @@ anova(m2,m2a)  ## fittest is m2</code></pre>
 ##     npar    AIC    BIC  logLik deviance  Chisq Df Pr(&gt;Chisq)
 ## m2     7 3755.4 3798.1 -1870.7   3741.4                     
 ## m2b   13 3766.3 3845.7 -1870.2   3740.3 1.0757  6     0.9826</code></pre>
-<pre class="r"><code>summary(m2)</code></pre>
+<pre class="r"><code>test_m2a &lt;- anova(m2, m2a) %&gt;% broom::tidy() %&gt;%
+  filter(term == &quot;m2a&quot;)
+
+test_m2a &lt;- test_m2a[c(&quot;statistic&quot;,&quot;df&quot;,&quot;p.value&quot;)] %&gt;% as.data.frame() %&gt;% round(2)
+
+test_m2b &lt;- anova(m2, m2b) %&gt;% broom::tidy() %&gt;%
+  filter(term == &quot;m2b&quot;)
+
+test_m2b &lt;- test_m2b[c(&quot;statistic&quot;,&quot;df&quot;,&quot;p.value&quot;)] %&gt;% as.data.frame() %&gt;% round(2)
+
+
+summary(m2)</code></pre>
 <pre><code>## Generalized linear mixed model fit by maximum likelihood (Laplace
 ##   Approximation) [glmerMod]
 ##  Family: binomial  ( logit )
@@ -2031,12 +2146,6 @@ anova(m2,m2a)  ## fittest is m2</code></pre>
 <pre class="r"><code>## 評估科學活動經驗
 m3 &lt;- glmer(score ~ (1 | Test_id) + NH + OSA + ability + familiarity, data = df_knowledge_ext, family = binomial(&quot;logit&quot;))
 
-H2_6 &lt;- (anova(m0a,m3) %&gt;% # 科學活動 on Random Intercept   
-dplyr::select(&quot;Chisq&quot;:&quot;Pr(&gt;Chisq)&quot;))[-1,]
-
-#H2_7 &lt;- (anova(m4a,m4b) %&gt;% # 科學活動 on Random Slope OSA     
-#dplyr::select(&quot;Chisq&quot;:&quot;Pr(&gt;Chisq)&quot;))[-1,]
-
 anova(m0a, m3) # fittest is m0</code></pre>
 <pre><code>## Data: df_knowledge_ext
 ## Models:
@@ -2045,11 +2154,103 @@ anova(m0a, m3) # fittest is m0</code></pre>
 ##     npar    AIC    BIC  logLik deviance  Chisq Df Pr(&gt;Chisq)
 ## m0a    4 3758.4 3782.9 -1875.2   3750.4                     
 ## m3     6 3762.2 3798.8 -1875.1   3750.2 0.2375  2      0.888</code></pre>
-<pre class="r"><code>#H2_ratio_tests &lt;- bind_rows(H2_1,H2_2,H2_3,H2_4,H2_5,H2_6)%&gt;%
-#  mutate(Likelihood_Ratio_Test)
+<pre class="r"><code>m3b &lt;- glmer(score ~(1 | Test_id) + NH+ OSA * ability +  OSA * familiarity + (1| jatosStudyResultId), data = df_knowledge_ext, family = binomial(&quot;logit&quot;))
+
+anova(m0a, m3b) </code></pre>
+<pre><code>## Data: df_knowledge_ext
+## Models:
+## m0a: score ~ NH + OSA + (1 | Test_id)
+## m3b: score ~ (1 | Test_id) + NH + OSA * ability + OSA * familiarity + (1 | jatosStudyResultId)
+##     npar    AIC    BIC  logLik deviance  Chisq Df Pr(&gt;Chisq)
+## m0a    4 3758.4 3782.9 -1875.2   3750.4                     
+## m3b    9 3765.7 3820.7 -1873.9   3747.7 2.7129  5     0.7441</code></pre>
+<pre class="r"><code>test_m3 &lt;- anova(m0a, m3) %&gt;% broom::tidy() %&gt;%
+  filter(term == &quot;m4a&quot;)
+
+test_m3 &lt;- test_m3[c(&quot;statistic&quot;,&quot;df&quot;,&quot;p.value&quot;)] %&gt;% as.data.frame() %&gt;% round(2)
+
+test_m3b &lt;- anova(m0a, m3b) %&gt;% broom::tidy() %&gt;%
+  filter(term == &quot;m4b&quot;)
+
+test_m3b &lt;- test_m3b[c(&quot;statistic&quot;,&quot;df&quot;,&quot;p.value&quot;)] %&gt;% as.data.frame() %&gt;% round(2)
 
 
-## &quot;Knowledge&quot;的反應資料加入知識信念顯著提高解釋力，加入科學活動經驗不影響解釋力</code></pre>
+## &quot;Knowledge&quot;的反應資料加入知識信念顯著提高解釋力，加入科學活動經驗不影響解釋力
+explore_table_Knowledge &lt;- bind_cols(
+  Parameters = c(
+    &quot;Random Intercept Participant&quot;,
+    &quot;Random Slope OSA by Participant&quot;,
+    &quot;Random Slope No Subheadings by Participant&quot;,
+    &quot;Justification Beliefs on Random Intercept&quot;,
+    &quot;Justification Beliefs on Random Slope OSA&quot;,
+    &quot;Research Experience on Random Intercept&quot;,
+    &quot;Research Experience on Random Slope OSA&quot;
+  ),
+bind_rows(test_m0b,
+          test_m1a,
+          test_m1b,
+          test_m2a,
+          test_m2b,
+          test_m4a,
+          test_m4b
+)
+) %&gt;%
+    mutate(p.value=if_else(p.value == 0 , &quot;&lt;.01&quot;,as.character(p.value)) ) %&gt;%
+  rename(chisq=statistic, p = p.value)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Parameters</th>
+<th align="right">chisq</th>
+<th align="right">df</th>
+<th align="left">p</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Random Intercept Participant</td>
+<td align="right">1.31</td>
+<td align="right">1</td>
+<td align="left">0.25</td>
+</tr>
+<tr class="even">
+<td align="left">Random Slope OSA by Participant</td>
+<td align="right">1.68</td>
+<td align="right">3</td>
+<td align="left">0.64</td>
+</tr>
+<tr class="odd">
+<td align="left">Random Slope No Subheadings by Participant</td>
+<td align="right">1.31</td>
+<td align="right">3</td>
+<td align="left">0.73</td>
+</tr>
+<tr class="even">
+<td align="left">Justification Beliefs on Random Intercept</td>
+<td align="right">0.62</td>
+<td align="right">3</td>
+<td align="left">0.89</td>
+</tr>
+<tr class="odd">
+<td align="left">Justification Beliefs on Random Slope OSA</td>
+<td align="right">1.08</td>
+<td align="right">6</td>
+<td align="left">0.98</td>
+</tr>
+<tr class="even">
+<td align="left">Research Experience on Random Intercept</td>
+<td align="right">4.87</td>
+<td align="right">2</td>
+<td align="left">0.09</td>
+</tr>
+<tr class="odd">
+<td align="left">Research Experience on Random Slope OSA</td>
+<td align="right">9.14</td>
+<td align="right">4</td>
+<td align="left">0.06</td>
+</tr>
+</tbody>
+</table>
 </div>
 <div id="知識背景影響分析來源可信度評估" class="section level3">
 <h3>知識背景影響分析：來源可信度評估</h3>
@@ -2067,9 +2268,6 @@ m00 &lt;- lmer(response ~ NH + OSA +(1 | Text_id), data = subset(df_Post_ext, To
 
 m1&lt;- lmer(response ~(1 | Text_id) + NH + OSA +  (1 | jatosStudyResultId), subset(df_Post_ext, Topic == &quot;Credibility&quot;))
 
-H3_1 &lt;- (anova(m00, m1) %&gt;% # Random Intercept Participant 
-dplyr::select(&quot;Chisq&quot;:&quot;Pr(&gt;Chisq)&quot;))[-1,]
-
 anova(m00, m1) ## fittest is m1</code></pre>
 <pre><code>## Data: subset(df_Post_ext, Topic == &quot;Credibility&quot;)
 ## Models:
@@ -2080,17 +2278,17 @@ anova(m00, m1) ## fittest is m1</code></pre>
 ## m1     6 5624.7 5657.7 -2806.3   5612.7 558.13  1  &lt; 2.2e-16 ***
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
-<pre class="r"><code>#Random Slopes
+<pre class="r"><code>test_m1 &lt;- anova(m00, m1) %&gt;% broom::tidy() %&gt;%
+  filter(term == &quot;m1&quot;)
+
+test_m1 &lt;- test_m1[c(&quot;statistic&quot;,&quot;df&quot;,&quot;p.value&quot;)] %&gt;% as.data.frame() %&gt;% round(2)
+
+
+#Random Slopes
 
 m2a &lt;- lmer(response ~(1 | Text_id) + NH + OSA +   (OSA | jatosStudyResultId), data = subset(df_Post_ext, Topic == &quot;Credibility&quot;))
 
 m2b &lt;- lmer(response ~(1 | Text_id) + NH + OSA +   (NH | jatosStudyResultId), data = subset(df_Post_ext, Topic == &quot;Credibility&quot;), REML = F)
-
-H3_2 &lt;- (anova(m2a, m1) %&gt;%     # Random Slope OSA by Participant 
-dplyr::select(&quot;Chisq&quot;:&quot;Pr(&gt;Chisq)&quot;))[-1,]
-
-H3_3 &lt;- (anova(m2b, m1)%&gt;%  # Random Slope No Subheadings by Participant 
-dplyr::select(&quot;Chisq&quot;:&quot;Pr(&gt;Chisq)&quot;))[-1,] 
 
 
 anova(m1,m2a) ## fittest is m2a</code></pre>
@@ -2119,7 +2317,29 @@ anova(m1,m2a) ## fittest is m2a</code></pre>
 ##     npar    AIC    BIC  logLik deviance Chisq Df Pr(&gt;Chisq)
 ## m2a    8 5617.0 5660.9 -2800.5   5601.0                    
 ## m2b    8 5628.4 5672.4 -2806.2   5612.4     0  0</code></pre>
-<pre class="r"><code>summary(m2a)</code></pre>
+<pre class="r"><code>test_m2a &lt;- anova(m2a, m1) %&gt;% broom::tidy() %&gt;%
+  filter(term == &quot;m2a&quot;)
+
+test_m2a &lt;- test_m2a[c(&quot;statistic&quot;,&quot;df&quot;,&quot;p.value&quot;)] %&gt;% as.data.frame() %&gt;% round(2)
+
+test_m2b &lt;- anova(m2b, m1) %&gt;% broom::tidy() %&gt;%
+  filter(term == &quot;m2b&quot;)
+
+test_m2b &lt;- test_m2b[c(&quot;statistic&quot;,&quot;df&quot;,&quot;p.value&quot;)] %&gt;% as.data.frame() %&gt;% round(2)
+
+
+test_m2a &lt;- anova(m2a, m1) %&gt;% broom::tidy() %&gt;%
+  filter(term == &quot;m2a&quot;)
+
+test_m2a &lt;- test_m2a[c(&quot;statistic&quot;,&quot;df&quot;,&quot;p.value&quot;)] %&gt;% as.data.frame() %&gt;% round(2)
+
+test_m2b &lt;- anova(m2b, m1) %&gt;% broom::tidy() %&gt;%
+  filter(term == &quot;m2b&quot;)
+
+test_m2b &lt;- test_m2b[c(&quot;statistic&quot;,&quot;df&quot;,&quot;p.value&quot;)] %&gt;% as.data.frame() %&gt;% round(2)
+
+
+summary(m2a)</code></pre>
 <pre><code>## Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [
 ## lmerModLmerTest]
 ## Formula: response ~ (1 | Text_id) + NH + OSA + (OSA | jatosStudyResultId)
@@ -2156,12 +2376,6 @@ anova(m1,m2a) ## fittest is m2a</code></pre>
 m3a &lt;- lmer(response ~(1 | Text_id) + NH+ OSA + JA + PJ + MS +   (OSA | jatosStudyResultId), data = subset(df_Post_ext, Topic == &quot;Credibility&quot;))
 m3b &lt;- lmer(response ~(1 | Text_id) + NH+ OSA * JA   + OSA * PJ + OSA * MS +   (OSA | jatosStudyResultId), data = subset(df_Post_ext, Topic == &quot;Credibility&quot;))
 
-H3_4 &lt;- (anova(m2a,m3a) %&gt;% # Justification Beliefs on Random Intercept     
-dplyr::select(&quot;Chisq&quot;:&quot;Pr(&gt;Chisq)&quot;))[-1,]
-
-H3_5 &lt;- (anova(m2a,m3b) %&gt;% # Justification Beliefs on Random Slope OSA     
-dplyr::select(&quot;Chisq&quot;:&quot;Pr(&gt;Chisq)&quot;))[-1,]
-
 
 anova(m2a,m3a) ## fittest is m3a</code></pre>
 <pre><code>## Data: subset(df_Post_ext, Topic == &quot;Credibility&quot;)
@@ -2191,7 +2405,17 @@ anova(m2a,m3a) ## fittest is m3a</code></pre>
 ##     npar    AIC    BIC  logLik deviance  Chisq Df Pr(&gt;Chisq)
 ## m3a   11 5613.9 5674.3 -2795.9   5591.9                     
 ## m3b   14 5614.2 5691.2 -2793.1   5586.2 5.6067  3     0.1324</code></pre>
-<pre class="r"><code>summary(m3a)</code></pre>
+<pre class="r"><code>test_m3a &lt;- anova(m2a, m3a) %&gt;% broom::tidy() %&gt;%
+  filter(term == &quot;m3a&quot;)
+
+test_m3a &lt;- test_m3a[c(&quot;statistic&quot;,&quot;df&quot;,&quot;p.value&quot;)] %&gt;% as.data.frame() %&gt;% round(2)
+
+test_m3b &lt;- anova(m2a, m3b) %&gt;% broom::tidy() %&gt;%
+  filter(term == &quot;m3b&quot;)
+
+test_m3b &lt;- test_m3b[c(&quot;statistic&quot;,&quot;df&quot;,&quot;p.value&quot;)] %&gt;% as.data.frame() %&gt;% round(2)
+
+summary(m3a)</code></pre>
 <pre><code>## Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [
 ## lmerModLmerTest]
 ## Formula: 
@@ -2235,16 +2459,6 @@ anova(m2a,m3a) ## fittest is m3a</code></pre>
 m4a &lt;- lmer(response ~(1 | Text_id) + NH+ OSA + ability + familiarity +  (OSA | jatosStudyResultId), data = subset(df_Post_ext, Topic == &quot;Credibility&quot;))
 m4b &lt;- lmer(response ~(1 | Text_id) + NH+ OSA * ability +  OSA * familiarity + (OSA | jatosStudyResultId), data = subset(df_Post_ext, Topic == &quot;Credibility&quot;))
 
-H3_6 &lt;- (anova(m2a,m4a) %&gt;% # 科學活動 on Random Intercept  
-dplyr::select(&quot;Chisq&quot;:&quot;Pr(&gt;Chisq)&quot;))[-1,]
-
-H3_7 &lt;- (anova(m2a,m4b) %&gt;% # 科學活動 on Random Slope OSA  
-dplyr::select(&quot;Chisq&quot;:&quot;Pr(&gt;Chisq)&quot;))[-1,]
-
-H3_ratio_tests &lt;- bind_rows(H3_1,H3_2,H3_3,H3_4,H3_5,H3_6,H3_7) %&gt;%
-  mutate(Likelihood_Ratio_Test)
-
-
 anova(m2a,m4a) ## fittest is m4a</code></pre>
 <pre><code>## Data: subset(df_Post_ext, Topic == &quot;Credibility&quot;)
 ## Models:
@@ -2263,7 +2477,17 @@ anova(m2a,m4a) ## fittest is m4a</code></pre>
 ##     npar    AIC    BIC  logLik deviance  Chisq Df Pr(&gt;Chisq)
 ## m2a    8 5617.0 5660.9 -2800.5   5601.0                     
 ## m4b   12 5617.8 5683.8 -2796.9   5593.8 7.1743  4      0.127</code></pre>
-<pre class="r"><code>summary(m4a)</code></pre>
+<pre class="r"><code>test_m4a &lt;- anova(m2a, m4a) %&gt;% broom::tidy() %&gt;%
+  filter(term == &quot;m4a&quot;)
+
+test_m4a &lt;- test_m4a[c(&quot;statistic&quot;,&quot;df&quot;,&quot;p.value&quot;)] %&gt;% as.data.frame() %&gt;% round(2)
+
+test_m4b &lt;- anova(m2a, m4b) %&gt;% broom::tidy() %&gt;%
+  filter(term == &quot;m4b&quot;)
+
+test_m4b &lt;- test_m4b[c(&quot;statistic&quot;,&quot;df&quot;,&quot;p.value&quot;)] %&gt;% as.data.frame() %&gt;% round(2)
+
+summary(m4a)</code></pre>
 <pre><code>## Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [
 ## lmerModLmerTest]
 ## Formula: response ~ (1 | Text_id) + NH + OSA + ability + familiarity +  
@@ -2300,7 +2524,82 @@ anova(m2a,m4a) ## fittest is m4a</code></pre>
 ## OSAY        -0.090  0.437              
 ## ability     -0.793  0.000  0.000       
 ## familiarity -0.071  0.000  0.000 -0.425</code></pre>
-<pre class="r"><code>## &quot;Credibility&quot;的反應資料加入知識信念顯著提高解釋力，加入科學活動經驗顯著提高解釋力</code></pre>
+<pre class="r"><code>## &quot;Credibility&quot;的反應資料加入知識信念顯著提高解釋力，加入科學活動經驗顯著提高解釋力
+
+explore_table_Credibility &lt;- bind_cols(
+  Parameters = c(
+    &quot;Random Intercept Participant&quot;,
+    &quot;Random Slope OSA by Participant&quot;,
+    &quot;Random Slope No Subheadings by Participant&quot;,
+    &quot;Justification Beliefs on Random Intercept&quot;,
+    &quot;Justification Beliefs on Random Slope OSA&quot;,
+    &quot;Research Experience on Random Intercept&quot;,
+    &quot;Research Experience on Random Slope OSA&quot;
+  ),
+bind_rows(test_m1,
+          test_m2a,
+          test_m2b,
+          test_m3a,
+          test_m3b,
+          test_m4a,
+          test_m4b)
+) %&gt;%
+    mutate(p.value=if_else(p.value == 0 , &quot;&lt;.01&quot;,as.character(p.value)) ) %&gt;%
+  rename(chisq=statistic, p = p.value)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Parameters</th>
+<th align="right">chisq</th>
+<th align="right">df</th>
+<th align="left">p</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Random Intercept Participant</td>
+<td align="right">558.13</td>
+<td align="right">1</td>
+<td align="left">&lt;.01</td>
+</tr>
+<tr class="even">
+<td align="left">Random Slope OSA by Participant</td>
+<td align="right">11.71</td>
+<td align="right">2</td>
+<td align="left">&lt;.01</td>
+</tr>
+<tr class="odd">
+<td align="left">Random Slope No Subheadings by Participant</td>
+<td align="right">0.24</td>
+<td align="right">2</td>
+<td align="left">0.89</td>
+</tr>
+<tr class="even">
+<td align="left">Justification Beliefs on Random Intercept</td>
+<td align="right">9.13</td>
+<td align="right">3</td>
+<td align="left">0.03</td>
+</tr>
+<tr class="odd">
+<td align="left">Justification Beliefs on Random Slope OSA</td>
+<td align="right">14.74</td>
+<td align="right">6</td>
+<td align="left">0.02</td>
+</tr>
+<tr class="even">
+<td align="left">Research Experience on Random Intercept</td>
+<td align="right">6.81</td>
+<td align="right">2</td>
+<td align="left">0.03</td>
+</tr>
+<tr class="odd">
+<td align="left">Research Experience on Random Slope OSA</td>
+<td align="right">7.17</td>
+<td align="right">4</td>
+<td align="left">0.13</td>
+</tr>
+</tbody>
+</table>
 <div id="知識背景影響分析內容真實性評估" class="section level4">
 <h4>知識背景影響分析：內容真實性評估</h4>
 <pre class="r"><code># Model Tests Interindividuell Differences
@@ -2316,10 +2615,6 @@ m00 &lt;- lmer(response ~ NH + OSA +(1 | Text_id), data = subset(df_Post_ext, To
 m1&lt;- lmer(response ~(1 | Text_id) + NH + OSA +  (1 | jatosStudyResultId), subset(df_Post_ext, Topic == &quot;Veracity&quot;))
 
 
-H4_1 &lt;- (anova(m00, m1) %&gt;% # Random Intercept Participant 
-dplyr::select(&quot;Chisq&quot;:&quot;Pr(&gt;Chisq)&quot;))[-1,]
-
-
 anova(m00, m1) # fittest is m1</code></pre>
 <pre><code>## Data: subset(df_Post_ext, Topic == &quot;Veracity&quot;)
 ## Models:
@@ -2330,7 +2625,13 @@ anova(m00, m1) # fittest is m1</code></pre>
 ## m1     6 5941.5 5974.5 -2964.7   5929.5 653.6  1  &lt; 2.2e-16 ***
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
-<pre class="r"><code># Random Slopes
+<pre class="r"><code>test_m1 &lt;- anova(m00, m1) %&gt;% broom::tidy() %&gt;%
+  filter(term == &quot;m1&quot;)
+
+test_m1 &lt;- test_m1[c(&quot;statistic&quot;,&quot;df&quot;,&quot;p.value&quot;)] %&gt;% as.data.frame() %&gt;% round(2)
+
+
+# Random Slopes
 ## 決定未加入個別差異因素的最佳模型
 
 m2a &lt;- lmer(response ~(1 | Text_id) + NH + OSA +   (OSA | jatosStudyResultId), data = subset(df_Post_ext, Topic == &quot;Veracity&quot;))
@@ -2372,13 +2673,7 @@ summary(m2b)</code></pre>
 ## OSAY -0.289  0.500
 ## optimizer (nloptwrap) convergence code: 0 (OK)
 ## boundary (singular) fit: see help(&#39;isSingular&#39;)</code></pre>
-<pre class="r"><code>H4_2 &lt;- (anova(m2a, m1) %&gt;%     # Random Slope OSA by Participant 
-dplyr::select(&quot;Chisq&quot;:&quot;Pr(&gt;Chisq)&quot;))[-1,]
-
-H4_3 &lt;- (anova(m2b, m1)%&gt;%  # Random Slope No Subheadings by Participant 
-dplyr::select(&quot;Chisq&quot;:&quot;Pr(&gt;Chisq)&quot;))[-1,] 
-
-anova(m2a,m1) ## fittest is m1</code></pre>
+<pre class="r"><code>anova(m2a,m1) ## fittest is m1</code></pre>
 <pre><code>## Data: subset(df_Post_ext, Topic == &quot;Veracity&quot;)
 ## Models:
 ## m1: response ~ (1 | Text_id) + NH + OSA + (1 | jatosStudyResultId)
@@ -2394,7 +2689,17 @@ anova(m2a,m1) ## fittest is m1</code></pre>
 ##     npar    AIC    BIC  logLik deviance Chisq Df Pr(&gt;Chisq)
 ## m1     6 5941.5 5974.5 -2964.8   5929.5                    
 ## m2b    8 5945.5 5989.5 -2964.8   5929.5 0.001  2     0.9995</code></pre>
-<pre class="r"><code>summary(m1)</code></pre>
+<pre class="r"><code>test_m2a &lt;- anova(m2a, m1) %&gt;% broom::tidy() %&gt;%
+  filter(term == &quot;m2a&quot;)
+
+test_m2a &lt;- test_m2a[c(&quot;statistic&quot;,&quot;df&quot;,&quot;p.value&quot;)] %&gt;% as.data.frame() %&gt;% round(2)
+
+test_m2b &lt;- anova(m2b, m1) %&gt;% broom::tidy() %&gt;%
+  filter(term == &quot;m2b&quot;)
+
+test_m2b &lt;- test_m2b[c(&quot;statistic&quot;,&quot;df&quot;,&quot;p.value&quot;)] %&gt;% as.data.frame() %&gt;% round(2)
+
+summary(m1)</code></pre>
 <pre><code>## Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [
 ## lmerModLmerTest]
 ## Formula: response ~ (1 | Text_id) + NH + OSA + (1 | jatosStudyResultId)
@@ -2430,14 +2735,6 @@ anova(m2a,m1) ## fittest is m1</code></pre>
 m3a &lt;- lmer(response ~(1 | Text_id) + NH+ OSA + JA + PJ + MS +   (1 | jatosStudyResultId), data = subset(df_Post_ext, Topic == &quot;Veracity&quot;))
 m3b &lt;- lmer(response ~(1 | Text_id) + NH+ OSA * JA   + OSA * PJ + OSA * MS +   (1 | jatosStudyResultId), data = subset(df_Post_ext, Topic == &quot;Veracity&quot;))
 
-H4_4 &lt;- (anova(m1,m3a) %&gt;% # Justification Beliefs on Random Intercept  
-dplyr::select(&quot;Chisq&quot;:&quot;Pr(&gt;Chisq)&quot;))[-1,]
-
-H4_5 &lt;- (anova(m1,m3b) %&gt;% # Justification Beliefs on Random Slope OSA  
-dplyr::select(&quot;Chisq&quot;:&quot;Pr(&gt;Chisq)&quot;))[-1,]
-
-
-
 anova(m1,m3a) ## fittest is m3a</code></pre>
 <pre><code>## Data: subset(df_Post_ext, Topic == &quot;Veracity&quot;)
 ## Models:
@@ -2468,7 +2765,17 @@ anova(m1,m3a) ## fittest is m3a</code></pre>
 ## m3b   12 5935.3 6001.2 -2955.6   5911.3 9.784  3    0.02049 *
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
-<pre class="r"><code>summary(m3b)</code></pre>
+<pre class="r"><code>test_m3a &lt;- anova(m3a, m1) %&gt;% broom::tidy() %&gt;%
+  filter(term == &quot;m3a&quot;)
+
+test_m3a &lt;- test_m3a[c(&quot;statistic&quot;,&quot;df&quot;,&quot;p.value&quot;)] %&gt;% as.data.frame() %&gt;% round(2)
+
+test_m3b &lt;- anova(m3b, m1) %&gt;% broom::tidy() %&gt;%
+  filter(term == &quot;m3b&quot;)
+
+test_m3b &lt;- test_m3b[c(&quot;statistic&quot;,&quot;df&quot;,&quot;p.value&quot;)] %&gt;% as.data.frame() %&gt;% round(2)
+
+summary(m3b)</code></pre>
 <pre><code>## Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [
 ## lmerModLmerTest]
 ## Formula: response ~ (1 | Text_id) + NH + OSA * JA + OSA * PJ + OSA * MS +  
@@ -2517,15 +2824,6 @@ anova(m1,m3a) ## fittest is m3a</code></pre>
 m4a &lt;- lmer(response ~(1 | Text_id) + NH+ OSA + ability + familiarity +  (1 | jatosStudyResultId), data = subset(df_Post_ext, Topic == &quot;Veracity&quot;))
 m4b &lt;- lmer(response ~(1 | Text_id) + NH+ OSA * ability +  OSA * familiarity + (1 | jatosStudyResultId), data = subset(df_Post_ext, Topic == &quot;Veracity&quot;))
 
-H4_6 &lt;- (anova(m1,m4a) %&gt;% # 科學活動 on Random Intercept   
-dplyr::select(&quot;Chisq&quot;:&quot;Pr(&gt;Chisq)&quot;))[-1,]
-
-H4_7 &lt;- (anova(m1,m4b) %&gt;% # 科學活動 on Random Slope OSA   
-dplyr::select(&quot;Chisq&quot;:&quot;Pr(&gt;Chisq)&quot;))[-1,]
-
-H4_ratio_tests &lt;- bind_rows(H4_1,H4_2,H4_3,H4_4,H4_5,H4_6,H4_7) %&gt;%
-  mutate(Likelihood_Ratio_Test)
-
 anova(m1,m4a) ## fittest is m4a</code></pre>
 <pre><code>## Data: subset(df_Post_ext, Topic == &quot;Veracity&quot;)
 ## Models:
@@ -2554,7 +2852,17 @@ anova(m1,m4a) ## fittest is m4a</code></pre>
 ##     npar    AIC    BIC  logLik deviance Chisq Df Pr(&gt;Chisq)
 ## m4a    8 5939.3 5983.3 -2961.7   5923.3                    
 ## m4b   10 5939.4 5994.4 -2959.7   5919.4 3.931  2     0.1401</code></pre>
-<pre class="r"><code>summary(m4a)</code></pre>
+<pre class="r"><code>test_m4a &lt;- anova(m4a, m1) %&gt;% broom::tidy() %&gt;%
+  filter(term == &quot;m4a&quot;)
+
+test_m4a &lt;- test_m4a[c(&quot;statistic&quot;,&quot;df&quot;,&quot;p.value&quot;)] %&gt;% as.data.frame() %&gt;% round(2)
+
+test_m4b &lt;- anova(m4b, m1) %&gt;% broom::tidy() %&gt;%
+  filter(term == &quot;m4b&quot;)
+
+test_m4b &lt;- test_m4b[c(&quot;statistic&quot;,&quot;df&quot;,&quot;p.value&quot;)] %&gt;% as.data.frame() %&gt;% round(2)
+
+summary(m4a)</code></pre>
 <pre><code>## Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [
 ## lmerModLmerTest]
 ## Formula: response ~ (1 | Text_id) + NH + OSA + ability + familiarity +  
@@ -2590,7 +2898,82 @@ anova(m1,m4a) ## fittest is m4a</code></pre>
 ## OSAY        -0.112  0.500              
 ## ability     -0.801  0.000  0.000       
 ## familiarity -0.072  0.000  0.000 -0.425</code></pre>
-<pre class="r"><code>## &quot;Veracity&quot;的反應資料加入知識信念顯著提高解釋力，加入科學活動經驗顯著提高解釋力</code></pre>
+<pre class="r"><code>## &quot;Veracity&quot;的反應資料加入知識信念顯著提高解釋力，加入科學活動經驗顯著提高解釋力
+
+explore_table_Veracity &lt;- bind_cols(
+  Parameters = c(
+    &quot;Random Intercept Participant&quot;,
+    &quot;Random Slope OSA by Participant&quot;,
+    &quot;Random Slope No Subheadings by Participant&quot;,
+    &quot;Justification Beliefs on Random Intercept&quot;,
+    &quot;Justification Beliefs on Random Slope OSA&quot;,
+    &quot;Research Experience on Random Intercept&quot;,
+    &quot;Research Experience on Random Slope OSA&quot;
+  ),
+bind_rows(test_m1,
+          test_m2a,
+          test_m2b,
+          test_m3a,
+          test_m3b,
+          test_m4a,
+          test_m4b)
+) %&gt;%
+    mutate(p.value=if_else(p.value == 0 , &quot;&lt;.01&quot;,as.character(p.value)) ) %&gt;%
+  rename(chisq=statistic, p = p.value)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Parameters</th>
+<th align="right">chisq</th>
+<th align="right">df</th>
+<th align="left">p</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Random Intercept Participant</td>
+<td align="right">653.60</td>
+<td align="right">1</td>
+<td align="left">&lt;.01</td>
+</tr>
+<tr class="even">
+<td align="left">Random Slope OSA by Participant</td>
+<td align="right">3.16</td>
+<td align="right">2</td>
+<td align="left">0.21</td>
+</tr>
+<tr class="odd">
+<td align="left">Random Slope No Subheadings by Participant</td>
+<td align="right">0.00</td>
+<td align="right">2</td>
+<td align="left">1</td>
+</tr>
+<tr class="even">
+<td align="left">Justification Beliefs on Random Intercept</td>
+<td align="right">8.44</td>
+<td align="right">3</td>
+<td align="left">0.04</td>
+</tr>
+<tr class="odd">
+<td align="left">Justification Beliefs on Random Slope OSA</td>
+<td align="right">18.23</td>
+<td align="right">6</td>
+<td align="left">0.01</td>
+</tr>
+<tr class="even">
+<td align="left">Research Experience on Random Intercept</td>
+<td align="right">6.15</td>
+<td align="right">2</td>
+<td align="left">0.05</td>
+</tr>
+<tr class="odd">
+<td align="left">Research Experience on Random Slope OSA</td>
+<td align="right">10.09</td>
+<td align="right">4</td>
+<td align="left">0.04</td>
+</tr>
+</tbody>
+</table>
 </div>
 <div id="知識背景影響分析資訊充足度評估" class="section level4">
 <h4>知識背景影響分析：資訊充足度評估</h4>
@@ -2606,10 +2989,6 @@ m00 &lt;- lmer(response ~ NH + OSA +(1 | Text_id), data = subset(df_Post_ext, To
 m1 &lt;- lmer(response ~(1 | Text_id) + NH + OSA +  (1 | jatosStudyResultId), subset(df_Post_ext, Topic == &quot;Decision&quot;))
 
 
-H5_1 &lt;- (anova(m00, m1) %&gt;% # Random Intercept Participant 
-dplyr::select(&quot;Chisq&quot;:&quot;Pr(&gt;Chisq)&quot;))[-1,]
-
-
 anova(m00, m1)  ## fittest is m1</code></pre>
 <pre><code>## Data: subset(df_Post_ext, Topic == &quot;Decision&quot;)
 ## Models:
@@ -2620,20 +2999,19 @@ anova(m00, m1)  ## fittest is m1</code></pre>
 ## m1     6 6241.3 6274.3 -3114.6   6229.3 777.9  1  &lt; 2.2e-16 ***
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
-<pre class="r"><code># Random Slopes
+<pre class="r"><code>test_m1 &lt;- anova(m00, m1) %&gt;% broom::tidy() %&gt;%
+  filter(term == &quot;m1&quot;)
+
+test_m1 &lt;- test_m1[c(&quot;statistic&quot;,&quot;df&quot;,&quot;p.value&quot;)] %&gt;% as.data.frame() %&gt;% round(2)
+
+
+# Random Slopes
 
 m2a &lt;- lmer(response ~(1 | Text_id) + NH + OSA +   (OSA | jatosStudyResultId), data = subset(df_Post_ext, Topic == &quot;Decision&quot;))
 
 
 m2b &lt;- lmer(response ~(1 | Text_id) + NH + OSA +   (NH | jatosStudyResultId), data = subset(df_Post_ext, Topic == &quot;Decision&quot;), REML = F)
 #summary(m2b)
-
-
-H5_2 &lt;- (anova(m2a, m1) %&gt;%     # Random Slope OSA by Participant 
-dplyr::select(&quot;Chisq&quot;:&quot;Pr(&gt;Chisq)&quot;))[-1,]
-
-H5_3 &lt;- (anova(m2b, m1)%&gt;%  # Random Slope No Subheadings by Participant 
-dplyr::select(&quot;Chisq&quot;:&quot;Pr(&gt;Chisq)&quot;))[-1,] 
 
 anova(m2a, m1) ## fittest is m1</code></pre>
 <pre><code>## Data: subset(df_Post_ext, Topic == &quot;Decision&quot;)
@@ -2659,17 +3037,21 @@ anova(m2a, m1) ## fittest is m1</code></pre>
 ##     npar    AIC    BIC  logLik deviance Chisq Df Pr(&gt;Chisq)
 ## m2a    8 6242.8 6286.8 -3113.4   6226.8                    
 ## m2b    8 6245.2 6289.2 -3114.6   6229.2     0  0</code></pre>
-<pre class="r"><code>## 評估知識信念
+<pre class="r"><code>test_m2a &lt;- anova(m2a, m1) %&gt;% broom::tidy() %&gt;%
+  filter(term == &quot;m2a&quot;)
+
+test_m2a &lt;- test_m2a[c(&quot;statistic&quot;,&quot;df&quot;,&quot;p.value&quot;)] %&gt;% as.data.frame() %&gt;% round(2)
+
+test_m2b &lt;- anova(m2b, m1) %&gt;% broom::tidy() %&gt;%
+  filter(term == &quot;m2b&quot;)
+
+test_m2b &lt;- test_m2b[c(&quot;statistic&quot;,&quot;df&quot;,&quot;p.value&quot;)] %&gt;% as.data.frame() %&gt;% round(2)
+
+## 評估知識信念
 
 
 m3a &lt;- lmer(response ~(1 | Text_id) + NH+ OSA + JA + PJ + MS +   (1 | jatosStudyResultId), data = subset(df_Post_ext, Topic == &quot;Decision&quot;))
 m3b &lt;- lmer(response ~(1 | Text_id) + NH+ OSA * JA   + OSA * PJ + OSA * MS +   (1 | jatosStudyResultId), data = subset(df_Post_ext, Topic == &quot;Decision&quot;))
-
-H5_4 &lt;- (anova(m1,m3a) %&gt;% # Justification Beliefs on Random Intercept  
-dplyr::select(&quot;Chisq&quot;:&quot;Pr(&gt;Chisq)&quot;))[-1,]
-
-H5_5 &lt;- (anova(m1,m3b) %&gt;% # Justification Beliefs on Random Slope OSA  
-dplyr::select(&quot;Chisq&quot;:&quot;Pr(&gt;Chisq)&quot;))[-1,]
 
 anova(m1,m3a) ## fittest is m3a</code></pre>
 <pre><code>## Data: subset(df_Post_ext, Topic == &quot;Decision&quot;)
@@ -2699,7 +3081,18 @@ anova(m1,m3a) ## fittest is m3a</code></pre>
 ##     npar    AIC    BIC  logLik deviance  Chisq Df Pr(&gt;Chisq)
 ## m3a    9 6227.8 6277.3 -3104.9   6209.8                     
 ## m3b   12 6229.5 6295.5 -3102.8   6205.5 4.2843  3     0.2324</code></pre>
-<pre class="r"><code>summary(m3a)</code></pre>
+<pre class="r"><code>test_m3a &lt;- anova(m3a, m1) %&gt;% broom::tidy() %&gt;%
+  filter(term == &quot;m3a&quot;)
+
+test_m3a &lt;- test_m3a[c(&quot;statistic&quot;,&quot;df&quot;,&quot;p.value&quot;)] %&gt;% as.data.frame() %&gt;% round(2)
+
+test_m3b &lt;- anova(m3b, m1) %&gt;% broom::tidy() %&gt;%
+  filter(term == &quot;m3b&quot;)
+
+test_m3b &lt;- test_m3b[c(&quot;statistic&quot;,&quot;df&quot;,&quot;p.value&quot;)] %&gt;% as.data.frame() %&gt;% round(2)
+
+
+summary(m3a)</code></pre>
 <pre><code>## Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [
 ## lmerModLmerTest]
 ## Formula: 
@@ -2742,16 +3135,6 @@ anova(m1,m3a) ## fittest is m3a</code></pre>
 m4a &lt;- lmer(response ~(1 | Text_id) + NH+ OSA + ability + familiarity +  (1 | jatosStudyResultId), data = subset(df_Post_ext, Topic == &quot;Decision&quot;))
 m4b &lt;- lmer(response ~(1 | Text_id) + NH+ OSA * ability +  OSA * familiarity + (1 | jatosStudyResultId), data = subset(df_Post_ext, Topic == &quot;Decision&quot;))
 
-H5_6 &lt;- (anova(m1,m4a) %&gt;% # 科學活動 on Random Intercept   
-dplyr::select(&quot;Chisq&quot;:&quot;Pr(&gt;Chisq)&quot;))[-1,]
-
-H5_7 &lt;- (anova(m1,m4b) %&gt;% # 科學活動 on Random Slope OSA   
-dplyr::select(&quot;Chisq&quot;:&quot;Pr(&gt;Chisq)&quot;))[-1,]
-
-
-H5_ratio_tests &lt;- bind_rows(H5_1,H5_2,H5_3,H5_4,H5_5,H5_6,H5_7) %&gt;%
-  mutate(Likelihood_Ratio_Test)
-
 anova(m1,m4a) ## fittest is m3a</code></pre>
 <pre><code>## Data: subset(df_Post_ext, Topic == &quot;Decision&quot;)
 ## Models:
@@ -2770,7 +3153,93 @@ anova(m1,m4a) ## fittest is m3a</code></pre>
 ## m4b   10 6240.9 6295.9 -3110.4   6220.9 8.3913  4    0.07825 .
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
-<pre class="r"><code>## &quot;Decision&quot;的反應資料加入知識信念有最高解釋力，加入科學活動經驗不影響解釋力</code></pre>
+<pre class="r"><code>test_m4a &lt;- anova(m4a, m1) %&gt;% broom::tidy() %&gt;%
+  filter(term == &quot;m4a&quot;)
+
+test_m4a &lt;- test_m4a[c(&quot;statistic&quot;,&quot;df&quot;,&quot;p.value&quot;)] %&gt;% as.data.frame() %&gt;% round(2)
+
+test_m4b &lt;- anova(m4b, m1) %&gt;% broom::tidy() %&gt;%
+  filter(term == &quot;m4b&quot;)
+
+test_m4b &lt;- test_m4b[c(&quot;statistic&quot;,&quot;df&quot;,&quot;p.value&quot;)] %&gt;% as.data.frame() %&gt;% round(2)
+
+
+## &quot;Decision&quot;的反應資料加入知識信念有最高解釋力，加入科學活動經驗不影響解釋力
+
+explore_table_Decision &lt;- bind_cols(
+  Parameters = c(
+    &quot;Random Intercept Participant&quot;,
+    &quot;Random Slope OSA by Participant&quot;,
+    &quot;Random Slope No Subheadings by Participant&quot;,
+    &quot;Justification Beliefs on Random Intercept&quot;,
+    &quot;Justification Beliefs on Random Slope OSA&quot;,
+    &quot;Research Experience on Random Intercept&quot;,
+    &quot;Research Experience on Random Slope OSA&quot;
+  ),
+bind_rows(test_m1,
+          test_m2a,
+          test_m2b,
+          test_m3a,
+          test_m3b,
+          test_m4a,
+          test_m4b)
+) %&gt;%
+    mutate(p.value=if_else(p.value == 0 , &quot;&lt;.01&quot;,as.character(p.value)) ) %&gt;%
+  rename(chisq=statistic, p = p.value)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Parameters</th>
+<th align="right">chisq</th>
+<th align="right">df</th>
+<th align="left">p</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Random Intercept Participant</td>
+<td align="right">777.90</td>
+<td align="right">1</td>
+<td align="left">&lt;.01</td>
+</tr>
+<tr class="even">
+<td align="left">Random Slope OSA by Participant</td>
+<td align="right">2.47</td>
+<td align="right">2</td>
+<td align="left">0.29</td>
+</tr>
+<tr class="odd">
+<td align="left">Random Slope No Subheadings by Participant</td>
+<td align="right">0.09</td>
+<td align="right">2</td>
+<td align="left">0.96</td>
+</tr>
+<tr class="even">
+<td align="left">Justification Beliefs on Random Intercept</td>
+<td align="right">19.48</td>
+<td align="right">3</td>
+<td align="left">&lt;.01</td>
+</tr>
+<tr class="odd">
+<td align="left">Justification Beliefs on Random Slope OSA</td>
+<td align="right">23.77</td>
+<td align="right">6</td>
+<td align="left">&lt;.01</td>
+</tr>
+<tr class="even">
+<td align="left">Research Experience on Random Intercept</td>
+<td align="right">4.33</td>
+<td align="right">2</td>
+<td align="left">0.11</td>
+</tr>
+<tr class="odd">
+<td align="left">Research Experience on Random Slope OSA</td>
+<td align="right">8.39</td>
+<td align="right">4</td>
+<td align="left">0.08</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 </div>
@@ -2794,9 +3263,25 @@ ICC_table &lt;- tibble(
 table3 &lt;- left_join(ICC_table, table, by = &quot;Topic&quot;) 
 
 
-table6 &lt;- left_join(H1_ratio_tests, H3_ratio_tests, by = &quot;Likelihood_Ratio_Test&quot;) %&gt;%
-  left_join(H4_ratio_tests, by = &quot;Likelihood_Ratio_Test&quot;) %&gt;%
-  left_join(H5_ratio_tests, by = &quot;Likelihood_Ratio_Test&quot;)</code></pre>
+table6 &lt;- left_join(explore_table_Comprehensibility,explore_table_Knowledge, by = &quot;Parameters&quot;) %&gt;% 
+  left_join(explore_table_Credibility, by = &quot;Parameters&quot;) %&gt;%
+  left_join(explore_table_Veracity, by = &quot;Parameters&quot;) %&gt;%
+  left_join(explore_table_Decision, by = &quot;Parameters&quot;)
+
+names(table6) &lt;- c(&quot;Parameters&quot;,
+                   &quot;Comprehensibility_chisq&quot;,
+                   &quot;Comprehensibility_df&quot;,
+                   &quot;Comprehensibility_p&quot;,
+                   &quot;Credibility_chisq&quot;,
+                   &quot;Credibility_df&quot;,
+                   &quot;Credibility_p&quot;,
+                   &quot;Veracity_chisq&quot;,
+                   &quot;Veracity_df&quot;,
+                   &quot;Veracity_p&quot;,
+                   &quot;Decision_chisq&quot;,
+                   &quot;Decision_df&quot;,
+                   &quot;Decision_p&quot;
+                   )</code></pre>
 <table>
 <colgroup>
 <col width="16%" />
@@ -2896,6 +3381,174 @@ table6 &lt;- left_join(H1_ratio_tests, H3_ratio_tests, by = &quot;Likelihood_Rat
 <td align="right">0.3903701</td>
 <td align="right">0.3478261</td>
 <td align="right">0.3861597</td>
+</tr>
+</tbody>
+</table>
+<table style="width:100%;">
+<colgroup>
+<col width="17%" />
+<col width="9%" />
+<col width="8%" />
+<col width="8%" />
+<col width="7%" />
+<col width="6%" />
+<col width="5%" />
+<col width="6%" />
+<col width="4%" />
+<col width="4%" />
+<col width="6%" />
+<col width="4%" />
+<col width="4%" />
+<col width="2%" />
+<col width="1%" />
+<col width="2%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Parameters</th>
+<th align="right">Comprehensibility_chisq</th>
+<th align="right">Comprehensibility_df</th>
+<th align="left">Comprehensibility_p</th>
+<th align="right">Credibility_chisq</th>
+<th align="right">Credibility_df</th>
+<th align="left">Credibility_p</th>
+<th align="right">Veracity_chisq</th>
+<th align="right">Veracity_df</th>
+<th align="left">Veracity_p</th>
+<th align="right">Decision_chisq</th>
+<th align="right">Decision_df</th>
+<th align="left">Decision_p</th>
+<th align="right">NA</th>
+<th align="right">NA</th>
+<th align="left">NA</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Random Intercept Participant</td>
+<td align="right">274.66</td>
+<td align="right">1</td>
+<td align="left">&lt;.01</td>
+<td align="right">1.31</td>
+<td align="right">1</td>
+<td align="left">0.25</td>
+<td align="right">558.13</td>
+<td align="right">1</td>
+<td align="left">&lt;.01</td>
+<td align="right">653.60</td>
+<td align="right">1</td>
+<td align="left">&lt;.01</td>
+<td align="right">777.90</td>
+<td align="right">1</td>
+<td align="left">&lt;.01</td>
+</tr>
+<tr class="even">
+<td align="left">Random Slope OSA by Participant</td>
+<td align="right">2.54</td>
+<td align="right">2</td>
+<td align="left">0.28</td>
+<td align="right">1.68</td>
+<td align="right">3</td>
+<td align="left">0.64</td>
+<td align="right">11.71</td>
+<td align="right">2</td>
+<td align="left">&lt;.01</td>
+<td align="right">3.16</td>
+<td align="right">2</td>
+<td align="left">0.21</td>
+<td align="right">2.47</td>
+<td align="right">2</td>
+<td align="left">0.29</td>
+</tr>
+<tr class="odd">
+<td align="left">Random Slope No Subheadings by Participant</td>
+<td align="right">1.06</td>
+<td align="right">2</td>
+<td align="left">0.59</td>
+<td align="right">1.31</td>
+<td align="right">3</td>
+<td align="left">0.73</td>
+<td align="right">0.24</td>
+<td align="right">2</td>
+<td align="left">0.89</td>
+<td align="right">0.00</td>
+<td align="right">2</td>
+<td align="left">1</td>
+<td align="right">0.09</td>
+<td align="right">2</td>
+<td align="left">0.96</td>
+</tr>
+<tr class="even">
+<td align="left">Justification Beliefs on Random Intercept</td>
+<td align="right">8.84</td>
+<td align="right">3</td>
+<td align="left">0.03</td>
+<td align="right">0.62</td>
+<td align="right">3</td>
+<td align="left">0.89</td>
+<td align="right">9.13</td>
+<td align="right">3</td>
+<td align="left">0.03</td>
+<td align="right">8.44</td>
+<td align="right">3</td>
+<td align="left">0.04</td>
+<td align="right">19.48</td>
+<td align="right">3</td>
+<td align="left">&lt;.01</td>
+</tr>
+<tr class="odd">
+<td align="left">Justification Beliefs on Random Slope OSA</td>
+<td align="right">15.30</td>
+<td align="right">6</td>
+<td align="left">0.02</td>
+<td align="right">1.08</td>
+<td align="right">6</td>
+<td align="left">0.98</td>
+<td align="right">14.74</td>
+<td align="right">6</td>
+<td align="left">0.02</td>
+<td align="right">18.23</td>
+<td align="right">6</td>
+<td align="left">0.01</td>
+<td align="right">23.77</td>
+<td align="right">6</td>
+<td align="left">&lt;.01</td>
+</tr>
+<tr class="even">
+<td align="left">Research Experience on Random Intercept</td>
+<td align="right">4.87</td>
+<td align="right">2</td>
+<td align="left">0.09</td>
+<td align="right">4.87</td>
+<td align="right">2</td>
+<td align="left">0.09</td>
+<td align="right">6.81</td>
+<td align="right">2</td>
+<td align="left">0.03</td>
+<td align="right">6.15</td>
+<td align="right">2</td>
+<td align="left">0.05</td>
+<td align="right">4.33</td>
+<td align="right">2</td>
+<td align="left">0.11</td>
+</tr>
+<tr class="odd">
+<td align="left">Research Experience on Random Slope OSA</td>
+<td align="right">9.14</td>
+<td align="right">4</td>
+<td align="left">0.06</td>
+<td align="right">9.14</td>
+<td align="right">4</td>
+<td align="left">0.06</td>
+<td align="right">7.17</td>
+<td align="right">4</td>
+<td align="left">0.13</td>
+<td align="right">10.09</td>
+<td align="right">4</td>
+<td align="left">0.04</td>
+<td align="right">8.39</td>
+<td align="right">4</td>
+<td align="left">0.08</td>
 </tr>
 </tbody>
 </table>
