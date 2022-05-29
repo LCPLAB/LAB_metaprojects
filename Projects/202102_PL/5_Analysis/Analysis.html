@@ -2255,6 +2255,9 @@ summary(m0a)</code></pre>
 
 m2 &lt;- glmer(score ~ (1 | Test_id) + NH + OSA + PJ + JA + MS, data = df_knowledge_ext, family = binomial(&quot;logit&quot;))
 
+m2c &lt;- glmer(score ~(1 | Test_id) + NH+ OSA * JA   + OSA * PJ + OSA * MS, data = df_knowledge_ext, family = binomial(&quot;logit&quot;))
+
+
 anova(m0a, m2) # fittest is m2</code></pre>
 <pre><code>## Data: df_knowledge_ext
 ## Models:
@@ -2265,26 +2268,34 @@ anova(m0a, m2) # fittest is m2</code></pre>
 ## m2     7 3755.4 3798.1 -1870.7   3741.4 9.0658  3    0.02843 *
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
-<pre class="r"><code>m2a &lt;- glmer(score ~ (1 | Test_id) + NH + OSA + PJ + JA + MS + (OSA | jatosStudyResultId), data = df_knowledge_ext, family = binomial(&quot;logit&quot;))
+<pre class="r"><code>anova(m0a, m2c) # fittest is m2c</code></pre>
+<pre><code>## Data: df_knowledge_ext
+## Models:
+## m0a: score ~ NH + OSA + (1 | Test_id)
+## m2c: score ~ (1 | Test_id) + NH + OSA * JA + OSA * PJ + OSA * MS
+##     npar    AIC    BIC  logLik deviance  Chisq Df Pr(&gt;Chisq)
+## m0a    4 3758.4 3782.9 -1875.2   3750.4                     
+## m2c   10 3760.9 3822.0 -1870.5   3740.9 9.5186  6     0.1464</code></pre>
+<pre class="r"><code>m2a &lt;- glmer(score ~ (1 | Test_id) + NH + OSA + PJ + JA + MS + (1 | jatosStudyResultId), data = df_knowledge_ext, family = binomial(&quot;logit&quot;))
 
-m2b &lt;- glmer(score ~(1 | Test_id) + NH+ OSA * JA   + OSA * PJ + OSA * MS +   (OSA | jatosStudyResultId), data = df_knowledge_ext, family = binomial(&quot;logit&quot;))
+m2b &lt;- glmer(score ~(1 | Test_id) + NH+ OSA * JA   + OSA * PJ + OSA * MS +   (1 | jatosStudyResultId), data = df_knowledge_ext, family = binomial(&quot;logit&quot;))
 
 anova(m2,m2a)  ## fittest is m2</code></pre>
 <pre><code>## Data: df_knowledge_ext
 ## Models:
 ## m2: score ~ (1 | Test_id) + NH + OSA + PJ + JA + MS
-## m2a: score ~ (1 | Test_id) + NH + OSA + PJ + JA + MS + (OSA | jatosStudyResultId)
+## m2a: score ~ (1 | Test_id) + NH + OSA + PJ + JA + MS + (1 | jatosStudyResultId)
 ##     npar    AIC    BIC  logLik deviance  Chisq Df Pr(&gt;Chisq)
 ## m2     7 3755.4 3798.1 -1870.7   3741.4                     
-## m2a   10 3760.8 3821.8 -1870.4   3740.8 0.6186  3     0.8922</code></pre>
+## m2a    8 3757.0 3805.8 -1870.5   3741.0 0.4183  1     0.5178</code></pre>
 <pre class="r"><code>anova(m2,m2b)  ## fittest is m2</code></pre>
 <pre><code>## Data: df_knowledge_ext
 ## Models:
 ## m2: score ~ (1 | Test_id) + NH + OSA + PJ + JA + MS
-## m2b: score ~ (1 | Test_id) + NH + OSA * JA + OSA * PJ + OSA * MS + (OSA | jatosStudyResultId)
-##     npar    AIC    BIC  logLik deviance  Chisq Df Pr(&gt;Chisq)
-## m2     7 3755.4 3798.1 -1870.7   3741.4                     
-## m2b   13 3766.3 3845.7 -1870.2   3740.3 1.0757  6     0.9826</code></pre>
+## m2b: score ~ (1 | Test_id) + NH + OSA * JA + OSA * PJ + OSA * MS + (1 | jatosStudyResultId)
+##     npar    AIC    BIC  logLik deviance Chisq Df Pr(&gt;Chisq)
+## m2     7 3755.4 3798.1 -1870.7   3741.4                    
+## m2b   11 3762.5 3829.7 -1870.2   3740.5 0.871  4     0.9287</code></pre>
 <pre class="r"><code>summary(m2)</code></pre>
 <pre><code>## Generalized linear mixed model fit by maximum likelihood (Laplace
 ##   Approximation) [glmerMod]
@@ -2325,6 +2336,9 @@ anova(m2,m2a)  ## fittest is m2</code></pre>
 <pre class="r"><code>## 評估科學活動經驗
 m3 &lt;- glmer(score ~ (1 | Test_id) + NH + OSA + ability + familiarity, data = df_knowledge_ext, family = binomial(&quot;logit&quot;))
 
+m3a &lt;- glmer(score ~ (1 | Test_id) + NH + OSA*ability + OSA*familiarity, data = df_knowledge_ext, family = binomial(&quot;logit&quot;))
+
+
 anova(m0a, m3) # fittest is m0</code></pre>
 <pre><code>## Data: df_knowledge_ext
 ## Models:
@@ -2333,6 +2347,14 @@ anova(m0a, m3) # fittest is m0</code></pre>
 ##     npar    AIC    BIC  logLik deviance  Chisq Df Pr(&gt;Chisq)
 ## m0a    4 3758.4 3782.9 -1875.2   3750.4                     
 ## m3     6 3762.2 3798.8 -1875.1   3750.2 0.2375  2      0.888</code></pre>
+<pre class="r"><code>anova(m0a, m3a) # fittest is m0</code></pre>
+<pre><code>## Data: df_knowledge_ext
+## Models:
+## m0a: score ~ NH + OSA + (1 | Test_id)
+## m3a: score ~ (1 | Test_id) + NH + OSA * ability + OSA * familiarity
+##     npar    AIC    BIC  logLik deviance  Chisq Df Pr(&gt;Chisq)
+## m0a    4 3758.4 3782.9 -1875.2   3750.4                     
+## m3a    8 3765.0 3813.9 -1874.5   3749.0 1.4227  4     0.8402</code></pre>
 <pre class="r"><code>## &quot;Knowledge&quot;的反應資料加入知識信念顯著提高解釋力，加入科學活動經驗不影響解釋力</code></pre>
 </div>
 <div id="知識背景影響分析來源可信度評估" class="section level3">

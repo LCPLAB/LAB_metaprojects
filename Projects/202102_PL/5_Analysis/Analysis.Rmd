@@ -926,12 +926,16 @@ summary(m0a)
 
 m2 <- glmer(score ~ (1 | Test_id) + NH + OSA + PJ + JA + MS, data = df_knowledge_ext, family = binomial("logit"))
 
+m2c <- glmer(score ~(1 | Test_id) + NH+ OSA * JA   + OSA * PJ + OSA * MS, data = df_knowledge_ext, family = binomial("logit"))
+
+
 anova(m0a, m2) # fittest is m2
+anova(m0a, m2c) # fittest is m2c
 
 
-m2a <- glmer(score ~ (1 | Test_id) + NH + OSA + PJ + JA + MS + (OSA | jatosStudyResultId), data = df_knowledge_ext, family = binomial("logit"))
+m2a <- glmer(score ~ (1 | Test_id) + NH + OSA + PJ + JA + MS + (1 | jatosStudyResultId), data = df_knowledge_ext, family = binomial("logit"))
 
-m2b <- glmer(score ~(1 | Test_id) + NH+ OSA * JA   + OSA * PJ + OSA * MS +   (OSA | jatosStudyResultId), data = df_knowledge_ext, family = binomial("logit"))
+m2b <- glmer(score ~(1 | Test_id) + NH+ OSA * JA   + OSA * PJ + OSA * MS +   (1 | jatosStudyResultId), data = df_knowledge_ext, family = binomial("logit"))
 
 anova(m2,m2a)  ## fittest is m2
 anova(m2,m2b)  ## fittest is m2
@@ -942,7 +946,11 @@ summary(m2)
 ## 評估科學活動經驗
 m3 <- glmer(score ~ (1 | Test_id) + NH + OSA + ability + familiarity, data = df_knowledge_ext, family = binomial("logit"))
 
+m3a <- glmer(score ~ (1 | Test_id) + NH + OSA*ability + OSA*familiarity, data = df_knowledge_ext, family = binomial("logit"))
+
+
 anova(m0a, m3) # fittest is m0
+anova(m0a, m3a) # fittest is m0
 
 
 ## "Knowledge"的反應資料加入知識信念顯著提高解釋力，加入科學活動經驗不影響解釋力
