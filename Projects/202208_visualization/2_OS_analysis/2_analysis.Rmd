@@ -1,0 +1,252 @@
+---
+title: "Analysis ~ Replication study of Bruno R.Bocanegra(2022)"
+author: "張祥偉"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    toc: true
+    toc_depth: 4
+    toc_float: true
+    code_folding: 'hide'
+    self_contained: true
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+	echo = TRUE,
+	message = FALSE,
+	warning = FALSE
+)
+library(tidyverse)
+library(lubridate)
+library(effectsize)
+
+
+library(lme4)
+library(lmerTest)
+library(sjstats)
+library(MuMIn)
+library(multcomp)
+```
+
+
+## 匯入及預覽資料欄位資訊
+```{r rawdata,echo=TRUE}
+library("readxl")
+EX3 <- read_excel("../1_OS_data/experiment3.xlsx")
+EX4a <- read_excel("../1_OS_data/experiment4.xlsx")
+EX4b <- read_excel("../1_OS_data/experiment4.xlsx", 
+    sheet = "Sheet2")
+EX5 <- read_excel("../1_OS_data/experiment5.xlsx")
+```
+
+## 實驗3參與者基本資訊統計
+
+
+
+-檢視參與者總人數與各組別人數
+
+```{r basic-number_3}
+#實驗總人數
+length(unique(EX3$PPnr))
+
+#實驗3a
+length_EX3_gap <- EX3 %>%
+  group_by(task,PPnr) %>%
+  filter(task == "gap")
+  
+length(unique(length_EX3_gap$PPnr))
+
+#實驗3b
+length_EX3_no_gap <- EX3 %>%
+  group_by(task,PPnr) %>%
+  filter(task == "no_gap")
+  
+length(unique(length_EX3_no_gap$PPnr))
+```
+
+共有`r length(unique(EX3$PPnr)) `位參與者,有`r length(unique(EX3_gap$PPnr)) `位安排在實驗3a，`r length(unique(EX3_no_gap$PPnr)) `位安排在實驗3b。
+
+- 排除非正常值
+
+```{r duration}
+EX3_RT <- filter(EX3, reaction_time <3.000 & reaction_time > 0.100)
+#原研究排除反應時間低於100毫秒以及高於3000毫秒實驗數據
+library(ggplot2)
+ggplot(EX3_RT, aes(y = EX3_RT$reaction_time)) +
+  geom_boxplot() +    
+  scale_x_discrete() +
+  ylab("time")      
+
+#實驗3a
+EX3_gap <- filter(length_EX3_gap, reaction_time <3.000 & reaction_time > 0.100) 
+mean(round(EX3_gap$reaction_time,2))
+
+#實驗3b
+EX3_no_gap <- filter(length_EX3_no_gap, reaction_time <3.000 & reaction_time > 0.100)
+
+```
+
+-參與者反應時間
+```{r duration_RT}
+#雙特徵試驗_短提示
+RT_Dual_short <- EX3_gap %>%
+  group_by(conjunction_single) %>%
+  filter(conjunction_single == "conj") %>%
+  filter(accuracy == "1")
+
+mean(RT_Dual_short$reaction_time,2)
+sd(RT_Dual_short$reaction_time*1000)
+#雙特徵試驗_長提示
+RT_Dual_long <- EX3_no_gap %>%
+  group_by(conjunction_single) %>%
+  filter(conjunction_single == "conj") %>%
+  filter(accuracy == "1")
+mean(RT_Dual_long$reaction_time*1000)
+sd(RT_Dual_long$reaction_time*1000)
+#單特徵試驗_短提示
+RT_Single_short <- EX3_gap %>%
+  group_by(conjunction_single) %>%
+  filter(conjunction_single == "sing") %>%
+  filter(accuracy == "1")
+mean(RT_Single_short$reaction_time*1000)
+sd(RT_Single_short$reaction_time*1000)
+#單特徵試驗_長提示
+RT_Single_long <- EX3_no_gap %>%
+  group_by(conjunction_single) %>%
+  filter(conjunction_single == "sing") %>%
+  filter(accuracy == "1")
+mean(RT_Single_long$reaction_time*1000)
+sd(RT_Single_long$reaction_time*1000)
+```
+-參與者準確度
+```{r duration_RT_analysis, echo=TRUE, message=FALSE, warning=FALSE}
+#雙特徵試驗_短提示
+AC_Dual_short <- EX3_gap %>%
+  group_by(conjunction_single) %>%
+  filter(conjunction_single == "conj") 
+mean(AC_Dual_short$accuracy)
+sd(AC_Dual_short$accuracy)
+#雙特徵試驗_長提示
+AC_Dual_long <- EX3_no_gap %>%
+  group_by(conjunction_single) %>%
+  filter(conjunction_single == "conj") 
+mean(AC_Dual_long$accuracy)
+sd(AC_Dual_long$accuracy)
+#單特徵試驗_短提示
+AC_Single_short <- EX3_no_gap %>%
+  group_by(conjunction_single) %>%
+  filter(conjunction_single == "sing") 
+mean(AC_Single_short$accuracy)
+sd(AC_Single_short$accuracy)
+#單特徵試驗_長提示
+AC_Single_long <- EX3_no_gap %>%
+  group_by(conjunction_single) %>%
+  filter(conjunction_single == "sing") 
+mean(AC_Single_long$accuracy)
+sd(AC_Single_long$accuracy)
+```
+
+
+## 實驗4參與者基本資訊統計
+
+-檢視參與者總人數與各組別人數
+
+```{r basic-number_4}
+#實驗4a
+length(unique(EX4a$ResponseId))
+#實驗4b
+length(unique(EX4b$ResponseId))
+```
+
+- 排除非正常值
+
+
+```{r duration}
+
+EX4a_normal <- EX4a %>% dplyr::select(4,5:100)  %>%
+                    filter_all(any_vars(. < 3.000 & .>0.100)) 
+
+EX4b_normal <- EX4b %>% dplyr::select(4,5:100)  %>%
+                    filter_all(all_vars(. < 3.000 & .>0.100)) 
+
+#原研究排除反應時間低於100毫秒以及高於3000毫秒實驗數據
+library(tidyverse)
+to_long(data, keys, values, ..., labels = NULL, recode.key = FALSE)
+```
+
+
+-實驗4a參與者反應時間
+```{r duration_RT}
+
+#雙特徵試驗_短提示
+EX4a_RT <- EX4a_normal %>%  dplyr::filter(2:49 == "1")
+mean(50:97*1000)
+sd(50:97*1000)
+```
+
+```{r basic-gender}
+
+EX4a %>% filter(gender == "Male" ) %>%
+  ggplot(aes(x = 'Male', fill = 'Female')) +
+  geom_bar(show.legend = FALSE) +
+  scale_x_discrete(name = "參與者性別") +
+  scale_y_continuous(name = "參與者人數") +
+  theme_minimal() +
+  scale_fill_viridis_d(option = "E")
+
+EX4_table <- data.frame(table(EX4$gender))
+EX4_table <- ggplot(data = EX4_table, aes(x = "Male","Female", y ="Male","Female" )) +
+  geom_bar(stat = "參與者性別")
+
+
+```
+
+**參與者年齡分佈**
+
+```{r basic-birth}
+## Confirm the median and MAD
+response_b <- df_Basic %>% filter(Topic=="birth" & !(jatosStudyResultId %in% strange_id)) %>%
+  summarise(M = median(as.numeric(response),na.rm = TRUE), 
+            dev= mad(as.numeric(response),na.rm = TRUE),
+            min(as.numeric(response),na.rm = TRUE),
+            max(as.numeric(response),na.rm = TRUE))
+## median = 2, MAD = 1.48; median +/- 66 MAD are acceptable responses.
+df_Basic %>% filter(Topic=="birth" & !(jatosStudyResultId %in% strange_id)) %>%
+  mutate(last_two = ifelse(as.numeric(response)< response_b$M + 66*response_b$dev,as.numeric(response),NA), ## Turn strange response to missing value NA
+         age = ifelse(!is.na(last_two),ifelse(last_two>50,2022-(1900+last_two),2022-(2000+last_two) ),NA )) %>% ## Estimate participant's age
+#df_Basic %>% filter(Topic=="birth") %>%
+  ggplot(aes(x = as.character(age), fill = as.character(age))) +
+  geom_bar(show.legend = FALSE) +
+  scale_x_discrete(name = "參與者年齡") +
+  scale_y_continuous(name = "參與者人數") +
+  theme_minimal() +
+  scale_fill_viridis_d(option = "E")
+```
+### 回答正確率散佈趨勢
+
+EX5 <- datak1+datak1+datak4+data$5
+data<-cbind(data,k7)
+
+```{r duration-analysis, echo=TRUE, message=FALSE, warning=FALSE}
+  mutate(score = ifelse(response == correct_response,1,0)) %>%    
+  group_by(EX4) %>%
+  
+  summarise(Correct_rate = mean(score))),    #計算正確率
+by="jatosStudyResultId")
+
+ggplot(df_post_trend,aes(x=Correct_rate, y=minutes_count))+
+   geom_point()
+EX4_sum <- sum(theMatrix)
+EX4 <- sum(EX4$conj1_gd_m_1:EX4$coj3_rs_mm_2)
+data<-cbind(data,k7)
+
+filter(!(jatosStudyResultId %in% strange_id)) %>%
+  group_by(jatosStudyResultId, Q_type,Topic) %>%
+         summarise(score = mean(as.numeric(response),na.rm = TRUE)) %>% ## 參與者分項評分總計   
+        group_by(Q_type,Topic) %>%
+         summarise(N = n(),
+                   M = mean(score),
+                   SD = sd(score))
+```
