@@ -139,4 +139,4 @@ least_n <- pwr::pwr.t.test(d=.425,
   pluck("n")
 ```
 
-If we will replicate this study in terms of the identical design, based on power = .80, the smallest sample size is `r least_n`.
+If we will replicate this study in terms of the identical design, based on power = .80, the smallest sample size for a betwee-participant condition is `r least_n`.
