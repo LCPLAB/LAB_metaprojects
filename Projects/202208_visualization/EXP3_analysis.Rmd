@@ -2,7 +2,9 @@
 title: "Bocanegra et al.(2022) Exp 3 analysis remaster"
 author: "Sau-Chin Chen"
 date: "`r Sys.Date()`"
-output: html_document
+output: 
+  html_document:
+    code_folding: "hide"
 ---
 
 ```{r setup, include=FALSE}
@@ -12,6 +14,7 @@ knitr::opts_chunk$set(
 	warning = FALSE
 )
 library(tidyverse)
+library(afex)
 rawdata <- read_csv(file="EXP3.csv")
 ```
 
@@ -23,7 +26,7 @@ rawdata <- read_csv(file="EXP3.csv")
 knitr::kable(data.frame(
              Variables = names(rawdata), 
              Descriptions =c(
-               "no_gap = long cue; gap = short cue",
+               "no_gap = long cue; gap = short cue", ## wrong coding in the data set
                "MTurk ID",
                "conj = dual feature; sing = single feature",
                "matching of cue and target. m = match ; mm = mismatch",
@@ -33,26 +36,107 @@ knitr::kable(data.frame(
              ) ) )
 ```
 
+We found the original data set had wrong codes on "Task".
 
 ## By participant summary
 
-```{r summary_data}
+```{r summary_data_3}
 ## Summary of participants' accuracy
-sumdata = rawdata %>% group_by(Task, PPnr, `Trial Type`, `Target Type`) %>%
+sumdata3 = rawdata %>% 
+  mutate(across("Task", recode, 'long cue' = "gap", 'short cue' = "no gap")) %>%
+  group_by(Task, PPnr, `Trial Type`, `Target Type`) %>%
   summarise(acc = mean(accuracy)) %>%
 right_join(
 ## Summary of participants' RT
-rawdata %>%  filter(reaction_time > 0.1 & reaction_time < 3.000) %>%
+rawdata %>%  
+  mutate(across("Task", recode, 'long cue' = "gap", 'short cue' = "no gap")) %>%
+  filter(reaction_time > 0.1 & reaction_time < 3.000) %>%
   group_by(Task, PPnr, `Trial Type`, `Target Type`) %>%
   summarise(RT = mean(reaction_time*1000)),
 by=c("Task","PPnr", "Trial Type", "Target Type"))
 
 ## Summary stat
-sumdata %>% group_by(Task, `Trial Type`, `Target Type`) %>%
-  summarise(N = n(), m_RT = mean(RT), sd_RT = sd(RT), m_ACC = mean(acc), sd_ACC = sd(acc)) %>% knitr::kable(caption = "Exp3 result summary")
+sumdata3 %>% group_by(Task, `Trial Type`, `Target Type`) %>%
+  summarise(N = n(), m_RT = mean(RT), sd_RT = sd(RT), m_ACC = mean(acc), sd_ACC = sd(acc)) %>% knitr::kable(caption = "Exp3 result summary: three factors")
 ```
+
+
+Through 3-factor summary table, we learned the "trial type" are collapsed in the final analysis. One noticeable point was that one~two participants in long cue (no gap) task failed to make correct response on match/mismatch stimuli.
+
+```{r summary_data_2}
+## Summary of participants' accuracy
+sumdata2 = rawdata %>% 
+  mutate(across("Task", recode, 'long cue' = "gap", 'short cue' = "no gap")) %>%
+  group_by(Task, PPnr, `Trial Type`) %>%
+  summarise(acc = mean(accuracy) ) %>%
+right_join(
+## Summary of participants' RT
+rawdata %>%  
+  mutate(across("Task", recode, 'long cue' = "gap", 'short cue' = "no gap")) %>%
+  filter(reaction_time > 0.1 & reaction_time < 3.000) %>%
+  group_by(Task, PPnr, `Trial Type`) %>%
+  summarise(RT = mean(reaction_time*1000)),
+by=c("Task","PPnr", "Trial Type"))
+
+## Summary stat
+summary_exp3 <- sumdata2 %>% group_by(Task, `Trial Type`) %>%
+  summarise(N = n(), m_RT = mean(RT), SD_RT = sd(RT), se_RT = (mean_se(RT)[,3] - mean_se(RT)[,2] ), m_ACC = mean(acc), SD_ACC = sd(acc)) 
+
+knitr::kable(summary_exp3)
+```
+
+The summary stat as like the original report showed some tiny difference, but the results are nearly equal.
+
+- Ploting the summary stat
+
+```{r plot_summary}
+## Plot summary stat
+ggplot(summary_exp3, aes(x =Task, y=m_RT, fill=`Trial Type`)) +
+  geom_bar(stat = "identity", position = position_dodge()) + 
+  geom_errorbar(aes(ymin=m_RT - se_RT,ymax=m_RT + se_RT), width = .2,
+                position = position_dodge(.9))+ 
+ coord_cartesian(ylim=c(700,1200))+ 
+  scale_fill_manual(values=c('black','lightgray'))+
+    theme_classic()
+```
+
 
 ```{r original_exp3, echo=FALSE, fig.cap="Original Figure 12: RTs for each of the condition s in EXP 3 a-b."}
 knitr::include_graphics("EXP3_summary.jpg")
 ```
 
+- Reproduce the ANOVA on correct RT and accuracy
+
+```{r exp3_anova}
+exp3.rt.aov <- aov_car(RT ~ `Trial Type`*Task + Error(PPnr/`Trial Type`), data=sumdata2, anova_table = list(correction="none", es="pes"))
+knitr::kable(nice(exp3.rt.aov))
+
+exp3.acc.aov <- aov_car(acc ~ `Trial Type`*Task + Error(PPnr/`Trial Type`), data=sumdata2, anova_table = list(correction="none", es="pes"))
+knitr::kable(nice(exp3.acc.aov))
+
+```
+
+- Comparison stat: dual features vs. single feature
+
+```{r exp3_comparison}
+results = cbind(
+Task = c("long cue","short cue"),
+rbind(t.test(RT ~ `Trial Type`, paired=TRUE, data = subset(sumdata2, Task == "no gap")) %>% broom::tidy() %>% mutate(d = abs(statistic/sqrt(parameter+1))),
+short_cue_comparison <- t.test(RT ~ `Trial Type`, paired=TRUE, data = subset(sumdata2, Task == "gap")) %>% broom::tidy() %>% mutate(d = abs(statistic/sqrt(parameter+1))))
+)
+
+knitr::kable(results)
+```
+
+## Required sampel size for replication study
+
+```{r sample_size}
+least_n <- pwr::pwr.t.test(d=.425,
+           power=.8,
+           sig.level = .05,
+           alternative = "two.sided",
+           type="paired") %>%
+  pluck("n")
+```
+
+If we will replicate this study in terms of the identical design, based on power = .80, the smallest sample size is `r least_n`.
