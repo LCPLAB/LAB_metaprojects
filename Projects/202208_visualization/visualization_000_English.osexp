@@ -23,7 +23,7 @@ set font_size 18
 set font_italic no
 set font_family mono
 set font_bold no
-set experiment_path "D:/core/Research/projects/Meta_Replication/Projects/202208_visualization"
+set experiment_path "D:\\core\\Research\\projects\\Meta_Replication\\Projects\\202208_visualization"
 set disable_garbage_collection yes
 set description "The main experiment item"
 set coordinates uniform
@@ -73,9 +73,8 @@ define sequence EXP_gap
 	run EXP_complete always
 
 define loop EXP_long
-	set source_file ""
 	set source table
-	set repeat 1
+	set repeat 2
 	set order random
 	set description "Repeatedly runs another item"
 	set cycles 16
@@ -140,7 +139,7 @@ define loop EXP_long
 	setcycle 7 Block EXP
 	setcycle 8 cue "紅色方塊"
 	setcycle 8 target_color green
-	setcycle 8 target_shape "■"
+	setcycle 8 target_shape "◆"
 	setcycle 8 Trial_type dual
 	setcycle 8 correct_response z
 	setcycle 8 gap y
@@ -275,7 +274,7 @@ define loop EXP_short
 	setcycle 7 Block EXP
 	setcycle 8 cue "紅色方塊"
 	setcycle 8 target_color green
-	setcycle 8 target_shape "■"
+	setcycle 8 target_shape "◆"
 	setcycle 8 Trial_type dual
 	setcycle 8 correct_response z
 	setcycle 8 gap n
@@ -341,7 +340,7 @@ define sequence Post_seq
 
 define loop Post_survey
 	set source table
-	set repeat 1
+	set repeat 10
 	set order sequential
 	set description "Repeatedly runs another item"
 	set cycles 5
@@ -628,6 +627,7 @@ define keyboard_response agree_response
 	set event_type keypress
 	set duration keypress
 	set description "Collects keyboard responses"
+	set correct_response a
 	set allowed_responses a
 
 define loop consent
@@ -663,6 +663,7 @@ define keyboard_response consent_response
 	set event_type keypress
 	set duration keypress
 	set description "Collects keyboard responses"
+	set correct_response c
 	set allowed_responses c
 
 define sequence consent_seq
@@ -704,6 +705,7 @@ define sketchpad fixation
 	set duration 500
 	set description "Displays stimuli"
 	draw fixdot color=white show_if=always style=default x=0 y=0 z_index=0
+	draw textline center=1 color="#ffff00" font_bold=no font_family=mono font_italic=no font_size=18 html=yes show_if=never text="[count_EXP_seq]" x=0 y=-224 z_index=0
 
 define inline_javascript initilization
 	set description "Executes JavaScript code"
@@ -741,6 +743,7 @@ define logger logger
 	log correct_response
 	log Topic
 	log Block
+	log count_EXP_seq
 
 define notepad loop_setup
 	__note__
@@ -787,7 +790,7 @@ define sketchpad welcome_01
 	set duration keypress
 	set description "Displays stimuli"
 	draw textline center=1 color=white font_bold=no font_family=serif font_italic=no font_size=32 html=yes show_if=always text="歡迎參加圖像視覺化測驗" x=0 y=-288 z_index=0
-	draw textline center=0 color=white font_bold=no font_family=serif font_italic=no font_size=18 html=yes show_if=always text="這是一個測試圖像視覺化的實驗，實驗過程中你會先看到一個字詞，會呈現一到三秒鐘。字詞消失後你需要判斷接著出現的圖像，圖像的特徵是否符合字詞的提示。這次實驗只有四種圖像，如以下例子裡的字詞與圖像。" x=-480 y=-224 z_index=0
+	draw textline center=0 color=white font_bold=no font_family=serif font_italic=no font_size=18 html=yes show_if=always text="這是一個測試圖像視覺化的實驗，實驗過程中你會先看到一個字詞，會呈現一到三秒鐘。字詞消失後你需要判斷接著出現的<br/>圖像，圖像的特徵是否符合字詞的提示。這次實驗只有四種圖像，如以下例子裡的字詞與圖像。" x=-480 y=-224 z_index=0
 	draw textline center=0 color=red font_bold=no font_family=serif font_italic=no font_size=30 html=yes show_if=always text="■" x=64 y=-128 z_index=0
 	draw textline center=0 color=green font_bold=no font_family=serif font_italic=no font_size=30 html=yes show_if=always text="◆" x=64 y=-64 z_index=0
 	draw textline center=0 color=green font_bold=no font_family=serif font_italic=no font_size=30 html=yes show_if=always text="■" x=64 y=32 z_index=0
