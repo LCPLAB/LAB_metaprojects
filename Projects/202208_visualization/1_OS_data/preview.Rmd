@@ -12,7 +12,7 @@ library(tidyverse)
 
 
 ```{r}
-df <- read_csv(file="jatos_results_20220829070340.csv")
+df <- read_csv(file="jatos_results_20220905052853.csv")
 
 df %>% group_by(jatosStudyResultId) %>%
   summarise(n = n())

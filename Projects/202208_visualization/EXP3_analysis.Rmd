@@ -58,6 +58,11 @@ by=c("Task","PPnr", "Trial Type", "Target Type"))
 ## Summary stat
 sumdata3 %>% group_by(Task, `Trial Type`, `Target Type`) %>%
   summarise(N = n(), m_RT = mean(RT), sd_RT = sd(RT), m_ACC = mean(acc), sd_ACC = sd(acc)) %>% knitr::kable(caption = "Exp3 result summary: three factors")
+
+strange_pp <- sumdata3 %>% group_by(PPnr) %>%
+  summarise(N = n()) %>%
+  filter(N != 4) %>%
+  pull(PPnr)
 ```
 
 
@@ -76,11 +81,21 @@ rawdata %>%
   filter(reaction_time > 0.1 & reaction_time < 3.000) %>%
   group_by(Task, PPnr, `Trial Type`) %>%
   summarise(RT = mean(reaction_time*1000)),
-by=c("Task","PPnr", "Trial Type"))
+by=c("Task","PPnr", "Trial Type")) %>%
+  right_join(
+## Summary of participants' RT
+rawdata %>%  
+  filter(`Target Type` == "Match") %>% 
+  mutate(across("Task", recode, 'long cue' = "gap", 'short cue' = "no gap")) %>%
+  filter(reaction_time > 0.1 & reaction_time < 3.000) %>%
+  group_by(Task, PPnr, `Trial Type`) %>%
+  summarise(match_RT = mean(reaction_time*1000)), ## compute the responses for the matching targets only.
+by=c("Task","PPnr", "Trial Type")    
+  )
 
 ## Summary stat
 summary_exp3 <- sumdata2 %>% group_by(Task, `Trial Type`) %>%
-  summarise(N = n(), m_RT = mean(RT), SD_RT = sd(RT), se_RT = (mean_se(RT)[,3] - mean_se(RT)[,2] ), m_ACC = mean(acc), SD_ACC = sd(acc)) 
+  summarise(N = n(), m_RT = mean(RT), SD_RT = sd(RT), se_RT = (mean_se(RT)[,3] - mean_se(RT)[,2] ), m_ACC = mean(acc), SD_ACC = sd(acc), alt_m_RT = mean(match_RT), alt_SD_RT = sd(match_RT), alt_se_RT = (mean_se(match_RT)[,3] - mean_se(match_RT)[,2] )) 
 
 knitr::kable(summary_exp3)
 ```
@@ -105,6 +120,20 @@ ggplot(summary_exp3, aes(x =Task, y=m_RT, fill=`Trial Type`)) +
 knitr::include_graphics("EXP3_summary.jpg")
 ```
 
+
+```{r plot_match_summary}
+## Plot summary stat of matching RT
+ggplot(summary_exp3, aes(x =Task, y=alt_m_RT, fill=`Trial Type`)) +
+  geom_bar(stat = "identity", position = position_dodge()) + 
+  geom_errorbar(aes(ymin=alt_m_RT - alt_se_RT,ymax=alt_m_RT + alt_se_RT), width = .2,
+                position = position_dodge(.9))+ 
+ coord_cartesian(ylim=c(700,1200))+ 
+  scale_fill_manual(values=c('black','lightgray'))+
+    theme_classic()
+```
+
+
+
 - Reproduce the ANOVA on correct RT and accuracy
 
 ```{r exp3_anova}
@@ -116,27 +145,82 @@ knitr::kable(nice(exp3.acc.aov))
 
 ```
 
+- ANOVA on match responses
+
+
+```{r exp3_match_anova}
+exp3.alt.rt.aov <- aov_car(match_RT ~ `Trial Type`*Task + Error(PPnr/`Trial Type`), data=sumdata2, anova_table = list(correction="none", es="pes"))
+knitr::kable(nice(exp3.alt.rt.aov))
+
+```
+
+
 - Comparison stat: dual features vs. single feature
+
+*combine match and mismatch targets*
 
 ```{r exp3_comparison}
 results = cbind(
 Task = c("long cue","short cue"),
-rbind(t.test(RT ~ `Trial Type`, paired=TRUE, data = subset(sumdata2, Task == "no gap")) %>% broom::tidy() %>% mutate(d = abs(statistic/sqrt(parameter+1))),
-short_cue_comparison <- t.test(RT ~ `Trial Type`, paired=TRUE, data = subset(sumdata2, Task == "gap")) %>% broom::tidy() %>% mutate(d = abs(statistic/sqrt(parameter+1))))
+rbind(
+t.test(RT ~ `Trial Type`, paired=TRUE, data = subset(sumdata2, Task == "no gap" & PPnr != strange_pp)) %>% broom::tidy() %>% mutate(d = abs(statistic/sqrt(parameter+1))),
+t.test(RT ~ `Trial Type`, paired=TRUE, data = subset(sumdata2, Task == "gap")) %>% broom::tidy() %>% mutate(d = abs(statistic/sqrt(parameter+1))))
 )
 
 knitr::kable(results)
 ```
 
-## Required sampel size for replication study
+*only match targets*
 
-```{r sample_size}
-least_n <- pwr::pwr.t.test(d=.425,
+```{r exp3_alt_comparison}
+alt_results = cbind(
+Task = c("long cue","short cue"),
+rbind(
+t.test(match_RT ~ `Trial Type`, paired=TRUE, data = subset(sumdata2, Task == "no gap" & PPnr != strange_pp)) %>% broom::tidy() %>% mutate(d = abs(statistic/sqrt(parameter+1))),
+t.test(match_RT ~ `Trial Type`, paired=TRUE, data = subset(sumdata2, Task == "gap")) %>% broom::tidy() %>% mutate(d = abs(statistic/sqrt(parameter+1))))
+)
+
+knitr::kable(alt_results)
+```
+
+## Required sample size for replication study
+
+```{r sample_size1}
+power80_n1 <- pwr::pwr.t.test(d=.424,
            power=.8,
            sig.level = .05,
            alternative = "two.sided",
            type="paired") %>%
   pluck("n")
+power95_n1 <- pwr::pwr.t.test(d=.424,
+           power=.95,
+           sig.level = .05,
+           alternative = "two.sided",
+           type="paired") %>%
+  pluck("n")
+
 ```
 
-If we will replicate this study in terms of the identical design, based on power = .80, the smallest sample size for a betwee-participant condition is `r least_n`.
+Given the *d* = 0.424, we have the sample size estimations as below: 
+If we will replicate this study in terms of the identical design, based on power = .80, the smallest sample size for a task is `r power80_n1`. To achieve the highest reproducibility, namly power = .95, the required sample size for a task is `r power95_n1`.
+
+
+```{r sample_size2}
+power80_n2 <- pwr::pwr.t.test(d=.281,
+           power=.8,
+           sig.level = .05,
+           alternative = "two.sided",
+           type="paired") %>%
+  pluck("n")
+power95_n2 <- pwr::pwr.t.test(d=.281,
+           power=.95,
+           sig.level = .05,
+           alternative = "two.sided",
+           type="paired") %>%
+  pluck("n")
+
+```
+
+Given the *d* = 0.281, we have the sample size estimations as below: 
+If we will replicate this study in terms of the identical design, based on power = .80, the smallest sample size for a task is `r power80_n2`. To achieve the highest reproducibility, namly power = .95, the required sample size for a task is `r power95_n2`.
+
