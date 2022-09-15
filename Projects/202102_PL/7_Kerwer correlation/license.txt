@@ -1,0 +1,3 @@
+Reuse of the research data "Gesamtdatensatz_Total_Dataset_Matrix.csv", "Wissenstestdatensatz_Knowledge_Test_Dataset_Matrix.csv" and "Versuchspersonendatensatz_Subject_Dataset_Matrix.csv" is only allowed for scientific purposes. Furthermore, redistribution of the research data "Gesamtdatensatz_Total_Dataset_Matrix.csv", "Wissenstestdatensatz_Knowledge_Test_Dataset_Matrix.csv" and "Versuchspersonendatensatz_Subject_Dataset_Matrix.csv" is only allowed according to the Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License (see <http://creativecommons.org/licenses/by-nc-sa/4.0/>).
+
+All other files are licensed under a Creative Commons Attribution 4.0 International License (see <https://creativecommons.org/licenses/by/4.0/>).
