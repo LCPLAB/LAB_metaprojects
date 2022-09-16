@@ -34,7 +34,8 @@ df <- read.csv("Gesamtdatensatz_Total_Dataset_Matrix.csv", na.strings = c("-999"
 
 df_wiss <- read.csv("Wissenstestdatensatz_Knowledge_Test_Dataset_Matrix.csv", na.strings = c("-999"))
 
-
+install.packages("ggpubr")
+library(ggpubr)
 library(tidyverse)
 
 library(lubridate)
@@ -66,28 +67,54 @@ H1_H4_cor <- cor.test(df$vst,df$wahr, use = "complete.obs", method = "spearman")
 H1_H5_cor <- cor.test(df$vst,df$ent, use = "complete.obs", method = "spearman") %>% 
   broom::tidy()
 
-
 H2 <- df_wiss %>%   
-  group_by(study) %>%
-  summarise(scores = sum(as.numeric(test),na.rm = TRUE)/332)
+  group_by(id) %>%
+  summarise(score1 = sum(as.numeric(test),na.rm = TRUE)) #每位參與者的正確率
 
 H3 <- df %>%
-  group_by(study) %>%
-  summarise(scores = sum(as.numeric(vtr),na.rm = TRUE))
+  group_by(id) %>%
+  summarise(score2 = sum(as.numeric(vtr),na.rm = TRUE)/12) #每位參與者的回答平均
 
 H4 <- df %>%
-  group_by(study) %>%
-  summarise(scores = sum(as.numeric(wahr),na.rm = TRUE))
+  group_by(id) %>%
+  summarise(score2 = sum(as.numeric(wahr),na.rm = TRUE)/12)
 
 H5 <- df %>%
-  group_by(study) %>%
-  summarise(scores = sum(as.numeric(ent),na.rm = TRUE))
+  group_by(id) %>%
+  summarise(score2 = sum(as.numeric(ent),na.rm = TRUE)/12)
 
-H2_H3_cor <- cor(H2,H3, use = "complete.obs", method = "pearson")
+H2_H3_cor <- cor(H2$score1,H3$score2, use = "complete.obs", method = "pearson")
 
-H2_H4_cor <- cor(H2,H4, use = "complete.obs", method = "pearson")
+H2_H4_cor <- cor(H2$score1,H4$score2, use = "complete.obs", method = "pearson")
 
-H2_H5_cor <- cor(H2,H5, use = "complete.obs", method = "pearson")
+H2_H5_cor <- cor(H2$score1,H5$score2, use = "complete.obs", method = "pearson")
+
+
+H23 <- left_join(H2,H3)
+
+H24 <- left_join(H2,H4)
+
+H25 <- left_join(H2,H5)
+
+
+ggscatter(H23, x = "score1", y = "score2",
+   add = "reg.line",  # Add regressin line
+   add.params = list(color = "blue", fill = "lightgray"), # Customize reg. line
+   conf.int = TRUE # Add confidence interval
+   )
+
+
+ggscatter(H24, x = "score1", y = "score2",
+   add = "reg.line",  # Add regressin line
+   add.params = list(color = "blue", fill = "lightgray"), # Customize reg. line
+   conf.int = TRUE # Add confidence interval
+   )
+
+ggscatter(H25, x = "score1", y = "score2",
+   add = "reg.line",  # Add regressin line
+   add.params = list(color = "blue", fill = "lightgray"), # Customize reg. line
+   conf.int = TRUE # Add confidence interval
+   )
 
 ```
 
