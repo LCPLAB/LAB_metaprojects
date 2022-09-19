@@ -58,18 +58,30 @@ library(multcomp)
 df[7:18] <- lapply(df[7:18], as.numeric)
 
 
-H1_H3_cor <- cor.test(df$vst,df$vtr, use = "complete.obs", method = "spearman") %>% 
+H1_H3_cor <- cor.test(df$vst,df$vtr, use = "complete.obs", method = "pearson") %>% 
   broom::tidy()
 
-H1_H4_cor <- cor.test(df$vst,df$wahr, use = "complete.obs", method = "spearman") %>% 
+H1_H4_cor <- cor.test(df$vst,df$wahr, use = "complete.obs", method = "pearson") %>% 
   broom::tidy()
 
-H1_H5_cor <- cor.test(df$vst,df$ent, use = "complete.obs", method = "spearman") %>% 
+H1_H5_cor <- cor.test(df$vst,df$ent, use = "complete.obs", method = "pearson") %>% 
   broom::tidy()
 
 H2 <- df_wiss %>%   
+  group_by(id, study) %>%
+  summarise(score1 = sum(as.numeric(test),na.rm = TRUE)) %>%  #每位參與者的正確率
+left_join(
+df %>%
+  group_by(id, study) %>%
+  summarise(score2 = sum(as.numeric(vtr),na.rm = TRUE)), by=c("id","study")
+) %>%
   group_by(id) %>%
-  summarise(score1 = sum(as.numeric(test),na.rm = TRUE)) #每位參與者的正確率
+  summarise(M_accquision = sum(score1), M_credibility = mean(score2))
+
+
+H2_H3_cor <- cor.test(H2$M_accquision,H2$M_credibility, use = "complete.obs", method = "pearson") %>% 
+  broom::tidy()
+
 
 H3 <- df %>%
   group_by(id) %>%
@@ -83,7 +95,7 @@ H5 <- df %>%
   group_by(id) %>%
   summarise(score2 = sum(as.numeric(ent),na.rm = TRUE)/12)
 
-H2_H3_cor <- cor(H2$score1,H3$score2, use = "complete.obs", method = "pearson")
+H2_H3_cor <- cor(H2$score1,df$vtr, use = "complete.obs", method = "pearson")
 
 H2_H4_cor <- cor(H2$score1,H4$score2, use = "complete.obs", method = "pearson")
 
