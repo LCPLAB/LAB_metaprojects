@@ -57,7 +57,26 @@ library(multcomp)
 
 df[7:18] <- lapply(df[7:18], as.numeric)
 
+H1 <- df %>%   
+  group_by(id,PLS) %>% #計算H3,4,5的平均分數
+        summarise(M_Comprehensibility = mean(as.numeric(vst),na.rm = TRUE),
+                  M_credibility = mean(as.numeric(vtr),na.rm = TRUE),
+                  M_ability_to_evaluate = mean(as.numeric(wahr),na.rm = TRUE),
+                  M_ability_to_make_a_decision = mean(as.numeric(ent),na.rm = TRUE))
 
+
+## 有分摘要類別的
+H1_H3_cor <- cor.test(H1$M_Comprehensibility,H1$M_credibility, use = "complete.obs", method = "pearson") %>% 
+  broom::tidy()
+
+H2_H4_cor <- cor.test(H1$M_Comprehensibility,H1$M_ability_to_evaluate, use = "complete.obs", method = "pearson") %>% 
+  broom::tidy()
+
+H2_H5_cor <- cor.test(H1$M_Comprehensibility,H1$M_ability_to_make_a_decision, use = "complete.obs", method = "pearson") %>% 
+  broom::tidy()
+
+
+## 純分數
 H1_H3_cor <- cor.test(df$vst,df$vtr, use = "complete.obs", method = "pearson") %>% 
   broom::tidy()
 
@@ -66,6 +85,8 @@ H1_H4_cor <- cor.test(df$vst,df$wahr, use = "complete.obs", method = "pearson") 
 
 H1_H5_cor <- cor.test(df$vst,df$ent, use = "complete.obs", method = "pearson") %>% 
   broom::tidy()
+
+
 
 #H2 <- df_wiss %>%   
 #  group_by(id, study) %>%
@@ -85,16 +106,10 @@ H2 <- df_wiss %>%
   summarise(M_accquision = sum(score1)) %>% 
   left_join(
     df %>%
-      group_by(id, study, PLS) %>% #計算H3,4,5的平均分數
-        summarise(score3 = sum(as.numeric(vtr),na.rm = TRUE),
-                  score4 = sum(as.numeric(wahr),na.rm = TRUE),
-                  score5 = sum(as.numeric(ent),na.rm = TRUE)) %>% 
         group_by(id, PLS) %>%
-        summarise(M_credibility = mean(score3),
-                  M_ability_to_evaluate = mean(score4),
-                  M_ability_to_make_a_decision = mean(score5)), by=c("id","PLS"))
-
-
+        summarise(M_credibility = mean(as.numeric(vtr),na.rm = TRUE),
+                  M_ability_to_evaluate = mean(as.numeric(wahr),na.rm = TRUE),
+                  M_ability_to_make_a_decision = mean(as.numeric(ent),na.rm = TRUE)), by=c("id","PLS"))
 
 H2_H3_cor <- cor.test(H2$M_accquision,H2$M_credibility, use = "complete.obs", method = "pearson") %>% 
   broom::tidy()
