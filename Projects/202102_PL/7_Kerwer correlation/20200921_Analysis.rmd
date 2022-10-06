@@ -69,11 +69,15 @@ H1 <- df %>%
 H1_H3_cor <- cor.test(H1$M_Comprehensibility,H1$M_credibility, use = "complete.obs", method = "pearson") %>% 
   broom::tidy()
 
-H2_H4_cor <- cor.test(H1$M_Comprehensibility,H1$M_ability_to_evaluate, use = "complete.obs", method = "pearson") %>% 
+H1_H4_cor <- cor.test(H1$M_Comprehensibility,H1$M_ability_to_evaluate, use = "complete.obs", method = "pearson") %>% 
   broom::tidy()
 
-H2_H5_cor <- cor.test(H1$M_Comprehensibility,H1$M_ability_to_make_a_decision, use = "complete.obs", method = "pearson") %>% 
+H1_H5_cor <- cor.test(H1$M_Comprehensibility,H1$M_ability_to_make_a_decision, use = "complete.obs", method = "pearson") %>% 
   broom::tidy()
+
+H1_article_cor <- data.frame(
+ c(H1_H3_cor[,1],H1_H4_cor[ ,1],H1_H5_cor[ ,1])
+    )
 
 
 ## 純分數
@@ -86,6 +90,9 @@ H1_H4_cor <- cor.test(df$vst,df$wahr, use = "complete.obs", method = "pearson") 
 H1_H5_cor <- cor.test(df$vst,df$ent, use = "complete.obs", method = "pearson") %>% 
   broom::tidy()
 
+H1_non_article_cor <- data.frame(
+ c(H1_H3_cor[,1],H1_H4_cor[ ,1],H1_H5_cor[ ,1])
+    )
 
 
 #H2 <- df_wiss %>%   
@@ -99,11 +106,42 @@ H1_H5_cor <- cor.test(df$vst,df$ent, use = "complete.obs", method = "pearson") %
 #  group_by(id) %>%
 #  summarise(M_accquision = sum(score1), M_credibility = mean(score2))
 
+# 未分摘要
+H2_1 <- df_wiss %>%   
+  group_by(id, study) %>%
+  summarise(score = sum(as.numeric(test),na.rm = TRUE)/2) %>% 
+  group_by(id) %>% #納入摘要類別計算知識測驗分數
+  summarise(M_accquision = sum(score)/12) %>% 
+  left_join(
+    df %>%
+        group_by(id) %>%
+        summarise(M_credibility = mean(as.numeric(vtr),na.rm = TRUE),
+                  M_ability_to_evaluate = mean(as.numeric(wahr),na.rm = TRUE),
+                  M_ability_to_make_a_decision = mean(as.numeric(ent),na.rm = TRUE)), by=c("id"))
+
+
+H2_H3_cor <- cor.test(H2_1$M_accquision,H2_1$M_credibility, use = "complete.obs", method = "pearson") %>% 
+  broom::tidy()
+
+H2_H4_cor <- cor.test(H2_1$M_accquision,H2_1$M_ability_to_evaluate, use = "complete.obs", method = "pearson") %>% 
+  broom::tidy()
+
+H2_H5_cor <- cor.test(H2_1$M_accquision,H2_1$M_ability_to_make_a_decision, use = "complete.obs", method = "pearson") %>% 
+  broom::tidy()
+
+H2__non_article_cor <- data.frame(
+ c(H2_H3_cor[,1],H2_H4_cor[ ,1],H2_H5_cor[ ,1])
+    )
+
+
+# 分摘要文本
 H2 <- df_wiss %>%   
   group_by(id, study,PLS) %>%
-  summarise(score1 = sum(as.numeric(test),na.rm = TRUE)) %>%
+  summarise(score = sum(as.numeric(test),na.rm = TRUE)/2) %>% 
+  group_by(id, study,PLS) %>%
+  summarise(score = sum(as.numeric(score),na.rm = TRUE)/4)%>%
   group_by(id, PLS) %>% #納入摘要類別計算知識測驗分數
-  summarise(M_accquision = sum(score1)) %>% 
+  summarise(M_accquision = sum(score)) %>% 
   left_join(
     df %>%
         group_by(id, PLS) %>%
@@ -119,6 +157,10 @@ H2_H4_cor <- cor.test(H2$M_accquision,H2$M_ability_to_evaluate, use = "complete.
 
 H2_H5_cor <- cor.test(H2$M_accquision,H2$M_ability_to_make_a_decision, use = "complete.obs", method = "pearson") %>% 
   broom::tidy()
+
+H2_article_cor <- data.frame(
+ c(H2_H3_cor[,1],H2_H4_cor[ ,1],H2_H5_cor[ ,1])
+    )
 
 ```
 
