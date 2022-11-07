@@ -1,0 +1,6 @@
+"Result ID","Start Time","Last Seen","Duration","Batch","Worker ID","Worker Type","State","Message"
+"161753","2022/09/19 08:12:21","2022/09/19 08:16:28","00:04:12","Default","156936","General Multiple","FINISHED","none"
+"161752","2022/09/19 08:12:05","2022/09/19 08:16:11","00:04:48","Default","156935","General Multiple","FINISHED","none"
+"161751","2022/09/19 08:11:50","2022/09/19 08:15:59","00:04:23","Default","156934","General Multiple","FINISHED","none"
+"161750","2022/09/19 08:11:43","never","none","Default","156933","General Multiple","STARTED","none"
+"161749","2022/09/19 08:11:42","never","none","Default","156932","General Multiple","STARTED","none"

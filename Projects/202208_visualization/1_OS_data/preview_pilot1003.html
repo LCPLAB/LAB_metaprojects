@@ -11,7 +11,7 @@
 
 <meta name="author" content="Sau-Chin Chen" />
 
-<meta name="date" content="2022-09-05" />
+<meta name="date" content="2022-10-03" />
 
 <title>Preview demot test</title>
 
@@ -300,8 +300,8 @@ pre code {
   border-radius: 4px;
 }
 
-.tabset-dropdown > .nav-tabs > li.active:before {
-  content: "";
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
   font-family: 'Glyphicons Halflings';
   display: inline-block;
   padding: 10px;
@@ -309,16 +309,9 @@ pre code {
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "";
-  border: none;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "";
+  content: "\e258";
   font-family: 'Glyphicons Halflings';
-  display: inline-block;
-  padding: 10px;
-  border-right: 1px solid #ddd;
+  border: none;
 }
 
 .tabset-dropdown > .nav-tabs > li.active {
@@ -365,29 +358,61 @@ pre code {
 
 <h1 class="title toc-ignore">Preview demot test</h1>
 <h4 class="author">Sau-Chin Chen</h4>
-<h4 class="date">2022-09-05</h4>
+<h4 class="date">2022-10-03</h4>
 
 </div>
 
 
-<pre class="r"><code>df &lt;- read_csv(file=&quot;jatos_results_20220905052853.csv&quot;)</code></pre>
-<pre><code>## Rows: 95 Columns: 33
+<ul>
+<li>This pilot followed Bocanegra et al.(2022) EXP 3, but dual
+feature/long cue used EXP 2 setting. There were missing labels in this
+script.</li>
+</ul>
+<pre class="r"><code>df &lt;- read_csv(file=&quot;jatos_results_20221017061639.csv&quot;)  # pilot data 20221003</code></pre>
+<pre><code>## Rows: 470 Columns: 37
 ## ── Column specification ────────────────────────────────────────────────────────
 ## Delimiter: &quot;,&quot;
-## chr  (16): Topic, Trial_type, browser_codename, browser_name, browser_versio...
+## chr  (20): Block, Topic, Trial_type, browser_codename, browser_name, browser...
 ## dbl  (16): correct, experiment_debug, experiment_parameters, experiment_pilo...
 ## time  (1): date_starttime
 ## 
 ## ℹ Use `spec()` to retrieve the full column specification for this data.
 ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-<pre class="r"><code>df %&gt;% group_by(jatosStudyResultId) %&gt;%
-  summarise(n = n())</code></pre>
-<pre><code>## # A tibble: 3 × 2
-##   jatosStudyResultId     n
-##                &lt;dbl&gt; &lt;int&gt;
-## 1             156545    35
-## 2             156683    30
-## 3             156684    30</code></pre>
+<pre class="r"><code>#df &lt;- read_csv(file=&quot;jatos_results_20220926070123.csv&quot;) # pilot data 20220919
+
+df %&gt;% filter(Block == &quot;Prac&quot;) %&gt;%
+   bind_cols(sequence = rep(1:40,10)) %&gt;%
+   filter(sequence %in%(9:40)) %&gt;%
+#df %&gt;% filter(Block == &quot;EXP&quot;) %&gt;%
+  group_by(jatosStudyResultId, gap, Trial_type) %&gt;%
+  summarise(Trial_N = n(), Acc = mean(correct)) %&gt;%
+left_join(
+df %&gt;% filter(Block == &quot;Prac&quot;) %&gt;%
+   bind_cols(sequence = rep(1:40,10)) %&gt;%
+   filter(sequence %in%(9:40)) %&gt;%
+#df %&gt;% filter(Block == &quot;EXP&quot;) %&gt;%
+  filter(correct == 1) %&gt;%
+  group_by(jatosStudyResultId, gap, Trial_type) %&gt;%
+  summarise(RT = mean(response_time)),
+by = c(&quot;jatosStudyResultId&quot;,&quot;gap&quot;,&quot;Trial_type&quot;)
+) %&gt;%
+  group_by(gap, Trial_type) %&gt;%
+  summarise(mRT = mean(RT), Accuracy = mean(Acc))</code></pre>
+<pre><code>## `summarise()` has grouped output by &#39;jatosStudyResultId&#39;, &#39;gap&#39;. You can
+## override using the `.groups` argument.
+## `summarise()` has grouped output by &#39;jatosStudyResultId&#39;, &#39;gap&#39;. You can
+## override using the `.groups` argument.
+## `summarise()` has grouped output by &#39;gap&#39;. You can override using the `.groups`
+## argument.</code></pre>
+<pre><code>## # A tibble: 4 × 4
+## # Groups:   gap [2]
+##   gap   Trial_type   mRT Accuracy
+##   &lt;chr&gt; &lt;chr&gt;      &lt;dbl&gt;    &lt;dbl&gt;
+## 1 n     dual       1075.    0.988
+## 2 n     single      962.    0.95 
+## 3 y     dual       1067.    0.988
+## 4 y     single     1016.    0.975</code></pre>
+<pre class="r"><code>#  summarise(n = n())</code></pre>
 
 
 

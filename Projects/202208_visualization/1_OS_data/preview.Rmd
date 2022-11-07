@@ -1,7 +1,7 @@
 ---
 title: "Preview demot test"
 author: "Sau-Chin Chen"
-date: "`r Sys.Date()`"
+date: "2022-10-03"
 output: html_document
 ---
 
@@ -11,10 +11,31 @@ library(tidyverse)
 ```
 
 
-```{r}
-df <- read_csv(file="jatos_results_20220905052853.csv")
+- This pilot followed Bocanegra et al.(2022) EXP 3, but dual feature/long cue used EXP 2 setting. There were missing labels in this script.
 
-df %>% group_by(jatosStudyResultId) %>%
-  summarise(n = n())
+```{r}
+df <- read_csv(file="jatos_results_20221017061639.csv")  # pilot data 20221003
+#df <- read_csv(file="jatos_results_20220926070123.csv") # pilot data 20220919
+
+df %>% filter(Block == "Prac") %>%
+   bind_cols(sequence = rep(1:40,10)) %>%
+   filter(sequence %in%(9:40)) %>%
+#df %>% filter(Block == "EXP") %>%
+  group_by(jatosStudyResultId, gap, Trial_type) %>%
+  summarise(Trial_N = n(), Acc = mean(correct)) %>%
+left_join(
+df %>% filter(Block == "Prac") %>%
+   bind_cols(sequence = rep(1:40,10)) %>%
+   filter(sequence %in%(9:40)) %>%
+#df %>% filter(Block == "EXP") %>%
+  filter(correct == 1) %>%
+  group_by(jatosStudyResultId, gap, Trial_type) %>%
+  summarise(RT = mean(response_time)),
+by = c("jatosStudyResultId","gap","Trial_type")
+) %>%
+  group_by(gap, Trial_type) %>%
+  summarise(mRT = mean(RT), Accuracy = mean(Acc))
+
+#  summarise(n = n())
 ```
 
