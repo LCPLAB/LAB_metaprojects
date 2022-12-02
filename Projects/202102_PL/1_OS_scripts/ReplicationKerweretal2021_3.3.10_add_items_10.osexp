@@ -26,7 +26,7 @@ set font_size 16
 set font_italic no
 set font_family "chinese-japanese-korean"
 set font_bold no
-set experiment_path "D:\\R replication\\LAB_metaprojects\\Projects\\202102_PL\\1_OS_scripts"
+set experiment_path "D:\\core\\Research\\projects\\Meta_Replication\\Projects\\202102_PL\\1_OS_scripts"
 set disable_garbage_collection yes
 set description "The main experiment item"
 set coordinates uniform
@@ -173,13 +173,18 @@ define loop JB
 define sketchpad JB_instruction
 	set duration keypress
 	set description "Displays stimuli"
-	draw textline center=1 color="#000000" font_bold=no font_family="chinese-japanese-korean" font_italic=no font_size=18 html=yes show_if=always text="The next page presents a series of accounts of how the credibility and authority of scientific knowledge in psychology is established." x=-128.0 y=-96.0 z_index=0
+	draw textline center=1 color="#000000" font_bold=no font_family="chinese-japanese-korean" font_italic=no font_size=18 html=yes show_if=always text="The next page presents a series of accounts of how the credibility and authority of scientific knowledge in psychology is established." x=-128 y=-96 z_index=0
 	draw textline center=1 color="#000000" font_bold=no font_family="chinese-japanese-korean" font_italic=no font_size=18 html=yes show_if=always text="Press any button to go to the next page" x=0 y=320 z_index=0
-	draw textline center=1 color="#000000" font_bold=no font_family="chinese-japanese-korean" font_italic=no font_size=18 html=yes show_if=always text="Please indicate the extent to which you agree with these statements by ticking the boxes from Not" x=-256.0 y=-32.0 z_index=0
+	draw textline center=1 color="#000000" font_bold=no font_family="chinese-japanese-korean" font_italic=no font_size=18 html=yes show_if=always text="Please indicate the extent to which you agree with these statements by ticking the boxes from Not" x=-256 y=-32 z_index=0
+
+define notepad JB_notepad
+	set note "# 此sequence包含的loop與sequence"
+	set description "A simple notepad to document your experiment. This plug-in does nothing."
 
 define sequence JB_seq
 	set flush_keyboard yes
 	set description "Runs a number of items in sequence"
+	run JB_notepad always
 	run JB_survey always
 	run Study_logger always
 
@@ -290,9 +295,14 @@ define loop access_loop
 	setcycle 0 Topic Access
 	run access_seq
 
+define notepad access_notepad
+	set note "# 此sequence包含的loop與sequence"
+	set description "A simple notepad to document your experiment. This plug-in does nothing."
+
 define sequence access_seq
 	set flush_keyboard yes
 	set description "Runs a number of items in sequence"
+	run access_notepad always
 	run Access_survey always
 	run Access_show "[response]=\"想\""
 	run Study_logger always
@@ -318,9 +328,14 @@ define sketchpad basic_instruction
 	draw textline center=0 color="#000000" font_bold=no font_family="chinese-japanese-korean" font_italic=no font_size=20 html=yes show_if=always text="Gender is a single choice, choose the gender you identify with, and please fill in the year of birth with two yards after your birth date" x=-672 y=-96 z_index=0
 	draw textline center=1 color="#000000" font_bold=no font_family="chinese-japanese-korean" font_italic=no font_size=16 html=yes show_if=always text="Press any button to go to the next page" x=0 y=320 z_index=0
 
+define notepad basic_notepad
+	set note "# 此sequence包含的loop與sequence"
+	set description "A simple notepad to document your experiment. This plug-in does nothing."
+
 define sequence basic_seq
 	set flush_keyboard yes
 	set description "Runs a number of items in sequence"
+	run basic_notepad always
 	run birth_year always
 	run Study_logger always
 
@@ -409,9 +424,14 @@ define sketchpad covariates_instruction
 	draw textline center=1 color="#000000" font_bold=no font_family="chinese-japanese-korean" font_italic=no font_size=18 html=yes show_if=always text="The next page will ask about your experience with scientific research, or ongoing research, please choose the description that best describes your situation." x=-352 y=-96 z_index=0
 	draw textline center=1 color="#000000" font_bold=no font_family="chinese-japanese-korean" font_italic=no font_size=18 html=yes show_if=always text="Press any button to go to the next page" x=0 y=320 z_index=0
 
+define notepad covariates_notepad
+	set note "# 此sequence包含的loop與sequence"
+	set description "A simple notepad to document your experiment. This plug-in does nothing."
+
 define sequence covariates_seq
 	set flush_keyboard yes
 	set description "Runs a number of items in sequence"
+	run covariates_notepad always
 	run covariates_survey always
 	run Study_logger always
 
@@ -441,9 +461,24 @@ define form_multiple_choice covariates_survey
 define sequence experiment
 	set flush_keyboard yes
 	set description "主程序"
+	run experiment_notepad always
 	run consent_loop always
 	run welcome always
 	run main always
+
+define notepad experiment_notepad
+	__note__
+	專案資訊
+	
+	Run this study on windows mode.
+	
+	# 此sequence包含的loop與sequence
+	
+	- consent_loop
+	
+	- main sequence
+	__end__
+	set description "A simple notepad to document your experiment. This plug-in does nothing."
 
 define form_consent form_consent
 	set timeout infinite
@@ -504,9 +539,14 @@ define loop gender_loop
 	setcycle 0 Topic gender
 	run gender_seq
 
+define notepad gender_notepad
+	set note "# 此sequence包含的loop與sequence"
+	set description "A simple notepad to document your experiment. This plug-in does nothing."
+
 define sequence gender_seq
 	set flush_keyboard yes
 	set description "Runs a number of items in sequence"
+	run gender_notepad always
 	run gender always
 	run Study_logger always
 
@@ -533,6 +573,7 @@ define inline_javascript id_recording
 define sequence main
 	set flush_keyboard yes
 	set description "分支程序"
+	run main_notepad always
 	run basic_instruction always
 	run gender_loop always
 	run basic always
@@ -546,6 +587,10 @@ define sequence main
 	run text_CB2 "[CB]=2"
 	run text_CB3 "[CB]=3"
 	run End_of_Study_display always
+
+define notepad main_notepad
+	set note "# 此sequence包含的loop與sequence"
+	set description "A simple notepad to document your experiment. This plug-in does nothing."
 
 define sketchpad new_sketchpad
 	set duration keypress
@@ -948,13 +993,19 @@ define loop test
 	setcycle 47 correct_response n
 	run test_seq
 
+define notepad test_notepad
+	set note "# 此sequence包含的loop與sequence"
+	set description "A simple notepad to document your experiment. This plug-in does nothing."
+
 define sequence test_seq
 	set flush_keyboard yes
 	set description "Runs a number of items in sequence"
+	run test_notepad always
 	run Test_survey "(([Test_id]=[Qid01]) and ([Set_id] = [CRid01])) or (([Test_id]=[Qid01]) and ([Set_id] = [CRid02])) or (([Test_id]=[Qid02]) and ([Set_id] = [CRid03])) or (([Test_id]=[Qid02]) and ([Set_id] = [CRid04])) or (([Test_id]=[Qid03]) and ([Set_id] = [CRid05])) or (([Test_id]=[Qid03]) and ([Set_id] = [CRid06]))"
 	run Study_logger always
 
 define loop text_CB1
+	set source_file ""
 	set source table
 	set repeat 1
 	set order random
@@ -1777,6 +1828,10 @@ define sketchpad text_instruction
 	draw textline center=0 color="#000000" font_bold=no font_family="chinese-japanese-korean" font_italic=no font_size=20 html=yes show_if=always text="It will take you about 30 minutes to complete the entire quiz." x=-463 y=40 z_index=0
 	draw textline center=1 color="#000000" font_bold=no font_family="chinese-japanese-korean" font_italic=no font_size=18 html=yes show_if=always text="Press any key to end reading" x=0 y=320 z_index=0
 
+define notepad text_notepad
+	set note "# 此sequence包含的loop與sequence"
+	set description "A simple notepad to document your experiment. This plug-in does nothing."
+
 define loop text_post
 	set source_file ""
 	set source table
@@ -1844,9 +1899,14 @@ define loop text_post
 	setcycle 4 Option1 "1:我認為完全不可以"
 	run text_post_seq
 
+define notepad text_post_notepad
+	set note "# 此sequence包含的loop與sequence"
+	set description "A simple notepad to document your experiment. This plug-in does nothing."
+
 define sequence text_post_seq
 	set flush_keyboard yes
 	set description "Runs a number of items in sequence"
+	run text_post_notepad always
 	run Post_survey always
 	run Study_logger always
 
@@ -1872,6 +1932,7 @@ define form_text_display text_read02
 define sequence text_seq
 	set flush_keyboard yes
 	set description "Runs a number of items in sequence"
+	run text_notepad always
 	run preparation always
 	run count_text always
 	run text_dash_01 always
