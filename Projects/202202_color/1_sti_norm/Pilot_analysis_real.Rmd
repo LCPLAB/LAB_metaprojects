@@ -1,0 +1,371 @@
+---
+title: "Pilot analysis"
+author: "Sau-Chin Chen"
+date: "2022/4/26"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+	echo = TRUE,
+	message = FALSE,
+	warning = FALSE
+)
+library(tidyverse)
+library(broom)
+library(effectsize)
+```
+
+In this document we generated the pseudo data and reproduced the analysis summary as the norming study in [Hoeben Mannaert et al. (2021)](https://link.springer.com/article/10.3758/s13421-020-01078-6#Sec4) (p. 131).
+
+
+## Data sheet structure
+
+- jatosStudyResultId: by-participant unit
+- term: by-item unit
+
+- Design: Pictures are the "critical" objects or "fillers".
+- Color_pic: Picture is color (Y) or blank (N).
+
+The two coloums are from "sti_table.csv"
+
+- response_time: Pseudo response time.  
+- correct: Pseudo correctness. 
+
+```{r real_data}
+## Define system variables
+system_cols <- c("browser_codename", "browser_name", "browser_version", "date_startdate", "date_startdateUTC", "date_starttime", "experiment_debug", "experiment_parameters", "experiment_pilot", "experiment_taskname", "experiment_taskversion", "jatosStudyResultId", "jatosVersion", "screen_availableHeight", "screen_availableWidth", "screen_colorDepth", "screen_height", "screen_pixelDepth", "screen_screenX", "screen_screenY", "screen_width", "system_os")
+
+## import real data
+df_testing <- read_csv(file="testing_results/jatos_results_20220501065916.csv") %>% left_join(read_csv("sti_table.csv"),by=c("picture","term")) %>%  ## download from osf
+  select(-system_cols,"jatosStudyResultId") 
+
+## summary 
+
+df_meta <- read_csv(file = "testing_results/jatos_meta_20220501063856.csv") %>%
+  select(c(`Result ID`,"gender","age"))
+
+meta_sum <- df_meta %>% summarise(N = n(), female_N = sum(gender=="f",na.rm=TRUE), age_M = range(age, na.rm=TRUE))
+
+critical_terms <- c("空氣清新劑",
+"斧頭","氣球","球棒","腳踏車","小鳥","襯衫","精裝書","碗","椅子","支票簿","寶箱","外套鈕扣","餅乾罐","杯子","羽毛撣子","魚","叉子","手套","錘子","安全帽","刀子","桌燈","緊身褲","口紅","滑鼠墊","記事本","塑膠湯匙","手提包","耙子","電鋸","圍巾","螺絲釘","螺絲起子","鞋子","短褲","裙子","拖鞋","汽水罐","沙發","網球拍","桌子","網球拍","牙刷","T恤","雨傘","板手","瑜珈墊")
+
+filler_terms <-c("信用卡","梳子","洗衣籃","蝴蝶","腰帶","蝴蝶","帽子","沙漏","鉛筆","打火機","鏟子","書桌","卡車","毛巾","鑷子","手錶","長笛","夾克","襪子","車子","書籤","支票","剪刀","毛線球","花瓶","盒裝衛生紙","鬧鐘","門板","衣櫃","花朵","錢包","瓶子","巴士","盤子","旗幟","手鐲","原子筆","指甲銼","褲子","枕頭","吉他","被子","小提琴","瓶蓋","衣架","盒子","領帶","郵票")
+
+## extract the exp data
+df_norm <- df_testing %>% filter(jatosStudyResultId %in% df_meta$`Result ID`) %>% filter(Task=="Exp")
+## extract the memory checks
+df_memory <- df_norm %>% filter(memory == "y")
+## extract the post survey data
+df_post <- df_testing %>% filter(jatosStudyResultId %in% df_meta$`Worker ID`) %>% filter(jatosStudyResultId %in% df_meta$jatosStudyResultId) %>% filter(Task=="Post")
+
+
+## Extract the terms and picture names from the real data
+real_sti <- df_norm %>% select(Design, Color_pic, term, picture) %>% distinct() %>%
+  arrange(Design, Color_pic)
+
+#filter(real_sti,Design == "Critical" & Color_pic == "Y") %>% arrange(picture) #48 太陽眼鏡被誤植為網球拍
+
+#filter(real_sti,Design == "Critical" & Color_pic == "N") %>% arrange(picture) #48 太陽眼鏡被誤植為網球拍
+
+#filter(real_sti,Design == "Filler" & Color_pic == "Y") %>% arrange(term) #47
+
+#filter(real_sti,Design == "Filler" & Color_pic == "N") %>% arrange(term) #48
+
+```
+
+
+This study has `r length(critical_terms)` critical objects which have `r length(critical_terms)` color pictures and `r length(critical_terms)` blank pictures and `r length(filler_terms)` filler objects which have `r length(filler_terms)` color pictures and `r length(filler_terms)` blank pictures. In the real data, the last script recorded `r (filter(real_sti,Design == "Critical" & Color_pic == "Y") %>% dim())[1]` critical objects with color pictures; `r (filter(real_sti,Design == "Critical" & Color_pic == "N") %>% dim())[1]` critical objects with blank pictures; `r (filter(real_sti,Design == "Filler" & Color_pic == "Y") %>% dim())[1]` critical objects with color pictures; `r (filter(real_sti,Design == "Filler" & Color_pic == "N") %>% dim())[1]` critical objects with blank pictures. The missed filler term was "吉他".
+
+
+
+
+## Demographic summary
+
+
+Totally `r meta_sum$N` participants (`r meta_sum$female_N` females) joined our pilot study, age range: `r paste(meta_sum$age_M, collapse = " - ")` years.
+
+## Making of analytic table
+
+Build the tables for by-participant and by-item t-tests.
+
+```{r by-particiant-table, echo=FALSE}
+## for t-test on accuracy
+p_Acc <- df_norm %>%
+  group_by(jatosStudyResultId, Design, Color_pic) %>%
+  summarise(Acc=mean(correct))
+
+## Making of p_table
+p_Acc_tb <- p_Acc %>%
+  group_by(Design, Color_pic) %>%
+  summarise(N = n(), Accuracy = mean(Acc), SD = sd(Acc))
+
+## for t-test on RT
+p_RT <- df_norm %>%
+  filter(correct==1) %>%
+  group_by(jatosStudyResultId, Design, Color_pic) %>%
+  summarise(pRT= mean(response_time))
+
+
+## Making of p_table
+p_RT_tb <- p_RT %>%
+  group_by(Design, Color_pic) %>%
+  summarise(N= n(), mRT = mean(pRT), SD = sd(pRT))
+
+```
+
+Summary by participants
+
+`r knitr::kable(p_RT_tb)`
+
+
+`r knitr::kable(p_Acc_tb)`
+
+Critical pictures and filler pictures had unequal response times between color version and blank version. Participants' accuracy were lower for critical pictures.
+
+```{r by-item-table, echo=FALSE}
+
+
+## for t-test on accuracy
+i_Acc <- df_norm %>%
+  group_by(term, Design, Color_pic) %>%
+  summarise(Acc=mean(correct))
+
+#subset(i_Acc, Design == "Critical" & Color_pic == "Y")$term 
+
+#critical_terms
+
+#filler_terms %in% subset(i_Acc, Design == "Filler"& Color_pic == "Y")$term
+
+## Making of i_table
+i_Acc_tb <- i_Acc %>%
+  group_by(Design, Color_pic) %>%
+  summarise(N = n(), Accuracy = mean(Acc), SD = sd(Acc))
+
+
+## for t-test on RT
+i_RT <- df_norm %>%
+  filter(correct==1) %>%
+  group_by(term, Design, Color_pic) %>%
+  summarise(iRT = mean(response_time))
+
+## Making of p_table
+i_RT_tb <- i_RT %>%
+  group_by(Design, Color_pic) %>%
+  summarise(N = n(), mRT = mean(iRT), SD = sd(iRT))
+```
+
+Summary by items
+
+`r knitr::kable(i_RT_tb)`
+
+
+`r knitr::kable(i_Acc_tb)`
+
+
+We missed one critical picture of "sunglasses" because the term was incorrect (太陽眼鏡).
+
+
+
+## T-tests by condition and by measurement
+
+```{r planned_ttest, echo=TRUE}
+## by-participant RT analysis 
+result_p_Critical_RT <- t.test(pRT ~ Color_pic,
+       paired = TRUE,
+       data=subset(p_RT,Design=="Critical"),
+       alternative = "less") %>%
+  tidy()
+
+result_p_Filler_RT <- t.test(pRT ~ Color_pic,
+       paired = TRUE,
+       data=subset(p_RT,Design=="Filler"),
+       alternative = "less") %>%
+  tidy()
+
+## by-item RT analysis 
+result_i_Critical_RT <- t.test(iRT ~ Color_pic,
+       paired = TRUE,
+       data=subset(i_RT,Design=="Critical"),
+       alternative = "less") %>%
+  tidy()
+
+## by-participant Accuracy analysis
+result_p_Critical_Acc <- t.test(Acc ~ Color_pic,
+       paired = TRUE,
+       data=subset(p_Acc,Design=="Critical"),
+       alternative = "less") %>%
+  tidy()
+
+result_p_Filler_Acc <- t.test(Acc ~ Color_pic,
+       paired = TRUE,
+       data=subset(p_Acc,Design=="Filler"),
+       alternative = "less") %>%
+  tidy()
+
+## by-item Accuracy analysis
+result_i_Critical_Acc <- t.test(Acc ~ Color_pic,
+       paired = TRUE,
+       data=subset(i_Acc,Design=="Critical"),
+       alternative = "less") %>%
+  tidy()
+```
+
+
+> A paired-samples t test found no significant color advantage  for experimental items: by the response times, $t_1$(`r round(result_p_Critical_RT$parameter, 2)`) = `r round(result_p_Critical_RT$statistic, 2)`, *p* = `r round(result_p_Critical_RT$p.value, 3)`; $t_2$(`r round(result_i_Critical_RT$parameter, 2)`) = `r round(result_i_Critical_RT$statistic, 2)`, *p* = `r round(result_i_Critical_RT$p.value, 3)`, and by the accuracy, $t_1$(`r round(result_p_Critical_Acc$parameter, 2)`) = `r round(result_p_Critical_Acc$statistic, 2)`, *p* = `r round(result_p_Critical_Acc$p.value, 3)`; $t_2$(`r round(result_i_Critical_Acc$parameter, 2)`) = `r round(result_i_Critical_Acc$statistic, 2)`, *p* = `r round(result_i_Critical_Acc$p.value, 3)`.
+
+
+## Compare item RTs between "color" and "blank"
+
+```{r items}
+i_RT_tb <- df_norm %>%
+  filter(correct==1) %>%
+  group_by(term, Design, Color_pic) %>%
+  summarise(iEXC = mean(response_time), iVER = qnorm(.975)*sd(response_time)) # summarise the confidence intervals by item per color
+
+i_RT_tb %>% ggplot(aes(y=term,x=iEXC,xmin=iEXC-iVER, xmax=iEXC+iVER, color = Color_pic)) +
+  geom_pointrange() +
+  coord_cartesian(expand = FALSE) # Illustrate the ranges of item RT
+
+ggsave(filename = "item_comparision.png")
+```
+
+## Exclude strange items
+
+```{r items-filter, echo=TRUE}
+strange_items <- c("空氣清新劑","外套鈕扣","牙刷","螺絲起子","被子","網球拍","小提琴","吉他")
+df_norm_excluded <- df_norm %>% filter(!(term %in% strange_items))
+```
+
+## Analytic table after excluded strange items
+
+Based on the filtered items, we build the tables for by-participant and by-item t-tests.
+
+```{r by-particiant-table-rev, echo=FALSE}
+## for t-test on accuracy
+p_Acc <- df_norm_excluded %>%
+  group_by(jatosStudyResultId, Design, Color_pic) %>%
+  summarise(Acc=mean(correct))
+
+## Making of p_table
+p_Acc_tb <- p_Acc %>%
+  group_by(Design, Color_pic) %>%
+  summarise(N = n(), Accuracy = mean(Acc), SD = sd(Acc))
+
+## for t-test on RT
+p_RT <- df_norm_excluded %>%
+  filter(correct==1) %>%
+  group_by(jatosStudyResultId, Design, Color_pic) %>%
+  summarise(pRT= mean(response_time))
+
+
+## Making of p_table
+p_RT_tb <- p_RT %>%
+  group_by(Design, Color_pic) %>%
+  summarise(N= n(), mRT = mean(pRT), SD = sd(pRT))
+
+```
+
+Summary by participants
+
+`r knitr::kable(p_RT_tb)`
+
+
+`r knitr::kable(p_Acc_tb)`
+
+Critical pictures and filler pictures had unequal response times between color version and blank version. Participants' accuracy were lower for critical pictures.
+
+```{r by-item-table-rev, echo=FALSE}
+## for t-test on accuracy
+i_Acc <- df_norm_excluded %>%
+  group_by(term, Design, Color_pic) %>%
+  summarise(Acc=mean(correct))
+
+## Making of i_table
+i_Acc_tb <- i_Acc %>%
+  group_by(Design, Color_pic) %>%
+  summarise(N = n(), Accuracy = mean(Acc), SD = sd(Acc))
+
+## for t-test on RT
+i_RT <- df_norm_excluded %>%
+  filter(correct==1) %>%
+  group_by(term, Design, Color_pic) %>%
+  summarise(iRT = mean(response_time))
+
+## Making of p_table
+i_RT_tb <- i_RT %>%
+  group_by(Design, Color_pic) %>%
+  summarise(N = n(), mRT = mean(iRT), SD = sd(iRT))
+```
+
+Summary by items
+
+`r knitr::kable(i_RT_tb)`
+
+
+`r knitr::kable(i_Acc_tb)`
+
+
+
+## Rerun T-tests by condition and by measurement
+
+```{r planned_ttest_rev, echo=TRUE}
+## by-participant RT analysis 
+result_p_Critical_RT <- t.test(pRT ~ Color_pic,
+       paired = TRUE,
+       data=subset(p_RT,Design=="Critical"),
+       alternative = "less") %>%
+  tidy()
+
+result_p_Filler_RT <- t.test(pRT ~ Color_pic,
+       paired = TRUE,
+       data=subset(p_RT,Design=="Filler"),
+       alternative = "less") %>%
+  tidy()
+
+## by-item RT analysis 
+result_i_Critical_RT <- t.test(iRT ~ Color_pic,
+       paired = TRUE,
+       data=subset(i_RT,Design=="Critical"),
+       alternative = "less") %>%
+  tidy()
+
+result_i_Filler_RT <- t.test(iRT ~ Color_pic,
+       paired = TRUE,
+       data=subset(i_RT,Design=="Filler"),
+       alternative = "less") %>%
+  tidy()
+
+
+## by-participant Accuracy analysis
+result_p_Critical_Acc <- t.test(Acc ~ Color_pic,
+       paired = TRUE,
+       data=subset(p_Acc,Design=="Critical"),
+       alternative = "less") %>%
+  tidy()
+
+result_p_Filler_Acc <- t.test(Acc ~ Color_pic,
+       paired = TRUE,
+       data=subset(p_Acc,Design=="Filler"),
+       alternative = "less") %>%
+  tidy()
+
+## by-item Accuracy analysis
+result_i_Critical_Acc <- t.test(Acc ~ Color_pic,
+       paired = TRUE,
+       data=subset(i_Acc,Design=="Critical"),
+       alternative = "less") %>%
+  tidy()
+
+result_i_Filler_Acc <- t.test(Acc ~ Color_pic,
+       paired = TRUE,
+       data=subset(i_Acc,Design=="Filler"),
+       alternative = "less") %>%
+  tidy()
+```
+
+
+> A paired-samples t test found no significant color advantage for experimental items: by the response times, $t_1$(`r round(result_p_Critical_RT$parameter, 2)`) = `r round(result_p_Critical_RT$statistic, 2)`, *p* = `r round(result_p_Critical_RT$p.value, 3)`; $t_2$(`r round(result_i_Critical_RT$parameter, 2)`) = `r round(result_i_Critical_RT$statistic, 2)`, *p* = `r round(result_i_Critical_RT$p.value, 3)`, and by the accuracy, $t_1$(`r round(result_p_Critical_Acc$parameter, 2)`) = `r round(result_p_Critical_Acc$statistic, 2)`, *p* = `r round(result_p_Critical_Acc$p.value, 3)`; $t_2$(`r round(result_i_Critical_Acc$parameter, 2)`) = `r round(result_i_Critical_Acc$statistic, 2)`, *p* = `r round(result_i_Critical_Acc$p.value, 3)`. Another paired-samples t test found no significant color advantage for filler items: by the response times, $t_1$(`r round(result_p_Filler_RT$parameter, 2)`) = `r round(result_p_Filler_RT$statistic, 2)`, *p* = `r round(result_p_Filler_RT$p.value, 3)`; $t_2$(`r round(result_i_Filler_RT$parameter, 2)`) = `r round(result_i_Filler_RT$statistic, 2)`, *p* = `r round(result_i_Filler_RT$p.value, 3)`, and by the accuracy, $t_1$(`r round(result_p_Filler_Acc$parameter, 2)`) = `r round(result_p_Filler_Acc$statistic, 2)`, *p* = `r round(result_p_Filler_Acc$p.value, 3)`; $t_2$(`r round(result_i_Filler_Acc$parameter, 2)`) = `r round(result_i_Filler_Acc$statistic, 2)`, *p* = `r round(result_i_Filler_Acc$p.value, 3)`.
+
+
+**Warning** This analysis excluded `r length(strange_items)` items: `r strange_items`.

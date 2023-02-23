@@ -2,31 +2,131 @@
 title: "MH et al. (2021) Results verification"
 author: "Sau-Chin Chen"
 date: "2022/3/2"
-output: html_document
+output: 
+  html_document:
+    toc: true
+    toc_depth: 4
+    toc_float: true
+    code_folding: 'hide'
+    self_contained: true
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(
 	echo = TRUE,
 	message = FALSE,
-	warning = FALSE
+	warning = FALSE,
+	error = TRUE
 )
 library(tidyverse)
 
 # Import the original results 
-orig_results <- read_csv("orig_data/Data from all experiments in study is color continuously activated in a changing discourse context.csv")
+orig_results <- read_csv("orig_data/Data from all experiments in study is color continuously activated in a changing discourse context.csv") %>%
+  mutate(
+    Subject = as.character(Subject),
+    List = as.factor(List),
+    FirstorSecond = as.factor(FirstorSecond),
+    Experiment = as.factor(Experiment)
+  )
+```
+
+We downloaded the summary data from the authors' [OSF](https://osf.io/emgya). The did not provide the meta data about the variables. We converted the category variables to factors.
+
+# Data summary
+
+
+`r codebook::codebook(orig_results)`
+
+
+`FirsttoSecond` was not the variable in Experiment 3.
+
+Averaged accuracy and mean response times were stored in wide table. In the below code, we compared the overall accuracy and the averaged condition accuracy. 
+
+```{r Acc_check}
+check_result <- orig_results %>%
+  mutate(Acc_r = (SentenceBlankPictureGrayACC+SentenceBlankPictureColorACC+SentenceColorPictureColorACC+SentenceColorPictureGrayscaleACC)/4,
+         ACC_check = (round(Accuracy,3) == round(Acc_r,3) )) %>%
+  summarise(sum(ACC_check == FALSE))
 ```
 
 
-## Procedure diagram
+# Convert data sheet
 
+There were `r check_result` observations had unequal accuracy values. Thus we removed `Accuracy` before we convert the data sheet into long table.
 
+```{r wide-to-long, include=FALSE}
+orig_results_wide <- orig_results %>% 
+  select(-ends_with("RT"),-Accuracy) %>%
+  rename(SentenceColorPictureGrayACC = SentenceColorPictureGrayscaleACC) %>%
+  pivot_longer(cols = SentenceBlankPictureGrayACC:SentenceColorPictureGrayACC 	,
+               names_to = c("Sentence","Picture"),
+               names_pattern = "Sentence(.*)Picture(.*)ACC",
+               values_to = c("Accuracy"),
+               names_transform = list(Sentence = as.factor,
+                                      Picture = as.factor)) %>%
+left_join(  
+orig_results %>% 
+  select(-ends_with("Acc"),-Accuracy) %>%
+  pivot_longer(cols = SentenceBlankPictureGrayRT:SentenceColorPictureGrayRT 	,
+               names_to = c("Sentence","Picture"),
+               names_pattern = "Sentence(.*)Picture(.*)RT",
+               values_to = c("RT"),
+               names_transform = list(Sentence = as.factor,
+                                      Picture = as.factor)),
+  by = c("Subject","List","FirstorSecond","Experiment","Sentence","Picture")
+)
 
+write_csv(orig_results_wide, file="orig_data/data_wide.csv")
 
-## Data summary
-
-
-```{r variable summary, include=FALSE}
-summary(orig_results)
+orig_sum <- orig_results_wide %>% group_by(Experiment, Sentence, Picture) %>% summarise(N = n(), RT = paste0(round(mean(RT)),"(",  round(sd(RT)), ")"), 
+            Acc = paste0(round(mean(Accuracy),2),"(",round(sd(Accuracy),2),")"))
 ```
 
+# Reproduced exploratory analyses
+
+Below table reproduced the exploratory analyses of the three studies.
+
+`r knitr::kable(orig_sum)`
+
+The original paper reported the effect size of by-participant analyses only.
+
+- Experiment 1, sentences referred to object color
+
+```{r exp1_sen_color}
+effectsize::cohens_d(RT ~ Picture, data = subset(orig_results_wide, Experiment == "1" & Sentence == "Color"), paired = TRUE)
+```
+
+
+- Experiment 1, sentences did not refer to object color
+
+```{r exp1_sen_blank}
+effectsize::cohens_d(RT ~ Picture, data = subset(orig_results_wide, Experiment == "1" & Sentence == "Blank"), paired = TRUE)
+```
+
+
+- Experiment 2, sentences referred to object color
+
+```{r exp2_sen_color}
+effectsize::cohens_d(RT ~ Picture, data = subset(orig_results_wide, Experiment == "2" & Sentence == "Color"), paired = TRUE)
+```
+
+- Experiment 2, sentences did not refer to object color
+
+```{r exp2_sen_blank}
+effectsize::cohens_d(RT ~ Picture, data = subset(orig_results_wide, Experiment == "2" & Sentence == "Blank"), paired = TRUE)
+```
+
+
+- Experiment 3, sentences referred to object color
+
+```{r exp3_sen_color}
+effectsize::cohens_d(RT ~ Picture, data = subset(orig_results_wide, Experiment == "3" & Sentence == "Color"), paired = TRUE)
+```
+
+- Experiment 3, sentences did not refer to object color
+
+```{r exp3_sen_blank}
+effectsize::cohens_d(RT ~ Picture, data = subset(orig_results_wide, Experiment == "3" & Sentence == "Blank"), paired = TRUE)
+```
+
+# 

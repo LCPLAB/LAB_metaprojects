@@ -178,10 +178,84 @@ pre code {
 <div id="實驗設計說明" class="section level2">
 <h2>實驗設計說明</h2>
 <p>Design：目標圖片是句子提到的物件(Critical, Filler)，各有96組刺激句及96張目標圖片 Sen_pic: 第二句提示物件的顏色(Yes, No)；Critical及Filler各有48組 Color_pic: 目標圖片是彩色或黑白(Color, Blank)；Critical及Filler各有48張</p>
-<p>根據Sen_pic及Color_pic，一項物件有四種配對。</p>
+<p>根據Sen_pic及Color_pic，一項物件有四種配對。例如：</p>
+<table>
+<thead>
+<tr class="header">
+<th align="center">物件</th>
+<th align="center">提示顏色的句子是第二句</th>
+<th align="center">圖片屬性</th>
+<th align="center">編碼</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">腳踏車</td>
+<td align="center">Yes</td>
+<td align="center">Color</td>
+<td align="center">A</td>
+</tr>
+<tr class="even">
+<td align="center"></td>
+<td align="center">Yes</td>
+<td align="center">Blank</td>
+<td align="center">B</td>
+</tr>
+<tr class="odd">
+<td align="center"></td>
+<td align="center">No</td>
+<td align="center">Color</td>
+<td align="center">C</td>
+</tr>
+<tr class="even">
+<td align="center"></td>
+<td align="center">No</td>
+<td align="center">Blank</td>
+<td align="center">D</td>
+</tr>
+</tbody>
+</table>
 </div>
 <div id="拉丁方格組合" class="section level2">
 <h2>拉丁方格組合</h2>
+<p>在四個刺激列表(List 1,2,3,4)置放四個物件(腳踏車、球棒、安全帽、拖鞋)，採用上表的編碼，符合交互平衡的配置如下：</p>
+<table>
+<thead>
+<tr class="header">
+<th align="center">List 1</th>
+<th align="center">List 2</th>
+<th align="center">List 3</th>
+<th align="center">List 4</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">腳踏車A</td>
+<td align="center">腳踏車B</td>
+<td align="center">腳踏車C</td>
+<td align="center">腳踏車D</td>
+</tr>
+<tr class="even">
+<td align="center">球棒D</td>
+<td align="center">球棒A</td>
+<td align="center">球棒B</td>
+<td align="center">球棒C</td>
+</tr>
+<tr class="odd">
+<td align="center">安全帽C</td>
+<td align="center">安全帽D</td>
+<td align="center">安全帽A</td>
+<td align="center">安全帽B</td>
+</tr>
+<tr class="even">
+<td align="center">拖鞋B</td>
+<td align="center">拖鞋C</td>
+<td align="center">拖鞋D</td>
+<td align="center">拖鞋A</td>
+</tr>
+</tbody>
+</table>
+<p>搭配Critical與Filler，拉丁方格能擴充配置出符合交互平衡的列表</p>
 <table style="width:100%;">
 <colgroup>
 <col width="13%" />
@@ -201,51 +275,381 @@ pre code {
 </thead>
 <tbody>
 <tr class="odd">
-<td>Sti 1</td>
-<td align="center">Critical<br />Sen_pic(Y)<br />Color_pic(Color)</td>
-<td align="center">Critical<br />Sen_pic(Y)<br />Color_pic(Blank)</td>
-<td align="center">Filler<br />Sen_pic(N)<br />Color_pic(Color)</td>
-<td align="center">Filler<br />Sen_pic(N)<br />Color_pic(Blank)</td>
+<td>Critical_Sti 1</td>
+<td align="center">Sen_pic(Y)<br />Color_pic(Color)</td>
+<td align="center">Sen_pic(Y)<br />Color_pic(Blank)</td>
+<td align="center">Sen_pic(N)<br />Color_pic(Color)</td>
+<td align="center">Sen_pic(N)<br />Color_pic(Blank)</td>
 </tr>
 <tr class="even">
-<td>Sti 2</td>
-<td align="center">Critical<br />Sen_pic(Y)<br />Color_pic(Blank)</td>
-<td align="center">Filler<br />Sen_pic(N)<br />Color_pic(Color)</td>
-<td align="center">Critical<br />Sen_pic(N)<br />Color_pic(Blank)</td>
-<td align="center">Filler<br />Sen_pic(Y)<br />Color_pic(Color)</td>
+<td>Critical_Sti 2</td>
+<td align="center">Sen_pic(Y)<br />Color_pic(Blank)</td>
+<td align="center">Sen_pic(N)<br />Color_pic(Color)</td>
+<td align="center">Sen_pic(N)<br />Color_pic(Blank)</td>
+<td align="center">Sen_pic(Y)<br />Color_pic(Color)</td>
 </tr>
 <tr class="odd">
-<td>Sti 3</td>
-<td align="center">Filler<br />Sen_pic(N)<br />Color_pic(Color)</td>
-<td align="center">Filler<br />Sen_pic(N)<br />Color_pic(Blank)</td>
-<td align="center">Critical<br />Sen_pic(Y)<br />Color_pic(Color)</td>
-<td align="center">Critical<br />Sen_pic(Y)<br />Color_pic(Blank)</td>
+<td>Critical_Sti 3</td>
+<td align="center">Sen_pic(N)<br />Color_pic(Color)</td>
+<td align="center">Sen_pic(N)<br />Color_pic(Blank)</td>
+<td align="center">Sen_pic(Y)<br />Color_pic(Color)</td>
+<td align="center">Sen_pic(Y)<br />Color_pic(Blank)</td>
 </tr>
 <tr class="even">
-<td>Sti 4</td>
-<td align="center">Filler<br />Sen_pic(N)<br />Color_pic(Blank)</td>
-<td align="center">Critical<br />Sen_pic(Y)<br />Color_pic(Color)</td>
-<td align="center">Filler<br />Sen_pic(Y)<br />Color_pic(Blank)</td>
-<td align="center">Critical<br />Sen_pic(N)<br />Color_pic(Color)</td>
+<td>Critical_Sti 4</td>
+<td align="center">Sen_pic(N)<br />Color_pic(Blank)</td>
+<td align="center">Sen_pic(Y)<br />Color_pic(Color)</td>
+<td align="center">Sen_pic(Y)<br />Color_pic(Blank)</td>
+<td align="center">Sen_pic(N)<br />Color_pic(Color)</td>
+</tr>
+<tr class="odd">
+<td>Filler_Sti 1</td>
+<td align="center">Sen_pic(Y)<br />Color_pic(Color)</td>
+<td align="center">Sen_pic(Y)<br />Color_pic(Blank)</td>
+<td align="center">Sen_pic(N)<br />Color_pic(Color)</td>
+<td align="center">Sen_pic(N)<br />Color_pic(Blank)</td>
+</tr>
+<tr class="even">
+<td>Filler_Sti 2</td>
+<td align="center">Sen_pic(Y)<br />Color_pic(Blank)</td>
+<td align="center">Sen_pic(N)<br />Color_pic(Color)</td>
+<td align="center">Sen_pic(N)<br />Color_pic(Blank)</td>
+<td align="center">Sen_pic(Y)<br />Color_pic(Color)</td>
+</tr>
+<tr class="odd">
+<td>Filler_Sti 3</td>
+<td align="center">Sen_pic(N)<br />Color_pic(Color)</td>
+<td align="center">Sen_pic(N)<br />Color_pic(Blank)</td>
+<td align="center">Sen_pic(Y)<br />Color_pic(Color)</td>
+<td align="center">Sen_pic(Y)<br />Color_pic(Blank)</td>
+</tr>
+<tr class="even">
+<td>Filler_Sti 4</td>
+<td align="center">Sen_pic(N)<br />Color_pic(Blank)</td>
+<td align="center">Sen_pic(Y)<br />Color_pic(Color)</td>
+<td align="center">Sen_pic(Y)<br />Color_pic(Blank)</td>
+<td align="center">Sen_pic(N)<br />Color_pic(Color)</td>
 </tr>
 </tbody>
 </table>
 <p>依照排列組合，一份刺激列表有96項句子及圖片配對。Critical及Filler各有48項。</p>
 </div>
+<div id="拉丁方格索引碼實作" class="section level2">
+<h2>拉丁方格索引碼實作</h2>
+<p>以下chunk不執行，可自行測試“latinsquare”的功能。</p>
+<blockquote>
+<p>我們可設定Critical物件的句子在奇數列(1,3)，前一後二，分派彩色圖;句子在偶數列(2,4)，前一後二，分派黑白圖。Filler物件的句子在奇數列(1,3)，前二後一，分派黑白圖;句子在偶數列(2,4)，前二後一，分派彩色圖。</p>
+</blockquote>
+</div>
 <div id="刺激列表序列索引碼" class="section level2">
 <h2>刺激列表序列索引碼</h2>
-<pre class="r"><code>lists &lt;- ifelse(latinsquare(4,rep=96/2,seed = 20220501)%%2==1,1,0)
-colnames(lists) &lt;- c(paste0(&quot;List0&quot;,1:4))
-
-for(i in colnames(lists)){
-  lists[which(lists[,i]==1),i] = 1:96 
-}
-
-apply(lists!=0,2,sum)</code></pre>
-<pre><code>## List01 List02 List03 List04 
-##     96     96     96     96</code></pre>
-<pre class="r"><code>write.csv(lists, file=&quot;lists.csv&quot;,row.names = FALSE)</code></pre>
-<p>以上程式碼製造四份刺激列表的序列索引碼，各列表皆有96項，匯出後可複製至刺激表Objects與Sentences。</p>
+<p>以下展示<strong>刺激庫</strong>的句子及圖像刺激，如何依交互平衡原則配置句子及圖像的四套列表組合。Critical與Filler皆依照此配置安排。</p>
+<table>
+<colgroup>
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">List01</th>
+<th align="left">List02</th>
+<th align="left">List03</th>
+<th align="left">List04</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">color_sen001 color_pic001</td>
+<td align="left">blank_sen001 blank_pic001</td>
+<td align="left">blank_sen001 color_pic001</td>
+<td align="left">color_sen001 blank_pic001</td>
+</tr>
+<tr class="even">
+<td align="left">color_sen002 color_pic002</td>
+<td align="left">blank_sen002 blank_pic002</td>
+<td align="left">blank_sen002 color_pic002</td>
+<td align="left">color_sen002 blank_pic002</td>
+</tr>
+<tr class="odd">
+<td align="left">color_sen003 color_pic003</td>
+<td align="left">blank_sen003 blank_pic003</td>
+<td align="left">blank_sen003 color_pic003</td>
+<td align="left">color_sen003 blank_pic003</td>
+</tr>
+<tr class="even">
+<td align="left">color_sen004 color_pic004</td>
+<td align="left">blank_sen004 blank_pic004</td>
+<td align="left">blank_sen004 color_pic004</td>
+<td align="left">color_sen004 blank_pic004</td>
+</tr>
+<tr class="odd">
+<td align="left">color_sen005 color_pic005</td>
+<td align="left">blank_sen005 blank_pic005</td>
+<td align="left">blank_sen005 color_pic005</td>
+<td align="left">color_sen005 blank_pic005</td>
+</tr>
+<tr class="even">
+<td align="left">color_sen006 color_pic006</td>
+<td align="left">blank_sen006 blank_pic006</td>
+<td align="left">blank_sen006 color_pic006</td>
+<td align="left">color_sen006 blank_pic006</td>
+</tr>
+<tr class="odd">
+<td align="left">color_sen007 color_pic007</td>
+<td align="left">blank_sen007 blank_pic007</td>
+<td align="left">blank_sen007 color_pic007</td>
+<td align="left">color_sen007 blank_pic007</td>
+</tr>
+<tr class="even">
+<td align="left">color_sen008 color_pic008</td>
+<td align="left">blank_sen008 blank_pic008</td>
+<td align="left">blank_sen008 color_pic008</td>
+<td align="left">color_sen008 blank_pic008</td>
+</tr>
+<tr class="odd">
+<td align="left">color_sen009 color_pic009</td>
+<td align="left">blank_sen009 blank_pic009</td>
+<td align="left">blank_sen009 color_pic009</td>
+<td align="left">color_sen009 blank_pic009</td>
+</tr>
+<tr class="even">
+<td align="left">color_sen010 color_pic010</td>
+<td align="left">blank_sen010 blank_pic010</td>
+<td align="left">blank_sen010 color_pic010</td>
+<td align="left">color_sen010 blank_pic010</td>
+</tr>
+<tr class="odd">
+<td align="left">color_sen011 color_pic011</td>
+<td align="left">blank_sen011 blank_pic011</td>
+<td align="left">blank_sen011 color_pic011</td>
+<td align="left">color_sen011 blank_pic011</td>
+</tr>
+<tr class="even">
+<td align="left">color_sen012 color_pic012</td>
+<td align="left">blank_sen012 blank_pic012</td>
+<td align="left">blank_sen012 color_pic012</td>
+<td align="left">color_sen012 blank_pic012</td>
+</tr>
+<tr class="odd">
+<td align="left">blank_sen013 color_pic013</td>
+<td align="left">color_sen013 blank_pic013</td>
+<td align="left">color_sen013 color_pic013</td>
+<td align="left">blank_sen013 blank_pic013</td>
+</tr>
+<tr class="even">
+<td align="left">blank_sen014 color_pic014</td>
+<td align="left">color_sen014 blank_pic014</td>
+<td align="left">color_sen014 color_pic014</td>
+<td align="left">blank_sen014 blank_pic014</td>
+</tr>
+<tr class="odd">
+<td align="left">blank_sen015 color_pic015</td>
+<td align="left">color_sen015 blank_pic015</td>
+<td align="left">color_sen015 color_pic015</td>
+<td align="left">blank_sen015 blank_pic015</td>
+</tr>
+<tr class="even">
+<td align="left">blank_sen016 color_pic016</td>
+<td align="left">color_sen016 blank_pic016</td>
+<td align="left">color_sen016 color_pic016</td>
+<td align="left">blank_sen016 blank_pic016</td>
+</tr>
+<tr class="odd">
+<td align="left">blank_sen017 color_pic017</td>
+<td align="left">color_sen017 blank_pic017</td>
+<td align="left">color_sen017 color_pic017</td>
+<td align="left">blank_sen017 blank_pic017</td>
+</tr>
+<tr class="even">
+<td align="left">blank_sen018 color_pic018</td>
+<td align="left">color_sen018 blank_pic018</td>
+<td align="left">color_sen018 color_pic018</td>
+<td align="left">blank_sen018 blank_pic018</td>
+</tr>
+<tr class="odd">
+<td align="left">blank_sen019 color_pic019</td>
+<td align="left">color_sen019 blank_pic019</td>
+<td align="left">color_sen019 color_pic019</td>
+<td align="left">blank_sen019 blank_pic019</td>
+</tr>
+<tr class="even">
+<td align="left">blank_sen020 color_pic020</td>
+<td align="left">color_sen020 blank_pic020</td>
+<td align="left">color_sen020 color_pic020</td>
+<td align="left">blank_sen020 blank_pic020</td>
+</tr>
+<tr class="odd">
+<td align="left">blank_sen021 color_pic021</td>
+<td align="left">color_sen021 blank_pic021</td>
+<td align="left">color_sen021 color_pic021</td>
+<td align="left">blank_sen021 blank_pic021</td>
+</tr>
+<tr class="even">
+<td align="left">blank_sen022 color_pic022</td>
+<td align="left">color_sen022 blank_pic022</td>
+<td align="left">color_sen022 color_pic022</td>
+<td align="left">blank_sen022 blank_pic022</td>
+</tr>
+<tr class="odd">
+<td align="left">blank_sen023 color_pic023</td>
+<td align="left">color_sen023 blank_pic023</td>
+<td align="left">color_sen023 color_pic023</td>
+<td align="left">blank_sen023 blank_pic023</td>
+</tr>
+<tr class="even">
+<td align="left">blank_sen024 color_pic024</td>
+<td align="left">color_sen024 blank_pic024</td>
+<td align="left">color_sen024 color_pic024</td>
+<td align="left">blank_sen024 blank_pic024</td>
+</tr>
+<tr class="odd">
+<td align="left">color_sen025 blank_pic025</td>
+<td align="left">blank_sen025 color_pic025</td>
+<td align="left">blank_sen025 blank_pic025</td>
+<td align="left">color_sen025 color_pic025</td>
+</tr>
+<tr class="even">
+<td align="left">color_sen026 blank_pic026</td>
+<td align="left">blank_sen026 color_pic026</td>
+<td align="left">blank_sen026 blank_pic026</td>
+<td align="left">color_sen026 color_pic026</td>
+</tr>
+<tr class="odd">
+<td align="left">color_sen027 blank_pic027</td>
+<td align="left">blank_sen027 color_pic027</td>
+<td align="left">blank_sen027 blank_pic027</td>
+<td align="left">color_sen027 color_pic027</td>
+</tr>
+<tr class="even">
+<td align="left">color_sen028 blank_pic028</td>
+<td align="left">blank_sen028 color_pic028</td>
+<td align="left">blank_sen028 blank_pic028</td>
+<td align="left">color_sen028 color_pic028</td>
+</tr>
+<tr class="odd">
+<td align="left">color_sen029 blank_pic029</td>
+<td align="left">blank_sen029 color_pic029</td>
+<td align="left">blank_sen029 blank_pic029</td>
+<td align="left">color_sen029 color_pic029</td>
+</tr>
+<tr class="even">
+<td align="left">color_sen030 blank_pic030</td>
+<td align="left">blank_sen030 color_pic030</td>
+<td align="left">blank_sen030 blank_pic030</td>
+<td align="left">color_sen030 color_pic030</td>
+</tr>
+<tr class="odd">
+<td align="left">color_sen031 blank_pic031</td>
+<td align="left">blank_sen031 color_pic031</td>
+<td align="left">blank_sen031 blank_pic031</td>
+<td align="left">color_sen031 color_pic031</td>
+</tr>
+<tr class="even">
+<td align="left">color_sen032 blank_pic032</td>
+<td align="left">blank_sen032 color_pic032</td>
+<td align="left">blank_sen032 blank_pic032</td>
+<td align="left">color_sen032 color_pic032</td>
+</tr>
+<tr class="odd">
+<td align="left">color_sen033 blank_pic033</td>
+<td align="left">blank_sen033 color_pic033</td>
+<td align="left">blank_sen033 blank_pic033</td>
+<td align="left">color_sen033 color_pic033</td>
+</tr>
+<tr class="even">
+<td align="left">color_sen034 blank_pic034</td>
+<td align="left">blank_sen034 color_pic034</td>
+<td align="left">blank_sen034 blank_pic034</td>
+<td align="left">color_sen034 color_pic034</td>
+</tr>
+<tr class="odd">
+<td align="left">color_sen035 blank_pic035</td>
+<td align="left">blank_sen035 color_pic035</td>
+<td align="left">blank_sen035 blank_pic035</td>
+<td align="left">color_sen035 color_pic035</td>
+</tr>
+<tr class="even">
+<td align="left">color_sen036 blank_pic036</td>
+<td align="left">blank_sen036 color_pic036</td>
+<td align="left">blank_sen036 blank_pic036</td>
+<td align="left">color_sen036 color_pic036</td>
+</tr>
+<tr class="odd">
+<td align="left">blank_sen037 blank_pic037</td>
+<td align="left">color_sen037 color_pic037</td>
+<td align="left">color_sen037 blank_pic037</td>
+<td align="left">blank_sen037 color_pic037</td>
+</tr>
+<tr class="even">
+<td align="left">blank_sen038 blank_pic038</td>
+<td align="left">color_sen038 color_pic038</td>
+<td align="left">color_sen038 blank_pic038</td>
+<td align="left">blank_sen038 color_pic038</td>
+</tr>
+<tr class="odd">
+<td align="left">blank_sen039 blank_pic039</td>
+<td align="left">color_sen039 color_pic039</td>
+<td align="left">color_sen039 blank_pic039</td>
+<td align="left">blank_sen039 color_pic039</td>
+</tr>
+<tr class="even">
+<td align="left">blank_sen040 blank_pic040</td>
+<td align="left">color_sen040 color_pic040</td>
+<td align="left">color_sen040 blank_pic040</td>
+<td align="left">blank_sen040 color_pic040</td>
+</tr>
+<tr class="odd">
+<td align="left">blank_sen041 blank_pic041</td>
+<td align="left">color_sen041 color_pic041</td>
+<td align="left">color_sen041 blank_pic041</td>
+<td align="left">blank_sen041 color_pic041</td>
+</tr>
+<tr class="even">
+<td align="left">blank_sen042 blank_pic042</td>
+<td align="left">color_sen042 color_pic042</td>
+<td align="left">color_sen042 blank_pic042</td>
+<td align="left">blank_sen042 color_pic042</td>
+</tr>
+<tr class="odd">
+<td align="left">blank_sen043 blank_pic043</td>
+<td align="left">color_sen043 color_pic043</td>
+<td align="left">color_sen043 blank_pic043</td>
+<td align="left">blank_sen043 color_pic043</td>
+</tr>
+<tr class="even">
+<td align="left">blank_sen044 blank_pic044</td>
+<td align="left">color_sen044 color_pic044</td>
+<td align="left">color_sen044 blank_pic044</td>
+<td align="left">blank_sen044 color_pic044</td>
+</tr>
+<tr class="odd">
+<td align="left">blank_sen045 blank_pic045</td>
+<td align="left">color_sen045 color_pic045</td>
+<td align="left">color_sen045 blank_pic045</td>
+<td align="left">blank_sen045 color_pic045</td>
+</tr>
+<tr class="even">
+<td align="left">blank_sen046 blank_pic046</td>
+<td align="left">color_sen046 color_pic046</td>
+<td align="left">color_sen046 blank_pic046</td>
+<td align="left">blank_sen046 color_pic046</td>
+</tr>
+<tr class="odd">
+<td align="left">blank_sen047 blank_pic047</td>
+<td align="left">color_sen047 color_pic047</td>
+<td align="left">color_sen047 blank_pic047</td>
+<td align="left">blank_sen047 color_pic047</td>
+</tr>
+<tr class="even">
+<td align="left">blank_sen048 blank_pic048</td>
+<td align="left">color_sen048 color_pic048</td>
+<td align="left">color_sen048 blank_pic048</td>
+<td align="left">blank_sen048 color_pic048</td>
+</tr>
+</tbody>
+</table>
 </div>
 
 

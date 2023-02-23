@@ -21,14 +21,14 @@ In this document we generated the pseudo data and reproduced the analysis summar
 
 ## Data sheet structure
 
-- ID: by-participant unit
-- term: by-item unit
+- ID: by-participant unit; "jatosStudyResultId" in real data
+- term: by-item unit; "term" in real data
 
 - Design: Pictures are the "critical" objects or "fillers".
 - Color_pic: Picture is color (Y) or blank (N).
 
-- RT: Pseudo response time.
-- Correct: Pseudo correctness.
+- RT: Pseudo response time.  "response_time" in real data
+- Correct: Pseudo correctness. "correct" in real data.
 
 ```{r build_data_sheet}
 df <- tibble(
@@ -49,11 +49,23 @@ femaleN <- df %>% filter(gender=="Female") %>% summarise(N = length(unique(ID)) 
 age_range <- df %>% summarise(ages = range(age)) %>% pull(ages)
 ```
 
+```{r real_data}
+## import real data
+df_testing <- read_csv(file="testing_results/color_pilot_data.csv")
+## extract the exp data
+df_norm <- df_testing %>% filter(Task=="Exp")
+## extract the memory checks
+df_memory <- df_norm %>% filter(memory == "y")
+## extract the post survey data
+df_post <- df_testing %>% filter(Task=="Post")
+```
+
 
 ## Demographic summary
 
 In the simulated data, there are __ female participants, age range: __ years.
 
+Totally __ participants (__ females) joined our pilot study, age range: __ years.
 
 ## Making of analytic table
 
@@ -123,6 +135,8 @@ Summary by items
 `r knitr::kable(i_Acc_tb)`
 
 
+
+
 ## T-tests by condition and by measurement
 
 ```{r planned_ttest, echo=FALSE}
@@ -184,3 +198,19 @@ result_i_Filler_Acc <- t.test(Acc ~ Color_pic,
 
 
 > A paired-samples t test found no significant color advantage in the response times for either experimental items, $t_1$(`r round(result_p_Critical_RT$parameter, 2)`) = `r round(result_p_Critical_RT$statistic, 2)`, *p* = `r round(result_p_Critical_RT$p.value, 3)`; $t_2$(`r round(result_i_Critical_RT$parameter, 2)`) = `r round(result_i_Critical_RT$statistic, 2)`, *p* = `r round(result_i_Critical_RT$p.value, 3)`, or for filler items,  $t_1$(`r round(result_p_Filler_RT$parameter, 2)`) = `r round(result_p_Filler_RT$statistic, 2)`, *p* = `r round(result_p_Filler_RT$p.value, 3)`; $t_2$(`r round(result_i_Filler_RT$parameter, 2)`) = `r round(result_i_Filler_RT$statistic, 2)`, *p* = `r round(result_i_Filler_RT$p.value, 3)`. (Cotinue to Accuracy analysis)
+
+
+
+## Compare item RTs between "color" and "blank"
+
+```{r items}
+i_RT_tb <- df %>%
+  filter(Correct==1) %>%
+  group_by(term, Design, Color_pic) %>%
+  summarise(iEXC = mean(RT), iVER = qnorm(.975)*sd(RT)) # summarise the confidence intervals by item per color
+
+i_RT_tb %>% ggplot(aes(y=term,x=iEXC,xmin=iEXC-iVER, xmax=iEXC+iVER, color = Color_pic)) +
+  geom_pointrange() +
+  coord_cartesian(expand = FALSE) # Illustrate the ranges of item RT
+```
+
