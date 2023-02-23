@@ -535,6 +535,44 @@ summary(test, test = adjusted("none"))
 ```
 `r knitr::kable(H3_table)`
 
+```{r 1D-credibility}
+Kerwer_sum <- tibble(
+  article_type = c("PLS","PLS_NH","OSA"),
+  M = c(6.203,5.964,5.443),
+  Study = "Original"
+)
+
+rep_sum <- df_Post %>% filter(Topic == "Credibility") %>%
+  group_by(article_type) %>%
+  summarise(M = mean(response)) %>%
+  bind_cols(Study="Rep")
+
+Merge_sum <- bind_rows(Kerwer_sum, rep_sum) %>%
+  arrange(Study,desc(article_type))
+
+#broom::tidy()
+
+#x=1:8
+
+ggplot(Merge_sum, aes(x=M, y=rep(c(2,3,1),2),color=Study)) +
+#  geom_point(size = 1) +
+#  geom_text(aes(label=rep_sum$article_type),nudge_x = rep_sum$M,nudge_y = 5:7) +
+#  annotate("segment",x=1,xend=8, y=0, yend=0, size=2) +
+#  annotate("segment",x=1,xend=1, y=-0.1,yend=0.1, size=2) +
+#  annotate("segment",x=8,xend=8, y=-0.1,yend=0.1, size=2) +
+  geom_text(aes(label = article_type,col=Study),angle = 45) +
+  scale_x_continuous(limits = c(1,8),breaks=1:8) +
+  scale_y_continuous(limits = c(-1,4),breaks=0) +
+#  scale_color_manual(values = unname(colours)) + 
+  theme(panel.background = element_blank(),
+        #axis.text = element_blank(),
+        axis.ticks = element_blank(),
+        axis.title = element_blank(),
+        legend.position = c(.95, .95),
+  legend.justification = c("right", "top"))
+```
+
+
 ### 4. 內容真實性評估
 
 評估摘要內容的真實性
