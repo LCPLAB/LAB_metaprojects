@@ -1,0 +1,2652 @@
+---
+API: 2.1
+OpenSesame: 3.3.12
+Platform: nt
+---
+set width 1024
+set uniform_coordinates yes
+set title "New experiment"
+set subject_parity even
+set subject_nr 0
+set start experiment
+set sound_sample_size -16
+set sound_freq 48000
+set sound_channels 2
+set sound_buf_size 1024
+set sampler_backend psycho
+set round_decimals 2
+set mouse_backend psycho
+set keyboard_backend psycho
+set height 768
+set fullscreen no
+set form_clicks no
+set foreground white
+set font_underline no
+set font_size 18
+set font_italic no
+set font_family mono
+set font_bold no
+set experiment_path "D:\\core\\research\\projects\\Meta_Replication\\Projects\\202208_visualization"
+set disable_garbage_collection yes
+set description "The main experiment item"
+set coordinates uniform
+set compensation 0
+set color_backend psycho
+set clock_backend psycho
+set canvas_backend psycho
+set background "#000000"
+
+define sketchpad EXP_Instruction_sc
+	set duration keypress
+	set description "Displays stimuli"
+	draw textline center=1 color=white font_bold=no font_family=mono font_italic=no font_size=28 html=yes show_if=always text="练习结束，即将进入正式实验<br/><br/>请记得：<b>每题开始字词出现时，请您想像字词形容的图像</b><br/><b>图像出现时请立即反应是否符合形容</b><br/><br/><br/>请您保持专注，完成实验<br/><br/><br/>按任意键进入正式实验" x=0 y=90 z_index=0
+
+define sketchpad EXP_Instruction_tc
+	set duration keypress
+	set description "Displays stimuli"
+	draw textline center=1 color=white font_bold=no font_family=mono font_italic=no font_size=28 html=yes show_if=always text="練習結束，即將進入正式實驗<br/><br/>請記得：<b>每題開始字詞出現時，請您想像字詞形容的圖像</b><br/><b>圖像出現時請立即反應是否符合形容</b><br/><br/><br/>請您保持專注，依指示完成實驗<br/><br/><br/>按任意鍵進入正式實驗" x=0 y=90 z_index=0
+
+define sketchpad EXP_complete_sc
+	set duration keypress
+	set description "Displays stimuli"
+	draw textline center=1 color=white font_bold=no font_family=mono font_italic=no font_size=24 html=yes show_if=always text="没有实验题目了<br/><br/>结束前请回答您的性别及出生年份资讯<br/><br/><br/><br/>请按任意键继续" x=0 y=-64 z_index=0
+
+define sketchpad EXP_complete_tc
+	set duration keypress
+	set description "Displays stimuli"
+	draw textline center=1 color=white font_bold=no font_family=mono font_italic=no font_size=24 html=yes show_if=always text="沒有實驗題目了<br/><br/>結束前請告知我們您的性別及出生年份資訊<br/><br/><br/><br/>請按任意鍵繼續" x=0 y=-64 z_index=0
+
+define sketchpad EXP_end_sc
+	set duration keypress
+	set description "Displays stimuli"
+	draw textline center=1 color=white font_bold=no font_family=mono font_italic=no font_size=36 html=yes show_if=always text="实验结束<br/><br/>请记下你的实验完成码<br/>[identifier]<br/><br/>按任意键关闭网页" x=0 y=-32 z_index=0
+
+define sketchpad EXP_end_tc
+	set duration keypress
+	set description "Displays stimuli"
+	draw textline center=1 color=white font_bold=no font_family=mono font_italic=no font_size=36 html=yes show_if=always text="實驗結束<br/><br/>請記下您的實驗完成碼<br/>[identifier]<br/>請將此完成碼與個人電子郵件填入表單<br/>確認後將發放超商點數卷<br/><br/><br/>按任意鍵關閉網頁" x=0 y=-32 z_index=0
+
+define sequence EXP_gap_sc
+	set flush_keyboard yes
+	set description "Runs a number of items in sequence"
+	run Prac_short_sc "[p_gap_sc]==0"
+	run Prac_long_sc "[p_gap_sc]==1"
+	run loop_setup_sc always
+	run EXP_Instruction_sc always
+	run EXP_short_sc "[e_gap_sc]==0"
+	run EXP_long_sc "[e_gap_sc]==1"
+	run EXP_complete_sc always
+
+define sequence EXP_gap_tc
+	set flush_keyboard yes
+	set description "Runs a number of items in sequence"
+	run Prac_short_tc "[p_gap_tc]==0"
+	run Prac_long1_tc "[p_gap_tc]==1"
+	run Prac_long2_tc "[p_gap_tc]==2"
+	run loop_setup always
+	run EXP_Instruction_tc always
+	run EXP_short_tc "[e_gap_tc]==0"
+	run EXP_long1_tc "[e_gap_tc]==1"
+	run EXP_long2_tc "[e_gap_tc]==2"
+	run EXP_complete_tc never
+
+define loop EXP_long1_tc
+	set source table
+	set repeat 2
+	set order random
+	set description "Repeatedly runs another item"
+	set cycles 16
+	set continuous no
+	set break_if_on_first yes
+	set break_if never
+	setcycle 0 cue "紅色方塊"
+	setcycle 0 cue_1 "紅色方塊"
+	setcycle 0 target_color red
+	setcycle 0 target_shape "■"
+	setcycle 0 Trial_type dual
+	setcycle 0 correct_response m
+	setcycle 0 gap y
+	setcycle 0 Block Exp
+	setcycle 0 Presentation_style long1
+	setcycle 0 shape square
+	setcycle 1 cue "紅色菱形"
+	setcycle 1 cue_1 "紅色菱形"
+	setcycle 1 target_color red
+	setcycle 1 target_shape "◆"
+	setcycle 1 Trial_type dual
+	setcycle 1 correct_response m
+	setcycle 1 gap y
+	setcycle 1 Block Exp
+	setcycle 1 Presentation_style long1
+	setcycle 1 shape diamond
+	setcycle 2 cue "綠色方塊"
+	setcycle 2 cue_1 "綠色方塊"
+	setcycle 2 target_color green
+	setcycle 2 target_shape "■"
+	setcycle 2 Trial_type dual
+	setcycle 2 correct_response m
+	setcycle 2 gap y
+	setcycle 2 Block Exp
+	setcycle 2 Presentation_style long1
+	setcycle 2 shape square
+	setcycle 3 cue "綠色菱形"
+	setcycle 3 cue_1 "綠色菱形"
+	setcycle 3 target_color green
+	setcycle 3 target_shape "◆"
+	setcycle 3 Trial_type dual
+	setcycle 3 correct_response m
+	setcycle 3 gap y
+	setcycle 3 Block Exp
+	setcycle 3 Presentation_style long1
+	setcycle 3 shape diamond
+	setcycle 4 cue "紅色"
+	setcycle 4 cue_1 "紅色"
+	setcycle 4 target_color red
+	setcycle 4 target_shape "■"
+	setcycle 4 Trial_type single
+	setcycle 4 correct_response m
+	setcycle 4 gap y
+	setcycle 4 Block Exp
+	setcycle 4 Presentation_style long1
+	setcycle 4 shape square
+	setcycle 5 cue "綠色"
+	setcycle 5 cue_1 "綠色"
+	setcycle 5 target_color green
+	setcycle 5 target_shape "◆"
+	setcycle 5 Trial_type single
+	setcycle 5 correct_response m
+	setcycle 5 gap y
+	setcycle 5 Block Exp
+	setcycle 5 Presentation_style long1
+	setcycle 5 shape diamond
+	setcycle 6 cue "方塊"
+	setcycle 6 cue_1 "方塊"
+	setcycle 6 target_color red
+	setcycle 6 target_shape "■"
+	setcycle 6 Trial_type single
+	setcycle 6 correct_response m
+	setcycle 6 gap y
+	setcycle 6 Block Exp
+	setcycle 6 Presentation_style long1
+	setcycle 6 shape square
+	setcycle 7 cue "菱形"
+	setcycle 7 cue_1 "菱形"
+	setcycle 7 target_color green
+	setcycle 7 target_shape "◆"
+	setcycle 7 Trial_type single
+	setcycle 7 correct_response m
+	setcycle 7 gap y
+	setcycle 7 Block Exp
+	setcycle 7 Presentation_style long1
+	setcycle 7 shape diamond
+	setcycle 8 cue "紅色方塊"
+	setcycle 8 cue_1 "紅色方塊"
+	setcycle 8 target_color green
+	setcycle 8 target_shape "◆"
+	setcycle 8 Trial_type dual
+	setcycle 8 correct_response z
+	setcycle 8 gap y
+	setcycle 8 Block Exp
+	setcycle 8 Presentation_style long1
+	setcycle 8 shape diamond
+	setcycle 9 cue "紅色菱形"
+	setcycle 9 cue_1 "紅色菱形"
+	setcycle 9 target_color green
+	setcycle 9 target_shape "■"
+	setcycle 9 Trial_type dual
+	setcycle 9 correct_response z
+	setcycle 9 gap y
+	setcycle 9 Block Exp
+	setcycle 9 Presentation_style long1
+	setcycle 9 shape square
+	setcycle 10 cue "綠色方塊"
+	setcycle 10 cue_1 "綠色方塊"
+	setcycle 10 target_color red
+	setcycle 10 target_shape "◆"
+	setcycle 10 Trial_type dual
+	setcycle 10 correct_response z
+	setcycle 10 gap y
+	setcycle 10 Block Exp
+	setcycle 10 Presentation_style long1
+	setcycle 10 shape diamond
+	setcycle 11 cue "綠色菱形"
+	setcycle 11 cue_1 "綠色菱形"
+	setcycle 11 target_color red
+	setcycle 11 target_shape "■"
+	setcycle 11 Trial_type dual
+	setcycle 11 correct_response z
+	setcycle 11 gap y
+	setcycle 11 Block Exp
+	setcycle 11 Presentation_style long1
+	setcycle 11 shape square
+	setcycle 12 cue "綠色"
+	setcycle 12 cue_1 "綠色"
+	setcycle 12 target_color red
+	setcycle 12 target_shape "■"
+	setcycle 12 Trial_type single
+	setcycle 12 correct_response z
+	setcycle 12 gap y
+	setcycle 12 Block Exp
+	setcycle 12 Presentation_style long1
+	setcycle 12 shape square
+	setcycle 13 cue "紅色"
+	setcycle 13 cue_1 "紅色"
+	setcycle 13 target_color green
+	setcycle 13 target_shape "◆"
+	setcycle 13 Trial_type single
+	setcycle 13 correct_response z
+	setcycle 13 gap y
+	setcycle 13 Block Exp
+	setcycle 13 Presentation_style long1
+	setcycle 13 shape diamond
+	setcycle 14 cue "菱形"
+	setcycle 14 cue_1 "菱形"
+	setcycle 14 target_color red
+	setcycle 14 target_shape "■"
+	setcycle 14 Trial_type single
+	setcycle 14 correct_response z
+	setcycle 14 gap y
+	setcycle 14 Block Exp
+	setcycle 14 Presentation_style long1
+	setcycle 14 shape square
+	setcycle 15 cue "方塊"
+	setcycle 15 cue_1 "方塊"
+	setcycle 15 target_color green
+	setcycle 15 target_shape "◆"
+	setcycle 15 Trial_type single
+	setcycle 15 correct_response z
+	setcycle 15 gap y
+	setcycle 15 Block Exp
+	setcycle 15 Presentation_style long1
+	setcycle 15 shape diamond
+	run EXP_seq_tc
+
+define loop EXP_long2_tc
+	set source table
+	set repeat 2
+	set order random
+	set description "Repeatedly runs another item"
+	set cycles 16
+	set continuous no
+	set break_if_on_first yes
+	set break_if never
+	setcycle 0 cue "紅色"
+	setcycle 0 cue_1 "方塊"
+	setcycle 0 target_color red
+	setcycle 0 target_shape "■"
+	setcycle 0 Trial_type dual
+	setcycle 0 correct_response m
+	setcycle 0 gap y
+	setcycle 0 Block Exp
+	setcycle 0 Presentation_style long2
+	setcycle 0 shape square
+	setcycle 1 cue "紅色"
+	setcycle 1 cue_1 "菱形"
+	setcycle 1 target_color red
+	setcycle 1 target_shape "◆"
+	setcycle 1 Trial_type dual
+	setcycle 1 correct_response m
+	setcycle 1 gap y
+	setcycle 1 Block Exp
+	setcycle 1 Presentation_style long2
+	setcycle 1 shape diamond
+	setcycle 2 cue "綠色"
+	setcycle 2 cue_1 "方塊"
+	setcycle 2 target_color green
+	setcycle 2 target_shape "■"
+	setcycle 2 Trial_type dual
+	setcycle 2 correct_response m
+	setcycle 2 gap y
+	setcycle 2 Block Exp
+	setcycle 2 Presentation_style long2
+	setcycle 2 shape square
+	setcycle 3 cue "綠色"
+	setcycle 3 cue_1 "菱形"
+	setcycle 3 target_color green
+	setcycle 3 target_shape "◆"
+	setcycle 3 Trial_type dual
+	setcycle 3 correct_response m
+	setcycle 3 gap y
+	setcycle 3 Block Exp
+	setcycle 3 Presentation_style long2
+	setcycle 3 shape diamond
+	setcycle 4 cue "紅色"
+	setcycle 4 cue_1 "紅色"
+	setcycle 4 target_color red
+	setcycle 4 target_shape "■"
+	setcycle 4 Trial_type single
+	setcycle 4 correct_response m
+	setcycle 4 gap y
+	setcycle 4 Block Exp
+	setcycle 4 Presentation_style long2
+	setcycle 4 shape square
+	setcycle 5 cue "綠色"
+	setcycle 5 cue_1 "綠色"
+	setcycle 5 target_color green
+	setcycle 5 target_shape "◆"
+	setcycle 5 Trial_type single
+	setcycle 5 correct_response m
+	setcycle 5 gap y
+	setcycle 5 Block Exp
+	setcycle 5 Presentation_style long2
+	setcycle 5 shape diamond
+	setcycle 6 cue "方塊"
+	setcycle 6 cue_1 "方塊"
+	setcycle 6 target_color red
+	setcycle 6 target_shape "■"
+	setcycle 6 Trial_type single
+	setcycle 6 correct_response m
+	setcycle 6 gap y
+	setcycle 6 Block Exp
+	setcycle 6 Presentation_style long2
+	setcycle 6 shape square
+	setcycle 7 cue "菱形"
+	setcycle 7 cue_1 "菱形"
+	setcycle 7 target_color green
+	setcycle 7 target_shape "◆"
+	setcycle 7 Trial_type single
+	setcycle 7 correct_response m
+	setcycle 7 gap y
+	setcycle 7 Block Exp
+	setcycle 7 Presentation_style long2
+	setcycle 7 shape diamond
+	setcycle 8 cue "紅色"
+	setcycle 8 cue_1 "方塊"
+	setcycle 8 target_color green
+	setcycle 8 target_shape "◆"
+	setcycle 8 Trial_type dual
+	setcycle 8 correct_response z
+	setcycle 8 gap y
+	setcycle 8 Block Exp
+	setcycle 8 Presentation_style long2
+	setcycle 8 shape diamond
+	setcycle 9 cue "紅色"
+	setcycle 9 cue_1 "菱形"
+	setcycle 9 target_color green
+	setcycle 9 target_shape "■"
+	setcycle 9 Trial_type dual
+	setcycle 9 correct_response z
+	setcycle 9 gap y
+	setcycle 9 Block Exp
+	setcycle 9 Presentation_style long2
+	setcycle 9 shape square
+	setcycle 10 cue "綠色"
+	setcycle 10 cue_1 "方塊"
+	setcycle 10 target_color red
+	setcycle 10 target_shape "◆"
+	setcycle 10 Trial_type dual
+	setcycle 10 correct_response z
+	setcycle 10 gap y
+	setcycle 10 Block Exp
+	setcycle 10 Presentation_style long2
+	setcycle 10 shape diamond
+	setcycle 11 cue "綠色"
+	setcycle 11 cue_1 "菱形"
+	setcycle 11 target_color red
+	setcycle 11 target_shape "■"
+	setcycle 11 Trial_type dual
+	setcycle 11 correct_response z
+	setcycle 11 gap y
+	setcycle 11 Block Exp
+	setcycle 11 Presentation_style long2
+	setcycle 11 shape square
+	setcycle 12 cue "綠色"
+	setcycle 12 cue_1 "綠色"
+	setcycle 12 target_color red
+	setcycle 12 target_shape "■"
+	setcycle 12 Trial_type single
+	setcycle 12 correct_response z
+	setcycle 12 gap y
+	setcycle 12 Block Exp
+	setcycle 12 Presentation_style long2
+	setcycle 12 shape square
+	setcycle 13 cue "紅色"
+	setcycle 13 cue_1 "紅色"
+	setcycle 13 target_color green
+	setcycle 13 target_shape "◆"
+	setcycle 13 Trial_type single
+	setcycle 13 correct_response z
+	setcycle 13 gap y
+	setcycle 13 Block Exp
+	setcycle 13 Presentation_style long2
+	setcycle 13 shape diamond
+	setcycle 14 cue "菱形"
+	setcycle 14 cue_1 "菱形"
+	setcycle 14 target_color red
+	setcycle 14 target_shape "■"
+	setcycle 14 Trial_type single
+	setcycle 14 correct_response z
+	setcycle 14 gap y
+	setcycle 14 Block Exp
+	setcycle 14 Presentation_style long2
+	setcycle 14 shape square
+	setcycle 15 cue "方塊"
+	setcycle 15 cue_1 "方塊"
+	setcycle 15 target_color green
+	setcycle 15 target_shape "◆"
+	setcycle 15 Trial_type single
+	setcycle 15 correct_response z
+	setcycle 15 gap y
+	setcycle 15 Block Exp
+	setcycle 15 Presentation_style long2
+	setcycle 15 shape diamond
+	run EXP_seq_tc
+
+define loop EXP_long_sc
+	set source table
+	set repeat 2
+	set order random
+	set description "Repeatedly runs another item"
+	set cycles 16
+	set continuous no
+	set break_if_on_first yes
+	set break_if never
+	setcycle 0 cue "红色"
+	setcycle 0 cue_1 "方块"
+	setcycle 0 target_color red
+	setcycle 0 target_shape "■"
+	setcycle 0 Trial_type dual
+	setcycle 0 correct_response m
+	setcycle 0 gap y
+	setcycle 0 Block Exp
+	setcycle 1 cue "红色"
+	setcycle 1 cue_1 "菱形"
+	setcycle 1 target_color red
+	setcycle 1 target_shape "◆"
+	setcycle 1 Trial_type dual
+	setcycle 1 correct_response m
+	setcycle 1 gap y
+	setcycle 1 Block Exp
+	setcycle 2 cue "绿色"
+	setcycle 2 cue_1 "方块"
+	setcycle 2 target_color green
+	setcycle 2 target_shape "■"
+	setcycle 2 Trial_type dual
+	setcycle 2 correct_response m
+	setcycle 2 gap y
+	setcycle 2 Block Exp
+	setcycle 3 cue "绿色"
+	setcycle 3 cue_1 "菱形"
+	setcycle 3 target_color green
+	setcycle 3 target_shape "◆"
+	setcycle 3 Trial_type dual
+	setcycle 3 correct_response m
+	setcycle 3 gap y
+	setcycle 3 Block Exp
+	setcycle 4 cue "红色"
+	setcycle 4 cue_1 "红色"
+	setcycle 4 target_color red
+	setcycle 4 target_shape "■"
+	setcycle 4 Trial_type single
+	setcycle 4 correct_response m
+	setcycle 4 gap y
+	setcycle 4 Block Exp
+	setcycle 5 cue "绿色"
+	setcycle 5 cue_1 "绿色"
+	setcycle 5 target_color green
+	setcycle 5 target_shape "◆"
+	setcycle 5 Trial_type single
+	setcycle 5 correct_response m
+	setcycle 5 gap y
+	setcycle 5 Block Exp
+	setcycle 6 cue "方块"
+	setcycle 6 cue_1 "方块"
+	setcycle 6 target_color red
+	setcycle 6 target_shape "■"
+	setcycle 6 Trial_type single
+	setcycle 6 correct_response m
+	setcycle 6 gap y
+	setcycle 6 Block Exp
+	setcycle 7 cue "菱形"
+	setcycle 7 cue_1 "菱形"
+	setcycle 7 target_color green
+	setcycle 7 target_shape "◆"
+	setcycle 7 Trial_type single
+	setcycle 7 correct_response m
+	setcycle 7 gap y
+	setcycle 7 Block Exp
+	setcycle 8 cue "红色"
+	setcycle 8 cue_1 "方块"
+	setcycle 8 target_color green
+	setcycle 8 target_shape "◆"
+	setcycle 8 Trial_type dual
+	setcycle 8 correct_response z
+	setcycle 8 gap y
+	setcycle 8 Block Exp
+	setcycle 9 cue "红色"
+	setcycle 9 cue_1 "菱形"
+	setcycle 9 target_color green
+	setcycle 9 target_shape "■"
+	setcycle 9 Trial_type dual
+	setcycle 9 correct_response z
+	setcycle 9 gap y
+	setcycle 9 Block Exp
+	setcycle 10 cue "绿色"
+	setcycle 10 cue_1 "方块"
+	setcycle 10 target_color red
+	setcycle 10 target_shape "◆"
+	setcycle 10 Trial_type dual
+	setcycle 10 correct_response z
+	setcycle 10 gap y
+	setcycle 10 Block Exp
+	setcycle 11 cue "绿色"
+	setcycle 11 cue_1 "菱形"
+	setcycle 11 target_color red
+	setcycle 11 target_shape "■"
+	setcycle 11 Trial_type dual
+	setcycle 11 correct_response z
+	setcycle 11 gap y
+	setcycle 11 Block Exp
+	setcycle 12 cue "绿色"
+	setcycle 12 cue_1 "绿色"
+	setcycle 12 target_color red
+	setcycle 12 target_shape "■"
+	setcycle 12 Trial_type single
+	setcycle 12 correct_response z
+	setcycle 12 gap y
+	setcycle 12 Block Exp
+	setcycle 13 cue "红色"
+	setcycle 13 cue_1 "红色"
+	setcycle 13 target_color green
+	setcycle 13 target_shape "◆"
+	setcycle 13 Trial_type single
+	setcycle 13 correct_response z
+	setcycle 13 gap y
+	setcycle 13 Block Exp
+	setcycle 14 cue "菱形"
+	setcycle 14 cue_1 "菱形"
+	setcycle 14 target_color red
+	setcycle 14 target_shape "■"
+	setcycle 14 Trial_type single
+	setcycle 14 correct_response z
+	setcycle 14 gap y
+	setcycle 14 Block Exp
+	setcycle 15 cue "方块"
+	setcycle 15 cue_1 "方块"
+	setcycle 15 target_color green
+	setcycle 15 target_shape "◆"
+	setcycle 15 Trial_type single
+	setcycle 15 correct_response z
+	setcycle 15 gap y
+	setcycle 15 Block Exp
+	run EXP_seq_sc
+
+define loop EXP_sc
+	set source table
+	set repeat 0.5
+	set order random
+	set description "Repeatedly runs another item"
+	set cycles 2
+	set continuous no
+	set break_if_on_first yes
+	set break_if "[count_EXP_gap]=1"
+	setcycle 0 p_gap_sc 0
+	setcycle 0 e_gap_sc 0
+	setcycle 1 p_gap_sc 1
+	setcycle 1 e_gap_sc 1
+	run EXP_gap_sc
+
+define sequence EXP_seq_sc
+	set flush_keyboard yes
+	set description "Runs a number of items in sequence"
+	run fixation_sc always
+	run cue_sc always
+	run interval_sc always
+	run target_sc always
+	run response_ans_sc always
+	run decision_response_correct_sc "[correct]=1"
+	run decision_response_wrong_sc "[correct]=0"
+	run logger always
+
+define sequence EXP_seq_tc
+	set flush_keyboard yes
+	set description "Runs a number of items in sequence"
+	run fixation_tc always
+	run cue_tc always
+	run interval_tc always
+	run target_tc always
+	run response_ans_tc always
+	run decision_response_correct_tc "[correct]=1"
+	run decision_response_wrong_tc "[correct]=0"
+	run logger always
+
+define loop EXP_short_sc
+	set source table
+	set repeat 2
+	set order random
+	set description "Repeatedly runs another item"
+	set cycles 16
+	set continuous no
+	set break_if_on_first yes
+	set break_if never
+	setcycle 0 cue "红色"
+	setcycle 0 cue_1 "方块"
+	setcycle 0 target_color red
+	setcycle 0 target_shape "■"
+	setcycle 0 Trial_type dual
+	setcycle 0 correct_response m
+	setcycle 0 gap n
+	setcycle 0 Block Exp
+	setcycle 1 cue "红色"
+	setcycle 1 cue_1 "菱形"
+	setcycle 1 target_color red
+	setcycle 1 target_shape "◆"
+	setcycle 1 Trial_type dual
+	setcycle 1 correct_response m
+	setcycle 1 gap n
+	setcycle 1 Block Exp
+	setcycle 2 cue "绿色"
+	setcycle 2 cue_1 "方块"
+	setcycle 2 target_color green
+	setcycle 2 target_shape "■"
+	setcycle 2 Trial_type dual
+	setcycle 2 correct_response m
+	setcycle 2 gap n
+	setcycle 2 Block Exp
+	setcycle 3 cue "绿色"
+	setcycle 3 cue_1 "菱形"
+	setcycle 3 target_color green
+	setcycle 3 target_shape "◆"
+	setcycle 3 Trial_type dual
+	setcycle 3 correct_response m
+	setcycle 3 gap n
+	setcycle 3 Block Exp
+	setcycle 4 cue "红色"
+	setcycle 4 cue_1 ""
+	setcycle 4 target_color red
+	setcycle 4 target_shape "■"
+	setcycle 4 Trial_type single
+	setcycle 4 correct_response m
+	setcycle 4 gap n
+	setcycle 4 Block Exp
+	setcycle 5 cue "绿色"
+	setcycle 5 cue_1 ""
+	setcycle 5 target_color green
+	setcycle 5 target_shape "◆"
+	setcycle 5 Trial_type single
+	setcycle 5 correct_response m
+	setcycle 5 gap n
+	setcycle 5 Block Exp
+	setcycle 6 cue "方块"
+	setcycle 6 cue_1 ""
+	setcycle 6 target_color red
+	setcycle 6 target_shape "■"
+	setcycle 6 Trial_type single
+	setcycle 6 correct_response m
+	setcycle 6 gap n
+	setcycle 6 Block Exp
+	setcycle 7 cue "菱形"
+	setcycle 7 cue_1 ""
+	setcycle 7 target_color green
+	setcycle 7 target_shape "◆"
+	setcycle 7 Trial_type single
+	setcycle 7 correct_response m
+	setcycle 7 gap n
+	setcycle 7 Block Exp
+	setcycle 8 cue "红色"
+	setcycle 8 cue_1 "方块"
+	setcycle 8 target_color green
+	setcycle 8 target_shape "◆"
+	setcycle 8 Trial_type dual
+	setcycle 8 correct_response z
+	setcycle 8 gap n
+	setcycle 8 Block Exp
+	setcycle 9 cue "红色"
+	setcycle 9 cue_1 "菱形"
+	setcycle 9 target_color green
+	setcycle 9 target_shape "■"
+	setcycle 9 Trial_type dual
+	setcycle 9 correct_response z
+	setcycle 9 gap n
+	setcycle 9 Block Exp
+	setcycle 10 cue "绿色"
+	setcycle 10 cue_1 "方块"
+	setcycle 10 target_color red
+	setcycle 10 target_shape "◆"
+	setcycle 10 Trial_type dual
+	setcycle 10 correct_response z
+	setcycle 10 gap n
+	setcycle 10 Block Exp
+	setcycle 11 cue "绿色"
+	setcycle 11 cue_1 "菱形"
+	setcycle 11 target_color red
+	setcycle 11 target_shape "■"
+	setcycle 11 Trial_type dual
+	setcycle 11 correct_response z
+	setcycle 11 gap n
+	setcycle 11 Block Exp
+	setcycle 12 cue "绿色"
+	setcycle 12 cue_1 ""
+	setcycle 12 target_color red
+	setcycle 12 target_shape "■"
+	setcycle 12 Trial_type single
+	setcycle 12 correct_response z
+	setcycle 12 gap n
+	setcycle 12 Block Exp
+	setcycle 13 cue "红色"
+	setcycle 13 cue_1 ""
+	setcycle 13 target_color green
+	setcycle 13 target_shape "◆"
+	setcycle 13 Trial_type single
+	setcycle 13 correct_response z
+	setcycle 13 gap n
+	setcycle 13 Block Exp
+	setcycle 14 cue "菱形"
+	setcycle 14 cue_1 ""
+	setcycle 14 target_color red
+	setcycle 14 target_shape "■"
+	setcycle 14 Trial_type single
+	setcycle 14 correct_response z
+	setcycle 14 gap n
+	setcycle 14 Block Exp
+	setcycle 15 cue "方块"
+	setcycle 15 cue_1 ""
+	setcycle 15 target_color green
+	setcycle 15 target_shape "◆"
+	setcycle 15 Trial_type single
+	setcycle 15 correct_response z
+	setcycle 15 gap n
+	setcycle 15 Block Exp
+	run EXP_seq_sc
+
+define loop EXP_short_tc
+	set source table
+	set repeat 2
+	set order random
+	set description "Repeatedly runs another item"
+	set cycles 16
+	set continuous no
+	set break_if_on_first yes
+	set break_if never
+	setcycle 0 cue "紅色"
+	setcycle 0 cue_1 "方塊"
+	setcycle 0 target_color red
+	setcycle 0 target_shape "■"
+	setcycle 0 Trial_type dual
+	setcycle 0 correct_response m
+	setcycle 0 gap n
+	setcycle 0 Block Exp
+	setcycle 0 Presentation_style short
+	setcycle 0 shape square
+	setcycle 0 matching y
+	setcycle 1 cue "紅色"
+	setcycle 1 cue_1 "菱形"
+	setcycle 1 target_color red
+	setcycle 1 target_shape "◆"
+	setcycle 1 Trial_type dual
+	setcycle 1 correct_response m
+	setcycle 1 gap n
+	setcycle 1 Block Exp
+	setcycle 1 Presentation_style short
+	setcycle 1 shape diamond
+	setcycle 1 matching y
+	setcycle 2 cue "綠色"
+	setcycle 2 cue_1 "方塊"
+	setcycle 2 target_color green
+	setcycle 2 target_shape "■"
+	setcycle 2 Trial_type dual
+	setcycle 2 correct_response m
+	setcycle 2 gap n
+	setcycle 2 Block Exp
+	setcycle 2 Presentation_style short
+	setcycle 2 shape square
+	setcycle 2 matching y
+	setcycle 3 cue "綠色"
+	setcycle 3 cue_1 "菱形"
+	setcycle 3 target_color green
+	setcycle 3 target_shape "◆"
+	setcycle 3 Trial_type dual
+	setcycle 3 correct_response m
+	setcycle 3 gap n
+	setcycle 3 Block Exp
+	setcycle 3 Presentation_style short
+	setcycle 3 shape diamond
+	setcycle 3 matching y
+	setcycle 4 cue "紅色"
+	setcycle 4 cue_1 ""
+	setcycle 4 target_color red
+	setcycle 4 target_shape "■"
+	setcycle 4 Trial_type single
+	setcycle 4 correct_response m
+	setcycle 4 gap n
+	setcycle 4 Block Exp
+	setcycle 4 Presentation_style short
+	setcycle 4 shape square
+	setcycle 4 matching y
+	setcycle 5 cue "綠色"
+	setcycle 5 cue_1 ""
+	setcycle 5 target_color green
+	setcycle 5 target_shape "◆"
+	setcycle 5 Trial_type single
+	setcycle 5 correct_response m
+	setcycle 5 gap n
+	setcycle 5 Block Exp
+	setcycle 5 Presentation_style short
+	setcycle 5 shape diamond
+	setcycle 5 matching y
+	setcycle 6 cue "方塊"
+	setcycle 6 cue_1 ""
+	setcycle 6 target_color red
+	setcycle 6 target_shape "■"
+	setcycle 6 Trial_type single
+	setcycle 6 correct_response m
+	setcycle 6 gap n
+	setcycle 6 Block Exp
+	setcycle 6 Presentation_style short
+	setcycle 6 shape square
+	setcycle 6 matching y
+	setcycle 7 cue "菱形"
+	setcycle 7 cue_1 ""
+	setcycle 7 target_color green
+	setcycle 7 target_shape "◆"
+	setcycle 7 Trial_type single
+	setcycle 7 correct_response m
+	setcycle 7 gap n
+	setcycle 7 Block Exp
+	setcycle 7 Presentation_style short
+	setcycle 7 shape diamond
+	setcycle 7 matching y
+	setcycle 8 cue "紅色"
+	setcycle 8 cue_1 "方塊"
+	setcycle 8 target_color green
+	setcycle 8 target_shape "◆"
+	setcycle 8 Trial_type dual
+	setcycle 8 correct_response z
+	setcycle 8 gap n
+	setcycle 8 Block Exp
+	setcycle 8 Presentation_style short
+	setcycle 8 shape diamond
+	setcycle 8 matching n
+	setcycle 9 cue "紅色"
+	setcycle 9 cue_1 "菱形"
+	setcycle 9 target_color green
+	setcycle 9 target_shape "■"
+	setcycle 9 Trial_type dual
+	setcycle 9 correct_response z
+	setcycle 9 gap n
+	setcycle 9 Block Exp
+	setcycle 9 Presentation_style short
+	setcycle 9 shape square
+	setcycle 9 matching n
+	setcycle 10 cue "綠色"
+	setcycle 10 cue_1 "方塊"
+	setcycle 10 target_color red
+	setcycle 10 target_shape "◆"
+	setcycle 10 Trial_type dual
+	setcycle 10 correct_response z
+	setcycle 10 gap n
+	setcycle 10 Block Exp
+	setcycle 10 Presentation_style short
+	setcycle 10 shape diamond
+	setcycle 10 matching n
+	setcycle 11 cue "綠色"
+	setcycle 11 cue_1 "菱形"
+	setcycle 11 target_color red
+	setcycle 11 target_shape "■"
+	setcycle 11 Trial_type dual
+	setcycle 11 correct_response z
+	setcycle 11 gap n
+	setcycle 11 Block Exp
+	setcycle 11 Presentation_style short
+	setcycle 11 shape square
+	setcycle 11 matching n
+	setcycle 12 cue "綠色"
+	setcycle 12 cue_1 ""
+	setcycle 12 target_color red
+	setcycle 12 target_shape "■"
+	setcycle 12 Trial_type single
+	setcycle 12 correct_response z
+	setcycle 12 gap n
+	setcycle 12 Block Exp
+	setcycle 12 Presentation_style short
+	setcycle 12 shape square
+	setcycle 12 matching n
+	setcycle 13 cue "紅色"
+	setcycle 13 cue_1 ""
+	setcycle 13 target_color green
+	setcycle 13 target_shape "◆"
+	setcycle 13 Trial_type single
+	setcycle 13 correct_response z
+	setcycle 13 gap n
+	setcycle 13 Block Exp
+	setcycle 13 Presentation_style short
+	setcycle 13 shape diamond
+	setcycle 13 matching n
+	setcycle 14 cue "菱形"
+	setcycle 14 cue_1 ""
+	setcycle 14 target_color red
+	setcycle 14 target_shape "■"
+	setcycle 14 Trial_type single
+	setcycle 14 correct_response z
+	setcycle 14 gap n
+	setcycle 14 Block Exp
+	setcycle 14 Presentation_style short
+	setcycle 14 shape square
+	setcycle 14 matching n
+	setcycle 15 cue "方塊"
+	setcycle 15 cue_1 ""
+	setcycle 15 target_color green
+	setcycle 15 target_shape "◆"
+	setcycle 15 Trial_type single
+	setcycle 15 correct_response z
+	setcycle 15 gap n
+	setcycle 15 Block Exp
+	setcycle 15 Presentation_style short
+	setcycle 15 shape diamond
+	setcycle 15 matching n
+	run EXP_seq_tc
+
+define loop EXP_tc
+	set source table
+	set repeat 0.5
+	set order random
+	set description "Repeatedly runs another item"
+	set cycles 3
+	set continuous no
+	set break_if_on_first yes
+	set break_if "[count_EXP_gap]=1"
+	setcycle 0 p_gap_tc 0
+	setcycle 0 e_gap_tc 0
+	setcycle 1 p_gap_tc 1
+	setcycle 1 e_gap_tc 1
+	setcycle 2 p_gap_tc 2
+	setcycle 2 e_gap_tc 2
+	run EXP_gap_tc
+
+define sketchpad Lang_Ins
+	set duration keypress
+	set description "Displays stimuli"
+	draw textline center=1 color=white font_bold=no font_family=serif font_italic=no font_size=32 html=yes show_if=always text="中文詞彙知識測驗" x=0 y=-288 z_index=0
+	draw textline center=0 color=white font_bold=no font_family=mono font_italic=no font_size=28 html=yes show_if=always text="接下來是本次實驗的第一部分，目的是想了解你的中文詞彙知識水準。<br/>這項測驗有40題單選題，都是詢問那一個選項是構成句子的正確詞彙<br/>答題時間沒有限制，您可以想清楚再選擇答案。<br/><br/>每次完成答題您都會得知是否正確，測驗分數將會做為資料分析使用<br/>，請您盡量以個人所知作答。<br/><br/><br/>" x=-428 y=-151 z_index=0
+	draw textline center=1 color=white font_bold=no font_family=mono font_italic=no font_size=28 html=yes show_if=always text="按任意鍵繼續" x=0 y=192 z_index=0
+
+define sketchpad Post_Info
+	set duration keypress
+	set description "Displays stimuli"
+	draw textline center=1 color=white font_bold=no font_family="chinese-japanese-korean" font_italic=no font_size=24 html=yes show_if=always text="感謝您的參與。 登出前，我們想詢問您兩則必要的基本資訊。" x=0 y=-160 z_index=0
+	draw textline center=1 color=white font_bold=no font_family="chinese-japanese-korean" font_italic=no font_size=20 html=yes show_if=always text="按空白鍵開始填答" x=0 y=-32 z_index=0
+
+define sequence Post_seq_sc
+	set flush_keyboard yes
+	set description "Runs a number of items in sequence"
+	run Survey_board_sc always
+	run survey_response_sc always
+	run new_feedback_sc always
+	run logger always
+
+define sequence Post_seq_tc
+	set flush_keyboard yes
+	set description "Runs a number of items in sequence"
+	run Post_Info always
+	run constants always
+	run gender_loop always
+	run constants always
+	run birth_loop always
+
+define loop Post_survey_sc
+	set source table
+	set repeat 10
+	set order sequential
+	set description "Repeatedly runs another item"
+	set cycles 5
+	set continuous no
+	set break_if_on_first yes
+	set break_if "[response]=q"
+	setcycle 0 Question "请问您的性别？ <br/>输入对应选项的号码表达您的回答"
+	setcycle 0 Options "1: 女性 2:男性 3:跨性别 4:非二元性别 x:不愿作答"
+	setcycle 0 Block Post_sc
+	setcycle 0 Topic gender
+	setcycle 1 Question "您的出生西元年前二位数字是(1)19;(2)20<br/>请输入对应的号码。"
+	setcycle 1 Options "注: 如果您不想回答, 请输入 \"x\"."
+	setcycle 1 Block Post_sc
+	setcycle 1 Topic birth_12
+	setcycle 2 Question "请输入您的出生西元年第三位数字<br/>例如, 出生年是 2001, 请输入 0; 1999请输入9。"
+	setcycle 2 Options "注: 如果您不想回答, 请输入 \"x\"."
+	setcycle 2 Block Post_sc
+	setcycle 2 Topic birth_3
+	setcycle 3 Question "请输入您的出生西元年第四位数字<br/>例如, 出生年是 2001, 请输入1 ; 1999请输入9。"
+	setcycle 3 Options "注: 如果您不想回答, 请输入 \"x\"."
+	setcycle 3 Block Post_sc
+	setcycle 3 Topic birth_4
+	setcycle 4 Question "请确认您刚才的输入都正确！"
+	setcycle 4 Options "要重新回答请按\"x\"，确认无误按\"q\"结束"
+	setcycle 4 Block Post_sc
+	setcycle 4 Topic Exit
+	run Post_seq_sc
+
+define loop Prac_long1_tc
+	set source table
+	set repeat 0.5
+	set order random
+	set description "Repeatedly runs another item"
+	set cycles 16
+	set continuous no
+	set break_if_on_first yes
+	set break_if never
+	setcycle 0 cue "紅色方塊"
+	setcycle 0 cue_1 "紅色方塊"
+	setcycle 0 target_color red
+	setcycle 0 target_shape "■"
+	setcycle 0 Trial_type dual
+	setcycle 0 correct_response m
+	setcycle 0 gap y
+	setcycle 0 Block Prac
+	setcycle 0 Presentation_style long1
+	setcycle 0 shape square
+	setcycle 1 cue "紅色菱形"
+	setcycle 1 cue_1 "紅色菱形"
+	setcycle 1 target_color red
+	setcycle 1 target_shape "◆"
+	setcycle 1 Trial_type dual
+	setcycle 1 correct_response m
+	setcycle 1 gap y
+	setcycle 1 Block Prac
+	setcycle 1 Presentation_style long1
+	setcycle 1 shape diamond
+	setcycle 2 cue "綠色方塊"
+	setcycle 2 cue_1 "綠色方塊"
+	setcycle 2 target_color green
+	setcycle 2 target_shape "■"
+	setcycle 2 Trial_type dual
+	setcycle 2 correct_response m
+	setcycle 2 gap y
+	setcycle 2 Block Prac
+	setcycle 2 Presentation_style long1
+	setcycle 2 shape square
+	setcycle 3 cue "綠色菱形"
+	setcycle 3 cue_1 "綠色菱形"
+	setcycle 3 target_color green
+	setcycle 3 target_shape "◆"
+	setcycle 3 Trial_type dual
+	setcycle 3 correct_response m
+	setcycle 3 gap y
+	setcycle 3 Block Prac
+	setcycle 3 Presentation_style long1
+	setcycle 3 shape diamond
+	setcycle 4 cue "紅色"
+	setcycle 4 cue_1 "紅色"
+	setcycle 4 target_color red
+	setcycle 4 target_shape "■"
+	setcycle 4 Trial_type single
+	setcycle 4 correct_response m
+	setcycle 4 gap y
+	setcycle 4 Block Prac
+	setcycle 4 Presentation_style long1
+	setcycle 4 shape square
+	setcycle 5 cue "綠色"
+	setcycle 5 cue_1 "綠色"
+	setcycle 5 target_color green
+	setcycle 5 target_shape "◆"
+	setcycle 5 Trial_type single
+	setcycle 5 correct_response m
+	setcycle 5 gap y
+	setcycle 5 Block Prac
+	setcycle 5 Presentation_style long1
+	setcycle 5 shape diamond
+	setcycle 6 cue "方塊"
+	setcycle 6 cue_1 "方塊"
+	setcycle 6 target_color red
+	setcycle 6 target_shape "■"
+	setcycle 6 Trial_type single
+	setcycle 6 correct_response m
+	setcycle 6 gap y
+	setcycle 6 Block Prac
+	setcycle 6 Presentation_style long1
+	setcycle 6 shape square
+	setcycle 7 cue "菱形"
+	setcycle 7 cue_1 "菱形"
+	setcycle 7 target_color green
+	setcycle 7 target_shape "◆"
+	setcycle 7 Trial_type single
+	setcycle 7 correct_response m
+	setcycle 7 gap y
+	setcycle 7 Block Prac
+	setcycle 7 Presentation_style long1
+	setcycle 7 shape diamond
+	setcycle 8 cue "紅色方塊"
+	setcycle 8 cue_1 "紅色方塊"
+	setcycle 8 target_color green
+	setcycle 8 target_shape "◆"
+	setcycle 8 Trial_type dual
+	setcycle 8 correct_response z
+	setcycle 8 gap y
+	setcycle 8 Block Prac
+	setcycle 8 Presentation_style long1
+	setcycle 8 shape diamond
+	setcycle 9 cue "紅色菱形"
+	setcycle 9 cue_1 "紅色菱形"
+	setcycle 9 target_color green
+	setcycle 9 target_shape "■"
+	setcycle 9 Trial_type dual
+	setcycle 9 correct_response z
+	setcycle 9 gap y
+	setcycle 9 Block Prac
+	setcycle 9 Presentation_style long1
+	setcycle 9 shape square
+	setcycle 10 cue "綠色方塊"
+	setcycle 10 cue_1 "綠色方塊"
+	setcycle 10 target_color red
+	setcycle 10 target_shape "◆"
+	setcycle 10 Trial_type dual
+	setcycle 10 correct_response z
+	setcycle 10 gap y
+	setcycle 10 Block Prac
+	setcycle 10 Presentation_style long1
+	setcycle 10 shape diamond
+	setcycle 11 cue "綠色菱形"
+	setcycle 11 cue_1 "綠色菱形"
+	setcycle 11 target_color red
+	setcycle 11 target_shape "■"
+	setcycle 11 Trial_type dual
+	setcycle 11 correct_response z
+	setcycle 11 gap y
+	setcycle 11 Block Prac
+	setcycle 11 Presentation_style long1
+	setcycle 11 shape square
+	setcycle 12 cue "綠色"
+	setcycle 12 cue_1 "綠色"
+	setcycle 12 target_color red
+	setcycle 12 target_shape "■"
+	setcycle 12 Trial_type single
+	setcycle 12 correct_response z
+	setcycle 12 gap y
+	setcycle 12 Block Prac
+	setcycle 12 Presentation_style long1
+	setcycle 12 shape square
+	setcycle 13 cue "紅色"
+	setcycle 13 cue_1 "紅色"
+	setcycle 13 target_color green
+	setcycle 13 target_shape "◆"
+	setcycle 13 Trial_type single
+	setcycle 13 correct_response z
+	setcycle 13 gap y
+	setcycle 13 Block Prac
+	setcycle 13 Presentation_style long1
+	setcycle 13 shape diamond
+	setcycle 14 cue "菱形"
+	setcycle 14 cue_1 "菱形"
+	setcycle 14 target_color red
+	setcycle 14 target_shape "■"
+	setcycle 14 Trial_type single
+	setcycle 14 correct_response z
+	setcycle 14 gap y
+	setcycle 14 Block Prac
+	setcycle 14 Presentation_style long1
+	setcycle 14 shape square
+	setcycle 15 cue "方塊"
+	setcycle 15 cue_1 "方塊"
+	setcycle 15 target_color green
+	setcycle 15 target_shape "◆"
+	setcycle 15 Trial_type single
+	setcycle 15 correct_response z
+	setcycle 15 gap y
+	setcycle 15 Block Prac
+	setcycle 15 Presentation_style long1
+	setcycle 15 shape diamond
+	run EXP_seq_tc
+
+define loop Prac_long2_tc
+	set source table
+	set repeat 0.5
+	set order random
+	set description "Repeatedly runs another item"
+	set cycles 16
+	set continuous no
+	set break_if_on_first yes
+	set break_if never
+	setcycle 0 cue "紅色"
+	setcycle 0 cue_1 "方塊"
+	setcycle 0 target_color red
+	setcycle 0 target_shape "■"
+	setcycle 0 Trial_type dual
+	setcycle 0 correct_response m
+	setcycle 0 gap y
+	setcycle 0 Block Prac
+	setcycle 0 Presentation_style long2
+	setcycle 0 shape square
+	setcycle 1 cue "紅色"
+	setcycle 1 cue_1 "菱形"
+	setcycle 1 target_color red
+	setcycle 1 target_shape "◆"
+	setcycle 1 Trial_type dual
+	setcycle 1 correct_response m
+	setcycle 1 gap y
+	setcycle 1 Block Prac
+	setcycle 1 Presentation_style long2
+	setcycle 1 shape diamond
+	setcycle 2 cue "綠色"
+	setcycle 2 cue_1 "方塊"
+	setcycle 2 target_color green
+	setcycle 2 target_shape "■"
+	setcycle 2 Trial_type dual
+	setcycle 2 correct_response m
+	setcycle 2 gap y
+	setcycle 2 Block Prac
+	setcycle 2 Presentation_style long2
+	setcycle 2 shape square
+	setcycle 3 cue "綠色"
+	setcycle 3 cue_1 "菱形"
+	setcycle 3 target_color green
+	setcycle 3 target_shape "◆"
+	setcycle 3 Trial_type dual
+	setcycle 3 correct_response m
+	setcycle 3 gap y
+	setcycle 3 Block Prac
+	setcycle 3 Presentation_style long2
+	setcycle 3 shape diamond
+	setcycle 4 cue "紅色"
+	setcycle 4 cue_1 "紅色"
+	setcycle 4 target_color red
+	setcycle 4 target_shape "■"
+	setcycle 4 Trial_type single
+	setcycle 4 correct_response m
+	setcycle 4 gap y
+	setcycle 4 Block Prac
+	setcycle 4 Presentation_style long2
+	setcycle 4 shape square
+	setcycle 5 cue "綠色"
+	setcycle 5 cue_1 "綠色"
+	setcycle 5 target_color green
+	setcycle 5 target_shape "◆"
+	setcycle 5 Trial_type single
+	setcycle 5 correct_response m
+	setcycle 5 gap y
+	setcycle 5 Block Prac
+	setcycle 5 Presentation_style long2
+	setcycle 5 shape diamond
+	setcycle 6 cue "方塊"
+	setcycle 6 cue_1 "方塊"
+	setcycle 6 target_color red
+	setcycle 6 target_shape "■"
+	setcycle 6 Trial_type single
+	setcycle 6 correct_response m
+	setcycle 6 gap y
+	setcycle 6 Block Prac
+	setcycle 6 Presentation_style long2
+	setcycle 6 shape square
+	setcycle 7 cue "菱形"
+	setcycle 7 cue_1 "菱形"
+	setcycle 7 target_color green
+	setcycle 7 target_shape "◆"
+	setcycle 7 Trial_type single
+	setcycle 7 correct_response m
+	setcycle 7 gap y
+	setcycle 7 Block Prac
+	setcycle 7 Presentation_style long2
+	setcycle 7 shape diamond
+	setcycle 8 cue "紅色"
+	setcycle 8 cue_1 "方塊"
+	setcycle 8 target_color green
+	setcycle 8 target_shape "◆"
+	setcycle 8 Trial_type dual
+	setcycle 8 correct_response z
+	setcycle 8 gap y
+	setcycle 8 Block Prac
+	setcycle 8 Presentation_style long2
+	setcycle 8 shape diamond
+	setcycle 9 cue "紅色"
+	setcycle 9 cue_1 "菱形"
+	setcycle 9 target_color green
+	setcycle 9 target_shape "■"
+	setcycle 9 Trial_type dual
+	setcycle 9 correct_response z
+	setcycle 9 gap y
+	setcycle 9 Block Prac
+	setcycle 9 Presentation_style long2
+	setcycle 9 shape square
+	setcycle 10 cue "綠色"
+	setcycle 10 cue_1 "方塊"
+	setcycle 10 target_color red
+	setcycle 10 target_shape "◆"
+	setcycle 10 Trial_type dual
+	setcycle 10 correct_response z
+	setcycle 10 gap y
+	setcycle 10 Block Prac
+	setcycle 10 Presentation_style long2
+	setcycle 10 shape diamond
+	setcycle 11 cue "綠色"
+	setcycle 11 cue_1 "菱形"
+	setcycle 11 target_color red
+	setcycle 11 target_shape "■"
+	setcycle 11 Trial_type dual
+	setcycle 11 correct_response z
+	setcycle 11 gap y
+	setcycle 11 Block Prac
+	setcycle 11 Presentation_style long2
+	setcycle 11 shape square
+	setcycle 12 cue "綠色"
+	setcycle 12 cue_1 "綠色"
+	setcycle 12 target_color red
+	setcycle 12 target_shape "■"
+	setcycle 12 Trial_type single
+	setcycle 12 correct_response z
+	setcycle 12 gap y
+	setcycle 12 Block Prac
+	setcycle 12 Presentation_style long2
+	setcycle 12 shape square
+	setcycle 13 cue "紅色"
+	setcycle 13 cue_1 "紅色"
+	setcycle 13 target_color green
+	setcycle 13 target_shape "◆"
+	setcycle 13 Trial_type single
+	setcycle 13 correct_response z
+	setcycle 13 gap y
+	setcycle 13 Block Prac
+	setcycle 13 Presentation_style long2
+	setcycle 13 shape diamond
+	setcycle 14 cue "菱形"
+	setcycle 14 cue_1 "菱形"
+	setcycle 14 target_color red
+	setcycle 14 target_shape "■"
+	setcycle 14 Trial_type single
+	setcycle 14 correct_response z
+	setcycle 14 gap y
+	setcycle 14 Block Prac
+	setcycle 14 Presentation_style long2
+	setcycle 14 shape square
+	setcycle 15 cue "方塊"
+	setcycle 15 cue_1 "方塊"
+	setcycle 15 target_color green
+	setcycle 15 target_shape "◆"
+	setcycle 15 Trial_type single
+	setcycle 15 correct_response z
+	setcycle 15 gap y
+	setcycle 15 Block Prac
+	setcycle 15 Presentation_style long2
+	setcycle 15 shape diamond
+	run EXP_seq_tc
+
+define loop Prac_long_sc
+	set source table
+	set repeat 0.5
+	set order random
+	set description "Repeatedly runs another item"
+	set cycles 16
+	set continuous no
+	set break_if_on_first yes
+	set break_if never
+	setcycle 0 cue "红色"
+	setcycle 0 cue_1 "方块"
+	setcycle 0 target_color red
+	setcycle 0 target_shape "■"
+	setcycle 0 Trial_type dual
+	setcycle 0 correct_response m
+	setcycle 0 gap y
+	setcycle 0 Block Prac
+	setcycle 1 cue "红色"
+	setcycle 1 cue_1 "菱形"
+	setcycle 1 target_color red
+	setcycle 1 target_shape "◆"
+	setcycle 1 Trial_type dual
+	setcycle 1 correct_response m
+	setcycle 1 gap y
+	setcycle 1 Block Prac
+	setcycle 2 cue "绿色"
+	setcycle 2 cue_1 "方块"
+	setcycle 2 target_color green
+	setcycle 2 target_shape "■"
+	setcycle 2 Trial_type dual
+	setcycle 2 correct_response m
+	setcycle 2 gap y
+	setcycle 2 Block Prac
+	setcycle 3 cue "绿色"
+	setcycle 3 cue_1 "菱形"
+	setcycle 3 target_color green
+	setcycle 3 target_shape "◆"
+	setcycle 3 Trial_type dual
+	setcycle 3 correct_response m
+	setcycle 3 gap y
+	setcycle 3 Block Prac
+	setcycle 4 cue "红色"
+	setcycle 4 cue_1 "红色"
+	setcycle 4 target_color red
+	setcycle 4 target_shape "■"
+	setcycle 4 Trial_type single
+	setcycle 4 correct_response m
+	setcycle 4 gap y
+	setcycle 4 Block Prac
+	setcycle 5 cue "绿色"
+	setcycle 5 cue_1 "绿色"
+	setcycle 5 target_color green
+	setcycle 5 target_shape "◆"
+	setcycle 5 Trial_type single
+	setcycle 5 correct_response m
+	setcycle 5 gap y
+	setcycle 5 Block Prac
+	setcycle 6 cue "方块"
+	setcycle 6 cue_1 "方块"
+	setcycle 6 target_color red
+	setcycle 6 target_shape "■"
+	setcycle 6 Trial_type single
+	setcycle 6 correct_response m
+	setcycle 6 gap y
+	setcycle 6 Block Prac
+	setcycle 7 cue "菱形"
+	setcycle 7 cue_1 "菱形"
+	setcycle 7 target_color green
+	setcycle 7 target_shape "◆"
+	setcycle 7 Trial_type single
+	setcycle 7 correct_response m
+	setcycle 7 gap y
+	setcycle 7 Block Prac
+	setcycle 8 cue "红色"
+	setcycle 8 cue_1 "方块"
+	setcycle 8 target_color green
+	setcycle 8 target_shape "◆"
+	setcycle 8 Trial_type dual
+	setcycle 8 correct_response z
+	setcycle 8 gap y
+	setcycle 8 Block Prac
+	setcycle 9 cue "红色"
+	setcycle 9 cue_1 "菱形"
+	setcycle 9 target_color green
+	setcycle 9 target_shape "■"
+	setcycle 9 Trial_type dual
+	setcycle 9 correct_response z
+	setcycle 9 gap y
+	setcycle 9 Block Prac
+	setcycle 10 cue "绿色"
+	setcycle 10 cue_1 "方块"
+	setcycle 10 target_color red
+	setcycle 10 target_shape "◆"
+	setcycle 10 Trial_type dual
+	setcycle 10 correct_response z
+	setcycle 10 gap y
+	setcycle 10 Block Prac
+	setcycle 11 cue "绿色"
+	setcycle 11 cue_1 "菱形"
+	setcycle 11 target_color red
+	setcycle 11 target_shape "■"
+	setcycle 11 Trial_type dual
+	setcycle 11 correct_response z
+	setcycle 11 gap y
+	setcycle 11 Block Prac
+	setcycle 12 cue "绿色"
+	setcycle 12 cue_1 "绿色"
+	setcycle 12 target_color red
+	setcycle 12 target_shape "■"
+	setcycle 12 Trial_type single
+	setcycle 12 correct_response z
+	setcycle 12 gap y
+	setcycle 12 Block Prac
+	setcycle 13 cue "红色"
+	setcycle 13 cue_1 "红色"
+	setcycle 13 target_color green
+	setcycle 13 target_shape "◆"
+	setcycle 13 Trial_type single
+	setcycle 13 correct_response z
+	setcycle 13 gap y
+	setcycle 13 Block Prac
+	setcycle 14 cue "菱形"
+	setcycle 14 cue_1 "菱形"
+	setcycle 14 target_color red
+	setcycle 14 target_shape "■"
+	setcycle 14 Trial_type single
+	setcycle 14 correct_response z
+	setcycle 14 gap y
+	setcycle 14 Block Prac
+	setcycle 15 cue "方块"
+	setcycle 15 cue_1 "方块"
+	setcycle 15 target_color green
+	setcycle 15 target_shape "◆"
+	setcycle 15 Trial_type single
+	setcycle 15 correct_response z
+	setcycle 15 gap y
+	setcycle 15 Block Prac
+	run EXP_seq_sc
+
+define loop Prac_short_sc
+	set source table
+	set repeat 0.5
+	set order random
+	set description "Repeatedly runs another item"
+	set cycles 16
+	set continuous no
+	set break_if_on_first yes
+	set break_if never
+	setcycle 0 cue "红色"
+	setcycle 0 cue_1 "方块"
+	setcycle 0 target_color red
+	setcycle 0 target_shape "■"
+	setcycle 0 Trial_type dual
+	setcycle 0 correct_response m
+	setcycle 0 gap n
+	setcycle 0 Block Prac
+	setcycle 1 cue "红色"
+	setcycle 1 cue_1 "菱形"
+	setcycle 1 target_color red
+	setcycle 1 target_shape "◆"
+	setcycle 1 Trial_type dual
+	setcycle 1 correct_response m
+	setcycle 1 gap n
+	setcycle 1 Block Prac
+	setcycle 2 cue "绿色"
+	setcycle 2 cue_1 "方块"
+	setcycle 2 target_color green
+	setcycle 2 target_shape "■"
+	setcycle 2 Trial_type dual
+	setcycle 2 correct_response m
+	setcycle 2 gap n
+	setcycle 2 Block Prac
+	setcycle 3 cue "绿色"
+	setcycle 3 cue_1 "菱形"
+	setcycle 3 target_color green
+	setcycle 3 target_shape "◆"
+	setcycle 3 Trial_type dual
+	setcycle 3 correct_response m
+	setcycle 3 gap n
+	setcycle 3 Block Prac
+	setcycle 4 cue "红色"
+	setcycle 4 cue_1 ""
+	setcycle 4 target_color red
+	setcycle 4 target_shape "■"
+	setcycle 4 Trial_type single
+	setcycle 4 correct_response m
+	setcycle 4 gap n
+	setcycle 4 Block Prac
+	setcycle 5 cue "绿色"
+	setcycle 5 cue_1 ""
+	setcycle 5 target_color green
+	setcycle 5 target_shape "◆"
+	setcycle 5 Trial_type single
+	setcycle 5 correct_response m
+	setcycle 5 gap n
+	setcycle 5 Block Prac
+	setcycle 6 cue "方块"
+	setcycle 6 cue_1 ""
+	setcycle 6 target_color red
+	setcycle 6 target_shape "■"
+	setcycle 6 Trial_type single
+	setcycle 6 correct_response m
+	setcycle 6 gap n
+	setcycle 6 Block Prac
+	setcycle 7 cue "菱形"
+	setcycle 7 cue_1 ""
+	setcycle 7 target_color green
+	setcycle 7 target_shape "◆"
+	setcycle 7 Trial_type single
+	setcycle 7 correct_response m
+	setcycle 7 gap n
+	setcycle 7 Block Prac
+	setcycle 8 cue "红色"
+	setcycle 8 cue_1 "方块"
+	setcycle 8 target_color green
+	setcycle 8 target_shape "◆"
+	setcycle 8 Trial_type dual
+	setcycle 8 correct_response z
+	setcycle 8 gap n
+	setcycle 8 Block Prac
+	setcycle 9 cue "红色"
+	setcycle 9 cue_1 "菱形"
+	setcycle 9 target_color green
+	setcycle 9 target_shape "■"
+	setcycle 9 Trial_type dual
+	setcycle 9 correct_response z
+	setcycle 9 gap n
+	setcycle 9 Block Prac
+	setcycle 10 cue "绿色"
+	setcycle 10 cue_1 "方块"
+	setcycle 10 target_color red
+	setcycle 10 target_shape "◆"
+	setcycle 10 Trial_type dual
+	setcycle 10 correct_response z
+	setcycle 10 gap n
+	setcycle 10 Block Prac
+	setcycle 11 cue "绿色"
+	setcycle 11 cue_1 "菱形"
+	setcycle 11 target_color red
+	setcycle 11 target_shape "■"
+	setcycle 11 Trial_type dual
+	setcycle 11 correct_response z
+	setcycle 11 gap n
+	setcycle 11 Block Prac
+	setcycle 12 cue "绿色"
+	setcycle 12 cue_1 ""
+	setcycle 12 target_color red
+	setcycle 12 target_shape "■"
+	setcycle 12 Trial_type single
+	setcycle 12 correct_response z
+	setcycle 12 gap n
+	setcycle 12 Block Prac
+	setcycle 13 cue "红色"
+	setcycle 13 cue_1 ""
+	setcycle 13 target_color green
+	setcycle 13 target_shape "◆"
+	setcycle 13 Trial_type single
+	setcycle 13 correct_response z
+	setcycle 13 gap n
+	setcycle 13 Block Prac
+	setcycle 14 cue "菱形"
+	setcycle 14 cue_1 ""
+	setcycle 14 target_color red
+	setcycle 14 target_shape "■"
+	setcycle 14 Trial_type single
+	setcycle 14 correct_response z
+	setcycle 14 gap n
+	setcycle 14 Block Prac
+	setcycle 15 cue "方块"
+	setcycle 15 cue_1 ""
+	setcycle 15 target_color green
+	setcycle 15 target_shape "◆"
+	setcycle 15 Trial_type single
+	setcycle 15 correct_response z
+	setcycle 15 gap n
+	setcycle 15 Block Prac
+	run EXP_seq_sc
+
+define loop Prac_short_tc
+	set source table
+	set repeat 0.5
+	set order random
+	set description "Repeatedly runs another item"
+	set cycles 16
+	set continuous no
+	set break_if_on_first yes
+	set break_if never
+	setcycle 0 cue "紅色"
+	setcycle 0 cue_1 "方塊"
+	setcycle 0 target_color red
+	setcycle 0 target_shape "■"
+	setcycle 0 Trial_type dual
+	setcycle 0 correct_response m
+	setcycle 0 gap n
+	setcycle 0 Block Prac
+	setcycle 0 Presentation_style short
+	setcycle 0 shape square
+	setcycle 1 cue "紅色"
+	setcycle 1 cue_1 "菱形"
+	setcycle 1 target_color red
+	setcycle 1 target_shape "◆"
+	setcycle 1 Trial_type dual
+	setcycle 1 correct_response m
+	setcycle 1 gap n
+	setcycle 1 Block Prac
+	setcycle 1 Presentation_style short
+	setcycle 1 shape diamond
+	setcycle 2 cue "綠色"
+	setcycle 2 cue_1 "方塊"
+	setcycle 2 target_color green
+	setcycle 2 target_shape "■"
+	setcycle 2 Trial_type dual
+	setcycle 2 correct_response m
+	setcycle 2 gap n
+	setcycle 2 Block Prac
+	setcycle 2 Presentation_style short
+	setcycle 2 shape square
+	setcycle 3 cue "綠色"
+	setcycle 3 cue_1 "菱形"
+	setcycle 3 target_color green
+	setcycle 3 target_shape "◆"
+	setcycle 3 Trial_type dual
+	setcycle 3 correct_response m
+	setcycle 3 gap n
+	setcycle 3 Block Prac
+	setcycle 3 Presentation_style short
+	setcycle 3 shape diamond
+	setcycle 4 cue "紅色"
+	setcycle 4 cue_1 ""
+	setcycle 4 target_color red
+	setcycle 4 target_shape "■"
+	setcycle 4 Trial_type single
+	setcycle 4 correct_response m
+	setcycle 4 gap n
+	setcycle 4 Block Prac
+	setcycle 4 Presentation_style short
+	setcycle 4 shape square
+	setcycle 5 cue "綠色"
+	setcycle 5 cue_1 ""
+	setcycle 5 target_color green
+	setcycle 5 target_shape "◆"
+	setcycle 5 Trial_type single
+	setcycle 5 correct_response m
+	setcycle 5 gap n
+	setcycle 5 Block Prac
+	setcycle 5 Presentation_style short
+	setcycle 5 shape diamond
+	setcycle 6 cue "方塊"
+	setcycle 6 cue_1 ""
+	setcycle 6 target_color red
+	setcycle 6 target_shape "■"
+	setcycle 6 Trial_type single
+	setcycle 6 correct_response m
+	setcycle 6 gap n
+	setcycle 6 Block Prac
+	setcycle 6 Presentation_style short
+	setcycle 6 shape square
+	setcycle 7 cue "菱形"
+	setcycle 7 cue_1 ""
+	setcycle 7 target_color green
+	setcycle 7 target_shape "◆"
+	setcycle 7 Trial_type single
+	setcycle 7 correct_response m
+	setcycle 7 gap n
+	setcycle 7 Block Prac
+	setcycle 7 Presentation_style short
+	setcycle 7 shape diamond
+	setcycle 8 cue "紅色"
+	setcycle 8 cue_1 "方塊"
+	setcycle 8 target_color green
+	setcycle 8 target_shape "◆"
+	setcycle 8 Trial_type dual
+	setcycle 8 correct_response z
+	setcycle 8 gap n
+	setcycle 8 Block Prac
+	setcycle 8 Presentation_style short
+	setcycle 8 shape diamond
+	setcycle 9 cue "紅色"
+	setcycle 9 cue_1 "菱形"
+	setcycle 9 target_color green
+	setcycle 9 target_shape "■"
+	setcycle 9 Trial_type dual
+	setcycle 9 correct_response z
+	setcycle 9 gap n
+	setcycle 9 Block Prac
+	setcycle 9 Presentation_style short
+	setcycle 9 shape square
+	setcycle 10 cue "綠色"
+	setcycle 10 cue_1 "方塊"
+	setcycle 10 target_color red
+	setcycle 10 target_shape "◆"
+	setcycle 10 Trial_type dual
+	setcycle 10 correct_response z
+	setcycle 10 gap n
+	setcycle 10 Block Prac
+	setcycle 10 Presentation_style short
+	setcycle 10 shape diamond
+	setcycle 11 cue "綠色"
+	setcycle 11 cue_1 "菱形"
+	setcycle 11 target_color red
+	setcycle 11 target_shape "■"
+	setcycle 11 Trial_type dual
+	setcycle 11 correct_response z
+	setcycle 11 gap n
+	setcycle 11 Block Prac
+	setcycle 11 Presentation_style short
+	setcycle 11 shape square
+	setcycle 12 cue "綠色"
+	setcycle 12 cue_1 ""
+	setcycle 12 target_color red
+	setcycle 12 target_shape "■"
+	setcycle 12 Trial_type single
+	setcycle 12 correct_response z
+	setcycle 12 gap n
+	setcycle 12 Block Prac
+	setcycle 12 Presentation_style short
+	setcycle 12 shape square
+	setcycle 13 cue "紅色"
+	setcycle 13 cue_1 ""
+	setcycle 13 target_color green
+	setcycle 13 target_shape "◆"
+	setcycle 13 Trial_type single
+	setcycle 13 correct_response z
+	setcycle 13 gap n
+	setcycle 13 Block Prac
+	setcycle 13 Presentation_style short
+	setcycle 13 shape diamond
+	setcycle 14 cue "菱形"
+	setcycle 14 cue_1 ""
+	setcycle 14 target_color red
+	setcycle 14 target_shape "■"
+	setcycle 14 Trial_type single
+	setcycle 14 correct_response z
+	setcycle 14 gap n
+	setcycle 14 Block Prac
+	setcycle 14 Presentation_style short
+	setcycle 14 shape square
+	setcycle 15 cue "方塊"
+	setcycle 15 cue_1 ""
+	setcycle 15 target_color green
+	setcycle 15 target_shape "◆"
+	setcycle 15 Trial_type single
+	setcycle 15 correct_response z
+	setcycle 15 gap n
+	setcycle 15 Block Prac
+	setcycle 15 Presentation_style short
+	setcycle 15 shape diamond
+	run EXP_seq_tc
+
+define sequence SC
+	set flush_keyboard yes
+	set description "Runs a number of items in sequence"
+	run consent_sc never
+	run welcome_01_sc never
+	run welcome_02_sc never
+	run EXP_sc never
+	run Post_survey_sc never
+	run EXP_end_sc never
+
+define sketchpad Survey_board_sc
+	set duration 0
+	set description "Displays stimuli"
+	draw textline center=1 color="#ffffff" font_bold=no font_family="chinese-japanese-korean" font_italic=no font_size=18 html=yes show_if=always text="[Question]" x=0 y=-192 z_index=0
+	draw textline center=1 color="#ffffff" font_bold=no font_family="chinese-japanese-korean" font_italic=no font_size=18 html=yes show_if=always text="[Options]" x=0 y=0 z_index=0
+
+define sketchpad Survey_board_tc
+	set duration 0
+	set description "Displays stimuli"
+	draw textline center=1 color="#ffffff" font_bold=no font_family="chinese-japanese-korean" font_italic=no font_size=18 html=yes show_if=always text="[Question]" x=0 y=-128 z_index=0
+	draw textline center=1 color="#ffffff" font_bold=no font_family="chinese-japanese-korean" font_italic=no font_size=18 html=yes show_if=always text="[Options]<br/><br />您的回答: [gender_code]<br/>" x=0 y=0 z_index=0
+	draw textline center=1 color="#ffff00" font_bold=no font_family="chinese-japanese-korean" font_italic=no font_size=18 html=yes show_if=always text="請按鍵盤上方數字鍵作答。" x=0 y=64 z_index=0
+	draw textline center=1 color="#ffffff" font_bold=no font_family="chinese-japanese-korean" font_italic=no font_size=18 html=yes show_if=always text="要重新輸入可按Backspace修正。輸入完成請按Enter鍵。" x=0 y=128 z_index=0
+
+define sequence TC
+	set flush_keyboard yes
+	set description "Runs a number of items in sequence"
+	run welcome_01_tc always
+	run welcome_02_tc always
+	run EXP_tc always
+	run Post_seq_tc always
+	run EXP_end_tc always
+
+define keyboard_response agree_response_sc
+	set timeout infinite
+	set flush yes
+	set event_type keypress
+	set duration keypress
+	set description "Collects keyboard responses"
+	set allowed_responses a
+
+define keyboard_response agree_response_tc
+	set timeout infinite
+	set flush yes
+	set event_type keypress
+	set duration keypress
+	set description "Collects keyboard responses"
+	set allowed_responses a
+
+define sketchpad begin
+	set duration 0
+	set description "Displays stimuli"
+	draw textline center=1 color=white font_bold=no font_family=mono font_italic=no font_size=32 html=yes show_if=always text="進入實驗前，<br/>請您選擇熟悉的中文語系" x=0 y=0 z_index=0
+	draw textline center=1 color=white font_bold=no font_family=mono font_italic=no font_size=36 html=yes show_if=always text="m：繁體字" x=0 y=224 z_index=0
+
+define keyboard_response begin_response
+	set timeout infinite
+	set flush yes
+	set event_type keypress
+	set duration keypress
+	set description "Collects keyboard responses"
+	set correct_response z
+	set allowed_responses "z;m"
+
+define loop birth_loop
+	set source table
+	set repeat 200
+	set order sequential
+	set description "Repeatedly runs another item"
+	set cycles 1
+	set continuous no
+	set break_if_on_first yes
+	set break_if "[response] = enter"
+	setcycle 0 Question "請輸入您的出生西元年4位數字<br /><br />例如: 出生年月日是 2000/1/1<br /><br />請輸入: 2000"
+	setcycle 0 Options "註: 如果您不想回答, 請輸入 \"0\"."
+	setcycle 0 Block Post_tc
+	setcycle 0 Topic birth
+	run birth_seq
+
+define sequence birth_seq
+	set flush_keyboard yes
+	set description "Runs a number of items in sequence"
+	run show_birthyear_survey always
+	run birthyear_response always
+	run process_birth_year_input always
+	run logger always
+
+define keyboard_response birthyear_response
+	set timeout infinite
+	set flush yes
+	set event_type keypress
+	set duration keypress
+	set description "Collects keyboard responses"
+	set allowed_responses "1;2;3;4;5;6;7;8;9;0;backspace;enter"
+
+define sketchpad consent_p1_sc
+	set duration 0
+	set description "Displays stimuli"
+	draw textline center=1 color=white font_bold=no font_family=mono font_italic=no font_size=20 html=yes show_if=always text="您好，非常感谢您愿意参与此次的测验。本页知情同意书要向您说明有关本次实验的相关资讯。 <br/>在阅读本同意书或参与此测验的过程中，对于本测验仍有任何的疑问，您可以向提供实验连结的人员提出来。 <br/><br/><br/>实验内容是图像判断作业，实验过程及结果仅提供学生学习研究设计及资料分析。 <br/>完成实验需要的时间约5分钟左右。本次实验目的是协助我们测试实验脚本，<br/><br/><br/>若您已充分了解实验目的及内容，请按下C键继续。" x=0 y=-50 z_index=0
+	draw textline center=1 color=white font_bold=no font_family=mono font_italic=no font_size=18 html=yes show_if=always text="按C表示已阅读完毕" x=-240 y=320 z_index=0
+	draw textline center=1 color=white font_bold=no font_family=mono font_italic=no font_size=18 html=yes show_if=always text="按Esc可立即退出本研究" x=240 y=320 z_index=0
+
+define sketchpad consent_p1_tc
+	set duration 0
+	set description "Displays stimuli"
+	draw textline center=1 color=white font_bold=no font_family=mono font_italic=no font_size=20 html=yes show_if=always text="您好，非常感謝您願意參與此次的測驗。本頁知情同意書要向您說明有關本次實驗的相關資訊。<br/>在閱讀本同意書或參與此測驗的過程中，對於本測驗仍有任何的疑問，您可以向提供實驗連結的人員提出來。<br/><br/><br/>實驗內容是圖像判斷作業，實驗過程及結果僅提供學生學習研究設計及資料分析。<br/>完成實驗需要的時間約15分鐘左右。本次實驗目的是協助我們測試實驗腳本，<br/><br/><br/>若您已充分了解實驗目的及內容，請按下C鍵繼續。" x=0 y=-50 z_index=0
+	draw textline center=1 color=white font_bold=no font_family=mono font_italic=no font_size=18 html=yes show_if=always text="按C表示已閱讀完畢" x=-240 y=320 z_index=0
+	draw textline center=1 color=white font_bold=no font_family=mono font_italic=no font_size=18 html=yes show_if=always text="按Esc可立即退出本研究" x=240 y=320 z_index=0
+
+define sketchpad consent_p2_sc
+	set duration 0
+	set description "Displays stimuli"
+	draw textline center=1 color=white font_bold=no font_family=mono font_italic=no font_size=20 html=yes show_if=always text="实验过程中因为某些因素需要中止实验，您可以随时关闭浏览器视窗退出。 <br />确认同意之后，请您先仔细阅读实验指导语，按照提示完成实验。 <br/>实验结束时，请您拍下或记录网页显示的<b>实验代码</b>，回报给施测人员。 <br /><br /><br />慈济大学心理学实验专案研究小组<br /><br /><br /><br />若您同意参与本次实验，请按下A键。" x=0 y=-50 z_index=0
+	draw textline center=1 color=white font_bold=no font_family=mono font_italic=no font_size=18 html=yes show_if=always text="按A表示同意参与实验" x=-240 y=320 z_index=0
+	draw textline center=1 color=white font_bold=no font_family=mono font_italic=no font_size=18 html=yes show_if=always text="按Esc可立即退出本研究" x=240 y=320 z_index=0
+
+define sketchpad consent_p2_tc
+	set duration 0
+	set description "Displays stimuli"
+	draw textline center=1 color=white font_bold=no font_family=mono font_italic=no font_size=20 html=yes show_if=always text="實驗過程中因為某些因素需要中止實驗，您可以隨時關閉瀏覽器視窗退出。<br />確認同意之後，請您先仔細閱讀實驗指導語，按照提示完成實驗。<br/>實驗結束時，請您拍下或記錄網頁顯示的<b>實驗代碼</b>，回報給施測人員。<br /><br /><br />慈濟大學心理學實驗專案研究小組<br /><br /><br /><br />若您同意參與本次實驗，請按下A鍵。" x=0 y=-50 z_index=0
+	draw textline center=1 color=white font_bold=no font_family=mono font_italic=no font_size=18 html=yes show_if=always text="按A表示同意參與實驗" x=-240 y=320 z_index=0
+	draw textline center=1 color=white font_bold=no font_family=mono font_italic=no font_size=18 html=yes show_if=always text="按Esc可立即退出本研究" x=240 y=320 z_index=0
+
+define keyboard_response consent_response_sc
+	set timeout infinite
+	set flush yes
+	set event_type keypress
+	set duration keypress
+	set description "Collects keyboard responses"
+	set allowed_responses c
+
+define keyboard_response consent_response_tc
+	set timeout infinite
+	set flush yes
+	set event_type keypress
+	set duration keypress
+	set description "Collects keyboard responses"
+	set allowed_responses c
+
+define loop consent_sc
+	set source_file ""
+	set source table
+	set repeat 1
+	set order random
+	set description "Repeatedly runs another item"
+	set cycles 1
+	set continuous no
+	set break_if_on_first yes
+	set break_if never
+	setcycle 0 Block consent_tc
+	run consent_seq_sc
+
+define sequence consent_seq_sc
+	set flush_keyboard yes
+	set description "Runs a number of items in sequence"
+	run consent_p1_sc always
+	run consent_response_sc always
+	run consent_p2_sc always
+	run agree_response_sc always
+	run logger always
+
+define sequence consent_seq_tc
+	set flush_keyboard yes
+	set description "Runs a number of items in sequence"
+	run consent_p1_tc always
+	run consent_response_tc always
+	run consent_p2_tc always
+	run agree_response_tc always
+	run logger always
+
+define loop consent_tc
+	set source_file ""
+	set source table
+	set repeat 1
+	set order random
+	set description "Repeatedly runs another item"
+	set cycles 1
+	set continuous no
+	set break_if_on_first yes
+	set break_if never
+	setcycle 0 Block consent_tc
+	run consent_seq_tc
+
+define inline_javascript constants
+	set description "Executes JavaScript code"
+	___run__
+	// Initial parameters settings have to be ahead the loops.
+	
+	vars.block_count = 0
+	vars.gender_code = ''
+	vars.birth_year = ''
+	vars.response = ''
+	__end__
+	set _prepare ""
+
+define sketchpad cue_sc
+	set duration 1000
+	set description "Displays stimuli"
+	draw textline center=1 color=white font_bold=no font_family=mono font_italic=no font_size=32 html=yes show_if=always text="[cue]" x=0 y=0 z_index=0
+	draw textline center=1 color=white font_bold=no font_family=mono font_italic=no font_size=32 html=yes show_if="[gap]=n" text="[cue_1]" x=0 y=36 z_index=0
+
+define sketchpad cue_tc
+	set duration 1000
+	set description "Displays stimuli"
+	draw textline center=1 color=white font_bold=no font_family=mono font_italic=no font_size=32 html=yes show_if=always text="[cue]" x=0 y=0 z_index=0
+	draw textline center=1 color=white font_bold=no font_family=mono font_italic=no font_size=32 html=yes show_if="[gap]=n" text="[cue_1]" x=0 y=36 z_index=0
+
+define sketchpad decision_response_correct_sc
+	set duration 500
+	set description "Displays stimuli"
+	draw textline center=1 color=white font_bold=yes font_family=mono font_italic=no font_size=48 html=yes show_if=always text="正确!" x=0 y=0 z_index=0
+
+define sketchpad decision_response_correct_tc
+	set duration 500
+	set description "Displays stimuli"
+	draw textline center=1 color=white font_bold=yes font_family=mono font_italic=no font_size=48 html=yes show_if=always text="正確!" x=0 y=0 z_index=0
+
+define sketchpad decision_response_wrong_sc
+	set duration 500
+	set description "Displays stimuli"
+	draw textline center=1 color=white font_bold=yes font_family=mono font_italic=no font_size=48 html=yes show_if=always text="答错了!" x=0 y=0 z_index=0
+
+define sketchpad decision_response_wrong_tc
+	set duration 500
+	set description "Displays stimuli"
+	draw textline center=1 color=white font_bold=yes font_family=mono font_italic=no font_size=48 html=yes show_if=always text="答錯了!" x=0 y=0 z_index=0
+
+define sequence experiment
+	set flush_keyboard yes
+	set description "Runs a number of items in sequence"
+	run begin never
+	run begin_response never
+	run consent_tc always
+	run initilization always
+	run Lang_Ins always
+	run lang_test always
+	run lang_end always
+	run TC always
+	run SC never
+	run new_notepad always
+
+define sketchpad fixation_sc
+	set duration 500
+	set description "Displays stimuli"
+	draw fixdot color=white show_if=always style=default x=0 y=0 z_index=0
+
+define sketchpad fixation_tc
+	set duration 500
+	set description "Displays stimuli"
+	draw fixdot color=white show_if=always style=default x=0 y=0 z_index=0
+
+define loop gender_loop
+	set source table
+	set repeat 200
+	set order sequential
+	set description "Repeatedly runs another item"
+	set cycles 2
+	set continuous no
+	set break_if_on_first yes
+	set break_if "[response] = enter"
+	setcycle 0 Question "請問您的性別？<br/>輸入對應選項的號碼表達您的回答"
+	setcycle 0 Options "1: 女性 2:男性 3:跨性別 4:非二元性別 0:不願作答"
+	setcycle 0 Block Post_tc
+	setcycle 0 Topic gender
+	setcycle 1 Question ""
+	setcycle 1 Options ""
+	setcycle 1 Block ""
+	setcycle 1 Topic ""
+	run gender_seq
+
+define sequence gender_seq
+	set flush_keyboard yes
+	set description "Runs a number of items in sequence"
+	run Survey_board_tc always
+	run survey_response_tc always
+	run process_gender_code_input always
+	run logger always
+
+define inline_javascript initilization
+	set description "Executes JavaScript code"
+	set _run ""
+	___prepare__
+	// Generate the identifier for the participant
+	vars.identifier = Math.random().toString(36).substr(2, 9);
+	__end__
+
+define sketchpad interval_sc
+	set duration 2000
+	set description "Displays stimuli"
+	draw textline center=1 color=white font_bold=no font_family=mono font_italic=no font_size=32 html=yes show_if="[gap]=y" text="[cue_1]" x=0 y=0 z_index=0
+
+define sketchpad interval_tc
+	set duration 2000
+	set description "Displays stimuli"
+	draw textline center=1 color=white font_bold=no font_family=mono font_italic=no font_size=32 html=yes show_if="[gap]=y" text="[cue_1]" x=0 y=0 z_index=0
+
+define sketchpad lang_end
+	set duration keypress
+	set description "Displays stimuli"
+	draw textline center=1 color=white font_bold=no font_family=serif font_italic=no font_size=32 html=yes show_if=always text="中文詞彙知識測驗已經完成<br/>休息一下<br/>按任意鍵即可進入第二部分測驗" x=0 y=0 z_index=0
+	draw textline center=1 color=white font_bold=no font_family=mono font_italic=no font_size=28 html=yes show_if=always text="按任意鍵繼續" x=0 y=192 z_index=0
+
+define loop lang_test
+	set source_file ""
+	set source table
+	set repeat 1
+	set order random
+	set description "Repeatedly runs another item"
+	set cycles 40
+	set continuous no
+	set break_if_on_first yes
+	set break_if never
+	setcycle 0 Question "汽油已由每公升二十六元______十九元了。"
+	setcycle 0 Response_Option "降至"
+	setcycle 0 Option1 "降至"
+	setcycle 0 Option2 "降價"
+	setcycle 0 Option3 "降落"
+	setcycle 0 Option4 "降下"
+	setcycle 0 Block Lang_Test
+	setcycle 1 Question "總統＿＿＿＿全國民眾發揮愛心，救助災民。"
+	setcycle 1 Response_Option "呼籲"
+	setcycle 1 Option1 "呼籲"
+	setcycle 1 Option2 "告訴"
+	setcycle 1 Option3 "指出"
+	setcycle 1 Option4 "提醒"
+	setcycle 1 Block Lang_Test
+	setcycle 2 Question "地震發生後，政府應該立即採取應變＿＿＿＿。"
+	setcycle 2 Response_Option "措施"
+	setcycle 2 Option1 "措施"
+	setcycle 2 Option2 "援助"
+	setcycle 2 Option3 "巡視"
+	setcycle 2 Option4 "舉動"
+	setcycle 2 Block Lang_Test
+	setcycle 3 Question "除非他是心甘情願的，否則_________他也無用。"
+	setcycle 3 Response_Option "勉強"
+	setcycle 3 Option1 "勉強"
+	setcycle 3 Option2 "嘮叨"
+	setcycle 3 Option3 "勒索"
+	setcycle 3 Option4 "刺激"
+	setcycle 3 Block Lang_Test
+	setcycle 4 Question "______凡事往好處想，自然能海闊天空。"
+	setcycle 4 Response_Option "總而言之"
+	setcycle 4 Option1 "總而言之"
+	setcycle 4 Option2 "就算"
+	setcycle 4 Option3 "是這樣的"
+	setcycle 4 Option4 "要不是"
+	setcycle 4 Block Lang_Test
+	setcycle 5 Question "大明要我在這裡等，我等了半天，______沒一個人來。"
+	setcycle 5 Response_Option "根本"
+	setcycle 5 Option1 "根本"
+	setcycle 5 Option2 "反而"
+	setcycle 5 Option3 "乾脆"
+	setcycle 5 Option4 "簡直"
+	setcycle 5 Block Lang_Test
+	setcycle 6 Question "到處都有記者跟隨，讓她覺得很______。"
+	setcycle 6 Response_Option "困擾"
+	setcycle 6 Option1 "困擾"
+	setcycle 6 Option2 "擾亂"
+	setcycle 6 Option3 "打擾"
+	setcycle 6 Option4 "干擾"
+	setcycle 6 Block Lang_Test
+	setcycle 7 Question "近來，中國的家庭結構由多代同堂的大家庭，逐漸_______為僅有兩代同住的小家庭。"
+	setcycle 7 Response_Option "演變"
+	setcycle 7 Option1 "演變"
+	setcycle 7 Option2 "變形"
+	setcycle 7 Option3 "變化"
+	setcycle 7 Option4 "變成"
+	setcycle 7 Block Lang_Test
+	setcycle 8 Question "不積極吸收新知，會被社會_____。"
+	setcycle 8 Response_Option "淘汰"
+	setcycle 8 Option1 "淘汰"
+	setcycle 8 Option2 "排除"
+	setcycle 8 Option3 "放棄"
+	setcycle 8 Option4 "擺脫"
+	setcycle 8 Block Lang_Test
+	setcycle 9 Question "我在德國留學的那段日子，始終小心翼翼地保存______父母的照片。"
+	setcycle 9 Response_Option "著"
+	setcycle 9 Option1 "著"
+	setcycle 9 Option2 "下去"
+	setcycle 9 Option3 "過"
+	setcycle 9 Option4 "了"
+	setcycle 9 Block Lang_Test
+	setcycle 10 Question "飲酒______有礙健康，而且可能造成婚姻問題。"
+	setcycle 10 Response_Option "不僅"
+	setcycle 10 Option1 "不僅"
+	setcycle 10 Option2 "僅能"
+	setcycle 10 Option3 "僅僅"
+	setcycle 10 Option4 "不論"
+	setcycle 10 Block Lang_Test
+	setcycle 11 Question "______停車的場地不夠，但是買車的人仍日漸增加。"
+	setcycle 11 Response_Option "儘管"
+	setcycle 11 Option1 "儘管"
+	setcycle 11 Option2 "儘可能"
+	setcycle 11 Option3 "僅夠"
+	setcycle 11 Option4 "儘量"
+	setcycle 11 Block Lang_Test
+	setcycle 12 Question "除非你改變飲食習慣，_____ 血壓不會降低。"
+	setcycle 12 Response_Option "否則"
+	setcycle 12 Option1 "否則"
+	setcycle 12 Option2 "否決"
+	setcycle 12 Option3 "否認"
+	setcycle 12 Option4 "否定"
+	setcycle 12 Block Lang_Test
+	setcycle 13 Question "班機之所以停飛，是 _____天候不佳。"
+	setcycle 13 Response_Option "因為"
+	setcycle 13 Option1 "因為"
+	setcycle 13 Option2 "理由"
+	setcycle 13 Option3 "緣故"
+	setcycle 13 Option4 "原因"
+	setcycle 13 Block Lang_Test
+	setcycle 14 Question "王老師___圖畫來說明字義。"
+	setcycle 14 Response_Option "以"
+	setcycle 14 Option1 "以"
+	setcycle 14 Option2 "使"
+	setcycle 14 Option3 "將"
+	setcycle 14 Option4 "把"
+	setcycle 14 Block Lang_Test
+	setcycle 15 Question "父母不應______孩子在公共場合吵鬧。"
+	setcycle 15 Response_Option "縱容"
+	setcycle 15 Option1 "縱容"
+	setcycle 15 Option2 "操作"
+	setcycle 15 Option3 "放鬆"
+	setcycle 15 Option4 "操縱"
+	setcycle 15 Block Lang_Test
+	setcycle 16 Question "他原本是讀書人，現在竟＿＿＿＿乞丐。"
+	setcycle 16 Response_Option "淪為"
+	setcycle 16 Option1 "淪為"
+	setcycle 16 Option2 "墮落"
+	setcycle 16 Option3 "墜入"
+	setcycle 16 Option4 "陷入"
+	setcycle 16 Block Lang_Test
+	setcycle 17 Question "颱風過後，街道上＿＿＿＿＿＿＿＿，慘不忍睹。"
+	setcycle 17 Response_Option "滿目瘡痍"
+	setcycle 17 Option1 "滿目瘡痍"
+	setcycle 17 Option2 "議論紛紛"
+	setcycle 17 Option3 "提心吊膽"
+	setcycle 17 Option4 "心有餘悸"
+	setcycle 17 Block Lang_Test
+	setcycle 18 Question "一般人受了委屈，就發牢騷，說些忿忿不平的話，這是____。"
+	setcycle 18 Response_Option "人之常情"
+	setcycle 18 Option1 "人之常情"
+	setcycle 18 Option2 "束手無策"
+	setcycle 18 Option3 "情不自禁"
+	setcycle 18 Option4 "喋喋不休"
+	setcycle 18 Block Lang_Test
+	setcycle 19 Question "他們倆兒真是所謂郎才女貌、________的一對。"
+	setcycle 19 Response_Option "天造地設"
+	setcycle 19 Option1 "天造地設"
+	setcycle 19 Option2 "知足常樂"
+	setcycle 19 Option3 "長長久久"
+	setcycle 19 Option4 "白頭偕老"
+	setcycle 19 Block Lang_Test
+	setcycle 20 Question "身為公務人員，________絕不可貪。"
+	setcycle 20 Response_Option "非份之財"
+	setcycle 20 Option1 "非份之財"
+	setcycle 20 Option2 "心安理得"
+	setcycle 20 Option3 "非份之想"
+	setcycle 20 Option4 "安分守己"
+	setcycle 20 Block Lang_Test
+	setcycle 21 Question "要是________了那個小人，恐怕得吃不完兜著走。"
+	setcycle 21 Response_Option "得罪"
+	setcycle 21 Option1 "得罪"
+	setcycle 21 Option2 "教訓"
+	setcycle 21 Option3 "玩弄"
+	setcycle 21 Option4 "欺負"
+	setcycle 21 Block Lang_Test
+	setcycle 22 Question "一個人事業是否能成功_________努力與機運。"
+	setcycle 22 Response_Option "在於"
+	setcycle 22 Option1 "在於"
+	setcycle 22 Option2 "依靠"
+	setcycle 22 Option3 "按照"
+	setcycle 22 Option4 "藉著"
+	setcycle 22 Block Lang_Test
+	setcycle 23 Question "我是被________、臨時上場的，講稿都來不及準備。"
+	setcycle 23 Response_Option "趕鴨子上架"
+	setcycle 23 Option1 "趕鴨子上架"
+	setcycle 23 Option2 "折磨得半死"
+	setcycle 23 Option3 "慷他人之慨"
+	setcycle 23 Option4 "人從中搞鬼"
+	setcycle 23 Block Lang_Test
+	setcycle 24 Question "______不再惹事生非，你怎麼還跟人爭鬥呢？"
+	setcycle 24 Response_Option "說好"
+	setcycle 24 Option1 "說好"
+	setcycle 24 Option2 "從此以後"
+	setcycle 24 Option3 "只要"
+	setcycle 24 Option4 "明明"
+	setcycle 24 Block Lang_Test
+	setcycle 25 Question "你是咱們家的大恩人，即使為你犧牲性命也______什麼！"
+	setcycle 25 Response_Option "算不了"
+	setcycle 25 Option1 "算不了"
+	setcycle 25 Option2 "算不清"
+	setcycle 25 Option3 "不必算"
+	setcycle 25 Option4 "算得了"
+	setcycle 25 Block Lang_Test
+	setcycle 26 Question "雙方相持不下，終於______談判破裂。"
+	setcycle 26 Response_Option "導致"
+	setcycle 26 Option1 "導致"
+	setcycle 26 Option2 "引導"
+	setcycle 26 Option3 "導向"
+	setcycle 26 Option4 "導引"
+	setcycle 26 Block Lang_Test
+	setcycle 27 Question "歐洲12國共同的貨幣--歐元，因為易於________，將有助於貿易的推展。"
+	setcycle 27 Response_Option "流通"
+	setcycle 27 Option1 "流通"
+	setcycle 27 Option2 "流動"
+	setcycle 27 Option3 "傳遞"
+	setcycle 27 Option4 "傳送"
+	setcycle 27 Block Lang_Test
+	setcycle 28 Question "要注意飲食三餐，______藥補不如食補。"
+	setcycle 28 Response_Option "畢竟"
+	setcycle 28 Option1 "畢竟"
+	setcycle 28 Option2 "反正"
+	setcycle 28 Option3 "總是"
+	setcycle 28 Option4 "的確"
+	setcycle 28 Block Lang_Test
+	setcycle 29 Question "今天下午的討論過程，火藥氣氛______整個會場，有一觸即發的可能。"
+	setcycle 29 Response_Option "壟罩"
+	setcycle 29 Option1 "壟罩"
+	setcycle 29 Option2 "遮蓋"
+	setcycle 29 Option3 "包圍"
+	setcycle 29 Option4 "壓迫"
+	setcycle 29 Block Lang_Test
+	setcycle 30 Question "由於會前充分的協調，這個會議______順利圓滿達成。"
+	setcycle 30 Response_Option "得以"
+	setcycle 30 Option1 "得以"
+	setcycle 30 Option2 "所以"
+	setcycle 30 Option3 "藉以"
+	setcycle 30 Option4 "得到"
+	setcycle 30 Block Lang_Test
+	setcycle 31 Question "這宗槍殺案是導因於金錢_____，或是由選舉恩怨所引起？目前正由警方全力偵辦中。"
+	setcycle 31 Response_Option "糾紛"
+	setcycle 31 Option1 "糾紛"
+	setcycle 31 Option2 "糾纏"
+	setcycle 31 Option3 "爭鬥"
+	setcycle 31 Option4 "爭議"
+	setcycle 31 Block Lang_Test
+	setcycle 32 Question "賣珠人邊串邊賣，色彩亮麗的珠鍊，頗符合今年的流行 ______。"
+	setcycle 32 Response_Option "趨勢"
+	setcycle 32 Option1 "趨勢"
+	setcycle 32 Option2 "形勢"
+	setcycle 32 Option3 "情勢"
+	setcycle 32 Option4 "走勢"
+	setcycle 32 Block Lang_Test
+	setcycle 33 Question "看到那一鍋香噴噴、熱騰騰的清燉雞湯，不禁令人 ______。"
+	setcycle 33 Response_Option "垂涎三尺"
+	setcycle 33 Option1 "垂涎三尺"
+	setcycle 33 Option2 "津津有味"
+	setcycle 33 Option3 "口齒留香"
+	setcycle 33 Option4 "回味無窮"
+	setcycle 33 Block Lang_Test
+	setcycle 34 Question "因經濟不景氣，失業人口已___倍數成長。"
+	setcycle 34 Response_Option "呈"
+	setcycle 34 Option1 "呈"
+	setcycle 34 Option2 "顯"
+	setcycle 34 Option3 "現"
+	setcycle 34 Option4 "為"
+	setcycle 34 Block Lang_Test
+	setcycle 35 Question "考試的題目太多，時間不夠______，因此考得不太理想。"
+	setcycle 35 Response_Option "充裕"
+	setcycle 35 Option1 "充裕"
+	setcycle 35 Option2 "充沛"
+	setcycle 35 Option3 "充滿"
+	setcycle 35 Option4 "充實"
+	setcycle 35 Block Lang_Test
+	setcycle 36 Question "若是想多瞭解台灣的大學，你______上網查一下資料。"
+	setcycle 36 Response_Option "不妨"
+	setcycle 36 Option1 "不妨"
+	setcycle 36 Option2 "進而"
+	setcycle 36 Option3 "固然"
+	setcycle 36 Option4 "隨機"
+	setcycle 36 Block Lang_Test
+	setcycle 37 Question "令人驚訝的是多位警察也______這件販毒案件。"
+	setcycle 37 Response_Option "涉及"
+	setcycle 37 Option1 "涉及"
+	setcycle 37 Option2 "涉足"
+	setcycle 37 Option3 "波及"
+	setcycle 37 Option4 "牽連"
+	setcycle 37 Block Lang_Test
+	setcycle 38 Question "這篇報導說，喝一杯下午茶可以______緊張的壓力。"
+	setcycle 38 Response_Option "舒緩"
+	setcycle 38 Option1 "舒緩"
+	setcycle 38 Option2 "舒服"
+	setcycle 38 Option3 "舒暢"
+	setcycle 38 Option4 "舒適"
+	setcycle 38 Block Lang_Test
+	setcycle 39 Question "他在政治上_____孤立狀態，但是目前還沒有人敢忽視他的影響力。"
+	setcycle 39 Response_Option "處於"
+	setcycle 39 Option1 "處於"
+	setcycle 39 Option2 "介於"
+	setcycle 39 Option3 "位於"
+	setcycle 39 Option4 "立於"
+	setcycle 39 Block Lang_Test
+	shuffle_horiz Option1 Option2 Option3 Option4
+	run lang_test_sequence
+
+define sequence lang_test_sequence
+	set flush_keyboard yes
+	set description "Runs a number of items in sequence"
+	run test_board always
+	run test_response_1 "[Option1]=[Response_Option]"
+	run test_response_2 "[Option2]=[Response_Option]"
+	run test_response_3 "[Option3]=[Response_Option]"
+	run test_response_4 "[Option4]=[Response_Option]"
+	run test_feedback_correct "[correct]=1"
+	run test_feedback_wrong "[correct]=0"
+	run logger always
+
+define logger logger
+	set description "Logs experimental data"
+	set auto_log no
+	log correct
+	log response_time
+	log response
+	log identifier
+	log cue
+	log cue_1
+	log target_color
+	log target_shape
+	log Trial_type
+	log gap
+	log correct_response
+	log Block
+	log Presentation_style
+	log shape
+	log Topic
+	log count_EXP_seq_tc
+
+define notepad loop_setup
+	__note__
+	- 指導語要提示如何進行反應。
+	- 每次實驗只執行 short,long1,或long2
+	- target_shape的square與diamond長寬要一致
+	- sequence最後要有logger
+	- 結束時要給「完成代碼」；生成的JS程式碼與最後呈現畫面參考上學期示範範腳本
+	__end__
+	set description "A simple notepad to document your experiment. This plug-in does nothing."
+
+define notepad loop_setup_sc
+	__note__
+	- 指導語要提示如何進行反應。
+	- 每次實驗只執行 short或long
+	- target_shape的square與diamond長寬要一致
+	- sequence最後要有logger
+	- 結束時要給「完成代碼」；生成的JS程式碼與最後呈現畫面參考上學期示範範腳本
+	__end__
+	set description "A simple notepad to document your experiment. This plug-in does nothing."
+
+define feedback new_feedback_sc
+	set reset_variables yes
+	set duration 750
+	set description "Provides feedback to the participant"
+	draw textline center=1 color=white font_bold=no font_family=mono font_italic=no font_size=18 html=yes show_if=always text="您刚才输入的是：[response]" x=0 y=-96 z_index=0
+
+define notepad new_notepad
+	__note__
+	seq----繁體與簡體版(額外製作簡體版)
+	提供受試者兩種版本選擇
+	再用一個大seq裡面包含繁體與簡體版
+	尋找實體物件(有可明顯比較之特徵)
+	__end__
+	set description "A simple notepad to document your experiment. This plug-in does nothing."
+
+define inline_javascript process_birth_year_input
+	set description "Executes JavaScript code"
+	___run__
+	console.log(vars.response)
+	if (vars.response in [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]) {
+	    vars.birth_year += vars.response.toString()
+	} else if (vars.response === 'backspace') {
+	    vars.birth_year = vars.birth_year.toString().slice(0, vars.birth_year.toString().length - 1)
+	}
+	__end__
+	set _prepare ""
+
+define inline_javascript process_gender_code_input
+	set description "Executes JavaScript code"
+	___run__
+	console.log(vars.response)
+	if (vars.response in [0, 1, 2, 3, 4]) {
+	    vars.gender_code += vars.response.toString()
+	} else if (vars.response === 'backspace') {
+	    vars.gender_code = vars.gender_code.toString().slice(0, vars.gender_code.toString().length - 1)
+	}
+	__end__
+	set _prepare ""
+
+define keyboard_response response_ans_sc
+	set timeout infinite
+	set flush yes
+	set event_type keypress
+	set duration keypress
+	set description "Collects keyboard responses"
+	set allowed_responses "z;m"
+
+define keyboard_response response_ans_tc
+	set timeout infinite
+	set flush yes
+	set event_type keypress
+	set duration keypress
+	set description "Collects keyboard responses"
+	set allowed_responses "z;m"
+
+define sketchpad show_birthyear_survey
+	set duration 0
+	set description "Displays stimuli"
+	draw textline center=1 color="#ffffff" font_bold=no font_family="chinese-japanese-korean" font_italic=no font_size=18 html=yes show_if=always text="[Question]" x=0 y=-128 z_index=0
+	draw textline center=1 color="#ffffff" font_bold=no font_family="chinese-japanese-korean" font_italic=no font_size=18 html=yes show_if=always text="[Options]<br/><br />您的回答: [birth_year]<br/>" x=0 y=0 z_index=0
+	draw textline center=1 color="#ffff00" font_bold=no font_family="chinese-japanese-korean" font_italic=no font_size=18 html=yes show_if=always text="請按鍵盤上方數字鍵作答。" x=0 y=64 z_index=0
+	draw textline center=1 color="#ffffff" font_bold=no font_family="chinese-japanese-korean" font_italic=no font_size=18 html=yes show_if=always text="要重新輸入可按Backspace修正。輸入完成請按Enter鍵。" x=0 y=128 z_index=0
+
+define keyboard_response survey_response_sc
+	set timeout infinite
+	set flush yes
+	set event_type keypress
+	set duration keypress
+	set description "Collects keyboard responses"
+	set allowed_responses "1;2;3;4;5;6;7;8;9;0;x;q"
+
+define keyboard_response survey_response_tc
+	set timeout infinite
+	set flush yes
+	set event_type keypress
+	set duration keypress
+	set description "Collects keyboard responses"
+	set allowed_responses "1;2;3;4;0;backspace;enter"
+
+define sketchpad target_sc
+	set duration 0
+	set description "Displays stimuli"
+	draw textline center=1 color="[target_color]" font_bold=no font_family=mono font_italic=no font_size=120 html=yes show_if=always text="[target_shape]" x=0 y=0 z_index=0
+	draw textline center=1 color=white font_bold=no font_family=mono font_italic=no font_size=24 html=yes show_if=always text="z:不符合" x=-256 y=224 z_index=0
+	draw textline center=1 color=white font_bold=no font_family=mono font_italic=no font_size=24 html=yes show_if=always text="m:符合" x=256 y=224 z_index=0
+
+define sketchpad target_tc
+	set duration 0
+	set description "Displays stimuli"
+	draw textline center=1 color="[target_color]" font_bold=no font_family=mono font_italic=no font_size=120 html=yes show_if="[shape]=='square'" text="[target_shape]" x=0 y=0 z_index=0
+	draw textline center=1 color="[target_color]" font_bold=no font_family=mono font_italic=no font_size=80 html=yes show_if="[shape]=='diamond'" text="[target_shape]" x=0 y=0 z_index=0
+	draw textline center=1 color=white font_bold=no font_family=mono font_italic=no font_size=24 html=yes show_if=always text="z:不符合" x=-256 y=224 z_index=0
+	draw textline center=1 color=white font_bold=no font_family=mono font_italic=no font_size=24 html=yes show_if=always text="m:符合" x=256 y=224 z_index=0
+
+define sketchpad test_board
+	set duration 0
+	set description "Displays stimuli"
+	draw textline center=1 color="#ffffff" font_bold=no font_family="chinese-japanese-korean" font_italic=no font_size=24 html=yes show_if=always text="[Question]" x=0 y=-192 z_index=0
+	draw textline center=1 color="#ffffff" font_bold=no font_family="chinese-japanese-korean" font_italic=no font_size=24 html=yes show_if=always text="1.[Option1]" x=0 y=-24 z_index=0
+	draw textline center=1 color="#ffffff" font_bold=no font_family="chinese-japanese-korean" font_italic=no font_size=24 html=yes show_if=always text="2.[Option2]" x=0 y=0 z_index=0
+	draw textline center=1 color="#ffffff" font_bold=no font_family="chinese-japanese-korean" font_italic=no font_size=24 html=yes show_if=always text="3.[Option3]" x=0 y=24 z_index=0
+	draw textline center=1 color="#ffffff" font_bold=no font_family="chinese-japanese-korean" font_italic=no font_size=24 html=yes show_if=always text="4.[Option4]" x=0 y=48 z_index=0
+	draw textline center=1 color="#ffff00" font_bold=no font_family=mono font_italic=no font_size=18 html=yes show_if=always text="請按鍵盤上方數字鍵作答。" x=0 y=192 z_index=0
+
+define sketchpad test_feedback_correct
+	set duration 500
+	set description "Displays stimuli"
+	draw textline center=1 color="#00aa00" font_bold=yes font_family="chinese-japanese-korean" font_italic=no font_size=48 html=yes show_if=always text="答題正確!" x=0 y=0 z_index=0
+
+define sketchpad test_feedback_wrong
+	set duration 500
+	set description "Displays stimuli"
+	draw textline center=1 color="#ff0000" font_bold=yes font_family="chinese-japanese-korean" font_italic=no font_size=48 html=yes show_if=always text="答題錯誤!" x=0 y=0 z_index=0
+
+define keyboard_response test_response_1
+	set timeout infinite
+	set flush yes
+	set event_type keypress
+	set duration keypress
+	set description "Collects keyboard responses"
+	set correct_response 1
+	set allowed_responses "1;2;3;4"
+
+define keyboard_response test_response_2
+	set timeout infinite
+	set flush yes
+	set event_type keypress
+	set duration keypress
+	set description "Collects keyboard responses"
+	set correct_response 2
+	set allowed_responses "1;2;3;4"
+
+define keyboard_response test_response_3
+	set timeout infinite
+	set flush yes
+	set event_type keypress
+	set duration keypress
+	set description "Collects keyboard responses"
+	set correct_response 3
+	set allowed_responses "1;2;3;4"
+
+define keyboard_response test_response_4
+	set timeout infinite
+	set flush yes
+	set event_type keypress
+	set duration keypress
+	set description "Collects keyboard responses"
+	set correct_response 4
+	set allowed_responses "1;2;3;4"
+
+define sketchpad welcome_01_sc
+	set start_response_interval no
+	set reset_variables no
+	set duration keypress
+	set description "Displays stimuli"
+	draw textline center=1 color=white font_bold=no font_family=serif font_italic=no font_size=32 html=yes show_if=always text="欢迎参加图像视觉化测验" x=0 y=-288 z_index=0
+	draw textline center=0 color=white font_bold=no font_family=serif font_italic=no font_size=18 html=yes show_if=always text="这是一个测试图像视觉化的实验，实验过程中你会先看到一个字词，会呈现一到三秒钟。字词消失后你需要判断接着出现的<br/>图像，图像的特征是否符合字词的提示。这次实验只有四种图像，如以下例子里的字词与图像。" x=-480 y=-224 z_index=0
+	draw textline center=0 color=red font_bold=no font_family=serif font_italic=no font_size=30 html=yes show_if=always text="■" x=64 y=-128 z_index=0
+	draw textline center=0 color=green font_bold=no font_family=serif font_italic=no font_size=30 html=yes show_if=always text="◆" x=64 y=-64 z_index=0
+	draw textline center=0 color=green font_bold=no font_family=serif font_italic=no font_size=30 html=yes show_if=always text="■" x=64 y=32 z_index=0
+	draw textline center=0 color=red font_bold=no font_family=serif font_italic=no font_size=30 html=yes show_if=always text="◆" x=64 y=96 z_index=0
+	draw textline center=0 color=white font_bold=no font_family=serif font_italic=no font_size=30 html=yes show_if=always text="红色方块" x=-286 y=-128 z_index=0
+	draw textline center=0 color=white font_bold=no font_family=serif font_italic=no font_size=30 html=yes show_if=always text="绿色菱形" x=-288 y=-64 z_index=0
+	draw textline center=0 color=white font_bold=no font_family=serif font_italic=no font_size=30 html=yes show_if=always text="绿色" x=-288 y=32 z_index=0
+	draw textline center=0 color=white font_bold=no font_family=serif font_italic=no font_size=30 html=yes show_if=always text="红色" x=-288 y=96 z_index=0
+	draw textline center=0 color=white font_bold=no font_family=serif font_italic=no font_size=18 html=yes show_if=always text="你看到的图像如果至少有一个特征符合字词提示，请按<b>m</b>。" x=-304 y=192 z_index=0
+	draw textline center=0 color=white font_bold=no font_family=serif font_italic=no font_size=18 html=yes show_if=always text="如果图像没有特征符合字词提示，请按<b>z</b>。" x=-304 y=248 z_index=0
+	draw textline center=1 color=white font_bold=no font_family=mono font_italic=no font_size=18 html=yes show_if=always text="按任意键继续" x=-10 y=321 z_index=0
+
+define sketchpad welcome_01_tc
+	set start_response_interval no
+	set reset_variables no
+	set duration keypress
+	set description "Displays stimuli"
+	draw textline center=1 color=white font_bold=no font_family=serif font_italic=no font_size=32 html=yes show_if=always text="圖像視覺化測驗" x=0 y=-288 z_index=0
+	draw textline center=0 color=white font_bold=no font_family=serif font_italic=no font_size=18 html=yes show_if=always text="這是一個測試圖像視覺化的實驗，實驗過程中你會先看到一個字詞，會呈現一到三秒鐘。字詞消失後你需要判斷接著出現的<br/>圖像，圖像的特徵是否符合字詞的提示。這次實驗只有四種圖像，如以下例子裡的字詞與圖像。" x=-480 y=-224 z_index=0
+	draw textline center=0 color=red font_bold=no font_family=serif font_italic=no font_size=30 html=yes show_if=always text="■" x=64 y=-128 z_index=0
+	draw textline center=0 color=green font_bold=no font_family=serif font_italic=no font_size=30 html=yes show_if=always text="◆" x=64 y=-64 z_index=0
+	draw textline center=0 color=green font_bold=no font_family=serif font_italic=no font_size=30 html=yes show_if=always text="■" x=64 y=32 z_index=0
+	draw textline center=0 color=red font_bold=no font_family=serif font_italic=no font_size=30 html=yes show_if=always text="◆" x=64 y=96 z_index=0
+	draw textline center=0 color=white font_bold=no font_family=serif font_italic=no font_size=30 html=yes show_if=always text="紅色方塊" x=-286 y=-128 z_index=0
+	draw textline center=0 color=white font_bold=no font_family=serif font_italic=no font_size=30 html=yes show_if=always text="綠色菱形" x=-288 y=-64 z_index=0
+	draw textline center=0 color=white font_bold=no font_family=serif font_italic=no font_size=30 html=yes show_if=always text="綠色" x=-288 y=32 z_index=0
+	draw textline center=0 color=white font_bold=no font_family=serif font_italic=no font_size=30 html=yes show_if=always text="紅色" x=-288 y=96 z_index=0
+	draw textline center=0 color=white font_bold=no font_family=serif font_italic=no font_size=18 html=yes show_if=always text="你看到的圖像如果至少有一個特徵符合字詞提示，請按<b>m</b>。" x=-304 y=192 z_index=0
+	draw textline center=0 color=white font_bold=no font_family=serif font_italic=no font_size=18 html=yes show_if=always text="如果圖像沒有特徵符合字詞提示，請按<b>z</b>。" x=-304 y=248 z_index=0
+	draw textline center=1 color=white font_bold=no font_family=mono font_italic=no font_size=18 html=yes show_if=always text="按任意鍵繼續" x=-10 y=321 z_index=0
+
+define sketchpad welcome_02_sc
+	set duration keypress
+	set description "Displays stimuli"
+	draw textline center=1 color=white font_bold=no font_family=mono font_italic=no font_size=28 html=yes show_if=always text="为了帮助您熟悉实验程序，接下来先进行八道练习题<br/><b>每题开始字词出现时，请您想像字词形容的图像</b><br/><b>图像出现时请立即反应是否符合形容</b><br/>练习结束后会提醒您正式测验即将开始<br/>按任意键即可进入正式测验<br/><br/><br/>正式实验结束后会出现感谢参与的提示讯息，并请记得纪录您的实验完成码<br/>回报给实验施测人员，依提示按键即可关闭测验视窗。 <br/><br/><br/><br/><br/>按任意键开始练习" x=-20 y=60 z_index=0
+
+define sketchpad welcome_02_tc
+	set duration keypress
+	set description "Displays stimuli"
+	draw textline center=1 color=white font_bold=no font_family=mono font_italic=no font_size=28 html=yes show_if=always text="為了幫助您熟悉實驗程序，接下來先進行八道練習題<br/><b>每題開始字詞出現時，請您想像字詞形容的圖像</b><br/><b>圖像出現時請立即反應是否符合形容</b><br/>練習結束後會提醒您正式測驗即將開始<br/>按任意鍵即可進入正式測驗<br/><br/><br/>正式實驗結束後會出現感謝參與的提示訊息，並請記得紀錄您的<b>實驗完成碼</b><br/>關閉測驗視窗後，請記得依指示回報給實驗施測人員，確認您的參與紀錄。<br/><br/><br/><br/><br/>按任意鍵開始練習" x=-20 y=60 z_index=0
+

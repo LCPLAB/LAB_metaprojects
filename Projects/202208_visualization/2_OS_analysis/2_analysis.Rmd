@@ -68,6 +68,26 @@ length(unique(length_EX3_no_gap$PPnr))
 
 共有`r length(unique(EX3$PPnr)) `位參與者,有`r length(unique(EX3_gap$PPnr)) `位安排在實驗3a，`r length(unique(EX3_no_gap$PPnr)) `位安排在實驗3b。
 
+- Compute by-subj ata
+
+```{r}
+EX3 %>%
+#  filter(match_mismatch == "m") %>%
+  group_by(PPnr, task, conjunction_single) %>%
+  summarise(acc = mean(accuracy, na.rm=TRUE)) %>%
+left_join(
+EX3 %>%
+#  filter(match_mismatch == "m") %>%
+  filter(accuracy==1 & (reaction_time > 0.1 & reaction_time < 3)) %>%
+  group_by(PPnr, task, conjunction_single) %>%
+  summarise(RT = mean(reaction_time, na.rm=TRUE)),
+by=c("PPnr", "task", "conjunction_single")) %>%
+  pivot_wider(names_from = conjunction_single,
+              values_from = c(acc, RT)) %>%
+write_csv(file="EXP3_wide_data.csv")
+```
+
+
 - 排除非正常值
 
 ```{r duration}
@@ -96,15 +116,8 @@ RT_Dual_short <- EX3_gap %>%
   filter(conjunction_single == "conj") %>%
   filter(accuracy == "1")
 
-mean(RT_Dual_short$reaction_time,2)
+mean(RT_Dual_short$reaction_time*1000,2)
 sd(RT_Dual_short$reaction_time*1000)
-#雙特徵試驗_長提示
-RT_Dual_long <- EX3_no_gap %>%
-  group_by(conjunction_single) %>%
-  filter(conjunction_single == "conj") %>%
-  filter(accuracy == "1")
-mean(RT_Dual_long$reaction_time*1000)
-sd(RT_Dual_long$reaction_time*1000)
 #單特徵試驗_短提示
 RT_Single_short <- EX3_gap %>%
   group_by(conjunction_single) %>%
@@ -112,6 +125,13 @@ RT_Single_short <- EX3_gap %>%
   filter(accuracy == "1")
 mean(RT_Single_short$reaction_time*1000)
 sd(RT_Single_short$reaction_time*1000)
+#雙特徵試驗_長提示
+RT_Dual_long <- EX3_no_gap %>%
+  group_by(conjunction_single) %>%
+  filter(conjunction_single == "conj") %>%
+  filter(accuracy == "1")
+mean(RT_Dual_long$reaction_time*1000)
+sd(RT_Dual_long$reaction_time*1000)
 #單特徵試驗_長提示
 RT_Single_long <- EX3_no_gap %>%
   group_by(conjunction_single) %>%

@@ -1,0 +1,37 @@
+---
+title: "名詞視覺化專案進行紀錄"
+description: |
+  專案進行事紀.
+author:
+  - name: 陳紹慶 
+    url: https://scchen.com
+    affiliation: 慈濟大學
+    affiliation_url: https://.tcu.edu.tw
+date: "`r Sys.Date()`"
+bibliography: "Mental Simulation Color.bib"
+output: distill::distill_article
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+- 2022 July~August
+
+> 與陳冠文同學探討 @bocanegraLanguageConcatenatesPerceptual2022 的視覺化實驗。
+
+- 2022 Septempter ~ Octobor
+
+> 與陳冠文同學透過[Prolific](https://www.prolific.co/)徵求中文母語者，進行 @bocanegraLanguageConcatenatesPerceptual2022 的實驗二與實驗三中文化小型測試。
+
+- 2022 November
+
+> 檢討測試結果，發現原實驗二的simultaneous presentation有benefit的傾向，原實驗三long cue並未看到benefit。
+
+- 2022 December
+
+> 與陳冠文同學一起設計實驗二與三合併版，找台灣地區華語參與者進行較完整的測試，確認中文實驗出現雙特徵效益的條件不同於英文實驗。
+
+
+
+

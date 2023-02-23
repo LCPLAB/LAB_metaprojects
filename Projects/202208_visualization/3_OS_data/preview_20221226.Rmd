@@ -1,0 +1,73 @@
+---
+title: "Preview demo test"
+author: "Sau-Chin Chen"
+date: "2023-1-10"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+```
+
+
+- This pilot followed Bocanegra et al.(2022) EXP 2 and 3. 
+- The participants were assumed the Taiwan residents.
+
+## Script description
+
+- Short = whole word on `cue_board`; blank on `interval_board`.
+- Long 1 = whole word on `cue_board`; whole word on `interval_board`.
+- Long 2 = component 1 on `cue_board`; component 2 on `interval_board`.
+
+> whole word: "紅色方塊"
+> component: "紅色","方塊“
+
+## Data preview
+
+```{r}
+## Import data file. Use OsWEB transfer json to csv.
+df <- read_csv(file="jatos_results_20230110070512.csv")  # pilot data 20230103
+#df <- read_csv(file="jatos_results_20221226013035.csv")  # pilot data 20221226
+#df <- read_csv(file="jatos_results_20221017061639.csv")  # pilot data 20221003
+#df <- read_csv(file="jatos_results_20220926070123.csv") # pilot data 20220919
+
+# Retreive the available complete codes
+df %>% select(identifier) %>% unique() %>% write_csv(file = "complete_code_20230110.csv")
+
+## Blocks in a session
+### consent_tc, Lang_Test, Prac, Exp, Post_tc
+
+## Retrieve the response to consent form
+consent_response <- df %>% select(Block, identifier, response)  %>% filter(Block == "consent_tc")
+
+## Retrieve the responses of Language test; compute by-participant accuracy percentage
+test_result <- df %>% select(Block, identifier, response, correct)  %>% filter(Block == "Lang_Test") %>% group_by(identifier) %>% summarise(Accuracy = 100*mean(correct))
+
+
+## Retrieve the responses of experimental session
+#df %>% filter(Block == "Prac") %>%
+#   bind_cols(sequence = rep(1:40,10)) %>%
+#   filter(sequence %in%(9:40)) %>%
+df %>% filter(Block == "Exp") %>%
+  group_by(jatosStudyResultId, Presentation_style, Trial_type) %>%
+  summarise(Trial_N = n(), Acc = 100*mean(correct)) %>%
+left_join(
+#df %>% filter(Block == "Prac") %>%
+#   bind_cols(sequence = rep(1:40,10)) %>%
+#   filter(sequence %in%(9:40)) %>%
+df %>% filter(Block == "Exp") %>%
+  filter(correct == 1) %>%
+  group_by(jatosStudyResultId, Presentation_style, Trial_type) %>%
+  summarise(RT = mean(response_time)),
+by = c("jatosStudyResultId","Presentation_style","Trial_type")
+) %>%
+  group_by(Presentation_style, Trial_type) %>%
+  summarise(N= n(), mRT = mean(RT), sdRT = sd(RT), Accuracy = mean(Acc))
+
+#  summarise(n = n())
+```
+
+`r knitr::kable(consent_response)`
+
+`r knitr::kable(test_result)`
