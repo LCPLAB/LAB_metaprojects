@@ -1,15 +1,11 @@
 ---
 API: 2.1
-OpenSesame: 3.3.12
+OpenSesame: 3.3.14
 Platform: nt
 ---
 set width 1024
 set uniform_coordinates yes
-<<<<<<< HEAD
 set title "New experiment"
-=======
-set title "Visualization task Chinese version"
->>>>>>> 5e5fa73 (stack visualiztion task)
 set subject_parity even
 set subject_nr 0
 set start experiment
@@ -30,11 +26,7 @@ set font_size 18
 set font_italic no
 set font_family mono
 set font_bold no
-<<<<<<< HEAD
-set experiment_path "D:\\core\\research\\projects\\Meta_Replication\\Projects\\202208_visualization"
-=======
 set experiment_path "D:\\core\\Research\\projects\\Meta_Replication\\Projects\\202208_visualization\\1_OS_script"
->>>>>>> 5e5fa73 (stack visualiztion task)
 set disable_garbage_collection yes
 set description "The main experiment item"
 set coordinates uniform
@@ -88,17 +80,9 @@ define sequence EXP_gap_sc
 define sequence EXP_gap_tc
 	set flush_keyboard yes
 	set description "Runs a number of items in sequence"
-<<<<<<< HEAD
 	run Prac_short_tc "[p_gap_tc]==0"
 	run Prac_long1_tc "[p_gap_tc]==1"
 	run Prac_long2_tc "[p_gap_tc]==2"
-	run loop_setup always
-=======
-	run note_exp always
-	run Prac_short_tc "[p_gap_tc]==0"
-	run Prac_long1_tc "[p_gap_tc]==1"
-	run Prac_long2_tc "[p_gap_tc]==2"
->>>>>>> 5e5fa73 (stack visualiztion task)
 	run EXP_Instruction_tc always
 	run EXP_short_tc "[e_gap_tc]==0"
 	run EXP_long1_tc "[e_gap_tc]==1"
@@ -586,6 +570,17 @@ define loop EXP_long_sc
 	setcycle 15 Block Exp
 	run EXP_seq_sc
 
+define notepad EXP_loop_setup
+	__note__
+	- 指導語(welcome_01, welcome_02)要提示如何進行反應。
+	- 每次實驗只執行一個prac loop與一個EXP loop: short,long1,或long2
+	- 每個loop的"target_shape”內square與diamond長寬要一致
+	
+	
+	- 結束時要給「完成代碼」；生成的JS程式碼與最後呈現畫面參考教學網頁 -> "完成代碼產生器" https://scgeeker.github.io/Online_EXP/OS_script.html
+	__end__
+	set description "A simple notepad to document your experiment. This plug-in does nothing."
+
 define loop EXP_sc
 	set source table
 	set repeat 0.5
@@ -613,9 +608,16 @@ define sequence EXP_seq_sc
 	run decision_response_wrong_sc "[correct]=0"
 	run logger always
 
+define notepad EXP_seq_setup
+	__note__
+	- EXP_sequence最後必須有logger
+	__end__
+	set description "A simple notepad to document your experiment. This plug-in does nothing."
+
 define sequence EXP_seq_tc
 	set flush_keyboard yes
 	set description "Runs a number of items in sequence"
+	run EXP_seq_setup always
 	run fixation_tc always
 	run cue_tc always
 	run interval_tc always
@@ -989,9 +991,16 @@ define sequence Post_seq_sc
 	run new_feedback_sc always
 	run logger always
 
+define notepad Post_seq_setup
+	__note__
+	- gender_seq, birth_seq最後必須有logger
+	__end__
+	set description "A simple notepad to document your experiment. This plug-in does nothing."
+
 define sequence Post_seq_tc
 	set flush_keyboard yes
 	set description "Runs a number of items in sequence"
+	run Post_seq_setup always
 	run Post_Info always
 	run constants always
 	run gender_loop always
@@ -1847,12 +1856,9 @@ define sketchpad Survey_board_tc
 define sequence TC
 	set flush_keyboard yes
 	set description "Runs a number of items in sequence"
-<<<<<<< HEAD
-=======
-	run note_TC always
->>>>>>> 5e5fa73 (stack visualiztion task)
 	run welcome_01_tc always
 	run welcome_02_tc always
+	run EXP_loop_setup always
 	run EXP_tc always
 	run Post_seq_tc always
 	run EXP_end_tc always
@@ -1985,13 +1991,17 @@ define sequence consent_seq_sc
 	run agree_response_sc always
 	run logger always
 
+define notepad consent_seq_setup
+	__note__
+	- 依知情同意書長度設定sketchpad數目
+	- consent_seq最後必須有logger
+	__end__
+	set description "A simple notepad to document your experiment. This plug-in does nothing."
+
 define sequence consent_seq_tc
 	set flush_keyboard yes
 	set description "Runs a number of items in sequence"
-<<<<<<< HEAD
-=======
-	run note_consent always
->>>>>>> 5e5fa73 (stack visualiztion task)
+	run consent_seq_setup always
 	run consent_p1_tc always
 	run consent_response_tc always
 	run consent_p2_tc always
@@ -2058,23 +2068,16 @@ define sketchpad decision_response_wrong_tc
 define sequence experiment
 	set flush_keyboard yes
 	set description "Runs a number of items in sequence"
-<<<<<<< HEAD
-=======
-	run note_overview always
->>>>>>> 5e5fa73 (stack visualiztion task)
 	run begin never
 	run begin_response never
 	run consent_tc always
-	run initilization always
+	run identifier_generator always
+	run identifier_generator_setup always
 	run Lang_Ins always
 	run lang_test always
 	run lang_end always
 	run TC always
 	run SC never
-<<<<<<< HEAD
-	run new_notepad always
-=======
->>>>>>> 5e5fa73 (stack visualiztion task)
 
 define sketchpad fixation_sc
 	set duration 500
@@ -2113,13 +2116,19 @@ define sequence gender_seq
 	run process_gender_code_input always
 	run logger always
 
-define inline_javascript initilization
+define inline_javascript identifier_generator
 	set description "Executes JavaScript code"
 	set _run ""
 	___prepare__
 	// Generate the identifier for the participant
 	vars.identifier = Math.random().toString(36).substr(2, 9);
 	__end__
+
+define notepad identifier_generator_setup
+	__note__
+	- 結束時要給「完成代碼」；生成的JS程式碼與最後呈現畫面參考教學網頁 -> "完成代碼產生器" https://scgeeker.github.io/Online_EXP/OS_script.html
+	__end__
+	set description "A simple notepad to document your experiment. This plug-in does nothing."
 
 define sketchpad interval_sc
 	set duration 2000
@@ -2433,10 +2442,7 @@ define loop lang_test
 define sequence lang_test_sequence
 	set flush_keyboard yes
 	set description "Runs a number of items in sequence"
-<<<<<<< HEAD
-=======
-	run note_lang_test always
->>>>>>> 5e5fa73 (stack visualiztion task)
+	run lang_test_setup always
 	run test_board always
 	run test_response_1 "[Option1]=[Response_Option]"
 	run test_response_2 "[Option2]=[Response_Option]"
@@ -2445,6 +2451,18 @@ define sequence lang_test_sequence
 	run test_feedback_correct "[correct]=1"
 	run test_feedback_wrong "[correct]=0"
 	run logger always
+
+define notepad lang_test_setup
+	__note__
+	- 指導語(Lang_ins)要提示如何答題。
+	- 題目存放在loop "lang_test"
+	- 在loop "lang_test"的Script界面倒數第二行設定選項隨機
+	
+	> shuffle_horiz Option1 Option2 Option3 Option4
+	
+	- lang_test_sequence最後必須有logger
+	__end__
+	set description "A simple notepad to document your experiment. This plug-in does nothing."
 
 define logger logger
 	set description "Logs experimental data"
@@ -2466,55 +2484,16 @@ define logger logger
 	log Topic
 	log count_EXP_seq_tc
 
-<<<<<<< HEAD
-define notepad loop_setup
-	__note__
-	- 指導語要提示如何進行反應。
-	- 每次實驗只執行 short,long1,或long2
-=======
 define notepad loop_setup_sc
 	__note__
 	- 指導語要提示如何進行反應。
 	- 每次實驗只執行 short或long
->>>>>>> 5e5fa73 (stack visualiztion task)
 	- target_shape的square與diamond長寬要一致
 	- sequence最後要有logger
 	- 結束時要給「完成代碼」；生成的JS程式碼與最後呈現畫面參考上學期示範範腳本
 	__end__
 	set description "A simple notepad to document your experiment. This plug-in does nothing."
 
-<<<<<<< HEAD
-define notepad loop_setup_sc
-	__note__
-	- 指導語要提示如何進行反應。
-	- 每次實驗只執行 short或long
-=======
-define feedback new_feedback_sc
-	set reset_variables yes
-	set duration 750
-	set description "Provides feedback to the participant"
-	draw textline center=1 color=white font_bold=no font_family=mono font_italic=no font_size=18 html=yes show_if=always text="您刚才输入的是：[response]" x=0 y=-96 z_index=0
-
-define notepad note_TC
-	set note "說明"
-	set description "A simple notepad to document your experiment. This plug-in does nothing."
-
-define notepad note_consent
-	set note "說明"
-	set description "A simple notepad to document your experiment. This plug-in does nothing."
-
-define notepad note_exp
-	__note__
-	- 指導語要提示如何進行反應。
-	- 每次實驗只執行 short,long1,或long2
->>>>>>> 5e5fa73 (stack visualiztion task)
-	- target_shape的square與diamond長寬要一致
-	- sequence最後要有logger
-	- 結束時要給「完成代碼」；生成的JS程式碼與最後呈現畫面參考上學期示範範腳本
-	__end__
-	set description "A simple notepad to document your experiment. This plug-in does nothing."
-
-<<<<<<< HEAD
 define feedback new_feedback_sc
 	set reset_variables yes
 	set duration 750
@@ -2522,13 +2501,6 @@ define feedback new_feedback_sc
 	draw textline center=1 color=white font_bold=no font_family=mono font_italic=no font_size=18 html=yes show_if=always text="您刚才输入的是：[response]" x=0 y=-96 z_index=0
 
 define notepad new_notepad
-=======
-define notepad note_lang_test
-	set note "說明"
-	set description "A simple notepad to document your experiment. This plug-in does nothing."
-
-define notepad note_overview
->>>>>>> 5e5fa73 (stack visualiztion task)
 	__note__
 	seq----繁體與簡體版(額外製作簡體版)
 	提供受試者兩種版本選擇
