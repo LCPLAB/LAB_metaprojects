@@ -5,7 +5,11 @@ Platform: nt
 ---
 set width 1024
 set uniform_coordinates yes
+<<<<<<< HEAD
 set title "New experiment"
+=======
+set title "Visualization task Chinese version"
+>>>>>>> 5e5fa73 (stack visualiztion task)
 set subject_parity even
 set subject_nr 0
 set start experiment
@@ -26,7 +30,11 @@ set font_size 18
 set font_italic no
 set font_family mono
 set font_bold no
+<<<<<<< HEAD
 set experiment_path "D:\\core\\research\\projects\\Meta_Replication\\Projects\\202208_visualization"
+=======
+set experiment_path "D:\\core\\Research\\projects\\Meta_Replication\\Projects\\202208_visualization\\1_OS_script"
+>>>>>>> 5e5fa73 (stack visualiztion task)
 set disable_garbage_collection yes
 set description "The main experiment item"
 set coordinates uniform
@@ -80,10 +88,17 @@ define sequence EXP_gap_sc
 define sequence EXP_gap_tc
 	set flush_keyboard yes
 	set description "Runs a number of items in sequence"
+<<<<<<< HEAD
 	run Prac_short_tc "[p_gap_tc]==0"
 	run Prac_long1_tc "[p_gap_tc]==1"
 	run Prac_long2_tc "[p_gap_tc]==2"
 	run loop_setup always
+=======
+	run note_exp always
+	run Prac_short_tc "[p_gap_tc]==0"
+	run Prac_long1_tc "[p_gap_tc]==1"
+	run Prac_long2_tc "[p_gap_tc]==2"
+>>>>>>> 5e5fa73 (stack visualiztion task)
 	run EXP_Instruction_tc always
 	run EXP_short_tc "[e_gap_tc]==0"
 	run EXP_long1_tc "[e_gap_tc]==1"
@@ -1832,6 +1847,10 @@ define sketchpad Survey_board_tc
 define sequence TC
 	set flush_keyboard yes
 	set description "Runs a number of items in sequence"
+<<<<<<< HEAD
+=======
+	run note_TC always
+>>>>>>> 5e5fa73 (stack visualiztion task)
 	run welcome_01_tc always
 	run welcome_02_tc always
 	run EXP_tc always
@@ -1969,6 +1988,10 @@ define sequence consent_seq_sc
 define sequence consent_seq_tc
 	set flush_keyboard yes
 	set description "Runs a number of items in sequence"
+<<<<<<< HEAD
+=======
+	run note_consent always
+>>>>>>> 5e5fa73 (stack visualiztion task)
 	run consent_p1_tc always
 	run consent_response_tc always
 	run consent_p2_tc always
@@ -2035,6 +2058,10 @@ define sketchpad decision_response_wrong_tc
 define sequence experiment
 	set flush_keyboard yes
 	set description "Runs a number of items in sequence"
+<<<<<<< HEAD
+=======
+	run note_overview always
+>>>>>>> 5e5fa73 (stack visualiztion task)
 	run begin never
 	run begin_response never
 	run consent_tc always
@@ -2044,7 +2071,10 @@ define sequence experiment
 	run lang_end always
 	run TC always
 	run SC never
+<<<<<<< HEAD
 	run new_notepad always
+=======
+>>>>>>> 5e5fa73 (stack visualiztion task)
 
 define sketchpad fixation_sc
 	set duration 500
@@ -2403,6 +2433,10 @@ define loop lang_test
 define sequence lang_test_sequence
 	set flush_keyboard yes
 	set description "Runs a number of items in sequence"
+<<<<<<< HEAD
+=======
+	run note_lang_test always
+>>>>>>> 5e5fa73 (stack visualiztion task)
 	run test_board always
 	run test_response_1 "[Option1]=[Response_Option]"
 	run test_response_2 "[Option2]=[Response_Option]"
@@ -2432,26 +2466,55 @@ define logger logger
 	log Topic
 	log count_EXP_seq_tc
 
+<<<<<<< HEAD
 define notepad loop_setup
 	__note__
 	- 指導語要提示如何進行反應。
 	- 每次實驗只執行 short,long1,或long2
-	- target_shape的square與diamond長寬要一致
-	- sequence最後要有logger
-	- 結束時要給「完成代碼」；生成的JS程式碼與最後呈現畫面參考上學期示範範腳本
-	__end__
-	set description "A simple notepad to document your experiment. This plug-in does nothing."
-
+=======
 define notepad loop_setup_sc
 	__note__
 	- 指導語要提示如何進行反應。
 	- 每次實驗只執行 short或long
+>>>>>>> 5e5fa73 (stack visualiztion task)
 	- target_shape的square與diamond長寬要一致
 	- sequence最後要有logger
 	- 結束時要給「完成代碼」；生成的JS程式碼與最後呈現畫面參考上學期示範範腳本
 	__end__
 	set description "A simple notepad to document your experiment. This plug-in does nothing."
 
+<<<<<<< HEAD
+define notepad loop_setup_sc
+	__note__
+	- 指導語要提示如何進行反應。
+	- 每次實驗只執行 short或long
+=======
+define feedback new_feedback_sc
+	set reset_variables yes
+	set duration 750
+	set description "Provides feedback to the participant"
+	draw textline center=1 color=white font_bold=no font_family=mono font_italic=no font_size=18 html=yes show_if=always text="您刚才输入的是：[response]" x=0 y=-96 z_index=0
+
+define notepad note_TC
+	set note "說明"
+	set description "A simple notepad to document your experiment. This plug-in does nothing."
+
+define notepad note_consent
+	set note "說明"
+	set description "A simple notepad to document your experiment. This plug-in does nothing."
+
+define notepad note_exp
+	__note__
+	- 指導語要提示如何進行反應。
+	- 每次實驗只執行 short,long1,或long2
+>>>>>>> 5e5fa73 (stack visualiztion task)
+	- target_shape的square與diamond長寬要一致
+	- sequence最後要有logger
+	- 結束時要給「完成代碼」；生成的JS程式碼與最後呈現畫面參考上學期示範範腳本
+	__end__
+	set description "A simple notepad to document your experiment. This plug-in does nothing."
+
+<<<<<<< HEAD
 define feedback new_feedback_sc
 	set reset_variables yes
 	set duration 750
@@ -2459,6 +2522,13 @@ define feedback new_feedback_sc
 	draw textline center=1 color=white font_bold=no font_family=mono font_italic=no font_size=18 html=yes show_if=always text="您刚才输入的是：[response]" x=0 y=-96 z_index=0
 
 define notepad new_notepad
+=======
+define notepad note_lang_test
+	set note "說明"
+	set description "A simple notepad to document your experiment. This plug-in does nothing."
+
+define notepad note_overview
+>>>>>>> 5e5fa73 (stack visualiztion task)
 	__note__
 	seq----繁體與簡體版(額外製作簡體版)
 	提供受試者兩種版本選擇
