@@ -5,7 +5,7 @@ Platform: nt
 ---
 set width 1024
 set uniform_coordinates yes
-set title "Visualization task"
+set title "New experiment"
 set subject_parity even
 set subject_nr 0
 set start experiment
@@ -13,10 +13,10 @@ set sound_sample_size -16
 set sound_freq 48000
 set sound_channels 2
 set sound_buf_size 1024
-set sampler_backend legacy
+set sampler_backend psycho
 set round_decimals 2
-set mouse_backend legacy
-set keyboard_backend legacy
+set mouse_backend psycho
+set keyboard_backend psycho
 set height 768
 set fullscreen no
 set form_clicks no
@@ -31,9 +31,9 @@ set disable_garbage_collection yes
 set description "The main experiment item"
 set coordinates uniform
 set compensation 0
-set color_backend legacy
-set clock_backend legacy
-set canvas_backend legacy
+set color_backend psycho
+set clock_backend psycho
+set canvas_backend psycho
 set background "#000000"
 
 define sketchpad EXP_Instruction_sc
@@ -41,10 +41,11 @@ define sketchpad EXP_Instruction_sc
 	set description "Displays stimuli"
 	draw textline center=1 color=white font_bold=no font_family=mono font_italic=no font_size=28 html=yes show_if=always text="练习结束，即将进入正式实验<br/><br/>请记得：<b>每题开始字词出现时，请您想像字词形容的图像</b><br/><b>图像出现时请立即反应是否符合形容</b><br/><br/><br/>请您保持专注，完成实验<br/><br/><br/>按任意键进入正式实验" x=0 y=90 z_index=0
 
-define sketchpad EXP_Instruction_tc
+define feedback EXP_Instruction_tc
+	set reset_variables yes
 	set duration keypress
-	set description "Displays stimuli"
-	draw textline center=1 color=white font_bold=no font_family=mono font_italic=no font_size=28 html=yes show_if=always text="練習結束，即將進入正式實驗<br/><br/>請記得：<b>每題開始字詞出現時，請您想像字詞形容的圖像</b><br/><b>圖像出現時請立即反應是否符合形容</b><br/><br/><br/>請您保持專注，依指示完成實驗<br/><br/><br/>按任意鍵進入正式實驗" x=0 y=90 z_index=0
+	set description "Provides feedback to the participant"
+	draw textline center=1 color=white font_bold=no font_family=mono font_italic=no font_size=28 html=yes show_if=always text="練習結束，你的正確率是[acc]%，接著進入正式實驗<br/><br/>請記得：<b>每題開始字詞出現時，請您想像字詞形容的圖像</b><br/><b>圖像出現時請立即反應是否符合形容</b><br/><br/><br/>請您保持專注，依指示完成實驗<br/><br/><br/>按任意鍵進入正式實驗" x=0 y=-30 z_index=0
 
 define sketchpad EXP_complete_sc
 	set duration keypress
@@ -83,7 +84,9 @@ define sequence EXP_gap_tc
 	run Prac_short_tc "[p_gap_tc]==0"
 	run Prac_long1_tc "[p_gap_tc]==1"
 	run Prac_long2_tc "[p_gap_tc]==2"
+	run loop_setup always
 	run EXP_Instruction_tc always
+	run response_reset_2 always
 	run EXP_short_tc "[e_gap_tc]==0"
 	run EXP_long1_tc "[e_gap_tc]==1"
 	run EXP_long2_tc "[e_gap_tc]==2"
@@ -570,17 +573,6 @@ define loop EXP_long_sc
 	setcycle 15 Block Exp
 	run EXP_seq_sc
 
-define notepad EXP_loop_setup
-	__note__
-	- 指導語(welcome_01, welcome_02)要提示如何進行反應。
-	- 每次實驗只執行一個prac loop與一個EXP loop: short,long1,或long2
-	- 每個loop的"target_shape”內square與diamond長寬要一致
-	
-	
-	- 結束時要給「完成代碼」；生成的JS程式碼與最後呈現畫面參考教學網頁 -> "完成代碼產生器" https://scgeeker.github.io/Online_EXP/OS_script.html
-	__end__
-	set description "A simple notepad to document your experiment. This plug-in does nothing."
-
 define loop EXP_sc
 	set source table
 	set repeat 0.5
@@ -608,12 +600,6 @@ define sequence EXP_seq_sc
 	run decision_response_wrong_sc "[correct]=0"
 	run logger always
 
-define notepad EXP_seq_setup
-	__note__
-	- EXP_sequence最後必須有logger
-	__end__
-	set description "A simple notepad to document your experiment. This plug-in does nothing."
-
 define sequence EXP_seq_tc
 	set flush_keyboard yes
 	set description "Runs a number of items in sequence"
@@ -624,7 +610,6 @@ define sequence EXP_seq_tc
 	run response_ans_tc always
 	run decision_response_correct_tc "[correct]=1"
 	run decision_response_wrong_tc "[correct]=0"
-	run EXP_seq_setup always
 	run logger always
 
 define loop EXP_short_sc
@@ -961,7 +946,7 @@ define loop EXP_tc
 	set cycles 3
 	set continuous no
 	set break_if_on_first yes
-	set break_if "[count_EXP_tc]=1"
+	set break_if "[count_EXP_gap]=1"
 	setcycle 0 p_gap_tc 0
 	setcycle 0 e_gap_tc 0
 	setcycle 1 p_gap_tc 1
@@ -974,7 +959,7 @@ define sketchpad Lang_Ins
 	set duration keypress
 	set description "Displays stimuli"
 	draw textline center=1 color=white font_bold=no font_family=serif font_italic=no font_size=32 html=yes show_if=always text="中文詞彙知識測驗" x=0 y=-288 z_index=0
-	draw textline center=0 color=white font_bold=no font_family=mono font_italic=no font_size=28 html=yes show_if=always text="接下來是本次實驗的第一部分，目的是想了解你的中文詞彙知識水準。<br/>這項測驗有40題單選題，都是詢問那一個選項是構成句子的正確詞彙<br/>答題時間沒有限制，您可以想清楚再選擇答案。<br/><br/>每次完成答題您都會得知是否正確，測驗分數將會做為資料分析使用<br/>，請您盡量以個人所知作答。<br/><br/><br/>" x=-428 y=-151 z_index=0
+	draw textline center=0 color=white font_bold=no font_family=mono font_italic=no font_size=28 html=yes show_if=always text="接下來是本次實驗的第一部分，目的是想了解你的中文詞彙知識水準。<br/>這項測驗有40題單選題，請判斷哪一個選項是構成句子的正確詞彙<br/>答題時間沒有限制，您可以想清楚再選擇答案。<br/><br/>每次完成答題您都會得知是否正確，測驗分數將會做為資料分析使用<br/>，請您盡量以個人所知作答。<br/><br/><br/>" x=-428 y=-151 z_index=0
 	draw textline center=1 color=white font_bold=no font_family=mono font_italic=no font_size=28 html=yes show_if=always text="按任意鍵繼續" x=0 y=192 z_index=0
 
 define sketchpad Post_Info
@@ -991,12 +976,6 @@ define sequence Post_seq_sc
 	run new_feedback_sc always
 	run logger always
 
-define notepad Post_seq_setup
-	__note__
-	- gender_seq, birth_seq最後必須有logger
-	__end__
-	set description "A simple notepad to document your experiment. This plug-in does nothing."
-
 define sequence Post_seq_tc
 	set flush_keyboard yes
 	set description "Runs a number of items in sequence"
@@ -1005,7 +984,6 @@ define sequence Post_seq_tc
 	run gender_loop always
 	run constants always
 	run birth_loop always
-	run Post_seq_setup always
 
 define loop Post_survey_sc
 	set source table
@@ -1858,9 +1836,9 @@ define sequence TC
 	set description "Runs a number of items in sequence"
 	run welcome_01_tc always
 	run welcome_02_tc always
-	run EXP_loop_setup always
-	run EXP_tc never
-	run Post_seq_tc never
+	run response_reset_1 always
+	run EXP_tc always
+	run Post_seq_tc always
 	run EXP_end_tc always
 
 define keyboard_response agree_response_sc
@@ -1902,7 +1880,7 @@ define loop birth_loop
 	set cycles 1
 	set continuous no
 	set break_if_on_first yes
-	set break_if "[response] = ENTER"
+	set break_if "[response] = enter"
 	setcycle 0 Question "請輸入您的出生西元年4位數字<br /><br />例如: 出生年月日是 2000/1/1<br /><br />請輸入: 2000"
 	setcycle 0 Options "註: 如果您不想回答, 請輸入 \"0\"."
 	setcycle 0 Block Post_tc
@@ -1991,17 +1969,9 @@ define sequence consent_seq_sc
 	run agree_response_sc always
 	run logger always
 
-define notepad consent_seq_setup
-	__note__
-	- 依知情同意書長度設定sketchpad數目
-	- consent_seq最後必須有logger
-	__end__
-	set description "A simple notepad to document your experiment. This plug-in does nothing."
-
 define sequence consent_seq_tc
 	set flush_keyboard yes
 	set description "Runs a number of items in sequence"
-	run consent_seq_setup always
 	run consent_p1_tc always
 	run consent_response_tc always
 	run consent_p2_tc always
@@ -2071,13 +2041,14 @@ define sequence experiment
 	run begin never
 	run begin_response never
 	run consent_tc always
-	run identifier_generator always
-	run identifier_generator_setup always
+	run initilization always
+	run response_reset_0 always
 	run Lang_Ins always
 	run lang_test never
-	run lang_end always
+	run lang_end never
 	run TC always
 	run SC never
+	run new_notepad always
 
 define sketchpad fixation_sc
 	set duration 500
@@ -2097,7 +2068,7 @@ define loop gender_loop
 	set cycles 1
 	set continuous no
 	set break_if_on_first yes
-	set break_if "[response] = ENTER"
+	set break_if "[response] = enter"
 	setcycle 0 Question "請問您的性別？<br/>輸入對應選項的號碼表達您的回答"
 	setcycle 0 Options "1: 女性 2:男性 3:跨性別 4:非二元性別 0:不願作答"
 	setcycle 0 Block Post_tc
@@ -2112,19 +2083,13 @@ define sequence gender_seq
 	run process_gender_code_input always
 	run logger always
 
-define inline_javascript identifier_generator
+define inline_javascript initilization
 	set description "Executes JavaScript code"
 	set _run ""
 	___prepare__
 	// Generate the identifier for the participant
 	vars.identifier = Math.random().toString(36).substr(2, 9);
 	__end__
-
-define notepad identifier_generator_setup
-	__note__
-	- 結束時要給「完成代碼」；生成的JS程式碼與最後呈現畫面參考教學網頁 -> "完成代碼產生器" https://scgeeker.github.io/Online_EXP/OS_script.html
-	__end__
-	set description "A simple notepad to document your experiment. This plug-in does nothing."
 
 define sketchpad interval_sc
 	set duration 2000
@@ -2446,20 +2411,7 @@ define sequence lang_test_sequence
 	run test_response_4 "[Option4]=[Response_Option]"
 	run test_feedback_correct "[correct]=1"
 	run test_feedback_wrong "[correct]=0"
-	run lang_test_setup always
 	run logger always
-
-define notepad lang_test_setup
-	__note__
-	- 指導語(Lang_ins)要提示如何答題。
-	- 題目存放在loop "lang_test"
-	- 在loop "lang_test"的Script界面倒數第二行設定選項隨機
-	
-	> shuffle_horiz Option1 Option2 Option3 Option4
-	
-	- lang_test_sequence最後必須有logger
-	__end__
-	set description "A simple notepad to document your experiment. This plug-in does nothing."
 
 define logger logger
 	set description "Logs experimental data"
@@ -2481,6 +2433,16 @@ define logger logger
 	log Topic
 	log count_EXP_seq_tc
 
+define notepad loop_setup
+	__note__
+	- 指導語要提示如何進行反應。
+	- 每次實驗只執行 short,long1,或long2
+	- target_shape的square與diamond長寬要一致
+	- sequence最後要有logger
+	- 結束時要給「完成代碼」；生成的JS程式碼與最後呈現畫面參考上學期示範範腳本
+	__end__
+	set description "A simple notepad to document your experiment. This plug-in does nothing."
+
 define notepad loop_setup_sc
 	__note__
 	- 指導語要提示如何進行反應。
@@ -2496,6 +2458,15 @@ define feedback new_feedback_sc
 	set duration 750
 	set description "Provides feedback to the participant"
 	draw textline center=1 color=white font_bold=no font_family=mono font_italic=no font_size=18 html=yes show_if=always text="您刚才输入的是：[response]" x=0 y=-96 z_index=0
+
+define notepad new_notepad
+	__note__
+	seq----繁體與簡體版(額外製作簡體版)
+	提供受試者兩種版本選擇
+	再用一個大seq裡面包含繁體與簡體版
+	尋找實體物件(有可明顯比較之特徵)
+	__end__
+	set description "A simple notepad to document your experiment. This plug-in does nothing."
 
 define inline_javascript process_birth_year_input
 	set description "Executes JavaScript code"
@@ -2536,6 +2507,15 @@ define keyboard_response response_ans_tc
 	set duration keypress
 	set description "Collects keyboard responses"
 	set allowed_responses "z;m"
+
+define reset_feedback response_reset_0
+	set description "Resets the feedback variables, such as 'avg_rt' and 'acc'"
+
+define reset_feedback response_reset_1
+	set description "Resets the feedback variables, such as 'avg_rt' and 'acc'"
+
+define reset_feedback response_reset_2
+	set description "Resets the feedback variables, such as 'avg_rt' and 'acc'"
 
 define sketchpad show_birthyear_survey
 	set duration 0
@@ -2580,10 +2560,10 @@ define sketchpad test_board
 	set duration 0
 	set description "Displays stimuli"
 	draw textline center=1 color="#ffffff" font_bold=no font_family="chinese-japanese-korean" font_italic=no font_size=24 html=yes show_if=always text="[Question]" x=0 y=-192 z_index=0
-	draw textline center=1 color="#ffffff" font_bold=no font_family="chinese-japanese-korean" font_italic=no font_size=24 html=yes show_if=always text="1.[Option1]" x=0 y=-24 z_index=0
+	draw textline center=1 color="#ffffff" font_bold=no font_family="chinese-japanese-korean" font_italic=no font_size=24 html=yes show_if=always text="1.[Option1]" x=0 y=-48 z_index=0
 	draw textline center=1 color="#ffffff" font_bold=no font_family="chinese-japanese-korean" font_italic=no font_size=24 html=yes show_if=always text="2.[Option2]" x=0 y=0 z_index=0
-	draw textline center=1 color="#ffffff" font_bold=no font_family="chinese-japanese-korean" font_italic=no font_size=24 html=yes show_if=always text="3.[Option3]" x=0 y=24 z_index=0
-	draw textline center=1 color="#ffffff" font_bold=no font_family="chinese-japanese-korean" font_italic=no font_size=24 html=yes show_if=always text="4.[Option4]" x=0 y=48 z_index=0
+	draw textline center=1 color="#ffffff" font_bold=no font_family="chinese-japanese-korean" font_italic=no font_size=24 html=yes show_if=always text="3.[Option3]" x=0 y=48 z_index=0
+	draw textline center=1 color="#ffffff" font_bold=no font_family="chinese-japanese-korean" font_italic=no font_size=24 html=yes show_if=always text="4.[Option4]" x=0 y=96 z_index=0
 	draw textline center=1 color="#ffff00" font_bold=no font_family=mono font_italic=no font_size=18 html=yes show_if=always text="請按鍵盤上方數字鍵作答。" x=0 y=192 z_index=0
 
 define sketchpad test_feedback_correct
@@ -2657,18 +2637,27 @@ define sketchpad welcome_01_tc
 	set duration keypress
 	set description "Displays stimuli"
 	draw textline center=1 color=white font_bold=no font_family=serif font_italic=no font_size=32 html=yes show_if=always text="圖像視覺化測驗" x=0 y=-288 z_index=0
-	draw textline center=0 color=white font_bold=no font_family=serif font_italic=no font_size=18 html=yes show_if=always text="這是一個測試圖像視覺化的實驗，實驗過程中你會先看到一個字詞，會呈現一到三秒鐘。字詞消失後你需要判斷接著出現的<br/>圖像，圖像的特徵是否符合字詞的提示。這次實驗只有四種圖像，如以下例子裡的字詞與圖像。" x=-480 y=-224 z_index=0
+	draw textline center=0 color=white font_bold=no font_family=serif font_italic=no font_size=18 html=yes show_if=always text="這是一個測試圖像視覺化的實驗，實驗過程中你會先看到一個字詞，會呈現約三秒鐘。請在字詞呈現時，想像接下來會<br/>出現的圖像，本次實驗會出現的字詞與圖像如以下例子。" x=-480 y=-224 z_index=0
 	draw textline center=0 color=red font_bold=no font_family=serif font_italic=no font_size=30 html=yes show_if=always text="■" x=64 y=-128 z_index=0
 	draw textline center=0 color=green font_bold=no font_family=serif font_italic=no font_size=30 html=yes show_if=always text="◆" x=64 y=-64 z_index=0
-	draw textline center=0 color=green font_bold=no font_family=serif font_italic=no font_size=30 html=yes show_if=always text="■" x=64 y=32 z_index=0
-	draw textline center=0 color=red font_bold=no font_family=serif font_italic=no font_size=30 html=yes show_if=always text="◆" x=64 y=96 z_index=0
+	draw textline center=0 color=green font_bold=no font_family=serif font_italic=no font_size=30 html=yes show_if=always text="■" x=64 y=0 z_index=0
+	draw textline center=0 color=green font_bold=no font_family=serif font_italic=no font_size=30 html=yes show_if=always text="◆" x=128 y=0 z_index=0
+	draw textline center=0 color=red font_bold=no font_family=serif font_italic=no font_size=30 html=yes show_if=always text="◆" x=64 y=64 z_index=0
+	draw textline center=0 color=red font_bold=no font_family=serif font_italic=no font_size=30 html=yes show_if=always text="■" x=128 y=64 z_index=0
 	draw textline center=0 color=white font_bold=no font_family=serif font_italic=no font_size=30 html=yes show_if=always text="紅色方塊" x=-286 y=-128 z_index=0
 	draw textline center=0 color=white font_bold=no font_family=serif font_italic=no font_size=30 html=yes show_if=always text="綠色菱形" x=-288 y=-64 z_index=0
-	draw textline center=0 color=white font_bold=no font_family=serif font_italic=no font_size=30 html=yes show_if=always text="綠色" x=-288 y=32 z_index=0
-	draw textline center=0 color=white font_bold=no font_family=serif font_italic=no font_size=30 html=yes show_if=always text="紅色" x=-288 y=96 z_index=0
-	draw textline center=0 color=white font_bold=no font_family=serif font_italic=no font_size=18 html=yes show_if=always text="你看到的圖像如果至少有一個特徵符合字詞提示，請按<b>m</b>。" x=-304 y=192 z_index=0
-	draw textline center=0 color=white font_bold=no font_family=serif font_italic=no font_size=18 html=yes show_if=always text="如果圖像沒有特徵符合字詞提示，請按<b>z</b>。" x=-304 y=248 z_index=0
-	draw textline center=1 color=white font_bold=no font_family=mono font_italic=no font_size=18 html=yes show_if=always text="按任意鍵繼續" x=-10 y=321 z_index=0
+	draw textline center=0 color=white font_bold=no font_family=serif font_italic=no font_size=30 html=yes show_if=always text="綠色" x=-288 y=0 z_index=0
+	draw textline center=0 color=white font_bold=no font_family=serif font_italic=no font_size=30 html=yes show_if=always text="紅色" x=-288 y=64 z_index=0
+	draw textline center=0 color=white font_bold=no font_family=serif font_italic=no font_size=30 html=yes show_if=always text="方塊" x=-286 y=128 z_index=0
+	draw textline center=0 color=green font_bold=no font_family=serif font_italic=no font_size=30 html=yes show_if=always text="■" x=64 y=128 z_index=0
+	draw textline center=0 color=red font_bold=no font_family=serif font_italic=no font_size=30 html=yes show_if=always text="■" x=128 y=64 z_index=0
+	draw textline center=0 color=white font_bold=no font_family=serif font_italic=no font_size=30 html=yes show_if=always text="菱形" x=-288 y=176 z_index=0
+	draw textline center=0 color=red font_bold=no font_family=serif font_italic=no font_size=30 html=yes show_if=always text="■" x=128 y=128 z_index=0
+	draw textline center=0 color=red font_bold=no font_family=serif font_italic=no font_size=30 html=yes show_if=always text="◆" x=64 y=192 z_index=0
+	draw textline center=0 color=green font_bold=no font_family=serif font_italic=no font_size=30 html=yes show_if=always text="■" x=128 y=192 z_index=0
+	draw textline center=0 color=white font_bold=no font_family=serif font_italic=no font_size=18 html=yes show_if=always text="你看到的圖像如果符合你的想像，請按<b>m</b>。" x=-304 y=256 z_index=0
+	draw textline center=0 color=white font_bold=no font_family=serif font_italic=no font_size=18 html=yes show_if=always text="你看到的圖像如果不符合你的想像，請按<b>z</b>。" x=-304 y=292 z_index=0
+	draw textline center=1 color=white font_bold=no font_family=mono font_italic=no font_size=18 html=yes show_if=always text="按任意鍵繼續" x=-10 y=353 z_index=0
 
 define sketchpad welcome_02_sc
 	set duration keypress
