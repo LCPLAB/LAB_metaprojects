@@ -26,7 +26,7 @@ set font_size 18
 set font_italic no
 set font_family mono
 set font_bold no
-set experiment_path "D:\\core\\Research\\projects\\Meta_Replication\\Projects\\202208_visualization\\1_OS_script"
+set experiment_path "C:/LAB_metaprojects/Projects/202208_visualization/1_OS_script"
 set disable_garbage_collection yes
 set description "The main experiment item"
 set coordinates uniform
@@ -957,7 +957,7 @@ define loop EXP_tc
 
 define sketchpad Lang_Ins
 	set duration keypress
-	set description "Displays stimuli"
+	set description "Displays stimuli 題目設計"
 	draw textline center=1 color=white font_bold=no font_family=serif font_italic=no font_size=32 html=yes show_if=always text="中文詞彙知識測驗" x=0 y=-288 z_index=0
 	draw textline center=0 color=white font_bold=no font_family=mono font_italic=no font_size=28 html=yes show_if=always text="接下來是本次實驗的第一部分，目的是想了解你的中文詞彙知識水準。<br/>這項測驗有40題單選題，請判斷哪一個選項是構成句子的正確詞彙<br/>答題時間沒有限制，您可以想清楚再選擇答案。<br/><br/>每次完成答題您都會得知是否正確，測驗分數將會做為資料分析使用<br/>，請您盡量以個人所知作答。<br/><br/><br/>" x=-428 y=-151 z_index=0
 	draw textline center=1 color=white font_bold=no font_family=mono font_italic=no font_size=28 html=yes show_if=always text="按任意鍵繼續" x=0 y=192 z_index=0
@@ -1873,6 +1873,7 @@ define keyboard_response begin_response
 	set allowed_responses "z;m"
 
 define loop birth_loop
+	set source_file ""
 	set source table
 	set repeat 200
 	set order sequential
@@ -1979,10 +1980,11 @@ define sequence consent_seq_tc
 	run logger always
 
 define loop consent_tc
+	# order為題目循環或隨機撥放
 	set source_file ""
 	set source table
 	set repeat 1
-	set order random
+	set order sequential
 	set description "Repeatedly runs another item"
 	set cycles 1
 	set continuous no
@@ -2037,17 +2039,17 @@ define sketchpad decision_response_wrong_tc
 
 define sequence experiment
 	set flush_keyboard yes
-	set description "Runs a number of items in sequence"
+	set description "Runs a number of items in sequence 元件執行"
 	run begin never
 	run begin_response never
 	run consent_tc always
 	run initilization always
-	run response_reset_0 always
+	run response_reset_0 never
 	run Lang_Ins always
-	run lang_test never
+	run lang_test always
 	run lang_end never
 	run TC always
-	run SC never
+	run SC always
 	run new_notepad always
 
 define sketchpad fixation_sc
@@ -2061,6 +2063,7 @@ define sketchpad fixation_tc
 	draw fixdot color=white show_if=always style=default x=0 y=0 z_index=0
 
 define loop gender_loop
+	set source_file ""
 	set source table
 	set repeat 200
 	set order sequential
@@ -2084,7 +2087,7 @@ define sequence gender_seq
 	run logger always
 
 define inline_javascript initilization
-	set description "Executes JavaScript code"
+	set description "Executes JavaScript code 完成後會得到代碼"
 	set _run ""
 	___prepare__
 	// Generate the identifier for the participant
@@ -2109,6 +2112,8 @@ define feedback lang_end
 	draw textline center=1 color=white font_bold=no font_family=mono font_italic=no font_size=28 html=yes show_if=always text="按任意鍵繼續" x=0 y=192 z_index=0
 
 define loop lang_test
+	# table把內容放在loop下面，flies把內容放在外部的檔案
+	# 291水平隨機(選項)
 	set source_file ""
 	set source table
 	set repeat 1
@@ -2414,7 +2419,7 @@ define sequence lang_test_sequence
 	run logger always
 
 define logger logger
-	set description "Logs experimental data"
+	set description "Logs experimental data 紀錄的元件(最後才能執行)"
 	set auto_log no
 	log correct
 	log response_time
@@ -2581,7 +2586,7 @@ define keyboard_response test_response_1
 	set flush yes
 	set event_type keypress
 	set duration keypress
-	set description "Collects keyboard responses"
+	set description "Collects keyboard responses 按什麼鍵繼續"
 	set correct_response 1
 	set allowed_responses "1;2;3;4"
 
