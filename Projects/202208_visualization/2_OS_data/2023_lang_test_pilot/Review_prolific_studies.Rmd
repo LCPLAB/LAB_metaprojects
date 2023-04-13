@@ -1,0 +1,98 @@
+---
+title: "Review Prolific data"
+author: "Sau-Chin Chen"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+```
+
+## Load prolific meta data
+
+
+```{r EC-prolific-meta}
+EC_prolific_meta <- read_csv("EC_prolific_approved_export_641bb22edafdb9baaae4d584.csv")
+```
+
+```{r CE-prolific-meta}
+CE_prolific_meta <- read_csv("CE_prolific_approved_export_641bb2543ae0d27e600659f5.csv")
+```
+
+
+## Load jatos/mindprobe data files
+
+
+```{r EC-jatos-data}
+EC_jatos_data <- read_csv("EC_jatos_results_data_20230331223738.csv")
+```
+
+```{r CE-jatos-data}
+CE_jatos_data <- read_csv("CE_jatos_results_data_20230331224753.csv")
+```
+
+## Match the completion codes
+
+
+### EC group
+
+```{r EC-match}
+EC_checks <- EC_prolific_meta %>% select(`Participant id`,`Completion code`) %>%
+left_join(
+EC_jatos_data %>% select(prolific_participant_id,identifier) %>%
+  distinct(),
+by=(c(`Participant id` = "prolific_participant_id"))
+) %>% 
+  mutate(Match = if_else(`Completion code`==identifier,"Yes","No"))
+
+## Retrieve the approved participants' id
+#writeClipboard(EC_checks %>% filter(Match == "Yes") %>% pull(`Participant id`) )
+```
+
+`r sum(!is.na(EC_checks$Match))` participants had the completion code at the end. `r sum(EC_checks$Match == "Yes",na.rm=TRUE)` participants successfully provided their completion code.
+
+`r EC_checks%>% knitr::kable()`
+
+
+### CE group
+
+```{r CE-match}
+CE_checks <- CE_prolific_meta %>% select(`Participant id`,`Completion code`) %>%
+left_join(
+CE_jatos_data %>% select(prolific_participant_id,identifier) %>%
+  distinct(),
+by=(c(`Participant id` = "prolific_participant_id"))
+) %>% 
+  mutate(Match = if_else(`Completion code`==identifier,"Yes","No")) 
+
+## Retrieve the approved participants' id
+writeClipboard(CE_checks %>% filter(Match == "Yes") %>% pull(`Participant id`) )
+```
+
+`r sum(!is.na(CE_checks$Match))` participants had the completion code at the end. `r sum(CE_checks$Match == "Yes",na.rm=TRUE)` participants successfully provided their completion code.
+
+`r CE_checks%>% knitr::kable()`
+
+## Summarize the data tables
+
+
+### EC group
+
+```{r EC-filtered-data}
+EC_jatos_data %>% filter(prolific_participant_id %in% (subset(EC_checks,!is.na(identifier)) %>% pull(`Participant id`))) %>% 
+select("Level", "Q_id", "Question", "birth_year", "correct", "ctest_file", "date_startdate", "date_startdateUTC", "date_starttime", "gender_code", "identifier", "jatosStudyResultId", "jatosVersion", "lang_code", "prolific_participant_id", "prolific_session_id", "prolific_study_id", "response", "response_clang", "screen_availableHeight", "screen_availableWidth", "screen_colorDepth", "screen_height", "screen_pixelDepth", "screen_screenX", "screen_screenY", "screen_width", "system_os", "test_file", "test_topic") %>% 
+  write_csv(file = "EC_pilot_rawdata.csv")
+```
+
+
+
+### CE group
+
+```{r CE-filtered-data}
+CE_jatos_data %>% filter(prolific_participant_id %in% (subset(CE_checks,!is.na(identifier)) %>% pull(`Participant id`))) %>% 
+select("Level", "Q_id", "Question", "birth_year", "correct", "ctest_file", "date_startdate", "date_startdateUTC", "date_starttime", "gender_code", "identifier", "jatosStudyResultId", "jatosVersion", "lang_code", "prolific_participant_id", "prolific_session_id", "prolific_study_id", "response", "response_clang", "screen_availableHeight", "screen_availableWidth", "screen_colorDepth", "screen_height", "screen_pixelDepth", "screen_screenX", "screen_screenY", "screen_width", "system_os", "test_file", "test_topic") %>% 
+  write_csv(file = "CE_pilot_rawdata.csv")
+
+```
