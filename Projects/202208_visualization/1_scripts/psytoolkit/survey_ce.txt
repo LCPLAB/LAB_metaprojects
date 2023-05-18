@@ -1,0 +1,1573 @@
+#### This script is for native Chinese speakers and ESL participants.
+
+# LEAP-Q for Chinese - ESL bilinguals
+# This questinare will be distributed to participants after the visualization task.
+# We assume two groups of bilingual participants will have sufficient English proficiency to complete this survey.
+
+l: zh_select
+t: radio
+q: 您習慣使用的中文語系是? What is your Chinese system?
+- 简体中文 Simplified Chiense
+- 繁體中文 Traditional Chinese
+
+l: goto_LEAP_zh
+t: jump
+- if $zh_select == 2 then goto LEAP_zh_tw_init
+
+l: LEAP_zh_cn_init
+t: info
+q: 下页是基本资料调查，请按照题目说明填写。
+
+
+page: begin
+
+l: age_cn
+t: textline
+q: 请问您的年龄?
+- {min=18,max=100}
+
+l: gender_cn
+t: radio
+q: 请描述您的性别认同?
+- 男
+- 女
+- {other,size=20} 若不符合二元性别，请在此填写您的回答。
+
+
+l: dominanceL_cn
+t: rank
+q: 请按<b>主次顺序</b>排列以下你所学过或用过的语言
+- 其他语言
+- 英文
+- 中文
+
+# default L1 == 3; default L2 == 2
+
+l: acquisitionL_cn
+t: rank
+q: 请按<b>习得顺序</b>排列以下你所学过或用过的语言 （母语在先）
+- 其他语言
+- 英文
+- 中文
+
+# default L1 == 3; default L2 == 2
+
+l: dominaceL_prop_cn
+t: textline
+q: 请输入目前你所接触每种语言时间的百分比 （<b>各项百分比之和应为100%</b>）
+- {require, length=3, min=0, max=100} 中文
+- {require, length=3, min=0, max=100} 英文
+- {length=3, min=0, max=100} 其他语言
+
+# default L1 &gt;= 60; default L2 &gt; 0
+
+l: readingL_prop_cn
+t: textline
+q: 如果有你所学过或用过的几种语言的阅读材料供你选择，请输入每种语言的比例？假定原文是另一种你所不熟悉的语言（<b>各项百分比之和应为100%</b>）:
+- {require, length=3, min=0, max=100} 中文
+- {require, length=3, min=0, max=100} 英文
+- {length=3, min=0, max=100} 其他语言
+
+# default L1 &gt;= 60; default L2 &gt; 0
+
+l: speakingL_prop_cn
+t: textline
+q: 如果当你与一个语言能力和语言水平与你的语言能力和语言水平完全匹配的人进行口头交流的时候，而且让你选择某一种语言，请输入使用每种语言与人交谈的比例？假定原文是另一种你所不熟悉的语言（<b>各项百分比之和应为100%</b>）:
+- {require, length=3, min=0, max=100} 中文
+- {require, length=3, min=0, max=100} 英文
+- {length=3, min=0, max=100} 其他语言
+
+# default L1 &gt;= 60; default L2 &gt; 0
+
+l: culture_cn
+t: textline
+q: 请列出你所认同的各种文化的名称。(例如：北美文化，中国文化，正统犹太教文化，等等。)
+- {require, length=15} 第一认同的文化
+- {length=15} 第二认同的文化
+- {length=15} 第三认同的文化
+- {length=15} 第四认同的文化
+- {length=15} 第五认同的文化
+
+l: foreingLive_cn
+t: textline
+q: 如若移居过其它国家，请在下栏填写移居日期和该国名称
+-
+
+l: healthQ_cn
+t: textline
+q: 你是否有过 _______? (请在所有相关栏目输入回答) 。如果有的话，请说明 （包括校正）:
+- 视力障碍 
+- 听力障碍 
+- 语言障碍
+- 学习障碍
+
+l: eduyear_cn
+t: textline
+q: 你受过多少年的正规教育？
+- {require, length=3, min=1,max=100}
+
+l: acadedmicA_cn
+t: radio
+q: 请在最高教育程度栏打钩 （如果你得的是其它国家的学位，请在与美国学位相应的栏目打钩）
+- 低于高中
+- 高中
+- 职高
+- 大专
+- 大学
+- 研究生未毕业
+- 硕士
+- 哲学博士/医学博士/法学博士
+- {other,length=20} 其他 (请填写个人的回答)
+
+page: end
+
+page: begin
+
+l: L1_init_cn
+t: info
+q: <b>下列所有问题都与你的的<b>中文</b>知识相关</b>
+
+l: L1_age_start_cn
+t: textline
+q: 当你使用中文...时候的年龄
+- {require, length=2, min=0, max=80} 开始说话
+- {require, length=2, min=0, max=80} 说得流畅
+- {require, length=2, min=0, max=80} 开始阅读
+- {require, length=2, min=0, max=80} 读得流畅
+
+l: L1_speak_duration_cn
+t: textline
+q: 请列出你在每种语言环境中所度过的时间 (请输入年月数字; 例如, 6y2m = 6 年又 2 个月):
+- {require, length=15} 使用该语言的国家
+- {require, length=15} 使用该语言的家庭
+- {require, length=15} 使用该语言的学校或工作单位
+
+scale: proficiency1_cn
+- 0 ~ 无
+- 1 ~ 很差
+- 2 ~ 差
+- 3 ~ 勉强
+- 4 ~ 尚可
+- 5 ~ 一般
+- 6 ~ 较好
+- 7 ~ 良好
+- 8 ~ 很好
+- 9 ~ 优秀
+- 10 ~ 精通
+
+scale: learning1_cn
+- 0 ~ 没影响
+- 1 ~ 最小影响
+- 2 ~
+- 3 ~
+- 4 ~
+- 5 ~ 一般影响
+- 6 ~
+- 7 ~
+- 8 ~
+- 9 ~
+- 10 ~ 最重要影响
+
+scale: expose1_cn
+- 0 ~ 从来没有
+- 1 ~ 几乎没有
+- 2 ~
+- 3 ~
+- 4 ~
+- 5 ~ 一半时间
+- 6 ~
+- 7 ~
+- 8 ~
+- 9 ~
+- 10 ~ 总是如此
+
+scale: accent_check1_cn
+- 0 ~ 没有
+- 1 ~ 几乎没有
+- 2 ~ 很轻
+- 3 ~ 轻
+- 4 ~ 有一些
+- 5 ~ 中等
+- 6 ~ 相当程度
+- 7 ~ 重
+- 8 ~ 很重
+- 9 ~ 极重
+- 10 ~ 完全
+
+
+l: L1_proficiency_cn
+q: 请使用1-10的数值，标出你的口语能力、理解能力和阅读能力方面的语言水平:
+t: scale proficiency1_cn
+- 说
+- 理解口语
+- 阅读
+
+l: L1_learning_cn
+q: 请使用1-10的数值，标出下列诸因素对你学习的影响程度
+t: scale learning1_cn
+- {require}与朋友互动
+- {require}语言磁带/自学
+- {require}与家庭互动
+- {require}看电视
+- {require}阅读
+- {require}听收音机
+
+
+l: L1_expose_cn
+q: 请使用1-10的数值，标出你目前接触下列语境的程度：
+t: scale expose1_cn
+- {require}与朋友互动
+- {require}听收音机
+- {require}与家庭互动
+- {require}阅读
+- {require}看电视
+- {require}语言磁带/自学
+
+l: L1_accent_cn
+q: 你感觉自己讲中文口音有多重？:
+t: scale accent_check1_cn
+- {require}
+
+l: L1_foreign_cn
+q: 请列出他人根据你的口音判断你的母语不是中文的频率：:
+t: scale expose1_cn
+- {require}
+
+page: end
+
+page: begin
+
+l: L2_init_cn
+t: info
+q: <b>下列所有问题都与你的<b>英语</b>知识相关</b>
+
+l: L2_age_start_cn
+t: textline
+q: 当你使用英语...时候的年龄
+- {require, length=2, min=0, max=80} 开始说话
+- {require, length=2, min=0, max=80} 说得流畅
+- {require, length=2, min=0, max=80} 开始阅读
+- {require, length=2, min=0, max=80} 读得流畅
+
+
+l: L2_speak_duration_cn
+t: textline
+q: 请列出你在每种语言环境中所度过的时间 (请输入年月数字; 例如, 6y2m = 6 年又 2 个月):
+- {require, length=15} 使用该语言的国家
+- {require, length=15} 使用该语言的家庭
+- {require, length=15} 使用该语言的学校或工作单位
+
+
+l: L2_proficiency_cn
+q: 请使用1-10的数值，标出你的口语能力、理解能力和阅读能力方面的语言水平:
+t: scale proficiency1_cn
+- 说
+- 理解口语
+- 阅读
+
+l: L2_learning_cn
+q: 请使用1-10的数值，标出下列诸因素对你学习的影响程度
+t: scale learning1_cn
+- {require}与朋友互动
+- {require}语言磁带/自学
+- {require}与家庭互动
+- {require}看电视
+- {require}阅读
+- {require}听收音机
+
+l: L2_expose_cn
+q: 请使用1-10的数值，标出你目前接触下列语境的程度：
+t: scale expose1_cn
+- {require}与朋友互动
+- {require}听收音机
+- {require}与家庭互动
+- {require}阅读
+- {require}看电视
+- {require}语言磁带/自学
+
+l: L2_accent_cn
+q: 你感觉自己讲英语口音有多重？:
+t: scale accent_check1_cn
+- {require}
+
+l: L2_foreign_cn
+q: 请列出他人根据你的口音判断你的母语不是英语的频率：:
+t: scale expose1_cn
+- {require}
+
+
+page: end
+
+
+l: goto_LEAP_sc_summary
+t: jump
+- if $zh_select == 1 then goto LEAP_zh_cn_summary
+
+l: LEAP_zh_tw_init
+t: info
+q: 下頁是基本資料調查，請按照題目說明填寫。
+
+page: begin
+
+l: age
+t: textline
+q: 請問您的年齡?
+- {min=18,max=100}
+
+l: gender
+t: radio
+q: 請描述您的性別認同?
+- 男
+- 女
+- {other,size=20} 若不符合二元性別，請在此填寫您的回答。
+
+
+l: dominanceL
+t: rank
+q:  請依<b>優勢順序</b>排列以下您所學過或用過的語言:
+- 其他語言
+- 英文
+- 中文
+
+# default L1 == 3; default L2 == 2
+
+l: acquisitionL
+t: rank
+q: 請依<b>習得順序</b>排列以下您所學過或用過的語言（母語在前）:
+- 其他語言
+- 英文
+- 中文
+
+# default L1 == 3; default L2 == 2
+
+l: dominaceL_prop
+t: textline
+q: 請輸入您目前平均接觸每種語言的時間百分比<br>(<b>各項百分比總和應為100%</b>):
+- {require, length=3, min=0, max=100} 中文
+- {require, length=3, min=0, max=100} 英文
+- {length=3, min=0, max=100} 其他語言
+
+# default L1 &gt;= 60; default L2 &gt; 0
+
+l: readingL_prop
+t: textline
+q: 當閱讀文本有所有您學過或用過的語言版本時，請輸入每種語言版本的百分比為多少？假設原文是以另一種您不熟悉的語言編寫<br>(<b>各項百分比總和應為100%</b>):
+- {require, length=3, min=0, max=100} 中文
+- {require, length=3, min=0, max=100} 英文
+- {length=3, min=0, max=100} 其他語言
+
+# default L1 &gt;= 60; default L2 &gt; 0
+
+
+l: speakingL_prop
+t: textline
+q: 當您與一位語言能力與您相符的人交談時，請輸入使用每種語言交談的時間百分比為多少？請列出全部時間的百分比<br>(<b>各項百分比總和應為100%</b>):
+- {require, length=3, min=0, max=100} 中文
+- {require, length=3, min=0, max=100} 英文
+- {length=3, min=0, max=100} 其他語言
+
+# default L1 &gt;= 60; default L2 &gt; 0
+
+
+l: culture
+t: textline
+q: 請輸入您所認同的文化名稱。（例如：美國文化、中國文化、正統猶太文化等）:
+- {require, length=15} 第一認同的文化
+- {length=15} 第二認同的文化
+- {length=15} 第三認同的文化
+- {length=15} 第四認同的文化
+- {length=15} 第五認同的文化
+
+l: foreingLive
+t: textline
+q: 若您曾經移居至其他國家，請在下方空格填寫國家名稱與移居日期。
+-
+
+l: healthQ
+t: textline
+q: 您是否曾有過以下任何方面的生理障礙? (請填寫所有適用欄位) 若有的話，請說明（包含任何曾接受的矯正）:
+- 視力障礙
+- 聽力障礙
+- 語言障礙
+- 學習障礙
+
+l: eduyear
+t: textline
+q: 您受過多少年正規教育？
+- {require, length=3, min=1,max=100}
+
+l: acadedmicA
+t: radio
+q: 請勾選您最高的教育程度 (若您是於華文地區之外的國家取得學位，請勾選與相應程度的學位)
+- 高中以下
+- 高中
+- 高職
+- 大專
+- 大學
+- 未畢業研究生
+- 碩士
+- 哲學博士./醫學博士/法學博士
+- {other,length=20} 其他 (請輸入說明)
+
+page: end
+
+page: begin
+
+l: L1_init
+t: info
+q: <b>下列所有問題都是有關您的中文使用習慣。</b>
+
+l: L1_age_start
+t: textline
+q: 您...時的年齡
+- {require, length=2, min=0, max=80} 開始習得中文
+- {require, length=2, min=0, max=80} 以中文流暢地表達
+- {require, length=2, min=0, max=80} 開始閱讀中文
+- {require, length=2, min=0, max=80} 以中文流暢地閱讀
+
+l: L1_speak_duration
+t: textline
+q: 請輸入您在每種使用語言的環境中所度過的時間(請輸入年月數字; 例如, 6y2m = 6 年又 2 個月):
+- {require, length=15} 在說中文的國家
+- {require, length=15} 在說中文的家庭
+- {require, length=15} 在說中文的學校或工作環境
+
+scale: proficiency1
+- 0 ~ 無
+- 1 ~ 很差
+- 2 ~ 差
+- 3 ~ 勉強
+- 4 ~ 尚可
+- 5 ~ 普通
+- 6 ~ 還不錯
+- 7 ~ 很好
+- 8 ~ 非常好
+- 9 ~ 優秀
+- 10 ~ 精通
+
+scale: learning1
+- 0 ~ 沒有影響
+- 1 ~ 最少影響
+- 2 ~
+- 3 ~
+- 4 ~
+- 5 ~ 一般影響
+- 6 ~
+- 7 ~
+- 8 ~
+- 9 ~
+- 10 ~ 重要影響
+
+scale: expose1
+- 0 ~ 從來沒有
+- 1 ~ 幾乎沒有
+- 2 ~
+- 3 ~
+- 4 ~
+- 5 ~ 一半時間
+- 6 ~
+- 7 ~
+- 8 ~
+- 9 ~
+- 10 ~ 總是如此
+
+scale: accent_check1
+- 0 ~ 沒有
+- 1 ~ 幾乎沒有
+- 2 ~ 很輕
+- 3 ~ 輕
+- 4 ~ 有一些
+- 5 ~ 普通
+- 6 ~ 相當程度
+- 7 ~ 重
+- 8 ~ 很重
+- 9 ~ 極重
+- 10 ~ 完全
+
+
+l: L1_proficiency
+q: 在0 – 10的數值範圍，選取一個適當的數值代表您的中文口說能力、理解能力、閱讀能力的精熟程度：
+t: scale proficiency1
+- {require}口說
+- {require}理解口語
+- {require}閱讀
+
+l: L1_learning
+q: 在0 – 10的數值範圍，選取一個適當的數值代表下列因素對於您學習中文的影響程度：
+t: scale learning1
+- {require}與朋友互動
+- {require}語言學習帶/自學
+- {require}與家人互動
+- {require}看電視
+- {require}閱讀
+- {require}聽廣播
+
+
+l: L1_expose
+q: 請選取一個適當的數值代表您目前在下列語境接觸中文的程度：
+t: scale expose1
+- {require}與朋友互動
+- {require}與家人互動
+- {require}看電視
+- {require}聽廣播/音樂
+- {require}閱讀
+- {require}語言教室/自學
+
+
+l: L1_accent
+q: 您感覺自己講中文時，口音有多重？
+t: scale accent_check1
+- {require}
+
+l: L1_foreign
+q: 請選取一個適當的數值代表他人依據您的口音判斷出您的母語非中文的頻率？
+t: scale expose1
+- {require}
+
+page: end
+
+page: begin
+
+
+l: L2_init
+t: info
+q: <b>下列所有問題都是有關您的英文使用習慣。</b>
+
+l: L2_age_start
+t: textline
+q: 您...時的年齡
+- {require, length=2, min=0, max=80} 開始習得英文
+- {require, length=2, min=0, max=80} 以英文流暢地表達
+- {require, length=2, min=0, max=80} 開始閱讀 英文
+- {require, length=2, min=0, max=80} 以 英文流暢地閱讀
+
+
+l: L2_speak_duration
+t: textline
+q: 請輸入您在每種使用語言的環境中所度過的時間(請輸入年月數字; 例如, 6y2m = 6 年又 2 個月):
+- {require, length=15} 在說英文的國家
+- {require, length=15} 在說英文的家庭
+- {require, length=15} 在說英文的學校或工作環境
+
+
+l: L2_proficiency
+q: 在0 – 10的數值範圍，選取一個適當的數值代表您的英文口說能力、理解能力、閱讀能力的精熟程度：
+t: scale proficiency1
+- {require}口說
+- {require}理解口語
+- {require}閱讀
+
+l: L2_learning
+q: 在0 – 10的數值範圍，選取一個適當的數值代表下列因素對於您學習英文的影響程度：
+t: scale learning1
+- {require}與朋友互動
+- {require}語言學習帶/自學
+- {require}與家人互動
+- {require}看電視
+- {require}閱讀
+- {require}聽廣播
+
+l: L2_expose
+q: 請選取一個適當的數值代表您目前在下列語境接觸英文的程度:
+t: scale expose1
+- {require}與朋友互動
+- {require}與家人互動
+- {require}看電視
+- {require}聽廣播/音樂
+- {require}閱讀
+- {require}語言教室/自學
+
+l: L2_accent
+q: 您感覺自己講英文時，口音有多重？
+t: scale accent_check1
+- {require}
+
+l: L2_foreign
+q: 請選取一個適當的數值代表他人依據您的口音判斷出您的母語非英文的頻率？
+t: scale expose1
+- {require}
+
+page: end
+
+
+## Check part 1: LEAP-Q performance
+
+l: goto_LEAP_tc_summary
+t: jump
+- if $zh_select == 2 then goto LEAP_zh_tw_summary
+
+l: LEAP_zh_cn_summary
+t: info
+q: 你的L1是 {$dominanceL_cn.1} L2 是 {$dominanceL_cn.2}.<br>先获得的 L1 {$acquisitionL_cn.1} 再获得的L2 {$acquisitionL_cn.2}<br> L1 优势度 {$dominaceL_prop_cn.1} L2 优势度 {$dominaceL_prop_cn.2}<br> L1 阅读量 {$readingL_prop_cn.1} L2 阅读量 {$readingL_prop_cn.2}<br> L1 说话流畅度 {$speakingL_prop_cn.1} L2 说话流畅度 {$speakingL_prop_cn.2}
+ 
+l: part1_gate_sc
+t: jump
+- if $dominanceL_cn.1 != 3 or $dominanceL_cn.2 != 2 or $acquisitionL_cn.1 != 3 or $acquisitionL_cn.2 != 2 or $dominaceL_prop_cn.1 &lt; 60 or $dominaceL_prop_cn.2 == 0 or $readingL_prop_cn.1 &lt; 60 or $readingL_prop_cn.2 == 0 or $speakingL_prop_cn.1 &lt; 60 or $speakingL_prop_cn.2 == 0 then goto part1_end
+
+l: goto_part2
+t: jump
+- if $zh_select == 1 then goto part2_intro
+
+l: LEAP_zh_tw_summary
+t: info
+q: 你的L1是 {$dominanceL.1} L2 是 {$dominanceL.2}.<br>先獲得的 L1 {$acquisitionL.1} 再獲得的L2 {$acquisitionL.2}<br> L1 優勢度 {$dominaceL_prop.1} L2 優勢度 {$dominaceL_prop.2}<br> L1 閱讀量 {$readingL_prop.1} L2 閱讀量 {$readingL_prop.2}<br> L1 說話流暢度 {$speakingL_prop.1} L2 說話流暢度 {$speakingL_prop.2}
+ 
+l: part1_gate_tc
+t: jump
+- if $dominanceL.1 != 3 or $dominanceL.2 != 2 or $acquisitionL.1 != 3 or $acquisitionL.2 != 2 or $dominaceL_prop.1 &lt; 60 or $dominaceL_prop.2 == 0 or $readingL_prop.1 &lt; 60 or $readingL_prop.2 == 0 or $speakingL_prop.1 &lt; 60 or $speakingL_prop.2 == 0 then goto part1_end
+
+
+## End of part 1: LEAP-Q
+
+
+## Start of Part 2: Proficiency test
+
+
+l: part2_intro
+t: info
+q: 非常好!您已經通過第一部分測驗。<br>接下來將進行一次中文與一次英文語言流暢度測驗。<br>非常好!您已经通过第一部分测验。<br>接下来将进行一次中文与一次英文语言流畅度测验。<br>Great! You have passed the part 1 survey.<br>You are going to Part 2: Proficiency tests. You will finish English and Chinese tests in a random sequence.
+
+
+#l: zh_select
+#t: radio
+#q: 您習慣使用的中文語系是? What is your Chinese system?
+#- 简体中文 Simplified Chiense
+#- 繁體中文 Traditional Chinese
+
+l: gotc
+t: jump
+- if $zh_select == 2 then goto Proficiency_ins_tc
+
+l: Proficiency_ins_sc
+t: info 
+q: 接下来会随机顺序进行中文或英文的能力测试，各测验一次<br>The upcoming ability test will be conducted in a random order of Chinese or English, with each test taken once.
+
+random: begin
+
+l: introSC
+t: info
+q: 接下来为中文测验
+
+l: SChinese_Q6
+t: radio
+o: random
+o: link
+q: 以下句子，何者连接词使用完全正确？
+- {score=1} 假如人真的有心做一件事，「即使」再忙也一定挪得出时间
+- {score=0} 强台「尽管」来袭，大家要提高警觉
+- {score=0} 绑架白晓燕的绑匪终于绳之以法，人民「就算」可以放心
+- {score=0} 好朋友之间的误会澄清后，「纵使」和好如初了
+
+l: SChinese_Q13
+t: radio
+o: random
+o: link
+q: 下列哪一选项前后两句的意思相同？
+- {score=0} 我要吃了饭再去／我要去了再吃饭
+- {score=0} 一会儿再谈／再谈一会儿
+- {score=1} 做完功课去打球／功课做完去打球
+- {score=0} 一场雨总得下三天／三天总得下一场雨
+
+l: SChinese_Q5
+t: radio
+o: random
+o: link
+q: 下列连接词，何者使用最适切？
+- {score=0} 我们的团队非常卖力，「即使」我们输掉了比赛
+- {score=0} 一旦出现大量掉发，「反而」可能是疾病警讯
+- {score=1} 人人都想成功，「但是」我们能做的难道只有埋头苦干
+- {score=0} 我们不能去参加尾牙，「虽然」那个周末必须出差
+
+l: SChinese_Q15
+t: radio
+o: random
+o: link
+q: 以下句子，何者连接词使用完全正确？
+- {score=1} 「为了」让这本书出版，她付出了所有，「终于」达成心愿
+- {score=0} 「或许」是急躁个性使然，他作任何事情「才有」三分钟热度
+- {score=0} 「由于」核电厂疑似发生辐射外泄事件，「不但」造成全国人心惶惶
+- {score=0} 「因为」有太多群众对这场意外袖手旁观，「不但」错失了抢救的黄金时段
+
+l: SChinese_Q7
+t: radio
+o: random
+o: link
+q: 「_确定出游日期，众人_七嘴八舌的开始讨论细节。」<br>_中的连接词最适合填入下列 哪一组？
+- {score=1} 一……就
+- {score=0} 有……有
+- {score=0} 当……也
+- {score=0} 一……还
+
+l: SChinese_Q20
+t: radio
+o: random
+o: link
+q: 下列文句「 」中的量词，何者使用是适当的？
+- {score=1} 这「件」婚事是由新人双方的大学同学所促成的。
+- {score=0} 今夜，你的一「轮」话，真使我胜读十年书啊。
+- {score=0} 一「条」莒光号在郊区车站附近撞上一辆巴士。
+- {score=0} 因对敌情的判断错误，使我军折损一「顶」大将。
+
+l: SChinese_Q9
+t: radio
+o: random
+o: link
+q: 下列哪个句子中的「决定」是动词？
+- {score=1} 今年暑假，我们「决定」去动物园玩
+- {score=0} 经过讨论，对于校外教学地点，我们有了新的「决定」
+- {score=0} 无论你说什么，我们的「决定」都不可能改变的
+- {score=0} 你要赶快下「决定」，别人才知道你要的是什么
+
+l: SChinese_Q16
+t: radio
+o: random
+o: link
+q: 下列选项「 」中的词语，何者前后的词性及词义相同？
+- {score=0} 本来计画到日本「泡汤」的行程，却因为买不到机票而「泡汤」了
+- {score=0} 当旅館「招待」的工作就是要「招待」客人
+- {score=0} 为了「健康」身体，每周跳两次的「健康」操是很有意义的活动
+- {score=1} 能「管理」自己的人，才有「管理」别人的能力
+
+l: SChinese_Q12
+t: radio
+o: random
+o: link
+q: 下列「 」中的语词，何者意思前后相同？
+- {score=1} 我爸爸对朋友很「大方」／他为人「大方」，从不和他人计较
+- {score=0} 做人做事不要轻易被他人「左右」／从这里走到车站，约十分钟「左右」
+- {score=0} 他「踌躇」了老半天，仍无法决定／他「踌躇」满志，决意要好好有一番作为
+- {score=0} 跟着前人的「脚步」去做，总是不会错的／站稳「脚步」，放胆去做，做任何事都 会成功
+
+l: SChinese_Q17
+t: radio
+o: random
+o: link
+q: 「搅拌原料时，兴奋地思考着等下要怎么去装饰；放进烤箱后小心翼翼地__，<br> 深怕一个疏忽就焦黑；出炉那一刻__空间的__香气，令人不禁想要偷吃。<br>本书就是要__您进入烘烤点心这么一个令人幸福的甜美世界。」<br>上述文__ 处，最适合填入下列哪一组语词？
+- {score=0} 欣赏／充斥／刺鼻／传递
+- {score=1} 凝视／盈满／浓郁／带领
+- {score=0} 观望／满载／顺口／引导
+- {score=0} 呵护／装置／缤纷／暗示
+
+l: SChinese_Q14
+t: radio
+o: random
+o: link
+q: 「参加运动竞赛，__有光明的失败，__要不荣誉的成功。」<br>__中要填上下列哪一 组的连接词最适切？
+- {score=0} 不如／与其
+- {score=0} 既然／所以
+- {score=1} 宁可／也不
+- {score=0} 然后／接着
+
+l: SChinese_Q11
+t: radio
+o: random
+o: link
+q: 下列各组句子的意思，何者可以用来说明友谊的重要？
+- {score=0} 虚假的友谊好像健康，失去时才知道它的可贵
+- {score=0} 朋友是浪费时间，不需要你真心对待
+- {score=0} 好脾气是一个人在社交中所能穿着的最佳服饰
+- {score=1} 拥有真正的朋友是最纯粹的快乐
+
+l: SChinese_Q3
+t: radio
+o: random
+o: link
+q: 「当哥哥写完功课时，妈妈说：_________」<br>下面四个选项中的哪句话，最不可能是妈妈的说话内容？
+- {score=0} 你是怎么办到的？一转眼就写完了
+- {score=0} 写完了呀！快来吃水果
+- {score=1} 你厕所刷得好干净!
+- {score=0} 你的字怎么变这么好看，我都认不出来了
+
+l: SChinese_Q19
+t: radio
+o: random
+o: link
+q: 下列「 」中的词语，何者可以用后者代换，而不影响词义？
+- {score=0} 妈妈新添购的套装花费「甚巨」──不多
+- {score=0} 他坐在树下想事情想得「出神」了──分神
+- {score=0} 他的种种恶劣行为令人「不齿」──不耻
+- {score=1} 中东地区战祸频仍，导致「物资」匮乏──资源。
+
+l: SChinese_Q1
+t: radio
+o: random
+o: link
+q: 下列各组「 」内词语意义，何者前后相同？
+- {score=0} 看见草地上遍开的「白花」，美美开心得尖叫／老板「白花」了许多钱，却买到劣质的假货
+- {score=0} 最爱的布丁被偷吃掉，小华哭着说要找弟弟「算帐」／公司会计正在专心地「算帐」
+- {score=1} 我很欣赏你做任何事都「全力」以赴的精神／哥哥用尽了「全力」才争取到这份工作
+- {score=0} 不友善的工作环境，让新进员工觉得处处碰「钉子」／要记得更换生锈的「钉子」，否则很容易发生危险
+
+l: SChinese_Q8
+t: radio
+o: random
+o: link
+q: 我绝对不是这个「意思」，你不要误会。 <br>上句「 」中的词语意思和下面哪一个相同？
+- {score=0} 你这么做，实在是太不够「意思」了
+- {score=0} 这篇文章的「意思」艰深，不容易了解
+- {score=0} 今天的活动很无聊，没什么「意思」
+- {score=1} 听他的「意思」，好像同意我们的看法
+
+l: SChinese_Q4
+t: radio
+o: random
+o: link
+q: 阿英对小华说：「每次出事你都不自己想办法解决，这次我决定不帮你了！」<br>从阿英的话中可以推论：
+- {score=0} 阿英很小气，一点小忙也不肯帮
+- {score=0} 小华很可怜，阿英都不肯帮他
+- {score=0} 阿英很生气，打算和小华绝交
+- {score=1} 小华很依赖，老是要人帮他
+
+l: SChinese_Q2
+t: radio
+o: random
+o: link
+q: 下列句子中，何者「 」中的词语意思是相同的？
+- {score=0} 阳光「刺眼」，让我张不开眼睛／心情不好时，看什么都觉得「刺眼」
+- {score=1} 我喜欢在假日时到大「自然」里走走／我们不能破坏「自然」生态
+- {score=0} 花园里鸟语花香，充满「生气」／「生气」时，很难说出好话
+- {score=0} 前几天这里曾发生瓦斯「爆炸」事件／这是一个知识「爆炸」的时代
+
+l: SChinese_Q18
+t: radio
+o: random
+o: link
+q: 下列「 」中的词语，何组前后意义相同？
+- {score=1} 白日莫空过，「青春」不再来／电波拉皮手术可以让爱美的人回复「青春」
+- {score=0} 我「灌水」把蟋蟀逼出洞穴／这份民调资料有「灌水」的嫌疑
+- {score=0} 购物要货比三家，才能买到真正「经济」实惠的商品／股市向来是「经济」表<br> 现的重要指标
+- {score=0} 通往山上的「台阶」既多又陡，走来十分费力／这件事就不要追究下去了，给<br>对方一个「台阶」下吧
+
+l: SChinese_Q10
+t: radio
+o: random
+o: link
+q: 下列文句「 」中的词语，何者可以用（ ）的词语替代？
+- {score=0} 经过大家的通力合作，教室已经「焕然」一新／（欣然）
+- {score=0} 老师「偶然」答应春游的提议，令我们欣喜若狂／（恍然）
+- {score=1} 地牛翻身，「刹那」间天摇地动，山河变色／（弹指）
+- {score=0} 戈壁沙漠，「朔风」野大，令人不禁打了个哆嗦／（秋风）
+
+l: introSE
+t: info
+q: Next is the English proficiency test.
+
+l: SEnglish_Q7
+t: radio
+o: random
+o: link
+q: Please separate your garbage and _______ it in the appropriate containers.
+- {score=0} puts
+- {score=0} to put
+- {score=0} putting
+- {score=1} put
+
+l: SEnglish_Q9
+t: radio
+o: random
+o: link
+q: Writing letters _______ not as difficult as you think.
+- {score=0} are
+- {score=1} is
+- {score=0} which is
+- {score=0} which are
+
+l: SEnglish_Q3
+t: radio
+o: random
+o: link
+q: Elementary school students don’t have as _______ homework as junior high students do.
+- {score=0} many
+- {score=0} more
+- {score=0} most
+- {score=1} much
+
+l: SEnglish_Q2
+t: radio
+o: random
+o: link
+q: The student raced out of the classroom and bumped _______ a teacher who was carrying <br>a cup of coffee.
+- {score=0} at
+- {score=1} into
+- {score=0} to
+- {score=0} on
+
+l: SEnglish_Q18
+t: radio
+o: random
+o: link
+q: Some of Curt Wilder’s books have been widely read ______ others have remained <br>relatively unknown.
+- {score=0} since
+- {score=1} while
+- {score=0} until
+- {score=0} except
+
+l: SEnglish_Q4
+t: radio
+o: random
+o: link
+q: Mom, Johnny’s mother doesn’t have enough chairs for her dinner guests.She wants to <br>borrow one of _______.
+- {score=1} ours
+- {score=0} them
+- {score=0} your
+- {score=0} hers
+
+l: SEnglish_Q15
+t: radio
+o: random
+o: link
+q: _______ many desirable qualities which make it a commercially very useful metal.
+- {score=0} That aluminum has
+- {score=1} Aluminum has
+- {score=0} Aluminum having
+- {score=0} Aluminum to have
+
+l: SEnglish_Q8
+t: radio
+o: random
+o: link
+q: The boys are in school every day until four o’clock in the afternoon. After that they <br>_______ an hour playing baseball.
+- {score=0} spent
+- {score=1} spend
+- {score=0} would spend
+- {score=0} have spent
+
+l: SEnglish_Q10
+t: radio
+o: random
+o: link
+q: Defensive drivers _______ their driving mirrors frequently so that they know at all <br>times if there are other vehicles or people nearby.
+- {score=0} check into
+- {score=0} see to
+- {score=1} look in
+- {score=0} watch out
+
+l: SEnglish_Q6
+t: radio
+o: random
+o: link
+q: Sara was _______ because her grandmother had put more money in her brother’s red <br>envelope.
+- {score=0} humble
+- {score=0} sneaky
+- {score=1} jealous
+- {score=0} greedy
+
+l: SEnglish_Q13
+t: radio
+o: random
+o: link
+q: New computer technology has _______ changed the way Hollywood movies are made.
+- {score=0} greedily
+- {score=0} sincerely
+- {score=0} idly
+- {score=1} dramatically
+
+l: SEnglish_Q17
+t: radio
+o: random
+o: link
+q: To our surprise, Tina was given permission to enter the third grade, although she <br>______ the previous grade.
+- {score=1} hadn’t passed
+- {score=0} doesn’t pass
+- {score=0} oughtn’t to pass
+- {score=0} not passing
+
+l: SEnglish_Q20
+t: radio
+o: random
+o: link
+q: ______ that something like this would happen to me.
+- {score=0} I did never imagine in my wildest dreams。
+- {score=1} Never in my wildest dreams did I imagine
+- {score=0} I never did my wildest dreams imagine in
+- {score=0} In my wildest dreams did I never imagine
+
+l: SEnglish_Q5
+t: radio
+o: random
+o: link
+q: The bus was full, but Judy saw an empty seat next to an old woman.“_______ I sit here?” <br>she asked her.
+- {score=1} May
+- {score=0} Should
+- {score=0} Would
+- {score=0} Will
+
+l: SEnglish_Q11
+t: radio
+o: random
+o: link
+q: Flight 305 _______ depart at 3:30 p.m. but was cancelled because of a mechanical<br>problem in one of the engines.
+- {score=0} might have to
+- {score=0} ought to
+- {score=0} is assumed to
+- {score=1} was supposed to
+
+l: SEnglish_Q12
+t: radio
+o: random
+o: link
+q: _______ newspaper reports, flooding in the area near the river due to the storm has <br>been much more serious than expected.
+- {score=1} According to
+- {score=0} As
+- {score=0} For
+- {score=0} Including some
+
+l: SEnglish_Q14
+t: radio
+o: random
+o: link
+q: Depending on the _______ he is in, the boss will either thank you for your suggestion <br>or fire you for criticizing his plan.
+- {score=0} attitude
+- {score=0} emotion
+- {score=0} behavior
+- {score=1} mood
+
+l: SEnglish_Q16
+t: radio
+o: random
+o: link
+q: This proposal for a new high speed train _______ because the cost is too high.
+- {score=0} has rejected
+- {score=0} rejected
+- {score=1} will be rejected
+- {score=0} had been rejected
+
+l: SEnglish_Q19
+t: radio
+o: random
+o: link
+q: The current economic recession is threatening the ______ of many people in the country.
+- {score=1} livelihoods
+- {score=0} substance
+- {score=0} maturity
+- {score=0} qualifications
+
+l: SEnglish_Q1
+t: radio
+o: random
+o: link
+q: Both of those horses live on Jack’s farm, but _______ on the left isn’t his.
+- {score=1} the one
+- {score=0} both
+- {score=0} another
+- {score=0} the other
+
+random: end
+
+
+l: myscoreSC
+t: set
+- calc ( $SChinese_Q1 + $SChinese_Q2 + $SChinese_Q3 + $SChinese_Q4 + $SChinese_Q5 + $SChinese_Q6 + $SChinese_Q7 + $SChinese_Q8 + $SChinese_Q9 + $SChinese_Q10 + $SChinese_Q11 + $SChinese_Q12 + $SChinese_Q13 + $SChinese_Q14 + $SChinese_Q15 + $SChinese_Q16 + $SChinese_Q17 + $SChinese_Q18 + $SChinese_Q19 + $SChinese_Q20 )
+
+l: myscoreSE
+t: set
+- calc ( $SEnglish_Q1 + $SEnglish_Q2 + $SEnglish_Q3 + $SEnglish_Q4 + $SEnglish_Q5 + $SEnglish_Q6 + $SEnglish_Q7 + $SEnglish_Q8 + $SEnglish_Q9 + $SEnglish_Q10 + $SEnglish_Q11 + $SEnglish_Q12 + $SEnglish_Q13 + $SEnglish_Q14 + $SEnglish_Q15 + $SEnglish_Q16 + $SEnglish_Q17 + $SEnglish_Q18 + $SEnglish_Q19 + $SEnglish_Q20 )
+
+## End of Part 2: Proficiency test ~ Simplified Chinese
+
+
+l: part2_S_gate
+t: jump
+- if $myscoreSC &gt;= 16 and $myscoreSE &gt;= 16 then goto part2_S_summary1 
+- if $myscoreSC &lt; 16 or $myscoreSE &lt; 16 then goto part2_S_summary2
+
+l: part2_S_summary1
+t: info
+q: Your English test score is {$myscoreSE} and Chinese test score is {$myscoreSC}. You passed the proficiency tests!<br>您的中文测验分数是: {$myscoreSC}、英文测验分数是: {$myscoreSE}，通过测验。
+
+l: goto_part3
+t: jump
+- goto part3_sets_branch
+
+#l: Slast
+#t: info
+#o: end
+#q: 謝謝您的回覆
+
+l: Proficiency_ins_tc
+t: info 
+q: 接下来會隨機順序進行中文或英文的能力测试，各測驗一次<br>The upcoming ability test will be conducted in a random order of Chinese or English, with each test taken once.
+
+random: begin
+
+l: introTC
+t: info
+q: 接下來為中文測驗
+
+l: TChinese_Q6
+t: radio
+o: random
+o: link
+q: 以下句子，何者連接詞使用完全正確？
+- {score=1} 假如人真的有心做一件事，「即使」再忙也一定挪得出時間
+- {score=0} 強颱「儘管」來襲，大家要提高警覺
+- {score=0} 綁架白曉燕的綁匪終於繩之以法，人民「就算」可以放心
+- {score=0} 好朋友之間的誤會澄清後，「縱使」和好如初了
+
+l: TChinese_Q13
+t: radio
+o: random
+o: link
+q: 下列哪一選項前後兩句的意思相同？
+- {score=0} 我要吃了飯再去／我要去了再吃飯
+- {score=0} 一會兒再談／再談一會兒
+- {score=1} 做完功課去打球／功課做完去打球
+- {score=0} 一場雨總得下三天／三天總得下一場雨
+
+l: TChinese_Q5
+t: radio
+o: random
+o: link
+q: 下列連接詞，何者使用最適切？
+- {score=0} 我們的團隊非常賣力，「即使」我們輸掉了比賽
+- {score=0} 一旦出現大量掉髮，「反而」可能是疾病警訊
+- {score=1} 人人都想成功，「但是」我們能做的難道只有埋頭苦幹
+- {score=0} 我們不能去參加尾牙，「雖然」那個週末必須出差
+
+l: TChinese_Q15
+t: radio
+o: random
+o: link
+q: 以下句子，何者連接詞使用完全正確？
+- {score=1} 「為了」讓這本書出版，她付出了所有，「終於」達成心願
+- {score=0} 「或許」是急躁個性使然，他作任何事情「才有」三分鐘熱度
+- {score=0} 「由於」核電廠疑似發生輻射外洩事件，「不但」造成全國人心惶惶
+- {score=0} 「因為」有太多群眾對這場意外袖手旁觀，「不但」錯失了搶救的黃金時段
+
+l: TChinese_Q7
+t: radio
+o: random
+o: link
+q: 「_確定出遊日期，眾人_七嘴八舌的開始討論細節。」<br>_中的連接詞最適合填入下列 哪一組？
+- {score=1} 一……就
+- {score=0} 有……有
+- {score=0} 當……也
+- {score=0} 一……還
+
+l: TChinese_Q20
+t: radio
+o: random
+o: link
+q: 下列文句「 」中的量詞，何者使用是適當的？
+- {score=1} 這「件」婚事是由新人雙方的大學同學所促成的。
+- {score=0} 今夜，你的一「輪」話，真使我勝讀十年書啊。
+- {score=0} 一「條」莒光號在郊區車站附近撞上一輛巴士。
+- {score=0} 因對敵情的判斷錯誤，使我軍折損一「頂」大將。
+
+l: TChinese_Q9
+t: radio
+o: random
+o: link
+q: 下列哪個句子中的「決定」是動詞？
+- {score=1} 今年暑假，我們「決定」去動物園玩
+- {score=0} 經過討論，對於校外教學地點，我們有了新的「決定」
+- {score=0} 無論你說什麼，我們的「決定」都不可能改變的
+- {score=0} 你要趕快下「決定」，別人才知道你要的是什麼
+
+l: TChinese_Q16
+t: radio
+o: random
+o: link
+q: 下列選項「 」中的詞語，何者前後的詞性及詞義相同？
+- {score=0} 本來計畫到日本「泡湯」的行程，卻因為買不到機票而「泡湯」了
+- {score=0} 當旅館「招待」的工作就是要「招待」客人
+- {score=0} 為了「健康」身體，每週跳兩次的「健康」操是很有意義的活動
+- {score=1} 能「管理」自己的人，才有「管理」別人的能力
+
+l: TChinese_Q12
+t: radio
+o: random
+o: link
+q: 下列「 」中的語詞，何者意思前後相同？
+- {score=1} 我爸爸對朋友很「大方」／他為人「大方」，從不和他人計較
+- {score=0} 做人做事不要輕易被他人「左右」／從這裡走到車站，約十分鐘「左右」
+- {score=0} 他「躊躇」了老半天，仍無法決定／他「躊躇」滿志，決意要好好有一番作為
+- {score=0} 跟著前人的「腳步」去做，總是不會錯的／站穩「腳步」，放膽去做，做任何事都 會成功
+
+l: TChinese_Q17
+t: radio
+o: random
+o: link
+q: 「攪拌原料時，興奮地思考著等下要怎麼去裝飾；放進烤箱後小心翼翼地__，<br> 深怕一個疏忽就焦黑；出爐那一刻__空間的__香氣，令人不禁想要偷吃。<br>本書就是要__您進入烘烤點心這麼一個令人幸福的甜美世界。」<br>上述文__ 處，最適合填入下列哪一組語詞？
+- {score=0} 欣賞／充斥／刺鼻／傳遞
+- {score=1} 凝視／盈滿／濃郁／帶領
+- {score=0} 觀望／滿載／順口／引導
+- {score=0} 呵護／裝置／繽紛／暗示
+
+l: TChinese_Q14
+t: radio
+o: random
+o: link
+q: 「參加運動競賽，__有光明的失敗，__要不榮譽的成功。」<br>__中要填上下列哪一 組的連接詞最適切？
+- {score=0} 不如／與其
+- {score=0} 既然／所以
+- {score=1} 寧可／也不
+- {score=0} 然後／接著
+
+l: TChinese_Q11
+t: radio
+o: random
+o: link
+q: 下列各組句子的意思，何者可以用來說明友誼的重要？
+- {score=0} 虛假的友誼好像健康，失去時才知道它的可貴
+- {score=0} 朋友是浪費時間，不需要你真心對待
+- {score=0} 好脾氣是一個人在社交中所能穿著的最佳服飾
+- {score=1} 擁有真正的朋友是最純粹的快樂
+
+l: TChinese_Q3
+t: radio
+o: random
+o: link
+q: 「當哥哥寫完功課時，媽媽說：_________」<br>下面四個選項中的哪句話，最不可能是媽媽的說話內容？
+- {score=0} 你是怎麼辦到的？一轉眼就寫完了
+- {score=0} 寫完了呀！快來吃水果
+- {score=1} 你廁所刷得好乾淨!
+- {score=0} 你的字怎麼變這麼好看，我都認不出來了
+
+l: TChinese_Q19
+t: radio
+o: random
+o: link
+q: 下列「 」中的詞語，何者可以用後者代換，而不影響詞義？
+- {score=0} 媽媽新添購的套裝花費「甚鉅」──不多
+- {score=0} 他坐在樹下想事情想得「出神」了──分神
+- {score=0} 他的種種惡劣行為令人「不齒」──不恥
+- {score=1} 中東地區戰禍頻仍，導致「物資」匱乏──資源。
+
+l: TChinese_Q1
+t: radio
+o: random
+o: link
+q: 下列各組「 」內詞語意義，何者前後相同？
+- {score=0} 看見草地上遍開的「白花」，美美開心得尖叫／老闆「白花」了許多錢，卻買到劣質的假貨
+- {score=0} 最愛的布丁被偷吃掉，小華哭著說要找弟弟「算帳」／公司會計正在專心地「算帳」
+- {score=1} 我很欣賞你做任何事都「全力」以赴的精神／哥哥用盡了「全力」才爭取到這份工作
+- {score=0} 不友善的工作環境，讓新進員工覺得處處碰「釘子」／要記得更換生鏽的「釘子」，否則很容易發生危險
+
+l: TChinese_Q8
+t: radio
+o: random
+o: link
+q: 我絕對不是這個「意思」，你不要誤會。<br>上句「 」中的詞語意思和下面哪一個相同？
+- {score=0} 你這麼做，實在是太不夠「意思」了
+- {score=0} 這篇文章的「意思」艱深，不容易了解
+- {score=0} 今天的活動很無聊，沒什麼「意思」
+- {score=1} 聽他的「意思」，好像同意我們的看法
+
+l: TChinese_Q4
+t: radio
+o: random
+o: link
+q: 阿英對小華說：「每次出事你都不自己想辦法解決，這次我決定不幫你了！」<br>從阿英的話中可以推論：
+- {score=0} 阿英很小氣，一點小忙也不肯幫
+- {score=0} 小華很可憐，阿英都不肯幫他
+- {score=0} 阿英很生氣，打算和小華絕交
+- {score=1} 小華很依賴，老是要人幫他
+
+l: TChinese_Q2
+t: radio
+o: random
+o: link
+q: 下列句子中，何者「 」中的詞語意思是相同的？
+- {score=0} 陽光「刺眼」，讓我張不開眼睛／心情不好時，看什麼都覺得「刺眼」
+- {score=1} 我喜歡在假日時到大「自然」裡走走／我們不能破壞「自然」生態
+- {score=0} 花園裡鳥語花香，充滿「生氣」／「生氣」時，很難說出好話
+- {score=0} 前幾天這裡曾發生瓦斯「爆炸」事件／這是一個知識「爆炸」的時代
+
+l: TChinese_Q18
+t: radio
+o: random
+o: link
+q: 下列「 」中的詞語，何組前後意義相同？
+- {score=1} 白日莫空過，「青春」不再來／電波拉皮手術可以讓愛美的人回復「青春」
+- {score=0} 我「灌水」把蟋蟀逼出洞穴／這份民調資料有「灌水」的嫌疑
+- {score=0} 購物要貨比三家，才能買到真正「經濟」實惠的商品／股市向來是「經濟」表<br> 現的重要指標
+- {score=0} 通往山上的「臺階」既多又陡，走來十分費力／這件事就不要追究下去了，給<br>對方一個「臺階」下吧
+
+l: TChinese_Q10
+t: radio
+o: random
+o: link
+q: 下列文句「 」中的詞語，何者可以用（ ）的詞語替代？
+- {score=0} 經過大家的通力合作，教室已經「煥然」一新／（欣然）
+- {score=0} 老師「偶然」答應春遊的提議，令我們欣喜若狂／（恍然）
+- {score=1} 地牛翻身，「剎那」間天搖地動，山河變色／（彈指）
+- {score=0} 戈壁沙漠，「朔風」野大，令人不禁打了個哆嗦／（秋風）
+
+l: introeTE
+t: info
+q: Next is an English proficiency test.
+
+l: TEnglish_Q7
+t: radio
+o: random
+o: link
+q: Please separate your garbage and _______ it in the appropriate containers.
+- {score=0} puts
+- {score=0} to put
+- {score=0} putting
+- {score=1} put
+
+l: TEnglish_Q9
+t: radio
+o: random
+o: link
+q: Writing letters _______ not as difficult as you think.
+- {score=0} are
+- {score=1} is
+- {score=0} which is
+- {score=0} which are
+
+l: TEnglish_Q3
+t: radio
+o: random
+o: link
+q: Elementary school students don’t have as _______ homework as junior high students do.
+- {score=0} many
+- {score=0} more
+- {score=0} most
+- {score=1} much
+
+l: TEnglish_Q2
+t: radio
+o: random
+o: link
+q: The student raced out of the classroom and bumped _______ a teacher who was carrying <br>a cup of coffee.
+- {score=0} at
+- {score=1} into
+- {score=0} to
+- {score=0} on
+
+l: TEnglish_Q18
+t: radio
+o: random
+o: link
+q: Some of Curt Wilder’s books have been widely read ______ others have remained <br>relatively unknown.
+- {score=0} since
+- {score=1} while
+- {score=0} until
+- {score=0} except
+
+l: TEnglish_Q4
+t: radio
+o: random
+o: link
+q: Mom, Johnny’s mother doesn’t have enough chairs for her dinner guests.She wants to <br>borrow one of _______.
+- {score=1} ours
+- {score=0} them
+- {score=0} your
+- {score=0} hers
+
+l: TEnglish_Q15
+t: radio
+o: random
+o: link
+q: _______ many desirable qualities which make it a commercially very useful metal.
+- {score=0} That aluminum has
+- {score=1} Aluminum has
+- {score=0} Aluminum having
+- {score=0} Aluminum to have
+
+l: TEnglish_Q8
+t: radio
+o: random
+o: link
+q: The boys are in school every day until four o’clock in the afternoon. After that they <br>_______ an hour playing baseball.
+- {score=0} spent
+- {score=1} spend
+- {score=0} would spend
+- {score=0} have spent
+
+l: TEnglish_Q10
+t: radio
+o: random
+o: link
+q: Defensive drivers _______ their driving mirrors frequently so that they know at all <br>times if there are other vehicles or people nearby.
+- {score=0} check into
+- {score=0} see to
+- {score=1} look in
+- {score=0} watch out
+
+l: TEnglish_Q6
+t: radio
+o: random
+o: link
+q: Sara was _______ because her grandmother had put more money in her brother’s red <br>envelope.
+- {score=0} humble
+- {score=0} sneaky
+- {score=1} jealous
+- {score=0} greedy
+
+l: TEnglish_Q13
+t: radio
+o: random
+o: link
+q: New computer technology has _______ changed the way Hollywood movies are made.
+- {score=0} greedily
+- {score=0} sincerely
+- {score=0} idly
+- {score=1} dramatically
+
+l: TEnglish_Q17
+t: radio
+o: random
+o: link
+q: To our surprise, Tina was given permission to enter the third grade, although she <br>______ the previous grade.
+- {score=1} hadn’t passed
+- {score=0} doesn’t pass
+- {score=0} oughtn’t to pass
+- {score=0} not passing
+
+l: TEnglish_Q20
+t: radio
+o: random
+o: link
+q: ______ that something like this would happen to me.
+- {score=0} I did never imagine in my wildest dreams。
+- {score=1} Never in my wildest dreams did I imagine
+- {score=0} I never did my wildest dreams imagine in
+- {score=0} In my wildest dreams did I never imagine
+
+l: TEnglish_Q5
+t: radio
+o: random
+o: link
+q: The bus was full, but Judy saw an empty seat next to an old woman.“_______ I sit here?” <br>she asked her.
+- {score=1} May
+- {score=0} Should
+- {score=0} Would
+- {score=0} Will
+
+l: TEnglish_Q11
+t: radio
+o: random
+o: link
+q: Flight 305 _______ depart at 3:30 p.m. but was cancelled because of a mechanical<br>problem in one of the engines.
+- {score=0} might have to
+- {score=0} ought to
+- {score=0} is assumed to
+- {score=1} was supposed to
+
+l: TEnglish_Q12
+t: radio
+o: random
+o: link
+q: _______ newspaper reports, flooding in the area near the river due to the storm has <br>been much more serious than expected.
+- {score=1} According to
+- {score=0} As
+- {score=0} For
+- {score=0} Including some
+
+l: TEnglish_Q14
+t: radio
+o: random
+q: Depending on the _______ he is in, the boss will either thank you for your suggestion <br>or fire you for criticizing his plan.
+- {score=0} attitude
+- {score=0} emotion
+- {score=0} behavior
+- {score=1} mood
+
+l: TEnglish_Q16
+t: radio
+o: random
+o: link
+q: This proposal for a new high speed train _______ because the cost is too high.
+- {score=0} has rejected
+- {score=0} rejected
+- {score=1} will be rejected
+- {score=0} had been rejected
+
+l: TEnglish_Q19
+t: radio
+o: random
+o: link
+q: The current economic recession is threatening the ______ of many people in the country.
+- {score=1} livelihoods
+- {score=0} substance
+- {score=0} maturity
+- {score=0} qualifications
+
+l: TEnglish_Q1
+t: radio
+o: random
+o: link
+q: Both of those horses live on Jack’s farm, but _______ on the left isn’t his.
+- {score=1} the one
+- {score=0} both
+- {score=0} another
+- {score=0} the other
+
+random: end
+
+l: myscoreTC
+t: set
+- calc ( $TChinese_Q1 + $TChinese_Q2 + $TChinese_Q3 + $TChinese_Q4 + $TChinese_Q5 + $TChinese_Q6 + $TChinese_Q7 + $TChinese_Q8 + $TChinese_Q9 + $TChinese_Q10 + $TChinese_Q11 + $TChinese_Q12 + $TChinese_Q13 + $TChinese_Q14 + $TChinese_Q15 + $TChinese_Q16 + $TChinese_Q17 + $TChinese_Q18 + $TChinese_Q19 + $TChinese_Q20 )
+
+l: myscoreTE
+t: set
+- calc ( $TEnglish_Q1 + $TEnglish_Q2 + $TEnglish_Q3 + $TEnglish_Q4 + $TEnglish_Q5 + $TEnglish_Q6 + $TEnglish_Q7 + $TEnglish_Q8 + $TEnglish_Q9 + $TEnglish_Q10 + $TEnglish_Q11 + $TEnglish_Q12 + $TEnglish_Q13 + $TEnglish_Q14 + $TEnglish_Q15 + $TEnglish_Q16 + $TEnglish_Q17 + $TEnglish_Q18 + $TEnglish_Q19 + $TEnglish_Q20 )
+
+## Check part 2: proficiency test
+
+l: part2_T_gate
+t: jump
+- if $myscoreTC &gt;= 16 and $myscoreTE &gt;= 16 then goto part2_T_summary1 
+- if $myscoreTC &lt; 16 or $myscoreTE &lt; 16 then goto part2_T_summary2
+
+l: part2_T_summary1 
+t: info
+q: Your English test score is {$myscoreTE} and Chinese test score is {$myscoreTC}. You passed the proficiency tests!<br>您的中文測驗分數是: {$myscoreTC}、英文測驗分數是: {$myscoreTE}，通過測驗。
+
+## End of part 2: proficiency test
+
+## Start of part 3: visualization tasks
+
+l: part3_sets_branch
+t: jump
+- if $zh_select == 2 then goto part3_T_intro
+
+## Start of part 3: visualization tasks ~ Simplified Chinese
+
+
+l: part3_S_intro
+t: info
+q: We will start the last part of this study. You are going to run two phrase-picture verifications tasks. One task is English and the other is Chinese.<br>我们将开始本研究的最后一部分。您将运行两个短语图片验证任务。一个任务是英文，另一个是中文。
+
+l: goto_total_end
+t: jump
+- goto total_end
+
+## Start of part 3: visualization tasks ~ Traditional Chinese
+
+l: part3_T_intro
+t: info
+q: We will start the last part of this study. You are going to run two phrase-picture verifications tasks. One task is English and the other is Chinese.<br>我們將開始本研究的最後一部分。您將進行兩個片語-圖片區辨作業。一個作業內容是英文，另一個是中文。
+
+
+l: total_end
+t: info
+o: end
+q: <b>This is the end of all studies.</b> Congratulation! You have the full compensate of this study!<br><b>所有測試完整結束。</b>真不錯！您獲得本研究的最高酬勞。<br><b>所有测试完整结束。</b>真不错！您获得本研究的最高酬劳。
+
+l: part1_end
+t: info
+o: end
+q: 很抱歉。你的中英雙語自評條件未符合本研究需要。你將得到本研究最低報酬。感謝你的參與。<br>很抱歉。你的中英双语自评条件未符合本研究需要。你将得到本研究最低报酬。感谢你的参与。<br>Sorry. Your answers show you are not a bilingual individual for our study purpose. <br>You will have the lowest compensate for your participantion. Thank you join our study.
+
+l: part2_S_summary2
+t: info
+q: Your English test score is {$myscoreSE} and Chinese test score is {$myscoreSC}. We are sorry! You did not pass the proficiency tests.<br>您的中文测验分数是: {$myscoreSC}、英文测验分数是: {$myscoreSE}，未通过测验。
+
+l: part2_S_end
+t: info
+o: end
+q: 謝謝您<br><br>You will have the median compensate for your participantion. Thanks your participation.
+
+l: part2_T_summary2
+t: info
+q: Your English test score is {$myscoreTE} and Chinese test score is {$myscoreTC}. We are sorry! You did not pass the proficiency tests.<br>您的中文測驗分數是: {$myscoreTC}、英文測驗分數是: {$myscoreTE}，未通過測驗。
+
+l: part2_T_end
+t: info
+o: end
+q: 謝謝您<br>You will have the median compensate for your participantion. Thanks your participation.
