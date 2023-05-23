@@ -26,7 +26,7 @@ rawdata <- read_csv(file="EXP3.csv")
 knitr::kable(data.frame(
              Variables = names(rawdata), 
              Descriptions =c(
-               "no_gap = long cue; gap = short cue", ## wrong coding in the data set
+               "no_gap = long cue; gap = short cue", ## update coding in the data set
                "MTurk ID",
                "conj = dual feature; sing = single feature",
                "matching of cue and target. m = match ; mm = mismatch",
@@ -36,28 +36,39 @@ knitr::kable(data.frame(
              ) ) )
 ```
 
-We found the original data set had wrong codes on "Task".
+We found the original data set had inconsistent codes on "Task".
 
 ## By participant summary
 
 ```{r summary_data_3}
 ## Summary of participants' accuracy
 sumdata3 = rawdata %>% 
-  mutate(across("Task", recode, 'long cue' = "gap", 'short cue' = "no gap")) %>%
-  group_by(Task, PPnr, `Trial Type`, `Target Type`) %>%
-  summarise(acc = mean(accuracy)) %>%
+  mutate(across("task", recode, "gap" = 'short_cue', "no_gap" = 'long_cue' )) %>%
+  mutate(across("conjunction_single", recode, "conj" = 'dual')) %>%
+  group_by(task, PPnr, conjunction_single, match_mismatch) %>%
+  summarise(acc = mean(accuracy,na.rm=TRUE)) %>%
+  group_by(task, PPnr, conjunction_single) %>%
+  summarise(Acc = mean(acc)) %>%
 right_join(
 ## Summary of participants' RT
 rawdata %>%  
-  mutate(across("Task", recode, 'long cue' = "gap", 'short cue' = "no gap")) %>%
-  filter(reaction_time > 0.1 & reaction_time < 3.000) %>%
-  group_by(Task, PPnr, `Trial Type`, `Target Type`) %>%
-  summarise(RT = mean(reaction_time*1000)),
-by=c("Task","PPnr", "Trial Type", "Target Type"))
+  mutate(across("task", recode, "gap" = 'short_cue', "no_gap" = 'long_cue' )) %>%
+  mutate(across("conjunction_single", recode, "conj" = 'dual')) %>%
+  filter(reaction_time > 0.1 & reaction_time < 3.000 & accuracy==1) %>%
+  group_by(task, PPnr, conjunction_single, match_mismatch) %>%
+  summarise(mRT = mean(reaction_time*1000)) %>%
+  group_by(task, PPnr, conjunction_single) %>%
+  summarise(RT = mean(mRT)),
+by=c("task","PPnr", "conjunction_single"))
 
 ## Summary stat
-sumdata3 %>% group_by(Task, `Trial Type`, `Target Type`) %>%
-  summarise(N = n(), m_RT = mean(RT), sd_RT = sd(RT), m_ACC = mean(acc), sd_ACC = sd(acc)) %>% knitr::kable(caption = "Exp3 result summary: three factors")
+sumdata3 %>% group_by(task, conjunction_single) %>%
+  summarise(N = n(), m_RT = mean(RT), sd_RT = sd(RT), m_ACC = mean(Acc), sd_ACC = sd(Acc)) %>% knitr::kable(caption = "Exp3 result summary: three factors")
+
+## Export summarized data 
+write_csv(sumdata3, file="EXP3_long.csv") ## long table
+
+sumdata3 %>% pivot_wider(names_from = conjunction_single, values_from = c(RT,Acc)) %>% write_csv(file="EXP3_wide.csv") ## wide table
 
 strange_pp <- sumdata3 %>% group_by(PPnr) %>%
   summarise(N = n()) %>%
