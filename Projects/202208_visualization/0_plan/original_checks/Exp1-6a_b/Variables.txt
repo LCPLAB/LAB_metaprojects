@@ -1,0 +1,12 @@
+Relevant variables in the data-sets of Experiments 1-5:
+
+Slide3.RT => Reaction-times in ms
+Slide3.ACC => Accuracy (0,1)
+cond => Trial-type (single, conjunction)
+
+Relevant variables in the data-set of Experiment 6:
+
+reaction_time => Reaction-times in s
+accuracy => Accuracy (0,1)
+conjunction_single => Trial-type (single, conjunction)
+task => Task-type (short cue with gap, long cue with no gap)

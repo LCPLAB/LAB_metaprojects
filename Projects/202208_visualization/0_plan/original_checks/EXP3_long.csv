@@ -1,821 +1,1641 @@
-task,PPnr,conjunction_single,Acc,RT
-long_cue,R_08x3yfNtCFtgBYl,dual,0.9375,1873.1
-long_cue,R_08x3yfNtCFtgBYl,sing,1,1887.0625
-long_cue,R_0OmSAzFURsT3hND,dual,0.9375,731.9821428571429
-long_cue,R_0OmSAzFURsT3hND,sing,1,1166.75
-long_cue,R_10ZPMCCzcV8FG6A,dual,1,989.75
-long_cue,R_10ZPMCCzcV8FG6A,sing,1,974.0625
-long_cue,R_12s68Ligswec1t3,dual,0.9375,531.4910714285714
-long_cue,R_12s68Ligswec1t3,sing,1,588.9375
-long_cue,R_1BPAkPhD282eIwa,dual,1,841.5625
-long_cue,R_1BPAkPhD282eIwa,sing,1,934.25
-long_cue,R_1CDQa7qsN9RNzFH,dual,1,1132.375
-long_cue,R_1CDQa7qsN9RNzFH,sing,1,1297.0625
-long_cue,R_1CJcSTbRoTUCqgI,dual,1,1048.2410714285716
-long_cue,R_1CJcSTbRoTUCqgI,sing,0.875,1145.142857142857
-long_cue,R_1DuNzuDT2Ly6aYo,dual,1,1034.6875
-long_cue,R_1DuNzuDT2Ly6aYo,sing,1,1022.5
-long_cue,R_1Ej3yOyXSRu4rHj,dual,0.9375,468.57142857142856
-long_cue,R_1Ej3yOyXSRu4rHj,sing,1,607.5625
-long_cue,R_1HkLtKPGeWEXFwg,dual,1,828.375
-long_cue,R_1HkLtKPGeWEXFwg,sing,1,1091.6875
-long_cue,R_1HpZbLVjg7CUvTk,dual,0.9375,937.7321428571429
-long_cue,R_1HpZbLVjg7CUvTk,sing,0.8125,1026.95
-long_cue,R_1IR8kofj9wFWdIF,dual,1,1308.375
-long_cue,R_1IR8kofj9wFWdIF,sing,0.9375,1408.85
-long_cue,R_1ISOn43feC1HgrC,dual,0.875,1149.2857142857142
-long_cue,R_1ISOn43feC1HgrC,sing,0.9375,1052.6517857142858
-long_cue,R_1IXVr7a4rbLclDy,dual,1,1272.8333333333335
-long_cue,R_1IXVr7a4rbLclDy,sing,0.875,1372.6190476190477
-long_cue,R_1IfTVw1P9JXGPqL,dual,1,878.5
-long_cue,R_1IfTVw1P9JXGPqL,sing,1,814.3125
-long_cue,R_1K3eLYRF0WM0F1x,dual,1,1216.9375
-long_cue,R_1K3eLYRF0WM0F1x,sing,1,1630.0625
-long_cue,R_1K6KGucq5uhaFzv,dual,1,1662.6875
-long_cue,R_1K6KGucq5uhaFzv,sing,0.9375,1404.75
-long_cue,R_1K71a7Ou0dd9RDl,dual,0.9375,943.5535714285714
-long_cue,R_1K71a7Ou0dd9RDl,sing,1,1191.3125
-long_cue,R_1KqDdYqdsxJyWIf,dual,1,692.9375
-long_cue,R_1KqDdYqdsxJyWIf,sing,0.9375,790.375
-long_cue,R_1LXmTvk5iLuGEaA,dual,1,671.625
-long_cue,R_1LXmTvk5iLuGEaA,sing,0.9375,739.9166666666667
-long_cue,R_1OVnUIQoDvuoLoa,dual,1,1030.25
-long_cue,R_1OVnUIQoDvuoLoa,sing,0.9375,1473.8660714285716
-long_cue,R_1OkOyQCupky29ws,dual,0.9375,784.9404761904761
-long_cue,R_1OkOyQCupky29ws,sing,0.875,773.5625
-long_cue,R_1PXVhaM73VwX7i7,dual,1,443.375
-long_cue,R_1PXVhaM73VwX7i7,sing,1,463.3125
-long_cue,R_1PemspRhIIq93Jq,dual,1,1577.7857142857142
-long_cue,R_1PemspRhIIq93Jq,sing,0.875,1634.8
-long_cue,R_1QDSGYxg9iGBQ1N,dual,0.9375,1142.982142857143
-long_cue,R_1QDSGYxg9iGBQ1N,sing,1,1133.375
-long_cue,R_1XqCDwzg1i2Esxj,dual,1,1015.375
-long_cue,R_1XqCDwzg1i2Esxj,sing,0.875,1443.0833333333333
-long_cue,R_1cUmxE0nB0eQ5tx,dual,1,1024.875
-long_cue,R_1cUmxE0nB0eQ5tx,sing,1,1064.0625
-long_cue,R_1cUnP5PoHL3kGw8,dual,1,1126.875
-long_cue,R_1cUnP5PoHL3kGw8,sing,0.875,1184.4285714285713
-long_cue,R_1cZYqPuI2ovCe8d,dual,0.875,611.0208333333333
-long_cue,R_1cZYqPuI2ovCe8d,sing,1,1403.5714285714284
-long_cue,R_1eK9C4dUWMG5UoE,dual,1,555.9375
-long_cue,R_1eK9C4dUWMG5UoE,sing,1,625.5625
-long_cue,R_1erta2V92H4drrE,dual,0.9375,1214.5714285714284
-long_cue,R_1erta2V92H4drrE,sing,0.625,1746.875
-long_cue,R_1ex76BKICzdLpi3,dual,1,864.125
-long_cue,R_1ex76BKICzdLpi3,sing,1,1125.1875
-long_cue,R_1flJVVkbxzk1i5c,dual,1,525.625
-long_cue,R_1flJVVkbxzk1i5c,sing,1,754.8125
-long_cue,R_1g6KjG4gA3vEJF7,dual,0.9375,1093.607142857143
-long_cue,R_1g6KjG4gA3vEJF7,sing,1,920.75
-long_cue,R_1gHKNsWNE1ugMUa,dual,1,1132
-long_cue,R_1gHKNsWNE1ugMUa,sing,0.875,1378.5625
-long_cue,R_1hzkst2wvP8JIH4,dual,1,750.0625
-long_cue,R_1hzkst2wvP8JIH4,sing,0.875,630.0833333333333
-long_cue,R_1imoeufCHjjazMW,dual,1,716.875
-long_cue,R_1imoeufCHjjazMW,sing,1,777.1875
-long_cue,R_1jCgwQdSLoXJHUV,dual,1,1418.8125
-long_cue,R_1jCgwQdSLoXJHUV,sing,1,1114
-long_cue,R_1jDKVL7IiGl9Yg2,dual,1,1359.0535714285716
-long_cue,R_1jDKVL7IiGl9Yg2,sing,0.8125,1416.9166666666665
-long_cue,R_1jE8xih7Lg9IirX,dual,1,476.25
-long_cue,R_1jE8xih7Lg9IirX,sing,0.9375,505.86607142857144
-long_cue,R_1jH3pdKIvdSHNIY,dual,0.9375,663.75
-long_cue,R_1jH3pdKIvdSHNIY,sing,0.9375,754.9910714285714
-long_cue,R_1jrzi2l761541zF,dual,1,657.125
-long_cue,R_1jrzi2l761541zF,sing,0.875,742.7857142857142
-long_cue,R_1lzzukvJq3atYiQ,dual,1,652.875
-long_cue,R_1lzzukvJq3atYiQ,sing,0.75,626.75
-long_cue,R_1mC4cBupoC4tHV4,dual,1,732.375
-long_cue,R_1mC4cBupoC4tHV4,sing,1,856.625
-long_cue,R_1mIULYprIrOv92G,dual,1,578.0625
-long_cue,R_1mIULYprIrOv92G,sing,0.9375,737.4553571428571
-long_cue,R_1mmFOe3uknXraci,dual,1,1142.9375
-long_cue,R_1mmFOe3uknXraci,sing,0.9375,1395.8333333333333
-long_cue,R_1nOO1BGaTXG8VNZ,dual,0.9375,1217.5625
-long_cue,R_1nOO1BGaTXG8VNZ,sing,0.9375,986.9017857142858
-long_cue,R_1nOQ0qbgqQcSRz6,dual,1,848.875
-long_cue,R_1nOQ0qbgqQcSRz6,sing,1,879.375
-long_cue,R_1pMrEEZMbPml0WU,dual,0.9375,663.6428571428571
-long_cue,R_1pMrEEZMbPml0WU,sing,1,761.0625
-long_cue,R_1pukYYnbpsfMrZv,dual,1,716.4553571428571
-long_cue,R_1pukYYnbpsfMrZv,sing,1,690.75
-long_cue,R_1qXpoOypYbjTRWl,dual,1,1654.0714285714287
-long_cue,R_1qXpoOypYbjTRWl,sing,1,1874.6666666666665
-long_cue,R_1rla5wg2eJeofgU,dual,0.9375,718.625
-long_cue,R_1rla5wg2eJeofgU,sing,1,665.3125
-long_cue,R_1rvojTzRtsDhwWZ,dual,1,448.3125
-long_cue,R_1rvojTzRtsDhwWZ,sing,1,561.9375
-long_cue,R_20Mv4w5vYeNCTls,dual,0.9375,780.0089285714286
-long_cue,R_20Mv4w5vYeNCTls,sing,1,897.25
-long_cue,R_23TwjQv7jVMZAHh,dual,0.9375,1502.1517857142858
-long_cue,R_23TwjQv7jVMZAHh,sing,1,1510.3125
-long_cue,R_24HieJfWwUqqVSw,dual,0.9375,1293.7857142857142
-long_cue,R_24HieJfWwUqqVSw,sing,0.75,1077.4285714285716
-long_cue,R_24jTtLg98nGv99c,dual,1,665.375
-long_cue,R_24jTtLg98nGv99c,sing,1,568.75
-long_cue,R_25BzCJwLFrqdpOi,dual,0.5,1569
-long_cue,R_25BzCJwLFrqdpOi,sing,0.4375,2602
-long_cue,R_27EkFokF3zDCAFg,dual,1,666.9375
-long_cue,R_27EkFokF3zDCAFg,sing,0.9375,786.8392857142858
-long_cue,R_27HkygMlXuzFDss,dual,1,1237.2232142857142
-long_cue,R_27HkygMlXuzFDss,sing,0.875,1355.1875
-long_cue,R_28B8ByTcmPbYYBi,dual,1,902.1875
-long_cue,R_28B8ByTcmPbYYBi,sing,1,817.1875
-long_cue,R_290a4seCfd02VPe,dual,1,805.375
-long_cue,R_290a4seCfd02VPe,sing,1,853.3125
-long_cue,R_29buJYsXisup2Mb,dual,0.9375,1625.9142857142856
-long_cue,R_29buJYsXisup2Mb,sing,0.75,1804.4
-long_cue,R_2AZHWSSUZ7gAeVu,dual,1,1689.5
-long_cue,R_2AZHWSSUZ7gAeVu,sing,0.9375,1704.3
-long_cue,R_2BnRYuqRU9MgxDH,dual,0.9375,889.4553571428571
-long_cue,R_2BnRYuqRU9MgxDH,sing,1,889.5625
-long_cue,R_2BtIrCsNLg3M5Hv,dual,0.9375,1026.6517857142858
-long_cue,R_2BtIrCsNLg3M5Hv,sing,0.9375,1129.732142857143
-long_cue,R_2CDt4ymTrZ6kFn0,dual,0.9375,1924.607142857143
-long_cue,R_2CDt4ymTrZ6kFn0,sing,0.9375,2147.479166666667
-long_cue,R_2P1NXSwrNBPPbSy,dual,1,1320.875
-long_cue,R_2P1NXSwrNBPPbSy,sing,0.9375,1312.267857142857
-long_cue,R_2P5OftLBu8Xnm63,dual,1,685.5625
-long_cue,R_2P5OftLBu8Xnm63,sing,1,800.5357142857142
-long_cue,R_2QggTeu9uNjR2Kz,dual,0.9375,1467.3571428571427
-long_cue,R_2QggTeu9uNjR2Kz,sing,1,1745.6160714285716
-long_cue,R_2Qn8nKQlmurWj6x,dual,0.75,1314.017857142857
-long_cue,R_2Qn8nKQlmurWj6x,sing,0.75,1422.75
-long_cue,R_2R81qJfBkmFANkJ,dual,0.875,959.0833333333333
-long_cue,R_2R81qJfBkmFANkJ,sing,0.9375,1437.6607142857142
-long_cue,R_2TvjCe31vsmiZgF,dual,1,729.5625
-long_cue,R_2TvjCe31vsmiZgF,sing,0.875,894.5714285714286
-long_cue,R_2UYj6qVJqb6JhXS,dual,1,836.0446428571429
-long_cue,R_2UYj6qVJqb6JhXS,sing,0.8125,917.7619047619048
-long_cue,R_2Y5SgzE2hzm4IzP,dual,1,1367
-long_cue,R_2Y5SgzE2hzm4IzP,sing,0.8125,1229.8809523809523
-long_cue,R_2aDYCLDeHnDcoTK,dual,1,659.5625
-long_cue,R_2aDYCLDeHnDcoTK,sing,0.9375,725.2053571428571
-long_cue,R_2c6m9mRMP3vRtxF,dual,1,819.125
-long_cue,R_2c6m9mRMP3vRtxF,sing,0.9375,1199.044642857143
-long_cue,R_2cc7FPRMpuGx2CV,dual,0.9375,485.7053571428571
-long_cue,R_2cc7FPRMpuGx2CV,sing,0.9375,822.6517857142858
-long_cue,R_2cnGgIRvbYUU2JM,dual,1,948.9375
-long_cue,R_2cnGgIRvbYUU2JM,sing,1,1053.25
-long_cue,R_2cvhE0HTQ1JO49j,dual,1,1434.75
-long_cue,R_2cvhE0HTQ1JO49j,sing,0.9375,1142.7857142857142
-long_cue,R_2dYKuSke1t2VOfa,dual,1,645.75
-long_cue,R_2dYKuSke1t2VOfa,sing,1,685.6875
-long_cue,R_2f6VCNeHmcSqTrE,dual,1,666.1875
-long_cue,R_2f6VCNeHmcSqTrE,sing,0.875,551.7142857142857
-long_cue,R_2fD1bJjW95gw3LB,dual,1,1163.1666666666665
-long_cue,R_2fD1bJjW95gw3LB,sing,1,945.375
-long_cue,R_2pJiC30bA23mBP9,dual,1,838.25
-long_cue,R_2pJiC30bA23mBP9,sing,1,976.1875
-long_cue,R_2qxGC4cTbe7xhyS,dual,0.9375,575.7142857142858
-long_cue,R_2qxGC4cTbe7xhyS,sing,1,741.5625
-long_cue,R_2rVd3Udq0Naa4tm,dual,1,990.25
-long_cue,R_2rVd3Udq0Naa4tm,sing,0.9375,813.3392857142858
-long_cue,R_2s5BrOZwyfMmXNT,dual,0.9375,812.2232142857142
-long_cue,R_2s5BrOZwyfMmXNT,sing,0.9375,994.3303571428571
-long_cue,R_2sZwXaQWcDrXX4J,dual,1,592.4375
-long_cue,R_2sZwXaQWcDrXX4J,sing,1,644.1875
-long_cue,R_2saKX0rCpQMSpWC,dual,1,811.9375
-long_cue,R_2saKX0rCpQMSpWC,sing,1,705.5
-long_cue,R_2t2RITW5Msrt0v1,dual,1,709.875
-long_cue,R_2t2RITW5Msrt0v1,sing,0.9375,1065.6875
-long_cue,R_2t8PKxoTop4myWX,dual,1,942.5625
-long_cue,R_2t8PKxoTop4myWX,sing,1,1210.5535714285716
-long_cue,R_2tzNr5GcFWibgNj,dual,0.875,1046.642857142857
-long_cue,R_2tzNr5GcFWibgNj,sing,0.9375,1222.7857142857142
-long_cue,R_2uEyL6gg252E1VJ,dual,1,888.0089285714286
-long_cue,R_2uEyL6gg252E1VJ,sing,0.9375,945.1160714285714
-long_cue,R_2uPd3IAgL1aElYJ,dual,1,678
-long_cue,R_2uPd3IAgL1aElYJ,sing,0.625,729
-long_cue,R_2uaROXK2JM6R5KN,dual,1,583.1875
-long_cue,R_2uaROXK2JM6R5KN,sing,1,777.9375
-long_cue,R_2v1EkCyV15Ok7D5,dual,1,555.6875
-long_cue,R_2v1EkCyV15Ok7D5,sing,1,655.0625
-long_cue,R_2v6M4LykwnHQpey,dual,1,675.5
-long_cue,R_2v6M4LykwnHQpey,sing,1,730.75
-long_cue,R_2wgkGKCmXhgbs6f,dual,0.8125,689.6666666666667
-long_cue,R_2wgkGKCmXhgbs6f,sing,1,913.0625
-long_cue,R_2whKJfx0Nt043dd,dual,1,476.5625
-long_cue,R_2whKJfx0Nt043dd,sing,1,497.9375
-long_cue,R_2xIZjV9sIl4RF6P,dual,0.9375,1109.5535714285716
-long_cue,R_2xIZjV9sIl4RF6P,sing,1,1205.5
-long_cue,R_2xxfsrIN77B2IyP,dual,0.9375,1491.2142857142858
-long_cue,R_2xxfsrIN77B2IyP,sing,1,1766.1041666666665
-long_cue,R_2zMG3pjpYVG6q9D,dual,0.9375,1439.5833333333333
-long_cue,R_2zMG3pjpYVG6q9D,sing,1,1710.0714285714284
-long_cue,R_2zZOxm6mvhN3djv,dual,1,486.375
-long_cue,R_2zZOxm6mvhN3djv,sing,1,565.3125
-long_cue,R_31HQAyCP0raT1FV,dual,1,483.1875
-long_cue,R_31HQAyCP0raT1FV,sing,0.9375,538.6964285714286
-long_cue,R_32Ph5gf2egyE3BQ,dual,0.9375,841.875
-long_cue,R_32Ph5gf2egyE3BQ,sing,1,981.25
-long_cue,R_32SfLOnCsAkGpkr,dual,1,713.9375
-long_cue,R_32SfLOnCsAkGpkr,sing,0.875,953.9285714285713
-long_cue,R_389Zio7QxIjX2Gl,dual,1,1596.4375
-long_cue,R_389Zio7QxIjX2Gl,sing,0.9375,1482.625
-long_cue,R_3CE2psUILAye8Gw,dual,1,1681.1041666666665
-long_cue,R_3CE2psUILAye8Gw,sing,1,1545.0535714285716
-long_cue,R_3CQ5KT4CZBYWAlC,dual,1,613.375
-long_cue,R_3CQ5KT4CZBYWAlC,sing,0.9375,771.4196428571429
-long_cue,R_3EnIpSKfpoFxj4q,dual,0.875,1113.5625
-long_cue,R_3EnIpSKfpoFxj4q,sing,0.8125,1678.9666666666667
-long_cue,R_3F4Nuu63mcg282m,dual,0.875,1287.1142857142856
-long_cue,R_3F4Nuu63mcg282m,sing,0.9375,1213.5208333333335
-long_cue,R_3I6Ku341O3voRKF,dual,1,1444.3125
-long_cue,R_3I6Ku341O3voRKF,sing,0.875,1642.2380952380952
-long_cue,R_3IawjgtbqJ8vZS1,dual,1,695.9375
-long_cue,R_3IawjgtbqJ8vZS1,sing,1,899.6875
-long_cue,R_3IbLExNViiL7Wmj,dual,0.75,1961
-long_cue,R_3IbLExNViiL7Wmj,sing,0.8125,1239.7666666666667
-long_cue,R_3J5dZzQpHZlbptE,dual,0.9375,1070.2857142857142
-long_cue,R_3J5dZzQpHZlbptE,sing,0.625,1339.5
-long_cue,R_3J7WamqLp1arSYg,dual,1,834.0625
-long_cue,R_3J7WamqLp1arSYg,sing,0.9375,902.875
-long_cue,R_3J8imcd2CT8E7nV,dual,1,731.9375
-long_cue,R_3J8imcd2CT8E7nV,sing,1,973.4642857142857
-long_cue,R_3JKuKZTaXlZlS9L,dual,0.875,1017.6666666666667
-long_cue,R_3JKuKZTaXlZlS9L,sing,1,1106.0125
-long_cue,R_3JepjzwRIn4QNMa,dual,0.875,1179.2142857142858
-long_cue,R_3JepjzwRIn4QNMa,sing,0.9375,1618.8333333333335
-long_cue,R_3L0GKcwhfD3ONGp,dual,1,644.5625
-long_cue,R_3L0GKcwhfD3ONGp,sing,1,818.1875
-long_cue,R_3L8bKSLPWWYQbb1,dual,1,955.125
-long_cue,R_3L8bKSLPWWYQbb1,sing,1,998
-long_cue,R_3LYmXrQqAEkquZp,dual,1,656.9375
-long_cue,R_3LYmXrQqAEkquZp,sing,0.875,988.702380952381
-long_cue,R_3MrsBALpPMDdc4K,dual,0.9375,1809.125
-long_cue,R_3MrsBALpPMDdc4K,sing,0.9375,1676.75
-long_cue,R_3MsZ1FtrecdI6Bk,dual,1,1018.9375
-long_cue,R_3MsZ1FtrecdI6Bk,sing,1,957.25
-long_cue,R_3NLrAGnHeCcusnN,dual,0.9375,925.0892857142858
-long_cue,R_3NLrAGnHeCcusnN,sing,1,1155.544642857143
-long_cue,R_3OijgTkqK3N1vDR,dual,1,829.5
-long_cue,R_3OijgTkqK3N1vDR,sing,1,1288.6517857142858
-long_cue,R_3PH8KwGY7M572k7,dual,0.8125,1243.452380952381
-long_cue,R_3PH8KwGY7M572k7,sing,1,1163.2410714285716
-long_cue,R_3PHnuh1NwQxBUke,dual,1,776.3125
-long_cue,R_3PHnuh1NwQxBUke,sing,1,1049.875
-long_cue,R_3PUkBY8ioPt2QHk,dual,1,836.25
-long_cue,R_3PUkBY8ioPt2QHk,sing,1,882.0625
-long_cue,R_3PhNSDcozSxV4x6,dual,1,552.875
-long_cue,R_3PhNSDcozSxV4x6,sing,0.9375,487.25892857142856
-long_cue,R_3PoF0xbH4zPk6H9,dual,1,839.6696428571429
-long_cue,R_3PoF0xbH4zPk6H9,sing,1,872.125
-long_cue,R_3R2V7o3AKvD3riN,dual,0.9375,1127.857142857143
-long_cue,R_3R2V7o3AKvD3riN,sing,1,1043.5
-long_cue,R_3dG1KAXAFwYYSNa,dual,0.9375,1196.455357142857
-long_cue,R_3dG1KAXAFwYYSNa,sing,0.875,1310.2857142857142
-long_cue,R_3dYB6FtZaYKmnQI,dual,0.9375,798.5625
-long_cue,R_3dYB6FtZaYKmnQI,sing,1,736.5
-long_cue,R_3ekQwKF3mgu5b6t,dual,0.9375,668.8928571428571
-long_cue,R_3ekQwKF3mgu5b6t,sing,0.9375,619.0982142857142
-long_cue,R_3emJvrH8C0R8XAf,dual,1,1106.5625
-long_cue,R_3emJvrH8C0R8XAf,sing,0.875,994.2708333333333
-long_cue,R_3fekyhJ51vsHhVz,dual,1,654.875
-long_cue,R_3fekyhJ51vsHhVz,sing,0.9375,671.9642857142858
-long_cue,R_3huTrvGn33dOCmD,dual,0.8125,1297.7714285714287
-long_cue,R_3huTrvGn33dOCmD,sing,0.9375,1161.6607142857142
-long_cue,R_3hxsgJPCQz6ODRf,dual,0.9375,1291.455357142857
-long_cue,R_3hxsgJPCQz6ODRf,sing,0.6875,1338.1964285714284
-long_cue,R_3iUBe2A2sqTNxe6,dual,0.9375,692.0714285714286
-long_cue,R_3iUBe2A2sqTNxe6,sing,0.9375,484.91964285714283
-long_cue,R_3isy7djZDjX51Zy,dual,1,1566.6875
-long_cue,R_3isy7djZDjX51Zy,sing,1,1087.1458333333335
-long_cue,R_3lA2P9y5IuW1K16,dual,0.875,593.8958333333333
-long_cue,R_3lA2P9y5IuW1K16,sing,0.8125,609.3625
-long_cue,R_3lQSewC3zD0cqPm,dual,1,517.0625
-long_cue,R_3lQSewC3zD0cqPm,sing,0.9375,603.4196428571429
-long_cue,R_3lW8WmUtn8ktnqb,dual,1,1820.3125
-long_cue,R_3lW8WmUtn8ktnqb,sing,1,1862.3875
-long_cue,R_3m29EB99jBC3eYM,dual,0.9375,723.2857142857142
-long_cue,R_3m29EB99jBC3eYM,sing,0.9375,745.5
-long_cue,R_3mfrYYubAvKcVXD,dual,1,684
-long_cue,R_3mfrYYubAvKcVXD,sing,1,758.6875
-long_cue,R_3nTN2on5k76PSqy,dual,0.9375,735.1696428571429
-long_cue,R_3nTN2on5k76PSqy,sing,1,830.5
-long_cue,R_3ni4oB2dXSyqVt5,dual,0.9375,721.7767857142858
-long_cue,R_3ni4oB2dXSyqVt5,sing,0.9375,647.9642857142858
-long_cue,R_3nuRnyn8F7V1zzY,dual,0.9375,1299
-long_cue,R_3nuRnyn8F7V1zzY,sing,0.375,1632
-long_cue,R_3nvCR77A2gIXUnU,dual,1,817.25
-long_cue,R_3nvCR77A2gIXUnU,sing,0.875,924.0714285714287
-long_cue,R_3plRloA3DMCWRlm,dual,0.875,744.4285714285714
-long_cue,R_3plRloA3DMCWRlm,sing,0.875,807.2142857142858
-long_cue,R_3qE9UFs34ohzB4u,dual,0.9375,873.0535714285714
-long_cue,R_3qE9UFs34ohzB4u,sing,1,983.0625
-long_cue,R_3qIGvV1gBPeGAF3,dual,1,699.8125
-long_cue,R_3qIGvV1gBPeGAF3,sing,1,1066.625
-long_cue,R_3qqgOHNsjhwxEbU,dual,1,830.8125
-long_cue,R_3qqgOHNsjhwxEbU,sing,1,955.875
-long_cue,R_3r1hJN0OmOW9eWt,dual,0.9375,1148.125
-long_cue,R_3r1hJN0OmOW9eWt,sing,0.875,1084.7142857142858
-long_cue,R_3r2uzs1xxGdN7Xt,dual,0.9375,1607.580357142857
-long_cue,R_3r2uzs1xxGdN7Xt,sing,0.75,1612.4
-long_cue,R_3sgjFLFAcfatVu1,dual,1,881.25
-long_cue,R_3sgjFLFAcfatVu1,sing,0.875,884.8333333333333
-long_cue,R_3snnTFxEmMWchE3,dual,1,1216.6875
-long_cue,R_3snnTFxEmMWchE3,sing,0.9375,1365.607142857143
-long_cue,R_4HGqzV1TmoKnmRb,dual,1,935.6875
-long_cue,R_4HGqzV1TmoKnmRb,sing,0.875,1546.142857142857
-long_cue,R_4UcujUnUkeMAjcd,dual,1,1282.625
-long_cue,R_4UcujUnUkeMAjcd,sing,0.9375,1172.75
-long_cue,R_5AccJZEMv9dA7ZL,dual,0.9375,1509.1458333333335
-long_cue,R_5AccJZEMv9dA7ZL,sing,1,1812.919642857143
-long_cue,R_5Bl0sD2ma6kOenD,dual,0.9375,2024.1517857142858
-long_cue,R_5Bl0sD2ma6kOenD,sing,1,1911.482142857143
-long_cue,R_6QoG7SGfNSA5MY1,dual,0.875,1516.0714285714284
-long_cue,R_6QoG7SGfNSA5MY1,sing,0.9375,1274.9910714285716
-long_cue,R_78aLaJZ9ov7E4z7,dual,0.9375,1255.3690476190477
-long_cue,R_78aLaJZ9ov7E4z7,sing,0.875,1182.1309523809523
-long_cue,R_7QYLh7Cv4ho9ne9,dual,1,871.875
-long_cue,R_7QYLh7Cv4ho9ne9,sing,1,926.4375
-long_cue,R_8039DfpRFz4mdlD,dual,0.9375,880.0625
-long_cue,R_8039DfpRFz4mdlD,sing,0.875,1147.857142857143
-long_cue,R_81zsKze4hKiO3Ch,dual,1,662.4375
-long_cue,R_81zsKze4hKiO3Ch,sing,0.75,723.75
-long_cue,R_821ywZ3Ur7opgmR,dual,1,1380.4375
-long_cue,R_821ywZ3Ur7opgmR,sing,0.9375,1686.7857142857142
-long_cue,R_8qYu2CCKRBiPBjb,dual,1,1011.0625
-long_cue,R_8qYu2CCKRBiPBjb,sing,1,902
-long_cue,R_AhqftoXBoaz9xId,dual,1,987.1517857142857
-long_cue,R_AhqftoXBoaz9xId,sing,1,1316.75
-long_cue,R_BEpHnJisiwxS1z3,dual,0.9375,1697.5267857142858
-long_cue,R_BEpHnJisiwxS1z3,sing,0.875,1576.7142857142858
-long_cue,R_BV2jiQRnLfyGBYl,dual,1,770.0625
-long_cue,R_BV2jiQRnLfyGBYl,sing,1,907.4375
-long_cue,R_Cjijzqk1J6xkLdf,dual,1,783.4375
-long_cue,R_Cjijzqk1J6xkLdf,sing,1,746.375
-long_cue,R_DcbIYJJOl9NfnSV,dual,1,454.1875
-long_cue,R_DcbIYJJOl9NfnSV,sing,0.75,848.4285714285714
-long_cue,R_O0WT1fmWD73IgCZ,dual,1,942.4375
-long_cue,R_O0WT1fmWD73IgCZ,sing,0.9375,1216.7916666666665
-long_cue,R_Ope2sXA3sL6z35T,dual,1,805.0625
-long_cue,R_Ope2sXA3sL6z35T,sing,1,729.125
-long_cue,R_PA36VyjszG9W9gt,dual,0.875,1350.2916666666665
-long_cue,R_PA36VyjszG9W9gt,sing,0.75,1004.8333333333333
-long_cue,R_PYUFtJ6v69P19WF,dual,1,794.75
-long_cue,R_PYUFtJ6v69P19WF,sing,0.9375,795.3839285714286
-long_cue,R_Q3QAyLhzVGkm1hL,dual,0.9375,1087.1964285714284
-long_cue,R_Q3QAyLhzVGkm1hL,sing,0.9375,997.5119047619048
-long_cue,R_UA47gf9TzaRpJ0B,dual,0.9375,1284.3482142857142
-long_cue,R_UA47gf9TzaRpJ0B,sing,1,1396.4375
-long_cue,R_UnfbYQPONiXwHgB,dual,0.9375,1295.0892857142858
-long_cue,R_UnfbYQPONiXwHgB,sing,1,1062.0625
-long_cue,R_VPabY1AJYIyCZPz,dual,0.9375,1194.3482142857142
-long_cue,R_VPabY1AJYIyCZPz,sing,0.9375,1225.2410714285716
-long_cue,R_W8LdRMuNzFlfzfX,dual,1,588
-long_cue,R_W8LdRMuNzFlfzfX,sing,1,598.9375
-long_cue,R_WfBh84bVieh94u5,dual,0.9375,987.9821428571429
-long_cue,R_WfBh84bVieh94u5,sing,0.75,1509.2285714285713
-long_cue,R_Y050be3d1qTgt21,dual,0.9375,745.5714285714286
-long_cue,R_Y050be3d1qTgt21,sing,1,972.4375
-long_cue,R_aXyHoAyLu9CDc4N,dual,0.875,839.8571428571429
-long_cue,R_aXyHoAyLu9CDc4N,sing,0.8125,1104.8125
-long_cue,R_bJ8LN8hW9Wr5SFj,dual,1,573.375
-long_cue,R_bJ8LN8hW9Wr5SFj,sing,1,595.6875
-long_cue,R_bj5pW4Iu3tLbUnT,dual,1,2394.416666666667
-long_cue,R_bj5pW4Iu3tLbUnT,sing,0.9375,2144.875
-long_cue,R_d6C5372Rri91D57,dual,1,1171.6875
-long_cue,R_d6C5372Rri91D57,sing,1,1456.875
-long_cue,R_dh9Z16ZeR9OmSJj,dual,1,625.5625
-long_cue,R_dh9Z16ZeR9OmSJj,sing,1,737
-long_cue,R_dm7E2sdo1YUjT3z,dual,1,467.0625
-long_cue,R_dm7E2sdo1YUjT3z,sing,1,432.5625
-long_cue,R_dmY5Tc0WANqnPs5,dual,0.8125,1196.6190476190477
-long_cue,R_dmY5Tc0WANqnPs5,sing,1,1479.25
-long_cue,R_eJrfTYcTp9qL7ix,dual,1,719.5625
-long_cue,R_eJrfTYcTp9qL7ix,sing,1,984.1875
-long_cue,R_eai96tm4PUo2JmF,dual,0.9375,843.0803571428571
-long_cue,R_eai96tm4PUo2JmF,sing,1,802.375
-long_cue,R_eyNfgTiSRXT8Xi9,dual,0.9375,1227.705357142857
-long_cue,R_eyNfgTiSRXT8Xi9,sing,0.9375,1058.7857142857142
-long_cue,R_pufazghR2YH4Vqx,dual,0.875,1108.5625
-long_cue,R_pufazghR2YH4Vqx,sing,0.9375,1149.3392857142858
-long_cue,R_r25ZrJt80L0xZ5v,dual,1,971.4375
-long_cue,R_r25ZrJt80L0xZ5v,sing,0.9375,1032.267857142857
-long_cue,R_sZRf0Q5e9LGW9gJ,dual,1,2288.4375
-long_cue,R_sZRf0Q5e9LGW9gJ,sing,1,2332.125
-long_cue,R_tLqTSkDsUZvWP4t,dual,1,761.375
-long_cue,R_tLqTSkDsUZvWP4t,sing,0.9375,798.625
-long_cue,R_tQjTkAdN6h1rHHP,dual,1,752.3125
-long_cue,R_tQjTkAdN6h1rHHP,sing,0.9375,867.5089285714286
-long_cue,R_vcofmMoT48YgqGd,dual,1,1061.4375
-long_cue,R_vcofmMoT48YgqGd,sing,0.9375,1297.4464285714284
-long_cue,R_vdAXj8lKTQiuvLj,dual,0.9375,1697.8
-long_cue,R_vdAXj8lKTQiuvLj,sing,1,2116.7
-long_cue,R_vl7yAhjMq73ut4l,dual,0.9375,931.5416666666667
-long_cue,R_vl7yAhjMq73ut4l,sing,1,1008.4732142857142
-long_cue,R_xfUcAaPbjk0g6Jz,dual,1,699.75
-long_cue,R_xfUcAaPbjk0g6Jz,sing,1,768.0625
-long_cue,R_yPWGGeD3XC6CB0t,dual,0.9375,740.5
-long_cue,R_yPWGGeD3XC6CB0t,sing,0.9375,863.6607142857142
-long_cue,R_ykzlIRPd0KX2ZW1,dual,1,1041
-long_cue,R_ykzlIRPd0KX2ZW1,sing,1,1002.0625
-long_cue,R_ypQ4ZCs1p2l24eJ,dual,1,762
-long_cue,R_ypQ4ZCs1p2l24eJ,sing,0.9375,926.2946428571429
-short_cue,R_1240oKwSUYFSJUY,dual,1,563.5625
-short_cue,R_1240oKwSUYFSJUY,sing,1,675.375
-short_cue,R_125qGAPsEKNgCik,dual,0.875,835.452380952381
-short_cue,R_125qGAPsEKNgCik,sing,0.875,1234.825
-short_cue,R_1BYsxPc3DVzRRdc,dual,1,1174.125
-short_cue,R_1BYsxPc3DVzRRdc,sing,0.8125,1208.6904761904761
-short_cue,R_1C4075atnBURXV9,dual,0.9375,717.7321428571429
-short_cue,R_1C4075atnBURXV9,sing,1,596.9375
-short_cue,R_1Ca7oDDfGUuqpD2,dual,0.9375,906.1517857142858
-short_cue,R_1Ca7oDDfGUuqpD2,sing,0.875,1020.9285714285713
-short_cue,R_1DUQTsUdLXCAotg,dual,0.9375,785.9910714285714
-short_cue,R_1DUQTsUdLXCAotg,sing,0.9375,688.7232142857142
-short_cue,R_1Ed18J86Ydnz5JK,dual,0.875,1180.9583333333335
-short_cue,R_1Ed18J86Ydnz5JK,sing,0.75,968.9375
-short_cue,R_1F3O1RwVVn1ANjS,dual,0.9375,1149.642857142857
-short_cue,R_1F3O1RwVVn1ANjS,sing,0.9375,669.3660714285714
-short_cue,R_1FQy7LAFBlt3sbw,dual,0.9375,1022.4196428571429
-short_cue,R_1FQy7LAFBlt3sbw,sing,0.875,1127.8541666666665
-short_cue,R_1FkyCxrQzCKlVM3,dual,0.875,954.2857142857142
-short_cue,R_1FkyCxrQzCKlVM3,sing,0.9375,969.6785714285714
-short_cue,R_1FlZaoI26lrL1xW,dual,0.875,801.2291666666667
-short_cue,R_1FlZaoI26lrL1xW,sing,0.9375,602.8125
-short_cue,R_1FzvTdctlBl6mau,dual,0.875,989.2291666666666
-short_cue,R_1FzvTdctlBl6mau,sing,0.875,1173.5
-short_cue,R_1GEw2ntVr6WT5FY,dual,1,544.875
-short_cue,R_1GEw2ntVr6WT5FY,sing,0.9375,803.0625
-short_cue,R_1H5WiYRCLXLoMr6,dual,1,945.5
-short_cue,R_1H5WiYRCLXLoMr6,sing,1,875.8125
-short_cue,R_1IagvrDfWeu1SzI,dual,0.9375,1197.705357142857
-short_cue,R_1IagvrDfWeu1SzI,sing,0.9375,815.1696428571429
-short_cue,R_1K2LTDdSTkk0CkO,dual,0.875,847.8125
-short_cue,R_1K2LTDdSTkk0CkO,sing,0.8125,713.9625
-short_cue,R_1KkDDjZQonL8jXf,dual,0.9375,1224.1875
-short_cue,R_1KkDDjZQonL8jXf,sing,0.8125,1398.55
-short_cue,R_1Nex25Z07JEPqPT,dual,1,900.9642857142858
-short_cue,R_1Nex25Z07JEPqPT,sing,1,842.25
-short_cue,R_1OE6gsnJdCYDJNp,dual,0.875,1309.6904761904761
-short_cue,R_1OE6gsnJdCYDJNp,sing,0.8125,1236.5666666666666
-short_cue,R_1OJJIMbAOHmEsc6,dual,0.875,729
-short_cue,R_1OJJIMbAOHmEsc6,sing,0.9375,578.1071428571429
-short_cue,R_1Oy5gti2oOMkrmx,dual,0.9375,1283.7857142857142
-short_cue,R_1Oy5gti2oOMkrmx,sing,1,999.0625
-short_cue,R_1Q0nnQSbpfMIzl8,dual,0.75,2021.9583333333333
-short_cue,R_1Q0nnQSbpfMIzl8,sing,0.8125,1714.345238095238
-short_cue,R_1QcQ8lM8sMgbe9Z,dual,1,597.6875
-short_cue,R_1QcQ8lM8sMgbe9Z,sing,1,770.625
-short_cue,R_1QhHQgn3oncjPVH,dual,1,648.9375
-short_cue,R_1QhHQgn3oncjPVH,sing,1,588.1875
-short_cue,R_1fd9g37kVcLlQon,dual,0.9375,839.1517857142858
-short_cue,R_1fd9g37kVcLlQon,sing,0.9375,771.6785714285714
-short_cue,R_1fjeMABd9YtFdM2,dual,1,976.5625
-short_cue,R_1fjeMABd9YtFdM2,sing,0.75,872.5857142857143
-short_cue,R_1gGFiI9dwPgNWnF,dual,0.8125,653.7261904761905
-short_cue,R_1gGFiI9dwPgNWnF,sing,1,816
-short_cue,R_1gTnf5neAjKhFhT,dual,0.625,1241.0666666666666
-short_cue,R_1gTnf5neAjKhFhT,sing,0.9375,1058.857142857143
-short_cue,R_1hKL5I25Q84xW4U,dual,0.8125,2242.5833333333335
-short_cue,R_1hKL5I25Q84xW4U,sing,1,2220.75
-short_cue,R_1hXp8VCud7SMiKb,dual,0.9375,654.3660714285714
-short_cue,R_1hXp8VCud7SMiKb,sing,0.9375,837.8035714285714
-short_cue,R_1iffR2ZzRyikKgD,dual,0.875,806.8452380952381
-short_cue,R_1iffR2ZzRyikKgD,sing,0.9375,616.7410714285714
-short_cue,R_1jrMskfuP7Mrr9S,dual,0.9375,453.44642857142856
-short_cue,R_1jrMskfuP7Mrr9S,sing,0.9375,613.1071428571429
-short_cue,R_1lo8TnSLVLCPrMI,dual,0.9375,1037.8125
-short_cue,R_1lo8TnSLVLCPrMI,sing,0.75,1001.8571428571429
-short_cue,R_1oAMtAsotlpba75,dual,1,791
-short_cue,R_1oAMtAsotlpba75,sing,1,566.0625
-short_cue,R_1oBEFfxegvaFxqs,dual,0.9375,816.3571428571429
-short_cue,R_1oBEFfxegvaFxqs,sing,1,976.3125
-short_cue,R_1onlnd0PSlmh0kP,dual,1,958.5892857142857
-short_cue,R_1onlnd0PSlmh0kP,sing,0.9375,1512.1607142857142
-short_cue,R_1pJPjmN0ZA5yTy2,dual,0.9375,1840.955357142857
-short_cue,R_1pJPjmN0ZA5yTy2,sing,0.875,1390.25
-short_cue,R_1ptx896QKfU4151,dual,0.75,1009.2142857142857
-short_cue,R_1ptx896QKfU4151,sing,0.9375,921.5714285714286
-short_cue,R_1r9CI6AFSBMawII,dual,0.875,680.1458333333333
-short_cue,R_1r9CI6AFSBMawII,sing,0.75,1048.1857142857143
-short_cue,R_2107Kbqwjw5sjVi,dual,1,513.375
-short_cue,R_2107Kbqwjw5sjVi,sing,1,718.5625
-short_cue,R_21A0Opwy47DGP0D,dual,0.9375,632.8660714285714
-short_cue,R_21A0Opwy47DGP0D,sing,1,829.9375
-short_cue,R_21ixygMv7kGQldy,dual,1,649.75
-short_cue,R_21ixygMv7kGQldy,sing,0.9375,901.5267857142858
-short_cue,R_232mnWKrVorZxtV,dual,0.9375,1222.357142857143
-short_cue,R_232mnWKrVorZxtV,sing,0.9375,1454.0267857142858
-short_cue,R_23UGi46yIwlgRIg,dual,0.9375,736.1696428571429
-short_cue,R_23UGi46yIwlgRIg,sing,0.9375,634.6071428571429
-short_cue,R_23V6KyyFTKNSfr0,dual,0.9375,1161.4625
-short_cue,R_23V6KyyFTKNSfr0,sing,0.9375,1002.3035714285714
-short_cue,R_24MjDzYaj8vSl2F,dual,1,1018.125
-short_cue,R_24MjDzYaj8vSl2F,sing,0.875,1180
-short_cue,R_24f2Xj2zVejGVvr,dual,0.9375,631.6160714285714
-short_cue,R_24f2Xj2zVejGVvr,sing,1,659.625
-short_cue,R_26aTxals5ya98Bn,dual,0.875,689.9285714285714
-short_cue,R_26aTxals5ya98Bn,sing,0.875,761
-short_cue,R_27I2lMBC4C9HqXh,dual,0.875,711.6428571428571
-short_cue,R_27I2lMBC4C9HqXh,sing,1,774.6875
-short_cue,R_27IKiFTRUeouja1,dual,0.8,1111.5
-short_cue,R_27IKiFTRUeouja1,sing,0.8125,1422.9375
-short_cue,R_27TjhkHUtsmEKXv,dual,0.75,1302.8333333333335
-short_cue,R_27TjhkHUtsmEKXv,sing,0.9375,1302.357142857143
-short_cue,R_29buiFpEHzEyviM,dual,1,703.9375
-short_cue,R_29buiFpEHzEyviM,sing,1,435
-short_cue,R_2AGbTgxStxS8OK7,dual,0.9375,835.3214285714286
-short_cue,R_2AGbTgxStxS8OK7,sing,1,854.8125
-short_cue,R_2ASEGOsJ8SHSVr5,dual,0.9375,1116.982142857143
-short_cue,R_2ASEGOsJ8SHSVr5,sing,1,958.75
-short_cue,R_2Bu63NcF98ifXiE,dual,1,739.9375
-short_cue,R_2Bu63NcF98ifXiE,sing,0.9375,635.5267857142858
-short_cue,R_2CTk31LB5KSXTUK,dual,1,422.9375
-short_cue,R_2CTk31LB5KSXTUK,sing,1,654.375
-short_cue,R_2D5fuTu0fyLlRoG,dual,0.9375,770
-short_cue,R_2D5fuTu0fyLlRoG,sing,1,685.375
-short_cue,R_2DRKnOvAi7cEOEe,dual,1,471
-short_cue,R_2DRKnOvAi7cEOEe,sing,1,608.4553571428571
-short_cue,R_2EAwGG7T8u9elvy,dual,0.9375,502.2857142857143
-short_cue,R_2EAwGG7T8u9elvy,sing,1,481.0625
-short_cue,R_2EGbNncbkrLeOBn,dual,0.8125,882.9166666666667
-short_cue,R_2EGbNncbkrLeOBn,sing,0.8125,1335.5
-short_cue,R_2PutYEFsewiz88m,dual,1,1421.0625
-short_cue,R_2PutYEFsewiz88m,sing,0.75,1245.357142857143
-short_cue,R_2PzXxMCgeJjWWLk,dual,1,652.6875
-short_cue,R_2PzXxMCgeJjWWLk,sing,0.875,946.1428571428571
-short_cue,R_2RPRywAKJIJoXwq,dual,1,704.5625
-short_cue,R_2RPRywAKJIJoXwq,sing,0.9375,908.6428571428571
-short_cue,R_2TOewpP52D1ZcQi,dual,0.9375,735.9553571428571
-short_cue,R_2TOewpP52D1ZcQi,sing,1,609.4375
-short_cue,R_2TvIpggb40wzcMj,dual,0.8125,691.952380952381
-short_cue,R_2TvIpggb40wzcMj,sing,0.875,595.8125
-short_cue,R_2UWLzuZCkACVgCP,dual,1,943.25
-short_cue,R_2UWLzuZCkACVgCP,sing,0.9375,1123.5892857142858
-short_cue,R_2Ugx54Yz1N7CJ36,dual,1,506.4375
-short_cue,R_2Ugx54Yz1N7CJ36,sing,0.9375,695.3035714285714
-short_cue,R_2VBBNsozbzxpfT9,dual,0.9375,583.9910714285714
-short_cue,R_2VBBNsozbzxpfT9,sing,0.9375,674.1428571428571
-short_cue,R_2Vx6MwTvzph2nt3,dual,1,597.1875
-short_cue,R_2Vx6MwTvzph2nt3,sing,0.875,892.8333333333333
-short_cue,R_2bHPDYy6X92e2YW,dual,1,825.25
-short_cue,R_2bHPDYy6X92e2YW,sing,0.9375,616.3482142857142
-short_cue,R_2cubeyiZDy5kcWK,dual,0.9375,863.0714285714286
-short_cue,R_2cubeyiZDy5kcWK,sing,0.9375,865.2
-short_cue,R_2dH0HFAfxeETPyV,dual,0.9375,868.1875
-short_cue,R_2dH0HFAfxeETPyV,sing,0.9375,753.75
-short_cue,R_2diq2w8gEnf5L8z,dual,0.9375,730.8660714285714
-short_cue,R_2diq2w8gEnf5L8z,sing,0.9375,618.6160714285714
-short_cue,R_2e2xTrAELL35qnU,dual,0.9375,906.1428571428571
-short_cue,R_2e2xTrAELL35qnU,sing,0.9375,962.1607142857143
-short_cue,R_2fBULLTffGRBWLb,dual,0.9375,1128.1875
-short_cue,R_2fBULLTffGRBWLb,sing,0.75,1144.4285714285716
-short_cue,R_2fesTAMA2X5bx5T,dual,1,466.75
-short_cue,R_2fesTAMA2X5bx5T,sing,1,510
-short_cue,R_2fvMbaH7XgyVyCF,dual,0.9375,1107.142857142857
-short_cue,R_2fvMbaH7XgyVyCF,sing,0.875,1277.5125
-short_cue,R_2q9ip8BsXKWy3tB,dual,0.9375,921.3166666666666
-short_cue,R_2q9ip8BsXKWy3tB,sing,0.875,1142.2619047619048
-short_cue,R_2qCYwbcshBGMWl9,dual,0.875,739.375
-short_cue,R_2qCYwbcshBGMWl9,sing,0.8125,798.0357142857142
-short_cue,R_2sSBN4IUEWRzEHE,dual,0.8125,1476.4833333333333
-short_cue,R_2sSBN4IUEWRzEHE,sing,0.875,1313.0208333333335
-short_cue,R_2t3eKQMwJ13cTxu,dual,0.875,809.8541666666667
-short_cue,R_2t3eKQMwJ13cTxu,sing,0.875,983.2142857142858
-short_cue,R_2t5VMWadJZXwhol,dual,0.9375,770.7767857142858
-short_cue,R_2t5VMWadJZXwhol,sing,0.6875,967.5
-short_cue,R_2tKElLKJ2RzYeOL,dual,0.875,1105.2083333333335
-short_cue,R_2tKElLKJ2RzYeOL,sing,1,1176.75
-short_cue,R_2uZFhWaBfnO4ECU,dual,0.9375,1395.0714285714287
-short_cue,R_2uZFhWaBfnO4ECU,sing,1,1202.767857142857
-short_cue,R_2w5NkTjpk5sIZmL,dual,0.875,703.4583333333333
-short_cue,R_2w5NkTjpk5sIZmL,sing,1,576.875
-short_cue,R_2z5D2HPnn3XvNKK,dual,0.875,1188.7666666666667
-short_cue,R_2z5D2HPnn3XvNKK,sing,0.5857142857142856,810
-short_cue,R_2z5xbqVjjSIyJdo,dual,1,916.375
-short_cue,R_2z5xbqVjjSIyJdo,sing,1,1411.3125
-short_cue,R_2zAzUdW0VLW47Ua,dual,0.9375,619.9107142857142
-short_cue,R_2zAzUdW0VLW47Ua,sing,0.875,641.3571428571429
-short_cue,R_2zOyxhAfuZbfaqm,dual,1,1406.1875
-short_cue,R_2zOyxhAfuZbfaqm,sing,0.875,1558.2261904761904
-short_cue,R_302H874OqnSbmug,dual,0.75,977.5833333333333
-short_cue,R_302H874OqnSbmug,sing,1,746.6875
-short_cue,R_3061vbhI41l7m5V,dual,0.75,934.3428571428572
-short_cue,R_3061vbhI41l7m5V,sing,1,787.875
-short_cue,R_31zRT6XRWDLt6XR,dual,0.9375,864.2946428571429
-short_cue,R_31zRT6XRWDLt6XR,sing,0.9375,928.0982142857142
-short_cue,R_325E8Zcstn7PYYf,dual,0.8125,934.6166666666667
-short_cue,R_325E8Zcstn7PYYf,sing,0.8125,924.8125
-short_cue,R_32X7zIltyrBl2XJ,dual,0.8125,1218.1666666666665
-short_cue,R_32X7zIltyrBl2XJ,sing,0.875,1031.142857142857
-short_cue,R_33gvmuPR94pwSQR,dual,0.9375,1194.419642857143
-short_cue,R_33gvmuPR94pwSQR,sing,0.8125,1323.5428571428572
-short_cue,R_33wriurPRqAICJQ,dual,1,797.4375
-short_cue,R_33wriurPRqAICJQ,sing,0.9375,1110.1607142857142
-short_cue,R_3CH6GYzeXMmQ3BR,dual,0.875,656.1428571428571
-short_cue,R_3CH6GYzeXMmQ3BR,sing,0.9375,830.1607142857142
-short_cue,R_3E9zqUUokucmyvi,dual,0.75,1041.9375
-short_cue,R_3E9zqUUokucmyvi,sing,0.875,1239.1666666666665
-short_cue,R_3EXNIE6ibfayydJ,dual,1,547.5625
-short_cue,R_3EXNIE6ibfayydJ,sing,1,487.8125
-short_cue,R_3F54OWKljGjDYun,dual,0.9375,591.9107142857142
-short_cue,R_3F54OWKljGjDYun,sing,0.9375,597.625
-short_cue,R_3G3aqKAxalampJB,dual,0.875,555.0714285714286
-short_cue,R_3G3aqKAxalampJB,sing,1,519.25
-short_cue,R_3GfEE0tSJtpYpDK,dual,1,842
-short_cue,R_3GfEE0tSJtpYpDK,sing,0.9375,935.1339285714286
-short_cue,R_3GrJEh3BPMqoUIE,dual,0.9375,937.8095238095239
-short_cue,R_3GrJEh3BPMqoUIE,sing,0.75,808.8333333333333
-short_cue,R_3GwicDp1Qe1fIYu,dual,0.9375,1071.8839285714284
-short_cue,R_3GwicDp1Qe1fIYu,sing,1,862.625
-short_cue,R_3Hov1y7dOtcDZlE,dual,0.9375,1388.267857142857
-short_cue,R_3Hov1y7dOtcDZlE,sing,0.6875,1090.3
-short_cue,R_3Ht3R1VCyo41bf7,dual,0.875,635.5833333333334
-short_cue,R_3Ht3R1VCyo41bf7,sing,0.6875,822.95
-short_cue,R_3Hzu7sZLBROTBKI,dual,0.9375,1146.357142857143
-short_cue,R_3Hzu7sZLBROTBKI,sing,1,913.4375
-short_cue,R_3Ic5XcXj3i1cbFL,dual,0.9375,623.125
-short_cue,R_3Ic5XcXj3i1cbFL,sing,0.8125,618.047619047619
-short_cue,R_3JCQVowq4SWDWhO,dual,1,556.8125
-short_cue,R_3JCQVowq4SWDWhO,sing,0.875,595.5
-short_cue,R_3JCuHa99Y2UioVU,dual,0.9375,1148.732142857143
-short_cue,R_3JCuHa99Y2UioVU,sing,0.9375,1511.232142857143
-short_cue,R_3KxCDvIBCFGJlB2,dual,1,641.0625
-short_cue,R_3KxCDvIBCFGJlB2,sing,0.875,783
-short_cue,R_3M5rXHlsQsfCfZ1,dual,1,1029.1875
-short_cue,R_3M5rXHlsQsfCfZ1,sing,1,876.3125
-short_cue,R_3NDueluChz5YLcK,dual,0.8125,869.952380952381
-short_cue,R_3NDueluChz5YLcK,sing,0.875,1262.142857142857
-short_cue,R_3NJrbvniVjhQgVe,dual,1,1559.5
-short_cue,R_3NJrbvniVjhQgVe,sing,0.8125,1291.45
-short_cue,R_3NUHxGL0DDAFsRc,dual,0.875,1510.9583333333335
-short_cue,R_3NUHxGL0DDAFsRc,sing,0.9375,1087.9285714285716
-short_cue,R_3NV3o9ELxm8q0OB,dual,1,596.25
-short_cue,R_3NV3o9ELxm8q0OB,sing,1,625.5
-short_cue,R_3PzqcG3ePjyMVoQ,dual,0.875,1119.2285714285713
-short_cue,R_3PzqcG3ePjyMVoQ,sing,1,730.5625
-short_cue,R_3Rl6FSFxxA5e8ma,dual,0.9375,1183.580357142857
-short_cue,R_3Rl6FSFxxA5e8ma,sing,1,877.75
-short_cue,R_3Rl6VEWOBQmKqU6,dual,1,618.5625
-short_cue,R_3Rl6VEWOBQmKqU6,sing,0.875,778
-short_cue,R_3RmwoIz93sstbuX,dual,1,706.75
-short_cue,R_3RmwoIz93sstbuX,sing,0.8125,961.0357142857142
-short_cue,R_3Vm6NBKASkpNULn,dual,0.8125,1849.8285714285716
-short_cue,R_3Vm6NBKASkpNULn,sing,0.9375,1230.0535714285716
-short_cue,R_3dYRf1LJJY5sNDQ,dual,1,564
-short_cue,R_3dYRf1LJJY5sNDQ,sing,0.8125,721.975
-short_cue,R_3dYYZ1eB57mzvcP,dual,0.9375,751.5357142857142
-short_cue,R_3dYYZ1eB57mzvcP,sing,1,620.9375
-short_cue,R_3fIafKngtt8LCdv,dual,1,727.625
-short_cue,R_3fIafKngtt8LCdv,sing,0.9375,764.8303571428571
-short_cue,R_3fftJphDI5wp8jD,dual,0.875,1270.2857142857142
-short_cue,R_3fftJphDI5wp8jD,sing,1,885.5
-short_cue,R_3gMLdLQylpAUOCz,dual,0.9375,728.9107142857142
-short_cue,R_3gMLdLQylpAUOCz,sing,0.9375,655.9285714285714
-short_cue,R_3gSdxynZBUsA24l,dual,1,919.75
-short_cue,R_3gSdxynZBUsA24l,sing,1,950.375
-short_cue,R_3iFr8MpMy69byrN,dual,1,1200.8125
-short_cue,R_3iFr8MpMy69byrN,sing,1,1151.1875
-short_cue,R_3j0uBCOqMwUzlCW,dual,0.9375,1078.7589285714284
-short_cue,R_3j0uBCOqMwUzlCW,sing,0.9375,976.9464285714286
-short_cue,R_3j9ApP6uO0ORpcw,dual,1,804.125
-short_cue,R_3j9ApP6uO0ORpcw,sing,1,705.0625
-short_cue,R_3jAe4d8aowHEK53,dual,0.9375,1789.9464285714284
-short_cue,R_3jAe4d8aowHEK53,sing,0.875,1250.7291666666665
-short_cue,R_3jSRUtmlwcSos3T,dual,1,515.375
-short_cue,R_3jSRUtmlwcSos3T,sing,1,457.125
-short_cue,R_3jZIGhpufmzSmRG,dual,1,1637.6875
-short_cue,R_3jZIGhpufmzSmRG,sing,0.75,1683.042857142857
-short_cue,R_3kANJhWZWQZHHzt,dual,0.9375,1209.357142857143
-short_cue,R_3kANJhWZWQZHHzt,sing,0.9375,1376.6309523809523
-short_cue,R_3kAQUBQH7gOE6L4,dual,1,751.0416666666667
-short_cue,R_3kAQUBQH7gOE6L4,sing,0.75,811.4166666666667
-short_cue,R_3koHaaGXSWbfZCH,dual,0.9375,636.25
-short_cue,R_3koHaaGXSWbfZCH,sing,1,764.4375
-short_cue,R_3kq4Tx7qydJo7oB,dual,1,1212.3125
-short_cue,R_3kq4Tx7qydJo7oB,sing,0.875,1739.2261904761904
-short_cue,R_3lQ7ThL8ft9I4Xd,dual,0.9375,852.2410714285714
-short_cue,R_3lQ7ThL8ft9I4Xd,sing,1,576.25
-short_cue,R_3lQY2j5LMIXXK4u,dual,0.875,596.7738095238095
-short_cue,R_3lQY2j5LMIXXK4u,sing,0.875,749.7291666666667
-short_cue,R_3lxHPjKjHR4VSZX,dual,0.8125,1085
-short_cue,R_3lxHPjKjHR4VSZX,sing,0.875,935.4583333333333
-short_cue,R_3nGjakNTDKLeUI5,dual,0.875,1337.2142857142858
-short_cue,R_3nGjakNTDKLeUI5,sing,0.9375,1195.6964285714284
-short_cue,R_3nj6domOVc1jJjN,dual,0.8125,1018.4285714285714
-short_cue,R_3nj6domOVc1jJjN,sing,0.9375,1277.125
-short_cue,R_3paGJTFEkF29ztH,dual,1,520.4375
-short_cue,R_3paGJTFEkF29ztH,sing,0.8125,575.5833333333333
-short_cue,R_3peQmhVVM6LZ8Rq,dual,0.8125,1108.297619047619
-short_cue,R_3peQmhVVM6LZ8Rq,sing,0.5,999.125
-short_cue,R_3qU5FwC4OCJ7aqk,dual,0.8125,536.1071428571429
-short_cue,R_3qU5FwC4OCJ7aqk,sing,1,593.625
-short_cue,R_3svpurCda9KfwHp,dual,1,877.6696428571429
-short_cue,R_3svpurCda9KfwHp,sing,0.9375,773.9017857142858
-short_cue,R_4MlrIKWtWMynXgJ,dual,0.9375,805.6607142857142
-short_cue,R_4MlrIKWtWMynXgJ,sing,0.9375,721.3482142857142
-short_cue,R_4V0pQt6VgkQw0lb,dual,1,1061.9375
-short_cue,R_4V0pQt6VgkQw0lb,sing,0.75,992.0833333333333
-short_cue,R_5zD75iREBKTihMt,dual,1,675.5625
-short_cue,R_5zD75iREBKTihMt,sing,1,840.1875
-short_cue,R_6AkMGcTw5XpOoSd,dual,1,1365.9375
-short_cue,R_6AkMGcTw5XpOoSd,sing,0.9375,1310.669642857143
-short_cue,R_87dG0u6RSBe8bpD,dual,0.9375,561.625
-short_cue,R_87dG0u6RSBe8bpD,sing,0.9375,500.44642857142856
-short_cue,R_88lRNtWC8jzcvPr,dual,1,622.4375
-short_cue,R_88lRNtWC8jzcvPr,sing,0.9375,887.3571428571429
-short_cue,R_9SIq53ZIw0UeCMp,dual,0.875,702.8541666666667
-short_cue,R_9SIq53ZIw0UeCMp,sing,0.9375,893.6428571428571
-short_cue,R_9ZV7VYa4WgGSoPT,dual,1,443.8125
-short_cue,R_9ZV7VYa4WgGSoPT,sing,1,460.6875
-short_cue,R_AFYcy8WqCbGhYSB,dual,0.9375,684.5982142857142
-short_cue,R_AFYcy8WqCbGhYSB,sing,1,916.3125
-short_cue,R_ClZZ8iH4ih5ZuSd,dual,0.9375,1697.2142857142858
-short_cue,R_ClZZ8iH4ih5ZuSd,sing,0.875,1718.1
-short_cue,R_O0SCTkaxAB7vjA5,dual,0.9375,908.8303571428571
-short_cue,R_O0SCTkaxAB7vjA5,sing,0.8125,988.55
-short_cue,R_OBikbvVJp5ZcCOt,dual,1,775.4375
-short_cue,R_OBikbvVJp5ZcCOt,sing,0.8125,948.9761904761905
-short_cue,R_OPCfSDjGV5SHORr,dual,1,762.1875
-short_cue,R_OPCfSDjGV5SHORr,sing,1,620.5625
-short_cue,R_OjUO1JZhl881Wdr,dual,0.875,637.4791666666667
-short_cue,R_OjUO1JZhl881Wdr,sing,0.9375,594.2589285714286
-short_cue,R_OkxFT8Yi5pR6dsB,dual,0.875,1061.8958333333333
-short_cue,R_OkxFT8Yi5pR6dsB,sing,0.6875,956.9107142857142
-short_cue,R_PIpINaW6xp0qDD3,dual,0.9375,662.2321428571429
-short_cue,R_PIpINaW6xp0qDD3,sing,1,584.4375
-short_cue,R_PSSk558zgwsdfq1,dual,0.8125,1265.5714285714284
-short_cue,R_PSSk558zgwsdfq1,sing,0.9375,954.5714285714286
-short_cue,R_Pwhzf2X9FTJWwcp,dual,0.9375,528.5803571428571
-short_cue,R_Pwhzf2X9FTJWwcp,sing,0.875,650.0714285714286
-short_cue,R_QoG98GIXlyTTQCB,dual,0.9375,784.4732142857142
-short_cue,R_QoG98GIXlyTTQCB,sing,0.875,700.6666666666667
-short_cue,R_R838SwdXuvvg13j,dual,1,914.4375
-short_cue,R_R838SwdXuvvg13j,sing,1,835.5625
-short_cue,R_RPRRh5b9RJjsLWF,dual,0.9375,2276.5
-short_cue,R_RPRRh5b9RJjsLWF,sing,0.9375,2417.6666666666665
-short_cue,R_RxCmnVP4h0M2Iet,dual,0.625,965.25
-short_cue,R_RxCmnVP4h0M2Iet,sing,0.9375,995.5
-short_cue,R_SUAv0Djpf96vXsB,dual,0.9375,947.7857142857142
-short_cue,R_SUAv0Djpf96vXsB,sing,0.875,1075.8214285714284
-short_cue,R_TjDuFk15r39Xrqh,dual,0.75,703.8571428571429
-short_cue,R_TjDuFk15r39Xrqh,sing,0.9375,651.4017857142858
-short_cue,R_VO1OFG6TLIlFTbj,dual,0.9375,1331.330357142857
-short_cue,R_VO1OFG6TLIlFTbj,sing,1,961.1875
-short_cue,R_Y3NmOCLnLbfmdRT,dual,0.875,613.5714285714286
-short_cue,R_Y3NmOCLnLbfmdRT,sing,0.9375,680.6607142857142
-short_cue,R_Z9PxP0CExYG8397,dual,1,489.875
-short_cue,R_Z9PxP0CExYG8397,sing,0.75,557.2142857142858
-short_cue,R_ZahaFNCfOgy05xL,dual,0.875,1173.2142857142858
-short_cue,R_ZahaFNCfOgy05xL,sing,0.9375,1103.0089285714284
-short_cue,R_ZaxZDyOScZVjzz3,dual,0.875,914.9791666666667
-short_cue,R_ZaxZDyOScZVjzz3,sing,0.6875,987.3392857142857
-short_cue,R_a8Keqoc6RqZXPj3,dual,0.4375,1407.5
-short_cue,R_a8Keqoc6RqZXPj3,sing,0.5,845.5
-short_cue,R_b1xBevGuDlgE5mp,dual,1,627.8125
-short_cue,R_b1xBevGuDlgE5mp,sing,0.9375,714.7410714285714
-short_cue,R_bxcuLDEvGbOnKHT,dual,0.75,1669.6666666666665
-short_cue,R_bxcuLDEvGbOnKHT,sing,0.5,1382.2
-short_cue,R_dfYxqvX4G98rUXL,dual,0.9375,900.8571428571429
-short_cue,R_dfYxqvX4G98rUXL,sing,0.8125,563.8809523809524
-short_cue,R_eKdyzfVrqfswb1n,dual,1,1516.625
-short_cue,R_eKdyzfVrqfswb1n,sing,0.875,1597.2142857142858
-short_cue,R_esMmOCJbTcEsIq5,dual,0.875,1030.892857142857
-short_cue,R_esMmOCJbTcEsIq5,sing,0.875,781.2291666666667
-short_cue,R_pEoe2uY6YbOw3aF,dual,0.8125,493.7738095238095
-short_cue,R_pEoe2uY6YbOw3aF,sing,0.9375,438.74107142857144
-short_cue,R_pK7U209871YpYIN,dual,1,1492.5
-short_cue,R_pK7U209871YpYIN,sing,0.75,1633.642857142857
-short_cue,R_pT8XhCOwudJrdq9,dual,0.875,793
-short_cue,R_pT8XhCOwudJrdq9,sing,1,774.3125
-short_cue,R_pngU1YVfrXpM6m5,dual,0.9375,481.61607142857144
-short_cue,R_pngU1YVfrXpM6m5,sing,1,604.5
-short_cue,R_qL4FaXWkk1AqEmt,dual,0.875,2290.625
-short_cue,R_qL4FaXWkk1AqEmt,sing,0.6875,1361.3333333333333
-short_cue,R_rcHQpWAv7AbsluV,dual,0.875,750.5
-short_cue,R_rcHQpWAv7AbsluV,sing,1,800.875
-short_cue,R_rkiqrtdH01X2Uz7,dual,0.8125,1037.202380952381
-short_cue,R_rkiqrtdH01X2Uz7,sing,1,842.5625
-short_cue,R_rpa23bPTMqxRuy5,dual,0.9375,1140.482142857143
-short_cue,R_rpa23bPTMqxRuy5,sing,0.875,1306.9761904761904
-short_cue,R_szedVFAI7mc8uqt,dual,1,578.5803571428571
-short_cue,R_szedVFAI7mc8uqt,sing,1,595.8125
-short_cue,R_u220n4MBxTrGIqB,dual,1,1070
-short_cue,R_u220n4MBxTrGIqB,sing,1,785.625
-short_cue,R_uk7jLfoyyvrie5P,dual,0.9375,682.7232142857142
-short_cue,R_uk7jLfoyyvrie5P,sing,0.875,734.725
-short_cue,R_uk8lyne8BTwZWx3,dual,0.9375,651.4375
-short_cue,R_uk8lyne8BTwZWx3,sing,1,554.25
-short_cue,R_vMGeXCE2A7fFihP,dual,0.9375,1016.0357142857142
-short_cue,R_vMGeXCE2A7fFihP,sing,0.9375,1197.042857142857
-short_cue,R_vcRLjOIJganFB5L,dual,1,883.25
-short_cue,R_vcRLjOIJganFB5L,sing,0.8125,649.95
-short_cue,R_vf2rDe2loSzFI4h,dual,1,1564.669642857143
-short_cue,R_vf2rDe2loSzFI4h,sing,0.9375,1837.8035714285716
-short_cue,R_voSsFXEsEVlpeMx,dual,0.9375,984.8839285714286
-short_cue,R_voSsFXEsEVlpeMx,sing,1,1285.5
-short_cue,R_xaQjSryVetgbxMR,dual,0.9375,1265.5
-short_cue,R_xaQjSryVetgbxMR,sing,0.9375,1305.2857142857142
-short_cue,R_xiuZL8oQedG2nrb,dual,1,741.5
-short_cue,R_xiuZL8oQedG2nrb,sing,0.9375,572.9821428571429
-short_cue,R_yPWVvpu60ycQ8P7,dual,0.75,975.9833333333333
-short_cue,R_yPWVvpu60ycQ8P7,sing,0.875,844.7857142857142
-short_cue,R_ykWwfg34VBujl0B,dual,0.9375,967.5446428571429
-short_cue,R_ykWwfg34VBujl0B,sing,1,821.875
-short_cue,R_z0je8cRGh1eQ8Rb,dual,1,847.125
-short_cue,R_z0je8cRGh1eQ8Rb,sing,0.9375,621.0357142857142
-short_cue,R_zZ3GrNWCcyKf98B,dual,0.9375,917.0625
-short_cue,R_zZ3GrNWCcyKf98B,sing,1,859.75
+Task,Trial Type,PPnr,accuracy,reaction_time
+long cue,dual feature,R_08x3yfNtCFtgBYl,NaN,NaN
+long cue,dual feature,R_0OmSAzFURsT3hND,NaN,NaN
+long cue,dual feature,R_10ZPMCCzcV8FG6A,NaN,NaN
+long cue,dual feature,R_12s68Ligswec1t3,NaN,NaN
+long cue,dual feature,R_1BPAkPhD282eIwa,NaN,NaN
+long cue,dual feature,R_1CDQa7qsN9RNzFH,NaN,NaN
+long cue,dual feature,R_1CJcSTbRoTUCqgI,NaN,NaN
+long cue,dual feature,R_1cUmxE0nB0eQ5tx,NaN,NaN
+long cue,dual feature,R_1cUnP5PoHL3kGw8,NaN,NaN
+long cue,dual feature,R_1cZYqPuI2ovCe8d,NaN,NaN
+long cue,dual feature,R_1DuNzuDT2Ly6aYo,NaN,NaN
+long cue,dual feature,R_1Ej3yOyXSRu4rHj,NaN,NaN
+long cue,dual feature,R_1eK9C4dUWMG5UoE,NaN,NaN
+long cue,dual feature,R_1erta2V92H4drrE,NaN,NaN
+long cue,dual feature,R_1ex76BKICzdLpi3,NaN,NaN
+long cue,dual feature,R_1flJVVkbxzk1i5c,NaN,NaN
+long cue,dual feature,R_1g6KjG4gA3vEJF7,NaN,NaN
+long cue,dual feature,R_1gHKNsWNE1ugMUa,NaN,NaN
+long cue,dual feature,R_1HkLtKPGeWEXFwg,NaN,NaN
+long cue,dual feature,R_1HpZbLVjg7CUvTk,NaN,NaN
+long cue,dual feature,R_1hzkst2wvP8JIH4,NaN,NaN
+long cue,dual feature,R_1IfTVw1P9JXGPqL,NaN,NaN
+long cue,dual feature,R_1imoeufCHjjazMW,NaN,NaN
+long cue,dual feature,R_1IR8kofj9wFWdIF,NaN,NaN
+long cue,dual feature,R_1ISOn43feC1HgrC,NaN,NaN
+long cue,dual feature,R_1IXVr7a4rbLclDy,NaN,NaN
+long cue,dual feature,R_1jCgwQdSLoXJHUV,NaN,NaN
+long cue,dual feature,R_1jDKVL7IiGl9Yg2,NaN,NaN
+long cue,dual feature,R_1jE8xih7Lg9IirX,NaN,NaN
+long cue,dual feature,R_1jH3pdKIvdSHNIY,NaN,NaN
+long cue,dual feature,R_1jrzi2l761541zF,NaN,NaN
+long cue,dual feature,R_1K3eLYRF0WM0F1x,NaN,NaN
+long cue,dual feature,R_1K6KGucq5uhaFzv,NaN,NaN
+long cue,dual feature,R_1K71a7Ou0dd9RDl,NaN,NaN
+long cue,dual feature,R_1KqDdYqdsxJyWIf,NaN,NaN
+long cue,dual feature,R_1LXmTvk5iLuGEaA,NaN,NaN
+long cue,dual feature,R_1lzzukvJq3atYiQ,NaN,NaN
+long cue,dual feature,R_1mC4cBupoC4tHV4,NaN,NaN
+long cue,dual feature,R_1mIULYprIrOv92G,NaN,NaN
+long cue,dual feature,R_1mmFOe3uknXraci,NaN,NaN
+long cue,dual feature,R_1nOO1BGaTXG8VNZ,NaN,NaN
+long cue,dual feature,R_1nOQ0qbgqQcSRz6,NaN,NaN
+long cue,dual feature,R_1OkOyQCupky29ws,NaN,NaN
+long cue,dual feature,R_1OVnUIQoDvuoLoa,NaN,NaN
+long cue,dual feature,R_1PemspRhIIq93Jq,NaN,NaN
+long cue,dual feature,R_1pMrEEZMbPml0WU,NaN,NaN
+long cue,dual feature,R_1pukYYnbpsfMrZv,NaN,NaN
+long cue,dual feature,R_1PXVhaM73VwX7i7,NaN,NaN
+long cue,dual feature,R_1QDSGYxg9iGBQ1N,NaN,NaN
+long cue,dual feature,R_1qXpoOypYbjTRWl,NaN,NaN
+long cue,dual feature,R_1rla5wg2eJeofgU,NaN,NaN
+long cue,dual feature,R_1rvojTzRtsDhwWZ,NaN,NaN
+long cue,dual feature,R_1XqCDwzg1i2Esxj,NaN,NaN
+long cue,dual feature,R_20Mv4w5vYeNCTls,NaN,NaN
+long cue,dual feature,R_23TwjQv7jVMZAHh,NaN,NaN
+long cue,dual feature,R_24HieJfWwUqqVSw,NaN,NaN
+long cue,dual feature,R_24jTtLg98nGv99c,NaN,NaN
+long cue,dual feature,R_25BzCJwLFrqdpOi,NaN,NaN
+long cue,dual feature,R_27EkFokF3zDCAFg,NaN,NaN
+long cue,dual feature,R_27HkygMlXuzFDss,NaN,NaN
+long cue,dual feature,R_28B8ByTcmPbYYBi,NaN,NaN
+long cue,dual feature,R_290a4seCfd02VPe,NaN,NaN
+long cue,dual feature,R_29buJYsXisup2Mb,NaN,NaN
+long cue,dual feature,R_2aDYCLDeHnDcoTK,NaN,NaN
+long cue,dual feature,R_2AZHWSSUZ7gAeVu,NaN,NaN
+long cue,dual feature,R_2BnRYuqRU9MgxDH,NaN,NaN
+long cue,dual feature,R_2BtIrCsNLg3M5Hv,NaN,NaN
+long cue,dual feature,R_2c6m9mRMP3vRtxF,NaN,NaN
+long cue,dual feature,R_2cc7FPRMpuGx2CV,NaN,NaN
+long cue,dual feature,R_2CDt4ymTrZ6kFn0,NaN,NaN
+long cue,dual feature,R_2cnGgIRvbYUU2JM,NaN,NaN
+long cue,dual feature,R_2cvhE0HTQ1JO49j,NaN,NaN
+long cue,dual feature,R_2dYKuSke1t2VOfa,NaN,NaN
+long cue,dual feature,R_2f6VCNeHmcSqTrE,NaN,NaN
+long cue,dual feature,R_2fD1bJjW95gw3LB,NaN,NaN
+long cue,dual feature,R_2P1NXSwrNBPPbSy,NaN,NaN
+long cue,dual feature,R_2P5OftLBu8Xnm63,NaN,NaN
+long cue,dual feature,R_2pJiC30bA23mBP9,NaN,NaN
+long cue,dual feature,R_2QggTeu9uNjR2Kz,NaN,NaN
+long cue,dual feature,R_2Qn8nKQlmurWj6x,NaN,NaN
+long cue,dual feature,R_2qxGC4cTbe7xhyS,NaN,NaN
+long cue,dual feature,R_2R81qJfBkmFANkJ,NaN,NaN
+long cue,dual feature,R_2rVd3Udq0Naa4tm,NaN,NaN
+long cue,dual feature,R_2s5BrOZwyfMmXNT,NaN,NaN
+long cue,dual feature,R_2saKX0rCpQMSpWC,NaN,NaN
+long cue,dual feature,R_2sZwXaQWcDrXX4J,NaN,NaN
+long cue,dual feature,R_2t2RITW5Msrt0v1,NaN,NaN
+long cue,dual feature,R_2t8PKxoTop4myWX,NaN,NaN
+long cue,dual feature,R_2TvjCe31vsmiZgF,NaN,NaN
+long cue,dual feature,R_2tzNr5GcFWibgNj,NaN,NaN
+long cue,dual feature,R_2uaROXK2JM6R5KN,NaN,NaN
+long cue,dual feature,R_2uEyL6gg252E1VJ,NaN,NaN
+long cue,dual feature,R_2uPd3IAgL1aElYJ,NaN,NaN
+long cue,dual feature,R_2UYj6qVJqb6JhXS,NaN,NaN
+long cue,dual feature,R_2v1EkCyV15Ok7D5,NaN,NaN
+long cue,dual feature,R_2v6M4LykwnHQpey,NaN,NaN
+long cue,dual feature,R_2wgkGKCmXhgbs6f,NaN,NaN
+long cue,dual feature,R_2whKJfx0Nt043dd,NaN,NaN
+long cue,dual feature,R_2xIZjV9sIl4RF6P,NaN,NaN
+long cue,dual feature,R_2xxfsrIN77B2IyP,NaN,NaN
+long cue,dual feature,R_2Y5SgzE2hzm4IzP,NaN,NaN
+long cue,dual feature,R_2zMG3pjpYVG6q9D,NaN,NaN
+long cue,dual feature,R_2zZOxm6mvhN3djv,NaN,NaN
+long cue,dual feature,R_31HQAyCP0raT1FV,NaN,NaN
+long cue,dual feature,R_32Ph5gf2egyE3BQ,NaN,NaN
+long cue,dual feature,R_32SfLOnCsAkGpkr,NaN,NaN
+long cue,dual feature,R_389Zio7QxIjX2Gl,NaN,NaN
+long cue,dual feature,R_3CE2psUILAye8Gw,NaN,NaN
+long cue,dual feature,R_3CQ5KT4CZBYWAlC,NaN,NaN
+long cue,dual feature,R_3dG1KAXAFwYYSNa,NaN,NaN
+long cue,dual feature,R_3dYB6FtZaYKmnQI,NaN,NaN
+long cue,dual feature,R_3ekQwKF3mgu5b6t,NaN,NaN
+long cue,dual feature,R_3emJvrH8C0R8XAf,NaN,NaN
+long cue,dual feature,R_3EnIpSKfpoFxj4q,NaN,NaN
+long cue,dual feature,R_3F4Nuu63mcg282m,NaN,NaN
+long cue,dual feature,R_3fekyhJ51vsHhVz,NaN,NaN
+long cue,dual feature,R_3huTrvGn33dOCmD,NaN,NaN
+long cue,dual feature,R_3hxsgJPCQz6ODRf,NaN,NaN
+long cue,dual feature,R_3I6Ku341O3voRKF,NaN,NaN
+long cue,dual feature,R_3IawjgtbqJ8vZS1,NaN,NaN
+long cue,dual feature,R_3IbLExNViiL7Wmj,NaN,NaN
+long cue,dual feature,R_3isy7djZDjX51Zy,NaN,NaN
+long cue,dual feature,R_3iUBe2A2sqTNxe6,NaN,NaN
+long cue,dual feature,R_3J5dZzQpHZlbptE,NaN,NaN
+long cue,dual feature,R_3J7WamqLp1arSYg,NaN,NaN
+long cue,dual feature,R_3J8imcd2CT8E7nV,NaN,NaN
+long cue,dual feature,R_3JepjzwRIn4QNMa,NaN,NaN
+long cue,dual feature,R_3JKuKZTaXlZlS9L,NaN,NaN
+long cue,dual feature,R_3L0GKcwhfD3ONGp,NaN,NaN
+long cue,dual feature,R_3L8bKSLPWWYQbb1,NaN,NaN
+long cue,dual feature,R_3lA2P9y5IuW1K16,NaN,NaN
+long cue,dual feature,R_3lQSewC3zD0cqPm,NaN,NaN
+long cue,dual feature,R_3lW8WmUtn8ktnqb,NaN,NaN
+long cue,dual feature,R_3LYmXrQqAEkquZp,NaN,NaN
+long cue,dual feature,R_3m29EB99jBC3eYM,NaN,NaN
+long cue,dual feature,R_3mfrYYubAvKcVXD,NaN,NaN
+long cue,dual feature,R_3MrsBALpPMDdc4K,NaN,NaN
+long cue,dual feature,R_3MsZ1FtrecdI6Bk,NaN,NaN
+long cue,dual feature,R_3ni4oB2dXSyqVt5,NaN,NaN
+long cue,dual feature,R_3NLrAGnHeCcusnN,NaN,NaN
+long cue,dual feature,R_3nTN2on5k76PSqy,NaN,NaN
+long cue,dual feature,R_3nuRnyn8F7V1zzY,NaN,NaN
+long cue,dual feature,R_3nvCR77A2gIXUnU,NaN,NaN
+long cue,dual feature,R_3OijgTkqK3N1vDR,NaN,NaN
+long cue,dual feature,R_3PH8KwGY7M572k7,NaN,NaN
+long cue,dual feature,R_3PhNSDcozSxV4x6,NaN,NaN
+long cue,dual feature,R_3PHnuh1NwQxBUke,NaN,NaN
+long cue,dual feature,R_3plRloA3DMCWRlm,NaN,NaN
+long cue,dual feature,R_3PoF0xbH4zPk6H9,NaN,NaN
+long cue,dual feature,R_3PUkBY8ioPt2QHk,NaN,NaN
+long cue,dual feature,R_3qE9UFs34ohzB4u,NaN,NaN
+long cue,dual feature,R_3qIGvV1gBPeGAF3,NaN,NaN
+long cue,dual feature,R_3qqgOHNsjhwxEbU,NaN,NaN
+long cue,dual feature,R_3r1hJN0OmOW9eWt,NaN,NaN
+long cue,dual feature,R_3r2uzs1xxGdN7Xt,NaN,NaN
+long cue,dual feature,R_3R2V7o3AKvD3riN,NaN,NaN
+long cue,dual feature,R_3sgjFLFAcfatVu1,NaN,NaN
+long cue,dual feature,R_3snnTFxEmMWchE3,NaN,NaN
+long cue,dual feature,R_4HGqzV1TmoKnmRb,NaN,NaN
+long cue,dual feature,R_4UcujUnUkeMAjcd,NaN,NaN
+long cue,dual feature,R_5AccJZEMv9dA7ZL,NaN,NaN
+long cue,dual feature,R_5Bl0sD2ma6kOenD,NaN,NaN
+long cue,dual feature,R_6QoG7SGfNSA5MY1,NaN,NaN
+long cue,dual feature,R_78aLaJZ9ov7E4z7,NaN,NaN
+long cue,dual feature,R_7QYLh7Cv4ho9ne9,NaN,NaN
+long cue,dual feature,R_8039DfpRFz4mdlD,NaN,NaN
+long cue,dual feature,R_81zsKze4hKiO3Ch,NaN,NaN
+long cue,dual feature,R_821ywZ3Ur7opgmR,NaN,NaN
+long cue,dual feature,R_8qYu2CCKRBiPBjb,NaN,NaN
+long cue,dual feature,R_AhqftoXBoaz9xId,NaN,NaN
+long cue,dual feature,R_aXyHoAyLu9CDc4N,NaN,NaN
+long cue,dual feature,R_BEpHnJisiwxS1z3,NaN,NaN
+long cue,dual feature,R_bj5pW4Iu3tLbUnT,NaN,NaN
+long cue,dual feature,R_bJ8LN8hW9Wr5SFj,NaN,NaN
+long cue,dual feature,R_BV2jiQRnLfyGBYl,NaN,NaN
+long cue,dual feature,R_Cjijzqk1J6xkLdf,NaN,NaN
+long cue,dual feature,R_d6C5372Rri91D57,NaN,NaN
+long cue,dual feature,R_DcbIYJJOl9NfnSV,NaN,NaN
+long cue,dual feature,R_dh9Z16ZeR9OmSJj,NaN,NaN
+long cue,dual feature,R_dm7E2sdo1YUjT3z,NaN,NaN
+long cue,dual feature,R_dmY5Tc0WANqnPs5,NaN,NaN
+long cue,dual feature,R_eai96tm4PUo2JmF,NaN,NaN
+long cue,dual feature,R_eJrfTYcTp9qL7ix,NaN,NaN
+long cue,dual feature,R_eyNfgTiSRXT8Xi9,NaN,NaN
+long cue,dual feature,R_O0WT1fmWD73IgCZ,NaN,NaN
+long cue,dual feature,R_Ope2sXA3sL6z35T,NaN,NaN
+long cue,dual feature,R_PA36VyjszG9W9gt,NaN,NaN
+long cue,dual feature,R_pufazghR2YH4Vqx,NaN,NaN
+long cue,dual feature,R_PYUFtJ6v69P19WF,NaN,NaN
+long cue,dual feature,R_Q3QAyLhzVGkm1hL,NaN,NaN
+long cue,dual feature,R_r25ZrJt80L0xZ5v,NaN,NaN
+long cue,dual feature,R_sZRf0Q5e9LGW9gJ,NaN,NaN
+long cue,dual feature,R_tLqTSkDsUZvWP4t,NaN,NaN
+long cue,dual feature,R_tQjTkAdN6h1rHHP,NaN,NaN
+long cue,dual feature,R_UA47gf9TzaRpJ0B,NaN,NaN
+long cue,dual feature,R_UnfbYQPONiXwHgB,NaN,NaN
+long cue,dual feature,R_vcofmMoT48YgqGd,NaN,NaN
+long cue,dual feature,R_vdAXj8lKTQiuvLj,NaN,NaN
+long cue,dual feature,R_vl7yAhjMq73ut4l,NaN,NaN
+long cue,dual feature,R_VPabY1AJYIyCZPz,NaN,NaN
+long cue,dual feature,R_W8LdRMuNzFlfzfX,NaN,NaN
+long cue,dual feature,R_WfBh84bVieh94u5,NaN,NaN
+long cue,dual feature,R_xfUcAaPbjk0g6Jz,NaN,NaN
+long cue,dual feature,R_Y050be3d1qTgt21,NaN,NaN
+long cue,dual feature,R_ykzlIRPd0KX2ZW1,NaN,NaN
+long cue,dual feature,R_ypQ4ZCs1p2l24eJ,NaN,NaN
+long cue,dual feature,R_yPWGGeD3XC6CB0t,NaN,NaN
+long cue,dual feature,R_1240oKwSUYFSJUY,1,0.564
+long cue,dual feature,R_125qGAPsEKNgCik,0.875,0.835
+long cue,dual feature,R_1BYsxPc3DVzRRdc,1,1.17
+long cue,dual feature,R_1C4075atnBURXV9,0.938,0.709
+long cue,dual feature,R_1Ca7oDDfGUuqpD2,0.938,0.906
+long cue,dual feature,R_1DUQTsUdLXCAotg,0.938,0.781
+long cue,dual feature,R_1Ed18J86Ydnz5JK,0.875,1.15
+long cue,dual feature,R_1F3O1RwVVn1ANjS,0.938,1.15
+long cue,dual feature,R_1fd9g37kVcLlQon,0.938,0.841
+long cue,dual feature,R_1fjeMABd9YtFdM2,1,0.977
+long cue,dual feature,R_1FkyCxrQzCKlVM3,0.875,0.954
+long cue,dual feature,R_1FlZaoI26lrL1xW,0.875,0.821
+long cue,dual feature,R_1FQy7LAFBlt3sbw,0.938,1.02
+long cue,dual feature,R_1FzvTdctlBl6mau,0.875,0.983
+long cue,dual feature,R_1GEw2ntVr6WT5FY,1,0.545
+long cue,dual feature,R_1gGFiI9dwPgNWnF,0.813,0.654
+long cue,dual feature,R_1gTnf5neAjKhFhT,0.625,1.22
+long cue,dual feature,R_1H5WiYRCLXLoMr6,1,0.946
+long cue,dual feature,R_1hKL5I25Q84xW4U,0.813,2.11
+long cue,dual feature,R_1hXp8VCud7SMiKb,0.938,0.654
+long cue,dual feature,R_1IagvrDfWeu1SzI,0.938,1.21
+long cue,dual feature,R_1iffR2ZzRyikKgD,0.875,0.805
+long cue,dual feature,R_1jrMskfuP7Mrr9S,0.938,0.451
+long cue,dual feature,R_1K2LTDdSTkk0CkO,0.875,0.85
+long cue,dual feature,R_1KkDDjZQonL8jXf,0.938,1.23
+long cue,dual feature,R_1lo8TnSLVLCPrMI,0.938,1.04
+long cue,dual feature,R_1Nex25Z07JEPqPT,1,0.894
+long cue,dual feature,R_1oAMtAsotlpba75,1,0.791
+long cue,dual feature,R_1oBEFfxegvaFxqs,0.938,0.826
+long cue,dual feature,R_1OE6gsnJdCYDJNp,0.875,1.33
+long cue,dual feature,R_1OJJIMbAOHmEsc6,0.875,0.729
+long cue,dual feature,R_1onlnd0PSlmh0kP,1,0.949
+long cue,dual feature,R_1Oy5gti2oOMkrmx,0.938,1.28
+long cue,dual feature,R_1pJPjmN0ZA5yTy2,0.938,1.83
+long cue,dual feature,R_1ptx896QKfU4151,0.75,1.04
+long cue,dual feature,R_1Q0nnQSbpfMIzl8,0.75,2.06
+long cue,dual feature,R_1QcQ8lM8sMgbe9Z,1,0.598
+long cue,dual feature,R_1QhHQgn3oncjPVH,1,0.649
+long cue,dual feature,R_1r9CI6AFSBMawII,0.875,0.679
+long cue,dual feature,R_2107Kbqwjw5sjVi,1,0.513
+long cue,dual feature,R_21A0Opwy47DGP0D,0.938,0.635
+long cue,dual feature,R_21ixygMv7kGQldy,1,0.65
+long cue,dual feature,R_232mnWKrVorZxtV,0.938,1.22
+long cue,dual feature,R_23UGi46yIwlgRIg,0.938,0.736
+long cue,dual feature,R_23V6KyyFTKNSfr0,0.938,1.17
+long cue,dual feature,R_24f2Xj2zVejGVvr,0.938,0.633
+long cue,dual feature,R_24MjDzYaj8vSl2F,1,1.02
+long cue,dual feature,R_26aTxals5ya98Bn,0.875,0.69
+long cue,dual feature,R_27I2lMBC4C9HqXh,0.875,0.712
+long cue,dual feature,R_27IKiFTRUeouja1,0.8,1.11
+long cue,dual feature,R_27TjhkHUtsmEKXv,0.75,1.3
+long cue,dual feature,R_29buiFpEHzEyviM,1,0.704
+long cue,dual feature,R_2AGbTgxStxS8OK7,0.938,0.836
+long cue,dual feature,R_2ASEGOsJ8SHSVr5,0.938,1.12
+long cue,dual feature,R_2bHPDYy6X92e2YW,1,0.825
+long cue,dual feature,R_2Bu63NcF98ifXiE,1,0.74
+long cue,dual feature,R_2CTk31LB5KSXTUK,1,0.423
+long cue,dual feature,R_2cubeyiZDy5kcWK,0.938,0.87
+long cue,dual feature,R_2D5fuTu0fyLlRoG,0.938,0.767
+long cue,dual feature,R_2dH0HFAfxeETPyV,0.938,0.871
+long cue,dual feature,R_2diq2w8gEnf5L8z,0.938,0.73
+long cue,dual feature,R_2DRKnOvAi7cEOEe,1,0.471
+long cue,dual feature,R_2e2xTrAELL35qnU,0.938,0.896
+long cue,dual feature,R_2EAwGG7T8u9elvy,0.938,0.506
+long cue,dual feature,R_2EGbNncbkrLeOBn,0.813,0.883
+long cue,dual feature,R_2fBULLTffGRBWLb,0.938,1.13
+long cue,dual feature,R_2fesTAMA2X5bx5T,1,0.467
+long cue,dual feature,R_2fvMbaH7XgyVyCF,0.938,1.11
+long cue,dual feature,R_2PutYEFsewiz88m,1,1.42
+long cue,dual feature,R_2PzXxMCgeJjWWLk,1,0.653
+long cue,dual feature,R_2q9ip8BsXKWy3tB,0.938,0.917
+long cue,dual feature,R_2qCYwbcshBGMWl9,0.875,0.742
+long cue,dual feature,R_2RPRywAKJIJoXwq,1,0.705
+long cue,dual feature,R_2sSBN4IUEWRzEHE,0.813,1.47
+long cue,dual feature,R_2t3eKQMwJ13cTxu,0.875,0.813
+long cue,dual feature,R_2t5VMWadJZXwhol,0.938,0.764
+long cue,dual feature,R_2tKElLKJ2RzYeOL,0.875,1.11
+long cue,dual feature,R_2TOewpP52D1ZcQi,0.938,0.728
+long cue,dual feature,R_2TvIpggb40wzcMj,0.813,0.675
+long cue,dual feature,R_2Ugx54Yz1N7CJ36,1,0.506
+long cue,dual feature,R_2UWLzuZCkACVgCP,1,0.943
+long cue,dual feature,R_2uZFhWaBfnO4ECU,0.938,1.4
+long cue,dual feature,R_2VBBNsozbzxpfT9,0.938,0.582
+long cue,dual feature,R_2Vx6MwTvzph2nt3,1,0.597
+long cue,dual feature,R_2w5NkTjpk5sIZmL,0.875,0.689
+long cue,dual feature,R_2z5D2HPnn3XvNKK,0.875,1.19
+long cue,dual feature,R_2z5xbqVjjSIyJdo,1,0.916
+long cue,dual feature,R_2zAzUdW0VLW47Ua,0.938,0.631
+long cue,dual feature,R_2zOyxhAfuZbfaqm,1,1.41
+long cue,dual feature,R_302H874OqnSbmug,0.75,0.978
+long cue,dual feature,R_3061vbhI41l7m5V,0.75,0.94
+long cue,dual feature,R_31zRT6XRWDLt6XR,0.938,0.871
+long cue,dual feature,R_325E8Zcstn7PYYf,0.813,0.932
+long cue,dual feature,R_32X7zIltyrBl2XJ,0.813,1.22
+long cue,dual feature,R_33gvmuPR94pwSQR,0.938,1.2
+long cue,dual feature,R_33wriurPRqAICJQ,1,0.797
+long cue,dual feature,R_3CH6GYzeXMmQ3BR,0.875,0.656
+long cue,dual feature,R_3dYRf1LJJY5sNDQ,1,0.564
+long cue,dual feature,R_3dYYZ1eB57mzvcP,0.938,0.767
+long cue,dual feature,R_3E9zqUUokucmyvi,0.75,1.03
+long cue,dual feature,R_3EXNIE6ibfayydJ,1,0.548
+long cue,dual feature,R_3F54OWKljGjDYun,0.938,0.593
+long cue,dual feature,R_3fftJphDI5wp8jD,0.875,1.27
+long cue,dual feature,R_3fIafKngtt8LCdv,1,0.728
+long cue,dual feature,R_3G3aqKAxalampJB,0.875,0.555
+long cue,dual feature,R_3GfEE0tSJtpYpDK,1,0.842
+long cue,dual feature,R_3gMLdLQylpAUOCz,0.938,0.723
+long cue,dual feature,R_3GrJEh3BPMqoUIE,0.938,0.935
+long cue,dual feature,R_3gSdxynZBUsA24l,1,0.92
+long cue,dual feature,R_3GwicDp1Qe1fIYu,0.938,1.09
+long cue,dual feature,R_3Hov1y7dOtcDZlE,0.938,1.39
+long cue,dual feature,R_3Ht3R1VCyo41bf7,0.9,0.641
+long cue,dual feature,R_3Hzu7sZLBROTBKI,0.938,1.15
+long cue,dual feature,R_3Ic5XcXj3i1cbFL,0.938,0.63
+long cue,dual feature,R_3iFr8MpMy69byrN,1,1.2
+long cue,dual feature,R_3j0uBCOqMwUzlCW,0.938,1.1
+long cue,dual feature,R_3j9ApP6uO0ORpcw,1,0.804
+long cue,dual feature,R_3jAe4d8aowHEK53,0.938,1.8
+long cue,dual feature,R_3JCQVowq4SWDWhO,1,0.557
+long cue,dual feature,R_3JCuHa99Y2UioVU,0.938,1.17
+long cue,dual feature,R_3jSRUtmlwcSos3T,1,0.515
+long cue,dual feature,R_3jZIGhpufmzSmRG,1,1.63
+long cue,dual feature,R_3kANJhWZWQZHHzt,0.938,1.2
+long cue,dual feature,R_3kAQUBQH7gOE6L4,1,0.765
+long cue,dual feature,R_3koHaaGXSWbfZCH,0.938,0.633
+long cue,dual feature,R_3kq4Tx7qydJo7oB,1,1.21
+long cue,dual feature,R_3KxCDvIBCFGJlB2,1,0.641
+long cue,dual feature,R_3lQ7ThL8ft9I4Xd,0.938,0.859
+long cue,dual feature,R_3lQY2j5LMIXXK4u,0.875,0.603
+long cue,dual feature,R_3lxHPjKjHR4VSZX,0.813,1.08
+long cue,dual feature,R_3M5rXHlsQsfCfZ1,1,1.03
+long cue,dual feature,R_3NDueluChz5YLcK,0.813,0.866
+long cue,dual feature,R_3nGjakNTDKLeUI5,0.875,1.34
+long cue,dual feature,R_3nj6domOVc1jJjN,0.813,1.03
+long cue,dual feature,R_3NJrbvniVjhQgVe,1,1.56
+long cue,dual feature,R_3NUHxGL0DDAFsRc,0.875,1.51
+long cue,dual feature,R_3NV3o9ELxm8q0OB,1,0.596
+long cue,dual feature,R_3paGJTFEkF29ztH,1,0.52
+long cue,dual feature,R_3peQmhVVM6LZ8Rq,0.813,1.12
+long cue,dual feature,R_3PzqcG3ePjyMVoQ,0.875,1.1
+long cue,dual feature,R_3qU5FwC4OCJ7aqk,0.813,0.534
+long cue,dual feature,R_3Rl6FSFxxA5e8ma,0.938,1.19
+long cue,dual feature,R_3Rl6VEWOBQmKqU6,1,0.619
+long cue,dual feature,R_3RmwoIz93sstbuX,1,0.707
+long cue,dual feature,R_3svpurCda9KfwHp,1,0.88
+long cue,dual feature,R_3Vm6NBKASkpNULn,0.813,1.79
+long cue,dual feature,R_4MlrIKWtWMynXgJ,0.938,0.805
+long cue,dual feature,R_4V0pQt6VgkQw0lb,1,1.06
+long cue,dual feature,R_5zD75iREBKTihMt,1,0.676
+long cue,dual feature,R_6AkMGcTw5XpOoSd,1,1.37
+long cue,dual feature,R_87dG0u6RSBe8bpD,0.938,0.557
+long cue,dual feature,R_88lRNtWC8jzcvPr,1,0.622
+long cue,dual feature,R_9SIq53ZIw0UeCMp,0.875,0.701
+long cue,dual feature,R_9ZV7VYa4WgGSoPT,1,0.444
+long cue,dual feature,R_a8Keqoc6RqZXPj3,0.438,1.41
+long cue,dual feature,R_AFYcy8WqCbGhYSB,0.938,0.684
+long cue,dual feature,R_b1xBevGuDlgE5mp,1,0.628
+long cue,dual feature,R_bxcuLDEvGbOnKHT,0.75,1.67
+long cue,dual feature,R_ClZZ8iH4ih5ZuSd,0.938,1.69
+long cue,dual feature,R_dfYxqvX4G98rUXL,0.938,0.901
+long cue,dual feature,R_eKdyzfVrqfswb1n,1,1.52
+long cue,dual feature,R_esMmOCJbTcEsIq5,0.875,1.01
+long cue,dual feature,R_O0SCTkaxAB7vjA5,0.938,0.906
+long cue,dual feature,R_OBikbvVJp5ZcCOt,1,0.775
+long cue,dual feature,R_OjUO1JZhl881Wdr,0.875,0.635
+long cue,dual feature,R_OkxFT8Yi5pR6dsB,0.875,1.07
+long cue,dual feature,R_OPCfSDjGV5SHORr,1,0.762
+long cue,dual feature,R_pEoe2uY6YbOw3aF,0.813,0.492
+long cue,dual feature,R_PIpINaW6xp0qDD3,0.938,0.66
+long cue,dual feature,R_pK7U209871YpYIN,1,1.49
+long cue,dual feature,R_pngU1YVfrXpM6m5,0.938,0.479
+long cue,dual feature,R_PSSk558zgwsdfq1,0.813,1.26
+long cue,dual feature,R_pT8XhCOwudJrdq9,0.875,0.793
+long cue,dual feature,R_Pwhzf2X9FTJWwcp,0.938,0.533
+long cue,dual feature,R_qL4FaXWkk1AqEmt,0.875,2.21
+long cue,dual feature,R_QoG98GIXlyTTQCB,0.938,0.783
+long cue,dual feature,R_R838SwdXuvvg13j,1,0.914
+long cue,dual feature,R_rcHQpWAv7AbsluV,0.875,0.769
+long cue,dual feature,R_rkiqrtdH01X2Uz7,0.813,1.05
+long cue,dual feature,R_rpa23bPTMqxRuy5,0.938,1.12
+long cue,dual feature,R_RPRRh5b9RJjsLWF,0.938,2.29
+long cue,dual feature,R_RxCmnVP4h0M2Iet,0.625,0.966
+long cue,dual feature,R_SUAv0Djpf96vXsB,0.938,0.955
+long cue,dual feature,R_szedVFAI7mc8uqt,1,0.583
+long cue,dual feature,R_TjDuFk15r39Xrqh,0.75,0.68
+long cue,dual feature,R_u220n4MBxTrGIqB,1,1.07
+long cue,dual feature,R_uk7jLfoyyvrie5P,0.938,0.681
+long cue,dual feature,R_uk8lyne8BTwZWx3,0.938,0.645
+long cue,dual feature,R_vcRLjOIJganFB5L,1,0.883
+long cue,dual feature,R_vf2rDe2loSzFI4h,1,1.58
+long cue,dual feature,R_vMGeXCE2A7fFihP,0.938,1.03
+long cue,dual feature,R_VO1OFG6TLIlFTbj,0.938,1.34
+long cue,dual feature,R_voSsFXEsEVlpeMx,0.938,0.989
+long cue,dual feature,R_xaQjSryVetgbxMR,0.938,1.27
+long cue,dual feature,R_xiuZL8oQedG2nrb,1,0.742
+long cue,dual feature,R_Y3NmOCLnLbfmdRT,0.875,0.614
+long cue,dual feature,R_ykWwfg34VBujl0B,0.938,0.98
+long cue,dual feature,R_yPWVvpu60ycQ8P7,0.75,0.968
+long cue,dual feature,R_z0je8cRGh1eQ8Rb,1,0.847
+long cue,dual feature,R_Z9PxP0CExYG8397,1,0.49
+long cue,dual feature,R_ZahaFNCfOgy05xL,0.875,1.17
+long cue,dual feature,R_ZaxZDyOScZVjzz3,0.875,0.96
+long cue,dual feature,R_zZ3GrNWCcyKf98B,0.938,0.917
+long cue,single feature,R_08x3yfNtCFtgBYl,NaN,NaN
+long cue,single feature,R_0OmSAzFURsT3hND,NaN,NaN
+long cue,single feature,R_10ZPMCCzcV8FG6A,NaN,NaN
+long cue,single feature,R_12s68Ligswec1t3,NaN,NaN
+long cue,single feature,R_1BPAkPhD282eIwa,NaN,NaN
+long cue,single feature,R_1CDQa7qsN9RNzFH,NaN,NaN
+long cue,single feature,R_1CJcSTbRoTUCqgI,NaN,NaN
+long cue,single feature,R_1cUmxE0nB0eQ5tx,NaN,NaN
+long cue,single feature,R_1cUnP5PoHL3kGw8,NaN,NaN
+long cue,single feature,R_1cZYqPuI2ovCe8d,NaN,NaN
+long cue,single feature,R_1DuNzuDT2Ly6aYo,NaN,NaN
+long cue,single feature,R_1Ej3yOyXSRu4rHj,NaN,NaN
+long cue,single feature,R_1eK9C4dUWMG5UoE,NaN,NaN
+long cue,single feature,R_1erta2V92H4drrE,NaN,NaN
+long cue,single feature,R_1ex76BKICzdLpi3,NaN,NaN
+long cue,single feature,R_1flJVVkbxzk1i5c,NaN,NaN
+long cue,single feature,R_1g6KjG4gA3vEJF7,NaN,NaN
+long cue,single feature,R_1gHKNsWNE1ugMUa,NaN,NaN
+long cue,single feature,R_1HkLtKPGeWEXFwg,NaN,NaN
+long cue,single feature,R_1HpZbLVjg7CUvTk,NaN,NaN
+long cue,single feature,R_1hzkst2wvP8JIH4,NaN,NaN
+long cue,single feature,R_1IfTVw1P9JXGPqL,NaN,NaN
+long cue,single feature,R_1imoeufCHjjazMW,NaN,NaN
+long cue,single feature,R_1IR8kofj9wFWdIF,NaN,NaN
+long cue,single feature,R_1ISOn43feC1HgrC,NaN,NaN
+long cue,single feature,R_1IXVr7a4rbLclDy,NaN,NaN
+long cue,single feature,R_1jCgwQdSLoXJHUV,NaN,NaN
+long cue,single feature,R_1jDKVL7IiGl9Yg2,NaN,NaN
+long cue,single feature,R_1jE8xih7Lg9IirX,NaN,NaN
+long cue,single feature,R_1jH3pdKIvdSHNIY,NaN,NaN
+long cue,single feature,R_1jrzi2l761541zF,NaN,NaN
+long cue,single feature,R_1K3eLYRF0WM0F1x,NaN,NaN
+long cue,single feature,R_1K6KGucq5uhaFzv,NaN,NaN
+long cue,single feature,R_1K71a7Ou0dd9RDl,NaN,NaN
+long cue,single feature,R_1KqDdYqdsxJyWIf,NaN,NaN
+long cue,single feature,R_1LXmTvk5iLuGEaA,NaN,NaN
+long cue,single feature,R_1lzzukvJq3atYiQ,NaN,NaN
+long cue,single feature,R_1mC4cBupoC4tHV4,NaN,NaN
+long cue,single feature,R_1mIULYprIrOv92G,NaN,NaN
+long cue,single feature,R_1mmFOe3uknXraci,NaN,NaN
+long cue,single feature,R_1nOO1BGaTXG8VNZ,NaN,NaN
+long cue,single feature,R_1nOQ0qbgqQcSRz6,NaN,NaN
+long cue,single feature,R_1OkOyQCupky29ws,NaN,NaN
+long cue,single feature,R_1OVnUIQoDvuoLoa,NaN,NaN
+long cue,single feature,R_1PemspRhIIq93Jq,NaN,NaN
+long cue,single feature,R_1pMrEEZMbPml0WU,NaN,NaN
+long cue,single feature,R_1pukYYnbpsfMrZv,NaN,NaN
+long cue,single feature,R_1PXVhaM73VwX7i7,NaN,NaN
+long cue,single feature,R_1QDSGYxg9iGBQ1N,NaN,NaN
+long cue,single feature,R_1qXpoOypYbjTRWl,NaN,NaN
+long cue,single feature,R_1rla5wg2eJeofgU,NaN,NaN
+long cue,single feature,R_1rvojTzRtsDhwWZ,NaN,NaN
+long cue,single feature,R_1XqCDwzg1i2Esxj,NaN,NaN
+long cue,single feature,R_20Mv4w5vYeNCTls,NaN,NaN
+long cue,single feature,R_23TwjQv7jVMZAHh,NaN,NaN
+long cue,single feature,R_24HieJfWwUqqVSw,NaN,NaN
+long cue,single feature,R_24jTtLg98nGv99c,NaN,NaN
+long cue,single feature,R_25BzCJwLFrqdpOi,NaN,NaN
+long cue,single feature,R_27EkFokF3zDCAFg,NaN,NaN
+long cue,single feature,R_27HkygMlXuzFDss,NaN,NaN
+long cue,single feature,R_28B8ByTcmPbYYBi,NaN,NaN
+long cue,single feature,R_290a4seCfd02VPe,NaN,NaN
+long cue,single feature,R_29buJYsXisup2Mb,NaN,NaN
+long cue,single feature,R_2aDYCLDeHnDcoTK,NaN,NaN
+long cue,single feature,R_2AZHWSSUZ7gAeVu,NaN,NaN
+long cue,single feature,R_2BnRYuqRU9MgxDH,NaN,NaN
+long cue,single feature,R_2BtIrCsNLg3M5Hv,NaN,NaN
+long cue,single feature,R_2c6m9mRMP3vRtxF,NaN,NaN
+long cue,single feature,R_2cc7FPRMpuGx2CV,NaN,NaN
+long cue,single feature,R_2CDt4ymTrZ6kFn0,NaN,NaN
+long cue,single feature,R_2cnGgIRvbYUU2JM,NaN,NaN
+long cue,single feature,R_2cvhE0HTQ1JO49j,NaN,NaN
+long cue,single feature,R_2dYKuSke1t2VOfa,NaN,NaN
+long cue,single feature,R_2f6VCNeHmcSqTrE,NaN,NaN
+long cue,single feature,R_2fD1bJjW95gw3LB,NaN,NaN
+long cue,single feature,R_2P1NXSwrNBPPbSy,NaN,NaN
+long cue,single feature,R_2P5OftLBu8Xnm63,NaN,NaN
+long cue,single feature,R_2pJiC30bA23mBP9,NaN,NaN
+long cue,single feature,R_2QggTeu9uNjR2Kz,NaN,NaN
+long cue,single feature,R_2Qn8nKQlmurWj6x,NaN,NaN
+long cue,single feature,R_2qxGC4cTbe7xhyS,NaN,NaN
+long cue,single feature,R_2R81qJfBkmFANkJ,NaN,NaN
+long cue,single feature,R_2rVd3Udq0Naa4tm,NaN,NaN
+long cue,single feature,R_2s5BrOZwyfMmXNT,NaN,NaN
+long cue,single feature,R_2saKX0rCpQMSpWC,NaN,NaN
+long cue,single feature,R_2sZwXaQWcDrXX4J,NaN,NaN
+long cue,single feature,R_2t2RITW5Msrt0v1,NaN,NaN
+long cue,single feature,R_2t8PKxoTop4myWX,NaN,NaN
+long cue,single feature,R_2TvjCe31vsmiZgF,NaN,NaN
+long cue,single feature,R_2tzNr5GcFWibgNj,NaN,NaN
+long cue,single feature,R_2uaROXK2JM6R5KN,NaN,NaN
+long cue,single feature,R_2uEyL6gg252E1VJ,NaN,NaN
+long cue,single feature,R_2uPd3IAgL1aElYJ,NaN,NaN
+long cue,single feature,R_2UYj6qVJqb6JhXS,NaN,NaN
+long cue,single feature,R_2v1EkCyV15Ok7D5,NaN,NaN
+long cue,single feature,R_2v6M4LykwnHQpey,NaN,NaN
+long cue,single feature,R_2wgkGKCmXhgbs6f,NaN,NaN
+long cue,single feature,R_2whKJfx0Nt043dd,NaN,NaN
+long cue,single feature,R_2xIZjV9sIl4RF6P,NaN,NaN
+long cue,single feature,R_2xxfsrIN77B2IyP,NaN,NaN
+long cue,single feature,R_2Y5SgzE2hzm4IzP,NaN,NaN
+long cue,single feature,R_2zMG3pjpYVG6q9D,NaN,NaN
+long cue,single feature,R_2zZOxm6mvhN3djv,NaN,NaN
+long cue,single feature,R_31HQAyCP0raT1FV,NaN,NaN
+long cue,single feature,R_32Ph5gf2egyE3BQ,NaN,NaN
+long cue,single feature,R_32SfLOnCsAkGpkr,NaN,NaN
+long cue,single feature,R_389Zio7QxIjX2Gl,NaN,NaN
+long cue,single feature,R_3CE2psUILAye8Gw,NaN,NaN
+long cue,single feature,R_3CQ5KT4CZBYWAlC,NaN,NaN
+long cue,single feature,R_3dG1KAXAFwYYSNa,NaN,NaN
+long cue,single feature,R_3dYB6FtZaYKmnQI,NaN,NaN
+long cue,single feature,R_3ekQwKF3mgu5b6t,NaN,NaN
+long cue,single feature,R_3emJvrH8C0R8XAf,NaN,NaN
+long cue,single feature,R_3EnIpSKfpoFxj4q,NaN,NaN
+long cue,single feature,R_3F4Nuu63mcg282m,NaN,NaN
+long cue,single feature,R_3fekyhJ51vsHhVz,NaN,NaN
+long cue,single feature,R_3huTrvGn33dOCmD,NaN,NaN
+long cue,single feature,R_3hxsgJPCQz6ODRf,NaN,NaN
+long cue,single feature,R_3I6Ku341O3voRKF,NaN,NaN
+long cue,single feature,R_3IawjgtbqJ8vZS1,NaN,NaN
+long cue,single feature,R_3IbLExNViiL7Wmj,NaN,NaN
+long cue,single feature,R_3isy7djZDjX51Zy,NaN,NaN
+long cue,single feature,R_3iUBe2A2sqTNxe6,NaN,NaN
+long cue,single feature,R_3J5dZzQpHZlbptE,NaN,NaN
+long cue,single feature,R_3J7WamqLp1arSYg,NaN,NaN
+long cue,single feature,R_3J8imcd2CT8E7nV,NaN,NaN
+long cue,single feature,R_3JepjzwRIn4QNMa,NaN,NaN
+long cue,single feature,R_3JKuKZTaXlZlS9L,NaN,NaN
+long cue,single feature,R_3L0GKcwhfD3ONGp,NaN,NaN
+long cue,single feature,R_3L8bKSLPWWYQbb1,NaN,NaN
+long cue,single feature,R_3lA2P9y5IuW1K16,NaN,NaN
+long cue,single feature,R_3lQSewC3zD0cqPm,NaN,NaN
+long cue,single feature,R_3lW8WmUtn8ktnqb,NaN,NaN
+long cue,single feature,R_3LYmXrQqAEkquZp,NaN,NaN
+long cue,single feature,R_3m29EB99jBC3eYM,NaN,NaN
+long cue,single feature,R_3mfrYYubAvKcVXD,NaN,NaN
+long cue,single feature,R_3MrsBALpPMDdc4K,NaN,NaN
+long cue,single feature,R_3MsZ1FtrecdI6Bk,NaN,NaN
+long cue,single feature,R_3ni4oB2dXSyqVt5,NaN,NaN
+long cue,single feature,R_3NLrAGnHeCcusnN,NaN,NaN
+long cue,single feature,R_3nTN2on5k76PSqy,NaN,NaN
+long cue,single feature,R_3nuRnyn8F7V1zzY,NaN,NaN
+long cue,single feature,R_3nvCR77A2gIXUnU,NaN,NaN
+long cue,single feature,R_3OijgTkqK3N1vDR,NaN,NaN
+long cue,single feature,R_3PH8KwGY7M572k7,NaN,NaN
+long cue,single feature,R_3PhNSDcozSxV4x6,NaN,NaN
+long cue,single feature,R_3PHnuh1NwQxBUke,NaN,NaN
+long cue,single feature,R_3plRloA3DMCWRlm,NaN,NaN
+long cue,single feature,R_3PoF0xbH4zPk6H9,NaN,NaN
+long cue,single feature,R_3PUkBY8ioPt2QHk,NaN,NaN
+long cue,single feature,R_3qE9UFs34ohzB4u,NaN,NaN
+long cue,single feature,R_3qIGvV1gBPeGAF3,NaN,NaN
+long cue,single feature,R_3qqgOHNsjhwxEbU,NaN,NaN
+long cue,single feature,R_3r1hJN0OmOW9eWt,NaN,NaN
+long cue,single feature,R_3r2uzs1xxGdN7Xt,NaN,NaN
+long cue,single feature,R_3R2V7o3AKvD3riN,NaN,NaN
+long cue,single feature,R_3sgjFLFAcfatVu1,NaN,NaN
+long cue,single feature,R_3snnTFxEmMWchE3,NaN,NaN
+long cue,single feature,R_4HGqzV1TmoKnmRb,NaN,NaN
+long cue,single feature,R_4UcujUnUkeMAjcd,NaN,NaN
+long cue,single feature,R_5AccJZEMv9dA7ZL,NaN,NaN
+long cue,single feature,R_5Bl0sD2ma6kOenD,NaN,NaN
+long cue,single feature,R_6QoG7SGfNSA5MY1,NaN,NaN
+long cue,single feature,R_78aLaJZ9ov7E4z7,NaN,NaN
+long cue,single feature,R_7QYLh7Cv4ho9ne9,NaN,NaN
+long cue,single feature,R_8039DfpRFz4mdlD,NaN,NaN
+long cue,single feature,R_81zsKze4hKiO3Ch,NaN,NaN
+long cue,single feature,R_821ywZ3Ur7opgmR,NaN,NaN
+long cue,single feature,R_8qYu2CCKRBiPBjb,NaN,NaN
+long cue,single feature,R_AhqftoXBoaz9xId,NaN,NaN
+long cue,single feature,R_aXyHoAyLu9CDc4N,NaN,NaN
+long cue,single feature,R_BEpHnJisiwxS1z3,NaN,NaN
+long cue,single feature,R_bj5pW4Iu3tLbUnT,NaN,NaN
+long cue,single feature,R_bJ8LN8hW9Wr5SFj,NaN,NaN
+long cue,single feature,R_BV2jiQRnLfyGBYl,NaN,NaN
+long cue,single feature,R_Cjijzqk1J6xkLdf,NaN,NaN
+long cue,single feature,R_d6C5372Rri91D57,NaN,NaN
+long cue,single feature,R_DcbIYJJOl9NfnSV,NaN,NaN
+long cue,single feature,R_dh9Z16ZeR9OmSJj,NaN,NaN
+long cue,single feature,R_dm7E2sdo1YUjT3z,NaN,NaN
+long cue,single feature,R_dmY5Tc0WANqnPs5,NaN,NaN
+long cue,single feature,R_eai96tm4PUo2JmF,NaN,NaN
+long cue,single feature,R_eJrfTYcTp9qL7ix,NaN,NaN
+long cue,single feature,R_eyNfgTiSRXT8Xi9,NaN,NaN
+long cue,single feature,R_O0WT1fmWD73IgCZ,NaN,NaN
+long cue,single feature,R_Ope2sXA3sL6z35T,NaN,NaN
+long cue,single feature,R_PA36VyjszG9W9gt,NaN,NaN
+long cue,single feature,R_pufazghR2YH4Vqx,NaN,NaN
+long cue,single feature,R_PYUFtJ6v69P19WF,NaN,NaN
+long cue,single feature,R_Q3QAyLhzVGkm1hL,NaN,NaN
+long cue,single feature,R_r25ZrJt80L0xZ5v,NaN,NaN
+long cue,single feature,R_sZRf0Q5e9LGW9gJ,NaN,NaN
+long cue,single feature,R_tLqTSkDsUZvWP4t,NaN,NaN
+long cue,single feature,R_tQjTkAdN6h1rHHP,NaN,NaN
+long cue,single feature,R_UA47gf9TzaRpJ0B,NaN,NaN
+long cue,single feature,R_UnfbYQPONiXwHgB,NaN,NaN
+long cue,single feature,R_vcofmMoT48YgqGd,NaN,NaN
+long cue,single feature,R_vdAXj8lKTQiuvLj,NaN,NaN
+long cue,single feature,R_vl7yAhjMq73ut4l,NaN,NaN
+long cue,single feature,R_VPabY1AJYIyCZPz,NaN,NaN
+long cue,single feature,R_W8LdRMuNzFlfzfX,NaN,NaN
+long cue,single feature,R_WfBh84bVieh94u5,NaN,NaN
+long cue,single feature,R_xfUcAaPbjk0g6Jz,NaN,NaN
+long cue,single feature,R_Y050be3d1qTgt21,NaN,NaN
+long cue,single feature,R_ykzlIRPd0KX2ZW1,NaN,NaN
+long cue,single feature,R_ypQ4ZCs1p2l24eJ,NaN,NaN
+long cue,single feature,R_yPWGGeD3XC6CB0t,NaN,NaN
+long cue,single feature,R_1240oKwSUYFSJUY,1,0.675
+long cue,single feature,R_125qGAPsEKNgCik,0.875,1.16
+long cue,single feature,R_1BYsxPc3DVzRRdc,0.813,1.21
+long cue,single feature,R_1C4075atnBURXV9,1,0.597
+long cue,single feature,R_1Ca7oDDfGUuqpD2,0.875,1.02
+long cue,single feature,R_1DUQTsUdLXCAotg,0.938,0.69
+long cue,single feature,R_1Ed18J86Ydnz5JK,0.75,0.887
+long cue,single feature,R_1F3O1RwVVn1ANjS,0.938,0.672
+long cue,single feature,R_1fd9g37kVcLlQon,0.938,0.775
+long cue,single feature,R_1fjeMABd9YtFdM2,0.75,0.873
+long cue,single feature,R_1FkyCxrQzCKlVM3,0.938,0.973
+long cue,single feature,R_1FlZaoI26lrL1xW,0.938,0.601
+long cue,single feature,R_1FQy7LAFBlt3sbw,0.875,1.14
+long cue,single feature,R_1FzvTdctlBl6mau,0.875,1.2
+long cue,single feature,R_1GEw2ntVr6WT5FY,0.938,0.816
+long cue,single feature,R_1gGFiI9dwPgNWnF,1,0.816
+long cue,single feature,R_1gTnf5neAjKhFhT,0.938,1.05
+long cue,single feature,R_1H5WiYRCLXLoMr6,1,0.876
+long cue,single feature,R_1hKL5I25Q84xW4U,1,2.25
+long cue,single feature,R_1hXp8VCud7SMiKb,0.938,0.841
+long cue,single feature,R_1IagvrDfWeu1SzI,0.938,0.818
+long cue,single feature,R_1iffR2ZzRyikKgD,0.938,0.613
+long cue,single feature,R_1jrMskfuP7Mrr9S,0.938,0.616
+long cue,single feature,R_1K2LTDdSTkk0CkO,0.813,0.716
+long cue,single feature,R_1KkDDjZQonL8jXf,0.813,1.43
+long cue,single feature,R_1lo8TnSLVLCPrMI,0.75,0.988
+long cue,single feature,R_1Nex25Z07JEPqPT,1,0.842
+long cue,single feature,R_1oAMtAsotlpba75,1,0.566
+long cue,single feature,R_1oBEFfxegvaFxqs,1,0.976
+long cue,single feature,R_1OE6gsnJdCYDJNp,0.813,1.25
+long cue,single feature,R_1OJJIMbAOHmEsc6,0.938,0.578
+long cue,single feature,R_1onlnd0PSlmh0kP,0.938,1.5
+long cue,single feature,R_1Oy5gti2oOMkrmx,1,0.999
+long cue,single feature,R_1pJPjmN0ZA5yTy2,0.875,1.37
+long cue,single feature,R_1ptx896QKfU4151,0.938,0.926
+long cue,single feature,R_1Q0nnQSbpfMIzl8,0.813,1.72
+long cue,single feature,R_1QcQ8lM8sMgbe9Z,1,0.771
+long cue,single feature,R_1QhHQgn3oncjPVH,1,0.588
+long cue,single feature,R_1r9CI6AFSBMawII,0.75,1.04
+long cue,single feature,R_2107Kbqwjw5sjVi,1,0.719
+long cue,single feature,R_21A0Opwy47DGP0D,1,0.83
+long cue,single feature,R_21ixygMv7kGQldy,0.938,0.913
+long cue,single feature,R_232mnWKrVorZxtV,0.938,1.46
+long cue,single feature,R_23UGi46yIwlgRIg,0.938,0.634
+long cue,single feature,R_23V6KyyFTKNSfr0,0.938,1.01
+long cue,single feature,R_24f2Xj2zVejGVvr,1,0.66
+long cue,single feature,R_24MjDzYaj8vSl2F,0.875,1.18
+long cue,single feature,R_26aTxals5ya98Bn,0.875,0.761
+long cue,single feature,R_27I2lMBC4C9HqXh,1,0.775
+long cue,single feature,R_27IKiFTRUeouja1,0.813,1.39
+long cue,single feature,R_27TjhkHUtsmEKXv,0.938,1.31
+long cue,single feature,R_29buiFpEHzEyviM,1,0.435
+long cue,single feature,R_2AGbTgxStxS8OK7,1,0.855
+long cue,single feature,R_2ASEGOsJ8SHSVr5,1,0.959
+long cue,single feature,R_2bHPDYy6X92e2YW,0.938,0.615
+long cue,single feature,R_2Bu63NcF98ifXiE,0.938,0.634
+long cue,single feature,R_2CTk31LB5KSXTUK,1,0.654
+long cue,single feature,R_2cubeyiZDy5kcWK,0.938,0.858
+long cue,single feature,R_2D5fuTu0fyLlRoG,1,0.685
+long cue,single feature,R_2dH0HFAfxeETPyV,0.938,0.752
+long cue,single feature,R_2diq2w8gEnf5L8z,0.938,0.621
+long cue,single feature,R_2DRKnOvAi7cEOEe,1,0.596
+long cue,single feature,R_2e2xTrAELL35qnU,0.938,0.951
+long cue,single feature,R_2EAwGG7T8u9elvy,1,0.481
+long cue,single feature,R_2EGbNncbkrLeOBn,0.813,1.34
+long cue,single feature,R_2fBULLTffGRBWLb,0.75,1.12
+long cue,single feature,R_2fesTAMA2X5bx5T,1,0.51
+long cue,single feature,R_2fvMbaH7XgyVyCF,0.875,1.29
+long cue,single feature,R_2PutYEFsewiz88m,0.75,1.24
+long cue,single feature,R_2PzXxMCgeJjWWLk,0.875,0.946
+long cue,single feature,R_2q9ip8BsXKWy3tB,0.875,1.14
+long cue,single feature,R_2qCYwbcshBGMWl9,0.813,0.78
+long cue,single feature,R_2RPRywAKJIJoXwq,0.938,0.909
+long cue,single feature,R_2sSBN4IUEWRzEHE,0.875,1.3
+long cue,single feature,R_2t3eKQMwJ13cTxu,0.875,0.983
+long cue,single feature,R_2t5VMWadJZXwhol,0.688,1.05
+long cue,single feature,R_2tKElLKJ2RzYeOL,1,1.18
+long cue,single feature,R_2TOewpP52D1ZcQi,1,0.609
+long cue,single feature,R_2TvIpggb40wzcMj,0.875,0.593
+long cue,single feature,R_2Ugx54Yz1N7CJ36,0.938,0.703
+long cue,single feature,R_2UWLzuZCkACVgCP,0.938,1.11
+long cue,single feature,R_2uZFhWaBfnO4ECU,1,1.2
+long cue,single feature,R_2VBBNsozbzxpfT9,0.938,0.672
+long cue,single feature,R_2Vx6MwTvzph2nt3,0.875,0.91
+long cue,single feature,R_2w5NkTjpk5sIZmL,1,0.577
+long cue,single feature,R_2z5D2HPnn3XvNKK,0.583,0.81
+long cue,single feature,R_2z5xbqVjjSIyJdo,1,1.41
+long cue,single feature,R_2zAzUdW0VLW47Ua,0.875,0.641
+long cue,single feature,R_2zOyxhAfuZbfaqm,0.875,1.55
+long cue,single feature,R_302H874OqnSbmug,1,0.747
+long cue,single feature,R_3061vbhI41l7m5V,1,0.788
+long cue,single feature,R_31zRT6XRWDLt6XR,0.938,0.933
+long cue,single feature,R_325E8Zcstn7PYYf,0.813,0.895
+long cue,single feature,R_32X7zIltyrBl2XJ,0.875,1.03
+long cue,single feature,R_33gvmuPR94pwSQR,0.813,1.27
+long cue,single feature,R_33wriurPRqAICJQ,0.938,1.1
+long cue,single feature,R_3CH6GYzeXMmQ3BR,0.938,0.831
+long cue,single feature,R_3dYRf1LJJY5sNDQ,0.813,0.742
+long cue,single feature,R_3dYYZ1eB57mzvcP,1,0.621
+long cue,single feature,R_3E9zqUUokucmyvi,0.875,1.25
+long cue,single feature,R_3EXNIE6ibfayydJ,1,0.488
+long cue,single feature,R_3F54OWKljGjDYun,0.938,0.6
+long cue,single feature,R_3fftJphDI5wp8jD,1,0.885
+long cue,single feature,R_3fIafKngtt8LCdv,0.938,0.763
+long cue,single feature,R_3G3aqKAxalampJB,1,0.519
+long cue,single feature,R_3GfEE0tSJtpYpDK,0.938,0.936
+long cue,single feature,R_3gMLdLQylpAUOCz,0.938,0.655
+long cue,single feature,R_3GrJEh3BPMqoUIE,0.75,0.809
+long cue,single feature,R_3gSdxynZBUsA24l,1,0.95
+long cue,single feature,R_3GwicDp1Qe1fIYu,1,0.863
+long cue,single feature,R_3Hov1y7dOtcDZlE,0.688,1.11
+long cue,single feature,R_3Ht3R1VCyo41bf7,0.688,0.81
+long cue,single feature,R_3Hzu7sZLBROTBKI,1,0.913
+long cue,single feature,R_3Ic5XcXj3i1cbFL,0.813,0.614
+long cue,single feature,R_3iFr8MpMy69byrN,1,1.15
+long cue,single feature,R_3j0uBCOqMwUzlCW,0.938,0.968
+long cue,single feature,R_3j9ApP6uO0ORpcw,1,0.705
+long cue,single feature,R_3jAe4d8aowHEK53,0.875,1.24
+long cue,single feature,R_3JCQVowq4SWDWhO,0.875,0.596
+long cue,single feature,R_3JCuHa99Y2UioVU,0.938,1.51
+long cue,single feature,R_3jSRUtmlwcSos3T,1,0.457
+long cue,single feature,R_3jZIGhpufmzSmRG,0.75,1.71
+long cue,single feature,R_3kANJhWZWQZHHzt,0.938,1.38
+long cue,single feature,R_3kAQUBQH7gOE6L4,0.75,0.814
+long cue,single feature,R_3koHaaGXSWbfZCH,1,0.764
+long cue,single feature,R_3kq4Tx7qydJo7oB,0.875,1.72
+long cue,single feature,R_3KxCDvIBCFGJlB2,0.875,0.783
+long cue,single feature,R_3lQ7ThL8ft9I4Xd,1,0.576
+long cue,single feature,R_3lQY2j5LMIXXK4u,0.875,0.758
+long cue,single feature,R_3lxHPjKjHR4VSZX,0.875,0.933
+long cue,single feature,R_3M5rXHlsQsfCfZ1,1,0.876
+long cue,single feature,R_3NDueluChz5YLcK,0.875,1.26
+long cue,single feature,R_3nGjakNTDKLeUI5,0.938,1.19
+long cue,single feature,R_3nj6domOVc1jJjN,0.938,1.28
+long cue,single feature,R_3NJrbvniVjhQgVe,0.813,1.28
+long cue,single feature,R_3NUHxGL0DDAFsRc,0.938,1.09
+long cue,single feature,R_3NV3o9ELxm8q0OB,1,0.625
+long cue,single feature,R_3paGJTFEkF29ztH,0.813,0.579
+long cue,single feature,R_3peQmhVVM6LZ8Rq,0.5,0.999
+long cue,single feature,R_3PzqcG3ePjyMVoQ,1,0.731
+long cue,single feature,R_3qU5FwC4OCJ7aqk,1,0.594
+long cue,single feature,R_3Rl6FSFxxA5e8ma,1,0.878
+long cue,single feature,R_3Rl6VEWOBQmKqU6,0.875,0.785
+long cue,single feature,R_3RmwoIz93sstbuX,0.813,0.952
+long cue,single feature,R_3svpurCda9KfwHp,0.938,0.762
+long cue,single feature,R_3Vm6NBKASkpNULn,0.938,1.22
+long cue,single feature,R_4MlrIKWtWMynXgJ,0.938,0.716
+long cue,single feature,R_4V0pQt6VgkQw0lb,0.75,0.992
+long cue,single feature,R_5zD75iREBKTihMt,1,0.84
+long cue,single feature,R_6AkMGcTw5XpOoSd,0.938,1.3
+long cue,single feature,R_87dG0u6RSBe8bpD,0.938,0.498
+long cue,single feature,R_88lRNtWC8jzcvPr,0.938,0.898
+long cue,single feature,R_9SIq53ZIw0UeCMp,0.938,0.894
+long cue,single feature,R_9ZV7VYa4WgGSoPT,1,0.461
+long cue,single feature,R_a8Keqoc6RqZXPj3,0.5,0.846
+long cue,single feature,R_AFYcy8WqCbGhYSB,1,0.916
+long cue,single feature,R_b1xBevGuDlgE5mp,0.938,0.712
+long cue,single feature,R_bxcuLDEvGbOnKHT,0.5,1.21
+long cue,single feature,R_ClZZ8iH4ih5ZuSd,0.875,1.74
+long cue,single feature,R_dfYxqvX4G98rUXL,0.813,0.563
+long cue,single feature,R_eKdyzfVrqfswb1n,0.875,1.62
+long cue,single feature,R_esMmOCJbTcEsIq5,0.875,0.77
+long cue,single feature,R_O0SCTkaxAB7vjA5,0.813,0.972
+long cue,single feature,R_OBikbvVJp5ZcCOt,0.813,0.946
+long cue,single feature,R_OjUO1JZhl881Wdr,0.938,0.586
+long cue,single feature,R_OkxFT8Yi5pR6dsB,0.688,0.893
+long cue,single feature,R_OPCfSDjGV5SHORr,1,0.621
+long cue,single feature,R_pEoe2uY6YbOw3aF,0.938,0.44
+long cue,single feature,R_PIpINaW6xp0qDD3,1,0.584
+long cue,single feature,R_pK7U209871YpYIN,0.75,1.69
+long cue,single feature,R_pngU1YVfrXpM6m5,1,0.605
+long cue,single feature,R_PSSk558zgwsdfq1,0.938,0.949
+long cue,single feature,R_pT8XhCOwudJrdq9,1,0.774
+long cue,single feature,R_Pwhzf2X9FTJWwcp,0.875,0.65
+long cue,single feature,R_qL4FaXWkk1AqEmt,0.688,1.36
+long cue,single feature,R_QoG98GIXlyTTQCB,0.875,0.71
+long cue,single feature,R_R838SwdXuvvg13j,1,0.836
+long cue,single feature,R_rcHQpWAv7AbsluV,1,0.801
+long cue,single feature,R_rkiqrtdH01X2Uz7,1,0.843
+long cue,single feature,R_rpa23bPTMqxRuy5,0.875,1.31
+long cue,single feature,R_RPRRh5b9RJjsLWF,0.938,2.42
+long cue,single feature,R_RxCmnVP4h0M2Iet,0.938,0.996
+long cue,single feature,R_SUAv0Djpf96vXsB,0.875,1.07
+long cue,single feature,R_szedVFAI7mc8uqt,1,0.596
+long cue,single feature,R_TjDuFk15r39Xrqh,0.938,0.645
+long cue,single feature,R_u220n4MBxTrGIqB,1,0.786
+long cue,single feature,R_uk7jLfoyyvrie5P,0.875,0.742
+long cue,single feature,R_uk8lyne8BTwZWx3,1,0.554
+long cue,single feature,R_vcRLjOIJganFB5L,0.813,0.657
+long cue,single feature,R_vf2rDe2loSzFI4h,0.938,1.84
+long cue,single feature,R_vMGeXCE2A7fFihP,0.938,1.21
+long cue,single feature,R_VO1OFG6TLIlFTbj,1,0.961
+long cue,single feature,R_voSsFXEsEVlpeMx,1,1.28
+long cue,single feature,R_xaQjSryVetgbxMR,0.938,1.3
+long cue,single feature,R_xiuZL8oQedG2nrb,0.938,0.572
+long cue,single feature,R_Y3NmOCLnLbfmdRT,0.938,0.68
+long cue,single feature,R_ykWwfg34VBujl0B,1,0.822
+long cue,single feature,R_yPWVvpu60ycQ8P7,0.875,0.845
+long cue,single feature,R_z0je8cRGh1eQ8Rb,0.938,0.63
+long cue,single feature,R_Z9PxP0CExYG8397,0.75,0.567
+long cue,single feature,R_ZahaFNCfOgy05xL,0.938,1.11
+long cue,single feature,R_ZaxZDyOScZVjzz3,0.688,1.02
+long cue,single feature,R_zZ3GrNWCcyKf98B,1,0.86
+short cue,dual feature,R_08x3yfNtCFtgBYl,0.938,1.87
+short cue,dual feature,R_0OmSAzFURsT3hND,0.938,0.732
+short cue,dual feature,R_10ZPMCCzcV8FG6A,1,0.99
+short cue,dual feature,R_12s68Ligswec1t3,0.938,0.532
+short cue,dual feature,R_1BPAkPhD282eIwa,1,0.842
+short cue,dual feature,R_1CDQa7qsN9RNzFH,1,1.13
+short cue,dual feature,R_1CJcSTbRoTUCqgI,1,1.05
+short cue,dual feature,R_1cUmxE0nB0eQ5tx,1,1.02
+short cue,dual feature,R_1cUnP5PoHL3kGw8,1,1.13
+short cue,dual feature,R_1cZYqPuI2ovCe8d,0.875,0.617
+short cue,dual feature,R_1DuNzuDT2Ly6aYo,1,1.03
+short cue,dual feature,R_1Ej3yOyXSRu4rHj,0.938,0.467
+short cue,dual feature,R_1eK9C4dUWMG5UoE,1,0.556
+short cue,dual feature,R_1erta2V92H4drrE,0.938,1.21
+short cue,dual feature,R_1ex76BKICzdLpi3,1,0.864
+short cue,dual feature,R_1flJVVkbxzk1i5c,1,0.526
+short cue,dual feature,R_1g6KjG4gA3vEJF7,0.938,1.08
+short cue,dual feature,R_1gHKNsWNE1ugMUa,1,1.13
+short cue,dual feature,R_1HkLtKPGeWEXFwg,1,0.828
+short cue,dual feature,R_1HpZbLVjg7CUvTk,0.938,0.938
+short cue,dual feature,R_1hzkst2wvP8JIH4,1,0.75
+short cue,dual feature,R_1IfTVw1P9JXGPqL,1,0.878
+short cue,dual feature,R_1imoeufCHjjazMW,1,0.717
+short cue,dual feature,R_1IR8kofj9wFWdIF,1,1.31
+short cue,dual feature,R_1ISOn43feC1HgrC,0.875,1.16
+short cue,dual feature,R_1IXVr7a4rbLclDy,1,1.29
+short cue,dual feature,R_1jCgwQdSLoXJHUV,1,1.42
+short cue,dual feature,R_1jDKVL7IiGl9Yg2,1,1.36
+short cue,dual feature,R_1jE8xih7Lg9IirX,1,0.476
+short cue,dual feature,R_1jH3pdKIvdSHNIY,0.938,0.668
+short cue,dual feature,R_1jrzi2l761541zF,1,0.657
+short cue,dual feature,R_1K3eLYRF0WM0F1x,1,1.22
+short cue,dual feature,R_1K6KGucq5uhaFzv,1,1.66
+short cue,dual feature,R_1K71a7Ou0dd9RDl,0.938,0.945
+short cue,dual feature,R_1KqDdYqdsxJyWIf,1,0.693
+short cue,dual feature,R_1LXmTvk5iLuGEaA,1,0.672
+short cue,dual feature,R_1lzzukvJq3atYiQ,1,0.653
+short cue,dual feature,R_1mC4cBupoC4tHV4,1,0.732
+short cue,dual feature,R_1mIULYprIrOv92G,1,0.578
+short cue,dual feature,R_1mmFOe3uknXraci,1,1.14
+short cue,dual feature,R_1nOO1BGaTXG8VNZ,0.938,1.17
+short cue,dual feature,R_1nOQ0qbgqQcSRz6,1,0.849
+short cue,dual feature,R_1OkOyQCupky29ws,0.938,0.774
+short cue,dual feature,R_1OVnUIQoDvuoLoa,1,1.03
+short cue,dual feature,R_1PemspRhIIq93Jq,1,1.58
+short cue,dual feature,R_1pMrEEZMbPml0WU,0.938,0.667
+short cue,dual feature,R_1pukYYnbpsfMrZv,1,0.717
+short cue,dual feature,R_1PXVhaM73VwX7i7,1,0.443
+short cue,dual feature,R_1QDSGYxg9iGBQ1N,0.938,1.15
+short cue,dual feature,R_1qXpoOypYbjTRWl,1,1.63
+short cue,dual feature,R_1rla5wg2eJeofgU,0.938,0.719
+short cue,dual feature,R_1rvojTzRtsDhwWZ,1,0.448
+short cue,dual feature,R_1XqCDwzg1i2Esxj,1,1.02
+short cue,dual feature,R_20Mv4w5vYeNCTls,0.938,0.782
+short cue,dual feature,R_23TwjQv7jVMZAHh,0.938,1.5
+short cue,dual feature,R_24HieJfWwUqqVSw,0.938,1.29
+short cue,dual feature,R_24jTtLg98nGv99c,1,0.665
+short cue,dual feature,R_25BzCJwLFrqdpOi,0.667,1.57
+short cue,dual feature,R_27EkFokF3zDCAFg,1,0.667
+short cue,dual feature,R_27HkygMlXuzFDss,1,1.23
+short cue,dual feature,R_28B8ByTcmPbYYBi,1,0.902
+short cue,dual feature,R_290a4seCfd02VPe,1,0.805
+short cue,dual feature,R_29buJYsXisup2Mb,0.938,1.56
+short cue,dual feature,R_2aDYCLDeHnDcoTK,1,0.66
+short cue,dual feature,R_2AZHWSSUZ7gAeVu,1,1.69
+short cue,dual feature,R_2BnRYuqRU9MgxDH,0.938,0.886
+short cue,dual feature,R_2BtIrCsNLg3M5Hv,0.938,1.02
+short cue,dual feature,R_2c6m9mRMP3vRtxF,1,0.819
+short cue,dual feature,R_2cc7FPRMpuGx2CV,0.938,0.488
+short cue,dual feature,R_2CDt4ymTrZ6kFn0,0.938,1.91
+short cue,dual feature,R_2cnGgIRvbYUU2JM,1,0.949
+short cue,dual feature,R_2cvhE0HTQ1JO49j,1,1.44
+short cue,dual feature,R_2dYKuSke1t2VOfa,1,0.646
+short cue,dual feature,R_2f6VCNeHmcSqTrE,1,0.666
+short cue,dual feature,R_2fD1bJjW95gw3LB,1,1.15
+short cue,dual feature,R_2P1NXSwrNBPPbSy,1,1.32
+short cue,dual feature,R_2P5OftLBu8Xnm63,1,0.686
+short cue,dual feature,R_2pJiC30bA23mBP9,1,0.838
+short cue,dual feature,R_2QggTeu9uNjR2Kz,0.938,1.47
+short cue,dual feature,R_2Qn8nKQlmurWj6x,0.75,1.33
+short cue,dual feature,R_2qxGC4cTbe7xhyS,0.938,0.576
+short cue,dual feature,R_2R81qJfBkmFANkJ,0.875,0.975
+short cue,dual feature,R_2rVd3Udq0Naa4tm,1,0.99
+short cue,dual feature,R_2s5BrOZwyfMmXNT,0.938,0.808
+short cue,dual feature,R_2saKX0rCpQMSpWC,1,0.812
+short cue,dual feature,R_2sZwXaQWcDrXX4J,1,0.592
+short cue,dual feature,R_2t2RITW5Msrt0v1,1,0.71
+short cue,dual feature,R_2t8PKxoTop4myWX,1,0.943
+short cue,dual feature,R_2TvjCe31vsmiZgF,1,0.73
+short cue,dual feature,R_2tzNr5GcFWibgNj,0.875,1.05
+short cue,dual feature,R_2uaROXK2JM6R5KN,1,0.583
+short cue,dual feature,R_2uEyL6gg252E1VJ,1,0.895
+short cue,dual feature,R_2uPd3IAgL1aElYJ,1,0.678
+short cue,dual feature,R_2UYj6qVJqb6JhXS,1,0.841
+short cue,dual feature,R_2v1EkCyV15Ok7D5,1,0.556
+short cue,dual feature,R_2v6M4LykwnHQpey,1,0.675
+short cue,dual feature,R_2wgkGKCmXhgbs6f,0.813,0.687
+short cue,dual feature,R_2whKJfx0Nt043dd,1,0.477
+short cue,dual feature,R_2xIZjV9sIl4RF6P,0.938,1.11
+short cue,dual feature,R_2xxfsrIN77B2IyP,0.938,1.51
+short cue,dual feature,R_2Y5SgzE2hzm4IzP,1,1.37
+short cue,dual feature,R_2zMG3pjpYVG6q9D,0.938,1.44
+short cue,dual feature,R_2zZOxm6mvhN3djv,1,0.486
+short cue,dual feature,R_31HQAyCP0raT1FV,1,0.483
+short cue,dual feature,R_32Ph5gf2egyE3BQ,0.938,0.85
+short cue,dual feature,R_32SfLOnCsAkGpkr,1,0.714
+short cue,dual feature,R_389Zio7QxIjX2Gl,1,1.6
+short cue,dual feature,R_3CE2psUILAye8Gw,1,1.72
+short cue,dual feature,R_3CQ5KT4CZBYWAlC,1,0.613
+short cue,dual feature,R_3dG1KAXAFwYYSNa,0.938,1.2
+short cue,dual feature,R_3dYB6FtZaYKmnQI,0.938,0.796
+short cue,dual feature,R_3ekQwKF3mgu5b6t,0.938,0.677
+short cue,dual feature,R_3emJvrH8C0R8XAf,1,1.11
+short cue,dual feature,R_3EnIpSKfpoFxj4q,0.875,1.13
+short cue,dual feature,R_3F4Nuu63mcg282m,0.875,1.31
+short cue,dual feature,R_3fekyhJ51vsHhVz,1,0.655
+short cue,dual feature,R_3huTrvGn33dOCmD,0.813,1.29
+short cue,dual feature,R_3hxsgJPCQz6ODRf,0.938,1.28
+short cue,dual feature,R_3I6Ku341O3voRKF,1,1.44
+short cue,dual feature,R_3IawjgtbqJ8vZS1,1,0.696
+short cue,dual feature,R_3IbLExNViiL7Wmj,0.667,1.96
+short cue,dual feature,R_3isy7djZDjX51Zy,1,1.57
+short cue,dual feature,R_3iUBe2A2sqTNxe6,0.938,0.701
+short cue,dual feature,R_3J5dZzQpHZlbptE,0.938,1.07
+short cue,dual feature,R_3J7WamqLp1arSYg,1,0.834
+short cue,dual feature,R_3J8imcd2CT8E7nV,1,0.732
+short cue,dual feature,R_3JepjzwRIn4QNMa,0.875,1.18
+short cue,dual feature,R_3JKuKZTaXlZlS9L,0.875,1.03
+short cue,dual feature,R_3L0GKcwhfD3ONGp,1,0.645
+short cue,dual feature,R_3L8bKSLPWWYQbb1,1,0.955
+short cue,dual feature,R_3lA2P9y5IuW1K16,0.875,0.595
+short cue,dual feature,R_3lQSewC3zD0cqPm,1,0.517
+short cue,dual feature,R_3lW8WmUtn8ktnqb,1,1.83
+short cue,dual feature,R_3LYmXrQqAEkquZp,1,0.657
+short cue,dual feature,R_3m29EB99jBC3eYM,0.938,0.714
+short cue,dual feature,R_3mfrYYubAvKcVXD,1,0.684
+short cue,dual feature,R_3MrsBALpPMDdc4K,0.938,1.82
+short cue,dual feature,R_3MsZ1FtrecdI6Bk,1,1.02
+short cue,dual feature,R_3ni4oB2dXSyqVt5,0.938,0.716
+short cue,dual feature,R_3NLrAGnHeCcusnN,0.938,0.92
+short cue,dual feature,R_3nTN2on5k76PSqy,0.938,0.734
+short cue,dual feature,R_3nuRnyn8F7V1zzY,0.938,1.27
+short cue,dual feature,R_3nvCR77A2gIXUnU,1,0.817
+short cue,dual feature,R_3OijgTkqK3N1vDR,1,0.83
+short cue,dual feature,R_3PH8KwGY7M572k7,0.813,1.23
+short cue,dual feature,R_3PhNSDcozSxV4x6,1,0.553
+short cue,dual feature,R_3PHnuh1NwQxBUke,1,0.776
+short cue,dual feature,R_3plRloA3DMCWRlm,0.875,0.744
+short cue,dual feature,R_3PoF0xbH4zPk6H9,1,0.845
+short cue,dual feature,R_3PUkBY8ioPt2QHk,1,0.836
+short cue,dual feature,R_3qE9UFs34ohzB4u,0.938,0.879
+short cue,dual feature,R_3qIGvV1gBPeGAF3,1,0.7
+short cue,dual feature,R_3qqgOHNsjhwxEbU,1,0.831
+short cue,dual feature,R_3r1hJN0OmOW9eWt,0.938,1.13
+short cue,dual feature,R_3r2uzs1xxGdN7Xt,0.938,1.6
+short cue,dual feature,R_3R2V7o3AKvD3riN,0.938,1.13
+short cue,dual feature,R_3sgjFLFAcfatVu1,1,0.881
+short cue,dual feature,R_3snnTFxEmMWchE3,1,1.22
+short cue,dual feature,R_4HGqzV1TmoKnmRb,1,0.936
+short cue,dual feature,R_4UcujUnUkeMAjcd,1,1.28
+short cue,dual feature,R_5AccJZEMv9dA7ZL,0.938,1.48
+short cue,dual feature,R_5Bl0sD2ma6kOenD,0.938,2.04
+short cue,dual feature,R_6QoG7SGfNSA5MY1,0.875,1.54
+short cue,dual feature,R_78aLaJZ9ov7E4z7,0.938,1.27
+short cue,dual feature,R_7QYLh7Cv4ho9ne9,1,0.872
+short cue,dual feature,R_8039DfpRFz4mdlD,0.938,0.893
+short cue,dual feature,R_81zsKze4hKiO3Ch,1,0.662
+short cue,dual feature,R_821ywZ3Ur7opgmR,1,1.38
+short cue,dual feature,R_8qYu2CCKRBiPBjb,1,1.01
+short cue,dual feature,R_AhqftoXBoaz9xId,1,0.979
+short cue,dual feature,R_aXyHoAyLu9CDc4N,0.875,0.84
+short cue,dual feature,R_BEpHnJisiwxS1z3,0.938,1.7
+short cue,dual feature,R_bj5pW4Iu3tLbUnT,1,2.36
+short cue,dual feature,R_bJ8LN8hW9Wr5SFj,1,0.573
+short cue,dual feature,R_BV2jiQRnLfyGBYl,1,0.77
+short cue,dual feature,R_Cjijzqk1J6xkLdf,1,0.783
+short cue,dual feature,R_d6C5372Rri91D57,1,1.17
+short cue,dual feature,R_DcbIYJJOl9NfnSV,1,0.454
+short cue,dual feature,R_dh9Z16ZeR9OmSJj,1,0.626
+short cue,dual feature,R_dm7E2sdo1YUjT3z,1,0.467
+short cue,dual feature,R_dmY5Tc0WANqnPs5,0.813,1.18
+short cue,dual feature,R_eai96tm4PUo2JmF,0.938,0.843
+short cue,dual feature,R_eJrfTYcTp9qL7ix,1,0.72
+short cue,dual feature,R_eyNfgTiSRXT8Xi9,0.938,1.23
+short cue,dual feature,R_O0WT1fmWD73IgCZ,1,0.942
+short cue,dual feature,R_Ope2sXA3sL6z35T,1,0.805
+short cue,dual feature,R_PA36VyjszG9W9gt,0.875,1.32
+short cue,dual feature,R_pufazghR2YH4Vqx,0.875,1.11
+short cue,dual feature,R_PYUFtJ6v69P19WF,1,0.795
+short cue,dual feature,R_Q3QAyLhzVGkm1hL,0.938,1.14
+short cue,dual feature,R_r25ZrJt80L0xZ5v,1,0.971
+short cue,dual feature,R_sZRf0Q5e9LGW9gJ,1,2.29
+short cue,dual feature,R_tLqTSkDsUZvWP4t,1,0.761
+short cue,dual feature,R_tQjTkAdN6h1rHHP,1,0.752
+short cue,dual feature,R_UA47gf9TzaRpJ0B,0.938,1.29
+short cue,dual feature,R_UnfbYQPONiXwHgB,0.938,1.29
+short cue,dual feature,R_vcofmMoT48YgqGd,1,1.06
+short cue,dual feature,R_vdAXj8lKTQiuvLj,0.938,1.72
+short cue,dual feature,R_vl7yAhjMq73ut4l,0.938,0.927
+short cue,dual feature,R_VPabY1AJYIyCZPz,0.938,1.19
+short cue,dual feature,R_W8LdRMuNzFlfzfX,1,0.588
+short cue,dual feature,R_WfBh84bVieh94u5,0.938,0.983
+short cue,dual feature,R_xfUcAaPbjk0g6Jz,1,0.7
+short cue,dual feature,R_Y050be3d1qTgt21,0.938,0.743
+short cue,dual feature,R_ykzlIRPd0KX2ZW1,1,1.04
+short cue,dual feature,R_ypQ4ZCs1p2l24eJ,1,0.762
+short cue,dual feature,R_yPWGGeD3XC6CB0t,0.938,0.743
+short cue,dual feature,R_1240oKwSUYFSJUY,NaN,NaN
+short cue,dual feature,R_125qGAPsEKNgCik,NaN,NaN
+short cue,dual feature,R_1BYsxPc3DVzRRdc,NaN,NaN
+short cue,dual feature,R_1C4075atnBURXV9,NaN,NaN
+short cue,dual feature,R_1Ca7oDDfGUuqpD2,NaN,NaN
+short cue,dual feature,R_1DUQTsUdLXCAotg,NaN,NaN
+short cue,dual feature,R_1Ed18J86Ydnz5JK,NaN,NaN
+short cue,dual feature,R_1F3O1RwVVn1ANjS,NaN,NaN
+short cue,dual feature,R_1fd9g37kVcLlQon,NaN,NaN
+short cue,dual feature,R_1fjeMABd9YtFdM2,NaN,NaN
+short cue,dual feature,R_1FkyCxrQzCKlVM3,NaN,NaN
+short cue,dual feature,R_1FlZaoI26lrL1xW,NaN,NaN
+short cue,dual feature,R_1FQy7LAFBlt3sbw,NaN,NaN
+short cue,dual feature,R_1FzvTdctlBl6mau,NaN,NaN
+short cue,dual feature,R_1GEw2ntVr6WT5FY,NaN,NaN
+short cue,dual feature,R_1gGFiI9dwPgNWnF,NaN,NaN
+short cue,dual feature,R_1gTnf5neAjKhFhT,NaN,NaN
+short cue,dual feature,R_1H5WiYRCLXLoMr6,NaN,NaN
+short cue,dual feature,R_1hKL5I25Q84xW4U,NaN,NaN
+short cue,dual feature,R_1hXp8VCud7SMiKb,NaN,NaN
+short cue,dual feature,R_1IagvrDfWeu1SzI,NaN,NaN
+short cue,dual feature,R_1iffR2ZzRyikKgD,NaN,NaN
+short cue,dual feature,R_1jrMskfuP7Mrr9S,NaN,NaN
+short cue,dual feature,R_1K2LTDdSTkk0CkO,NaN,NaN
+short cue,dual feature,R_1KkDDjZQonL8jXf,NaN,NaN
+short cue,dual feature,R_1lo8TnSLVLCPrMI,NaN,NaN
+short cue,dual feature,R_1Nex25Z07JEPqPT,NaN,NaN
+short cue,dual feature,R_1oAMtAsotlpba75,NaN,NaN
+short cue,dual feature,R_1oBEFfxegvaFxqs,NaN,NaN
+short cue,dual feature,R_1OE6gsnJdCYDJNp,NaN,NaN
+short cue,dual feature,R_1OJJIMbAOHmEsc6,NaN,NaN
+short cue,dual feature,R_1onlnd0PSlmh0kP,NaN,NaN
+short cue,dual feature,R_1Oy5gti2oOMkrmx,NaN,NaN
+short cue,dual feature,R_1pJPjmN0ZA5yTy2,NaN,NaN
+short cue,dual feature,R_1ptx896QKfU4151,NaN,NaN
+short cue,dual feature,R_1Q0nnQSbpfMIzl8,NaN,NaN
+short cue,dual feature,R_1QcQ8lM8sMgbe9Z,NaN,NaN
+short cue,dual feature,R_1QhHQgn3oncjPVH,NaN,NaN
+short cue,dual feature,R_1r9CI6AFSBMawII,NaN,NaN
+short cue,dual feature,R_2107Kbqwjw5sjVi,NaN,NaN
+short cue,dual feature,R_21A0Opwy47DGP0D,NaN,NaN
+short cue,dual feature,R_21ixygMv7kGQldy,NaN,NaN
+short cue,dual feature,R_232mnWKrVorZxtV,NaN,NaN
+short cue,dual feature,R_23UGi46yIwlgRIg,NaN,NaN
+short cue,dual feature,R_23V6KyyFTKNSfr0,NaN,NaN
+short cue,dual feature,R_24f2Xj2zVejGVvr,NaN,NaN
+short cue,dual feature,R_24MjDzYaj8vSl2F,NaN,NaN
+short cue,dual feature,R_26aTxals5ya98Bn,NaN,NaN
+short cue,dual feature,R_27I2lMBC4C9HqXh,NaN,NaN
+short cue,dual feature,R_27IKiFTRUeouja1,NaN,NaN
+short cue,dual feature,R_27TjhkHUtsmEKXv,NaN,NaN
+short cue,dual feature,R_29buiFpEHzEyviM,NaN,NaN
+short cue,dual feature,R_2AGbTgxStxS8OK7,NaN,NaN
+short cue,dual feature,R_2ASEGOsJ8SHSVr5,NaN,NaN
+short cue,dual feature,R_2bHPDYy6X92e2YW,NaN,NaN
+short cue,dual feature,R_2Bu63NcF98ifXiE,NaN,NaN
+short cue,dual feature,R_2CTk31LB5KSXTUK,NaN,NaN
+short cue,dual feature,R_2cubeyiZDy5kcWK,NaN,NaN
+short cue,dual feature,R_2D5fuTu0fyLlRoG,NaN,NaN
+short cue,dual feature,R_2dH0HFAfxeETPyV,NaN,NaN
+short cue,dual feature,R_2diq2w8gEnf5L8z,NaN,NaN
+short cue,dual feature,R_2DRKnOvAi7cEOEe,NaN,NaN
+short cue,dual feature,R_2e2xTrAELL35qnU,NaN,NaN
+short cue,dual feature,R_2EAwGG7T8u9elvy,NaN,NaN
+short cue,dual feature,R_2EGbNncbkrLeOBn,NaN,NaN
+short cue,dual feature,R_2fBULLTffGRBWLb,NaN,NaN
+short cue,dual feature,R_2fesTAMA2X5bx5T,NaN,NaN
+short cue,dual feature,R_2fvMbaH7XgyVyCF,NaN,NaN
+short cue,dual feature,R_2PutYEFsewiz88m,NaN,NaN
+short cue,dual feature,R_2PzXxMCgeJjWWLk,NaN,NaN
+short cue,dual feature,R_2q9ip8BsXKWy3tB,NaN,NaN
+short cue,dual feature,R_2qCYwbcshBGMWl9,NaN,NaN
+short cue,dual feature,R_2RPRywAKJIJoXwq,NaN,NaN
+short cue,dual feature,R_2sSBN4IUEWRzEHE,NaN,NaN
+short cue,dual feature,R_2t3eKQMwJ13cTxu,NaN,NaN
+short cue,dual feature,R_2t5VMWadJZXwhol,NaN,NaN
+short cue,dual feature,R_2tKElLKJ2RzYeOL,NaN,NaN
+short cue,dual feature,R_2TOewpP52D1ZcQi,NaN,NaN
+short cue,dual feature,R_2TvIpggb40wzcMj,NaN,NaN
+short cue,dual feature,R_2Ugx54Yz1N7CJ36,NaN,NaN
+short cue,dual feature,R_2UWLzuZCkACVgCP,NaN,NaN
+short cue,dual feature,R_2uZFhWaBfnO4ECU,NaN,NaN
+short cue,dual feature,R_2VBBNsozbzxpfT9,NaN,NaN
+short cue,dual feature,R_2Vx6MwTvzph2nt3,NaN,NaN
+short cue,dual feature,R_2w5NkTjpk5sIZmL,NaN,NaN
+short cue,dual feature,R_2z5D2HPnn3XvNKK,NaN,NaN
+short cue,dual feature,R_2z5xbqVjjSIyJdo,NaN,NaN
+short cue,dual feature,R_2zAzUdW0VLW47Ua,NaN,NaN
+short cue,dual feature,R_2zOyxhAfuZbfaqm,NaN,NaN
+short cue,dual feature,R_302H874OqnSbmug,NaN,NaN
+short cue,dual feature,R_3061vbhI41l7m5V,NaN,NaN
+short cue,dual feature,R_31zRT6XRWDLt6XR,NaN,NaN
+short cue,dual feature,R_325E8Zcstn7PYYf,NaN,NaN
+short cue,dual feature,R_32X7zIltyrBl2XJ,NaN,NaN
+short cue,dual feature,R_33gvmuPR94pwSQR,NaN,NaN
+short cue,dual feature,R_33wriurPRqAICJQ,NaN,NaN
+short cue,dual feature,R_3CH6GYzeXMmQ3BR,NaN,NaN
+short cue,dual feature,R_3dYRf1LJJY5sNDQ,NaN,NaN
+short cue,dual feature,R_3dYYZ1eB57mzvcP,NaN,NaN
+short cue,dual feature,R_3E9zqUUokucmyvi,NaN,NaN
+short cue,dual feature,R_3EXNIE6ibfayydJ,NaN,NaN
+short cue,dual feature,R_3F54OWKljGjDYun,NaN,NaN
+short cue,dual feature,R_3fftJphDI5wp8jD,NaN,NaN
+short cue,dual feature,R_3fIafKngtt8LCdv,NaN,NaN
+short cue,dual feature,R_3G3aqKAxalampJB,NaN,NaN
+short cue,dual feature,R_3GfEE0tSJtpYpDK,NaN,NaN
+short cue,dual feature,R_3gMLdLQylpAUOCz,NaN,NaN
+short cue,dual feature,R_3GrJEh3BPMqoUIE,NaN,NaN
+short cue,dual feature,R_3gSdxynZBUsA24l,NaN,NaN
+short cue,dual feature,R_3GwicDp1Qe1fIYu,NaN,NaN
+short cue,dual feature,R_3Hov1y7dOtcDZlE,NaN,NaN
+short cue,dual feature,R_3Ht3R1VCyo41bf7,NaN,NaN
+short cue,dual feature,R_3Hzu7sZLBROTBKI,NaN,NaN
+short cue,dual feature,R_3Ic5XcXj3i1cbFL,NaN,NaN
+short cue,dual feature,R_3iFr8MpMy69byrN,NaN,NaN
+short cue,dual feature,R_3j0uBCOqMwUzlCW,NaN,NaN
+short cue,dual feature,R_3j9ApP6uO0ORpcw,NaN,NaN
+short cue,dual feature,R_3jAe4d8aowHEK53,NaN,NaN
+short cue,dual feature,R_3JCQVowq4SWDWhO,NaN,NaN
+short cue,dual feature,R_3JCuHa99Y2UioVU,NaN,NaN
+short cue,dual feature,R_3jSRUtmlwcSos3T,NaN,NaN
+short cue,dual feature,R_3jZIGhpufmzSmRG,NaN,NaN
+short cue,dual feature,R_3kANJhWZWQZHHzt,NaN,NaN
+short cue,dual feature,R_3kAQUBQH7gOE6L4,NaN,NaN
+short cue,dual feature,R_3koHaaGXSWbfZCH,NaN,NaN
+short cue,dual feature,R_3kq4Tx7qydJo7oB,NaN,NaN
+short cue,dual feature,R_3KxCDvIBCFGJlB2,NaN,NaN
+short cue,dual feature,R_3lQ7ThL8ft9I4Xd,NaN,NaN
+short cue,dual feature,R_3lQY2j5LMIXXK4u,NaN,NaN
+short cue,dual feature,R_3lxHPjKjHR4VSZX,NaN,NaN
+short cue,dual feature,R_3M5rXHlsQsfCfZ1,NaN,NaN
+short cue,dual feature,R_3NDueluChz5YLcK,NaN,NaN
+short cue,dual feature,R_3nGjakNTDKLeUI5,NaN,NaN
+short cue,dual feature,R_3nj6domOVc1jJjN,NaN,NaN
+short cue,dual feature,R_3NJrbvniVjhQgVe,NaN,NaN
+short cue,dual feature,R_3NUHxGL0DDAFsRc,NaN,NaN
+short cue,dual feature,R_3NV3o9ELxm8q0OB,NaN,NaN
+short cue,dual feature,R_3paGJTFEkF29ztH,NaN,NaN
+short cue,dual feature,R_3peQmhVVM6LZ8Rq,NaN,NaN
+short cue,dual feature,R_3PzqcG3ePjyMVoQ,NaN,NaN
+short cue,dual feature,R_3qU5FwC4OCJ7aqk,NaN,NaN
+short cue,dual feature,R_3Rl6FSFxxA5e8ma,NaN,NaN
+short cue,dual feature,R_3Rl6VEWOBQmKqU6,NaN,NaN
+short cue,dual feature,R_3RmwoIz93sstbuX,NaN,NaN
+short cue,dual feature,R_3svpurCda9KfwHp,NaN,NaN
+short cue,dual feature,R_3Vm6NBKASkpNULn,NaN,NaN
+short cue,dual feature,R_4MlrIKWtWMynXgJ,NaN,NaN
+short cue,dual feature,R_4V0pQt6VgkQw0lb,NaN,NaN
+short cue,dual feature,R_5zD75iREBKTihMt,NaN,NaN
+short cue,dual feature,R_6AkMGcTw5XpOoSd,NaN,NaN
+short cue,dual feature,R_87dG0u6RSBe8bpD,NaN,NaN
+short cue,dual feature,R_88lRNtWC8jzcvPr,NaN,NaN
+short cue,dual feature,R_9SIq53ZIw0UeCMp,NaN,NaN
+short cue,dual feature,R_9ZV7VYa4WgGSoPT,NaN,NaN
+short cue,dual feature,R_a8Keqoc6RqZXPj3,NaN,NaN
+short cue,dual feature,R_AFYcy8WqCbGhYSB,NaN,NaN
+short cue,dual feature,R_b1xBevGuDlgE5mp,NaN,NaN
+short cue,dual feature,R_bxcuLDEvGbOnKHT,NaN,NaN
+short cue,dual feature,R_ClZZ8iH4ih5ZuSd,NaN,NaN
+short cue,dual feature,R_dfYxqvX4G98rUXL,NaN,NaN
+short cue,dual feature,R_eKdyzfVrqfswb1n,NaN,NaN
+short cue,dual feature,R_esMmOCJbTcEsIq5,NaN,NaN
+short cue,dual feature,R_O0SCTkaxAB7vjA5,NaN,NaN
+short cue,dual feature,R_OBikbvVJp5ZcCOt,NaN,NaN
+short cue,dual feature,R_OjUO1JZhl881Wdr,NaN,NaN
+short cue,dual feature,R_OkxFT8Yi5pR6dsB,NaN,NaN
+short cue,dual feature,R_OPCfSDjGV5SHORr,NaN,NaN
+short cue,dual feature,R_pEoe2uY6YbOw3aF,NaN,NaN
+short cue,dual feature,R_PIpINaW6xp0qDD3,NaN,NaN
+short cue,dual feature,R_pK7U209871YpYIN,NaN,NaN
+short cue,dual feature,R_pngU1YVfrXpM6m5,NaN,NaN
+short cue,dual feature,R_PSSk558zgwsdfq1,NaN,NaN
+short cue,dual feature,R_pT8XhCOwudJrdq9,NaN,NaN
+short cue,dual feature,R_Pwhzf2X9FTJWwcp,NaN,NaN
+short cue,dual feature,R_qL4FaXWkk1AqEmt,NaN,NaN
+short cue,dual feature,R_QoG98GIXlyTTQCB,NaN,NaN
+short cue,dual feature,R_R838SwdXuvvg13j,NaN,NaN
+short cue,dual feature,R_rcHQpWAv7AbsluV,NaN,NaN
+short cue,dual feature,R_rkiqrtdH01X2Uz7,NaN,NaN
+short cue,dual feature,R_rpa23bPTMqxRuy5,NaN,NaN
+short cue,dual feature,R_RPRRh5b9RJjsLWF,NaN,NaN
+short cue,dual feature,R_RxCmnVP4h0M2Iet,NaN,NaN
+short cue,dual feature,R_SUAv0Djpf96vXsB,NaN,NaN
+short cue,dual feature,R_szedVFAI7mc8uqt,NaN,NaN
+short cue,dual feature,R_TjDuFk15r39Xrqh,NaN,NaN
+short cue,dual feature,R_u220n4MBxTrGIqB,NaN,NaN
+short cue,dual feature,R_uk7jLfoyyvrie5P,NaN,NaN
+short cue,dual feature,R_uk8lyne8BTwZWx3,NaN,NaN
+short cue,dual feature,R_vcRLjOIJganFB5L,NaN,NaN
+short cue,dual feature,R_vf2rDe2loSzFI4h,NaN,NaN
+short cue,dual feature,R_vMGeXCE2A7fFihP,NaN,NaN
+short cue,dual feature,R_VO1OFG6TLIlFTbj,NaN,NaN
+short cue,dual feature,R_voSsFXEsEVlpeMx,NaN,NaN
+short cue,dual feature,R_xaQjSryVetgbxMR,NaN,NaN
+short cue,dual feature,R_xiuZL8oQedG2nrb,NaN,NaN
+short cue,dual feature,R_Y3NmOCLnLbfmdRT,NaN,NaN
+short cue,dual feature,R_ykWwfg34VBujl0B,NaN,NaN
+short cue,dual feature,R_yPWVvpu60ycQ8P7,NaN,NaN
+short cue,dual feature,R_z0je8cRGh1eQ8Rb,NaN,NaN
+short cue,dual feature,R_Z9PxP0CExYG8397,NaN,NaN
+short cue,dual feature,R_ZahaFNCfOgy05xL,NaN,NaN
+short cue,dual feature,R_ZaxZDyOScZVjzz3,NaN,NaN
+short cue,dual feature,R_zZ3GrNWCcyKf98B,NaN,NaN
+short cue,single feature,R_08x3yfNtCFtgBYl,1,1.87
+short cue,single feature,R_0OmSAzFURsT3hND,1,1.17
+short cue,single feature,R_10ZPMCCzcV8FG6A,1,0.974
+short cue,single feature,R_12s68Ligswec1t3,1,0.589
+short cue,single feature,R_1BPAkPhD282eIwa,1,0.934
+short cue,single feature,R_1CDQa7qsN9RNzFH,1,1.3
+short cue,single feature,R_1CJcSTbRoTUCqgI,0.875,1.15
+short cue,single feature,R_1cUmxE0nB0eQ5tx,1,1.06
+short cue,single feature,R_1cUnP5PoHL3kGw8,0.875,1.18
+short cue,single feature,R_1cZYqPuI2ovCe8d,1,1.4
+short cue,single feature,R_1DuNzuDT2Ly6aYo,1,1.02
+short cue,single feature,R_1Ej3yOyXSRu4rHj,1,0.608
+short cue,single feature,R_1eK9C4dUWMG5UoE,1,0.626
+short cue,single feature,R_1erta2V92H4drrE,0.625,1.67
+short cue,single feature,R_1ex76BKICzdLpi3,1,1.13
+short cue,single feature,R_1flJVVkbxzk1i5c,1,0.755
+short cue,single feature,R_1g6KjG4gA3vEJF7,1,0.921
+short cue,single feature,R_1gHKNsWNE1ugMUa,0.875,1.39
+short cue,single feature,R_1HkLtKPGeWEXFwg,1,1.09
+short cue,single feature,R_1HpZbLVjg7CUvTk,0.813,1.02
+short cue,single feature,R_1hzkst2wvP8JIH4,0.875,0.632
+short cue,single feature,R_1IfTVw1P9JXGPqL,1,0.814
+short cue,single feature,R_1imoeufCHjjazMW,1,0.777
+short cue,single feature,R_1IR8kofj9wFWdIF,0.938,1.41
+short cue,single feature,R_1ISOn43feC1HgrC,0.938,1.06
+short cue,single feature,R_1IXVr7a4rbLclDy,0.875,1.36
+short cue,single feature,R_1jCgwQdSLoXJHUV,1,1.11
+short cue,single feature,R_1jDKVL7IiGl9Yg2,0.813,1.42
+short cue,single feature,R_1jE8xih7Lg9IirX,0.938,0.504
+short cue,single feature,R_1jH3pdKIvdSHNIY,0.938,0.757
+short cue,single feature,R_1jrzi2l761541zF,0.875,0.743
+short cue,single feature,R_1K3eLYRF0WM0F1x,1,1.63
+short cue,single feature,R_1K6KGucq5uhaFzv,0.938,1.4
+short cue,single feature,R_1K71a7Ou0dd9RDl,1,1.19
+short cue,single feature,R_1KqDdYqdsxJyWIf,0.938,0.794
+short cue,single feature,R_1LXmTvk5iLuGEaA,0.938,0.744
+short cue,single feature,R_1lzzukvJq3atYiQ,0.75,0.627
+short cue,single feature,R_1mC4cBupoC4tHV4,1,0.857
+short cue,single feature,R_1mIULYprIrOv92G,0.938,0.737
+short cue,single feature,R_1mmFOe3uknXraci,0.938,1.43
+short cue,single feature,R_1nOO1BGaTXG8VNZ,0.938,0.999
+short cue,single feature,R_1nOQ0qbgqQcSRz6,1,0.879
+short cue,single feature,R_1OkOyQCupky29ws,0.875,0.758
+short cue,single feature,R_1OVnUIQoDvuoLoa,0.938,1.47
+short cue,single feature,R_1PemspRhIIq93Jq,0.875,1.64
+short cue,single feature,R_1pMrEEZMbPml0WU,1,0.761
+short cue,single feature,R_1pukYYnbpsfMrZv,1,0.691
+short cue,single feature,R_1PXVhaM73VwX7i7,1,0.463
+short cue,single feature,R_1QDSGYxg9iGBQ1N,1,1.13
+short cue,single feature,R_1qXpoOypYbjTRWl,1,1.87
+short cue,single feature,R_1rla5wg2eJeofgU,1,0.665
+short cue,single feature,R_1rvojTzRtsDhwWZ,1,0.562
+short cue,single feature,R_1XqCDwzg1i2Esxj,0.875,1.44
+short cue,single feature,R_20Mv4w5vYeNCTls,1,0.897
+short cue,single feature,R_23TwjQv7jVMZAHh,1,1.51
+short cue,single feature,R_24HieJfWwUqqVSw,0.75,1.07
+short cue,single feature,R_24jTtLg98nGv99c,1,0.569
+short cue,single feature,R_25BzCJwLFrqdpOi,0.438,2.6
+short cue,single feature,R_27EkFokF3zDCAFg,0.938,0.785
+short cue,single feature,R_27HkygMlXuzFDss,0.875,1.39
+short cue,single feature,R_28B8ByTcmPbYYBi,1,0.817
+short cue,single feature,R_290a4seCfd02VPe,1,0.853
+short cue,single feature,R_29buJYsXisup2Mb,0.75,1.82
+short cue,single feature,R_2aDYCLDeHnDcoTK,0.938,0.725
+short cue,single feature,R_2AZHWSSUZ7gAeVu,0.938,1.64
+short cue,single feature,R_2BnRYuqRU9MgxDH,1,0.89
+short cue,single feature,R_2BtIrCsNLg3M5Hv,0.938,1.13
+short cue,single feature,R_2c6m9mRMP3vRtxF,0.938,1.18
+short cue,single feature,R_2cc7FPRMpuGx2CV,0.938,0.811
+short cue,single feature,R_2CDt4ymTrZ6kFn0,0.938,2.15
+short cue,single feature,R_2cnGgIRvbYUU2JM,1,1.05
+short cue,single feature,R_2cvhE0HTQ1JO49j,0.938,1.14
+short cue,single feature,R_2dYKuSke1t2VOfa,1,0.686
+short cue,single feature,R_2f6VCNeHmcSqTrE,0.875,0.552
+short cue,single feature,R_2fD1bJjW95gw3LB,1,0.945
+short cue,single feature,R_2P1NXSwrNBPPbSy,0.938,1.32
+short cue,single feature,R_2P5OftLBu8Xnm63,1,0.8
+short cue,single feature,R_2pJiC30bA23mBP9,1,0.976
+short cue,single feature,R_2QggTeu9uNjR2Kz,1,1.73
+short cue,single feature,R_2Qn8nKQlmurWj6x,0.75,1.58
+short cue,single feature,R_2qxGC4cTbe7xhyS,1,0.742
+short cue,single feature,R_2R81qJfBkmFANkJ,0.938,1.43
+short cue,single feature,R_2rVd3Udq0Naa4tm,0.938,0.808
+short cue,single feature,R_2s5BrOZwyfMmXNT,0.938,0.996
+short cue,single feature,R_2saKX0rCpQMSpWC,1,0.706
+short cue,single feature,R_2sZwXaQWcDrXX4J,1,0.644
+short cue,single feature,R_2t2RITW5Msrt0v1,0.938,1.06
+short cue,single feature,R_2t8PKxoTop4myWX,1,1.21
+short cue,single feature,R_2TvjCe31vsmiZgF,0.875,0.895
+short cue,single feature,R_2tzNr5GcFWibgNj,0.938,1.22
+short cue,single feature,R_2uaROXK2JM6R5KN,1,0.778
+short cue,single feature,R_2uEyL6gg252E1VJ,0.938,0.955
+short cue,single feature,R_2uPd3IAgL1aElYJ,0.625,0.73
+short cue,single feature,R_2UYj6qVJqb6JhXS,0.813,0.92
+short cue,single feature,R_2v1EkCyV15Ok7D5,1,0.655
+short cue,single feature,R_2v6M4LykwnHQpey,1,0.731
+short cue,single feature,R_2wgkGKCmXhgbs6f,1,0.913
+short cue,single feature,R_2whKJfx0Nt043dd,1,0.498
+short cue,single feature,R_2xIZjV9sIl4RF6P,1,1.21
+short cue,single feature,R_2xxfsrIN77B2IyP,1,1.79
+short cue,single feature,R_2Y5SgzE2hzm4IzP,0.813,1.24
+short cue,single feature,R_2zMG3pjpYVG6q9D,1,1.71
+short cue,single feature,R_2zZOxm6mvhN3djv,1,0.565
+short cue,single feature,R_31HQAyCP0raT1FV,0.938,0.54
+short cue,single feature,R_32Ph5gf2egyE3BQ,1,0.981
+short cue,single feature,R_32SfLOnCsAkGpkr,0.875,0.954
+short cue,single feature,R_389Zio7QxIjX2Gl,0.938,1.47
+short cue,single feature,R_3CE2psUILAye8Gw,1,1.55
+short cue,single feature,R_3CQ5KT4CZBYWAlC,0.938,0.771
+short cue,single feature,R_3dG1KAXAFwYYSNa,0.875,1.31
+short cue,single feature,R_3dYB6FtZaYKmnQI,1,0.737
+short cue,single feature,R_3ekQwKF3mgu5b6t,0.938,0.614
+short cue,single feature,R_3emJvrH8C0R8XAf,0.875,1.03
+short cue,single feature,R_3EnIpSKfpoFxj4q,0.813,1.69
+short cue,single feature,R_3F4Nuu63mcg282m,0.938,1.21
+short cue,single feature,R_3fekyhJ51vsHhVz,0.938,0.671
+short cue,single feature,R_3huTrvGn33dOCmD,0.938,1.17
+short cue,single feature,R_3hxsgJPCQz6ODRf,0.688,1.33
+short cue,single feature,R_3I6Ku341O3voRKF,0.875,1.65
+short cue,single feature,R_3IawjgtbqJ8vZS1,1,0.9
+short cue,single feature,R_3IbLExNViiL7Wmj,0.813,1.22
+short cue,single feature,R_3isy7djZDjX51Zy,1,1.08
+short cue,single feature,R_3iUBe2A2sqTNxe6,0.938,0.482
+short cue,single feature,R_3J5dZzQpHZlbptE,0.625,1.34
+short cue,single feature,R_3J7WamqLp1arSYg,0.938,0.906
+short cue,single feature,R_3J8imcd2CT8E7nV,1,0.97
+short cue,single feature,R_3JepjzwRIn4QNMa,0.938,1.62
+short cue,single feature,R_3JKuKZTaXlZlS9L,1,1.14
+short cue,single feature,R_3L0GKcwhfD3ONGp,1,0.818
+short cue,single feature,R_3L8bKSLPWWYQbb1,1,0.998
+short cue,single feature,R_3lA2P9y5IuW1K16,0.813,0.596
+short cue,single feature,R_3lQSewC3zD0cqPm,0.938,0.611
+short cue,single feature,R_3lW8WmUtn8ktnqb,1,1.88
+short cue,single feature,R_3LYmXrQqAEkquZp,0.875,1.01
+short cue,single feature,R_3m29EB99jBC3eYM,0.938,0.75
+short cue,single feature,R_3mfrYYubAvKcVXD,1,0.759
+short cue,single feature,R_3MrsBALpPMDdc4K,0.938,1.63
+short cue,single feature,R_3MsZ1FtrecdI6Bk,1,0.957
+short cue,single feature,R_3ni4oB2dXSyqVt5,0.938,0.652
+short cue,single feature,R_3NLrAGnHeCcusnN,1,1.15
+short cue,single feature,R_3nTN2on5k76PSqy,1,0.831
+short cue,single feature,R_3nuRnyn8F7V1zzY,0.375,1.63
+short cue,single feature,R_3nvCR77A2gIXUnU,0.875,0.924
+short cue,single feature,R_3OijgTkqK3N1vDR,1,1.28
+short cue,single feature,R_3PH8KwGY7M572k7,1,1.16
+short cue,single feature,R_3PhNSDcozSxV4x6,0.938,0.485
+short cue,single feature,R_3PHnuh1NwQxBUke,1,1.05
+short cue,single feature,R_3plRloA3DMCWRlm,0.875,0.807
+short cue,single feature,R_3PoF0xbH4zPk6H9,1,0.872
+short cue,single feature,R_3PUkBY8ioPt2QHk,1,0.882
+short cue,single feature,R_3qE9UFs34ohzB4u,1,0.983
+short cue,single feature,R_3qIGvV1gBPeGAF3,1,1.07
+short cue,single feature,R_3qqgOHNsjhwxEbU,1,0.956
+short cue,single feature,R_3r1hJN0OmOW9eWt,0.875,1.08
+short cue,single feature,R_3r2uzs1xxGdN7Xt,0.75,1.65
+short cue,single feature,R_3R2V7o3AKvD3riN,1,1.04
+short cue,single feature,R_3sgjFLFAcfatVu1,0.875,0.882
+short cue,single feature,R_3snnTFxEmMWchE3,0.938,1.37
+short cue,single feature,R_4HGqzV1TmoKnmRb,0.875,1.52
+short cue,single feature,R_4UcujUnUkeMAjcd,0.938,1.17
+short cue,single feature,R_5AccJZEMv9dA7ZL,1,1.79
+short cue,single feature,R_5Bl0sD2ma6kOenD,1,1.93
+short cue,single feature,R_6QoG7SGfNSA5MY1,0.938,1.28
+short cue,single feature,R_78aLaJZ9ov7E4z7,0.875,1.18
+short cue,single feature,R_7QYLh7Cv4ho9ne9,1,0.926
+short cue,single feature,R_8039DfpRFz4mdlD,0.875,1.15
+short cue,single feature,R_81zsKze4hKiO3Ch,0.75,0.692
+short cue,single feature,R_821ywZ3Ur7opgmR,0.938,1.69
+short cue,single feature,R_8qYu2CCKRBiPBjb,1,0.902
+short cue,single feature,R_AhqftoXBoaz9xId,1,1.32
+short cue,single feature,R_aXyHoAyLu9CDc4N,0.813,1.04
+short cue,single feature,R_BEpHnJisiwxS1z3,0.875,1.58
+short cue,single feature,R_bj5pW4Iu3tLbUnT,0.938,2.13
+short cue,single feature,R_bJ8LN8hW9Wr5SFj,1,0.596
+short cue,single feature,R_BV2jiQRnLfyGBYl,1,0.907
+short cue,single feature,R_Cjijzqk1J6xkLdf,1,0.746
+short cue,single feature,R_d6C5372Rri91D57,1,1.46
+short cue,single feature,R_DcbIYJJOl9NfnSV,0.75,0.855
+short cue,single feature,R_dh9Z16ZeR9OmSJj,1,0.737
+short cue,single feature,R_dm7E2sdo1YUjT3z,1,0.433
+short cue,single feature,R_dmY5Tc0WANqnPs5,1,1.48
+short cue,single feature,R_eai96tm4PUo2JmF,1,0.802
+short cue,single feature,R_eJrfTYcTp9qL7ix,1,0.984
+short cue,single feature,R_eyNfgTiSRXT8Xi9,0.938,1.06
+short cue,single feature,R_O0WT1fmWD73IgCZ,0.938,1.19
+short cue,single feature,R_Ope2sXA3sL6z35T,1,0.729
+short cue,single feature,R_PA36VyjszG9W9gt,0.75,1
+short cue,single feature,R_pufazghR2YH4Vqx,0.938,1.16
+short cue,single feature,R_PYUFtJ6v69P19WF,0.938,0.799
+short cue,single feature,R_Q3QAyLhzVGkm1hL,0.938,0.996
+short cue,single feature,R_r25ZrJt80L0xZ5v,0.938,1.02
+short cue,single feature,R_sZRf0Q5e9LGW9gJ,1,2.34
+short cue,single feature,R_tLqTSkDsUZvWP4t,0.938,0.792
+short cue,single feature,R_tQjTkAdN6h1rHHP,0.938,0.873
+short cue,single feature,R_UA47gf9TzaRpJ0B,1,1.4
+short cue,single feature,R_UnfbYQPONiXwHgB,1,1.06
+short cue,single feature,R_vcofmMoT48YgqGd,0.938,1.3
+short cue,single feature,R_vdAXj8lKTQiuvLj,1,2.12
+short cue,single feature,R_vl7yAhjMq73ut4l,1,1.01
+short cue,single feature,R_VPabY1AJYIyCZPz,0.938,1.22
+short cue,single feature,R_W8LdRMuNzFlfzfX,1,0.599
+short cue,single feature,R_WfBh84bVieh94u5,0.75,1.49
+short cue,single feature,R_xfUcAaPbjk0g6Jz,1,0.768
+short cue,single feature,R_Y050be3d1qTgt21,1,0.972
+short cue,single feature,R_ykzlIRPd0KX2ZW1,1,1
+short cue,single feature,R_ypQ4ZCs1p2l24eJ,0.938,0.926
+short cue,single feature,R_yPWGGeD3XC6CB0t,0.938,0.867
+short cue,single feature,R_1240oKwSUYFSJUY,NaN,NaN
+short cue,single feature,R_125qGAPsEKNgCik,NaN,NaN
+short cue,single feature,R_1BYsxPc3DVzRRdc,NaN,NaN
+short cue,single feature,R_1C4075atnBURXV9,NaN,NaN
+short cue,single feature,R_1Ca7oDDfGUuqpD2,NaN,NaN
+short cue,single feature,R_1DUQTsUdLXCAotg,NaN,NaN
+short cue,single feature,R_1Ed18J86Ydnz5JK,NaN,NaN
+short cue,single feature,R_1F3O1RwVVn1ANjS,NaN,NaN
+short cue,single feature,R_1fd9g37kVcLlQon,NaN,NaN
+short cue,single feature,R_1fjeMABd9YtFdM2,NaN,NaN
+short cue,single feature,R_1FkyCxrQzCKlVM3,NaN,NaN
+short cue,single feature,R_1FlZaoI26lrL1xW,NaN,NaN
+short cue,single feature,R_1FQy7LAFBlt3sbw,NaN,NaN
+short cue,single feature,R_1FzvTdctlBl6mau,NaN,NaN
+short cue,single feature,R_1GEw2ntVr6WT5FY,NaN,NaN
+short cue,single feature,R_1gGFiI9dwPgNWnF,NaN,NaN
+short cue,single feature,R_1gTnf5neAjKhFhT,NaN,NaN
+short cue,single feature,R_1H5WiYRCLXLoMr6,NaN,NaN
+short cue,single feature,R_1hKL5I25Q84xW4U,NaN,NaN
+short cue,single feature,R_1hXp8VCud7SMiKb,NaN,NaN
+short cue,single feature,R_1IagvrDfWeu1SzI,NaN,NaN
+short cue,single feature,R_1iffR2ZzRyikKgD,NaN,NaN
+short cue,single feature,R_1jrMskfuP7Mrr9S,NaN,NaN
+short cue,single feature,R_1K2LTDdSTkk0CkO,NaN,NaN
+short cue,single feature,R_1KkDDjZQonL8jXf,NaN,NaN
+short cue,single feature,R_1lo8TnSLVLCPrMI,NaN,NaN
+short cue,single feature,R_1Nex25Z07JEPqPT,NaN,NaN
+short cue,single feature,R_1oAMtAsotlpba75,NaN,NaN
+short cue,single feature,R_1oBEFfxegvaFxqs,NaN,NaN
+short cue,single feature,R_1OE6gsnJdCYDJNp,NaN,NaN
+short cue,single feature,R_1OJJIMbAOHmEsc6,NaN,NaN
+short cue,single feature,R_1onlnd0PSlmh0kP,NaN,NaN
+short cue,single feature,R_1Oy5gti2oOMkrmx,NaN,NaN
+short cue,single feature,R_1pJPjmN0ZA5yTy2,NaN,NaN
+short cue,single feature,R_1ptx896QKfU4151,NaN,NaN
+short cue,single feature,R_1Q0nnQSbpfMIzl8,NaN,NaN
+short cue,single feature,R_1QcQ8lM8sMgbe9Z,NaN,NaN
+short cue,single feature,R_1QhHQgn3oncjPVH,NaN,NaN
+short cue,single feature,R_1r9CI6AFSBMawII,NaN,NaN
+short cue,single feature,R_2107Kbqwjw5sjVi,NaN,NaN
+short cue,single feature,R_21A0Opwy47DGP0D,NaN,NaN
+short cue,single feature,R_21ixygMv7kGQldy,NaN,NaN
+short cue,single feature,R_232mnWKrVorZxtV,NaN,NaN
+short cue,single feature,R_23UGi46yIwlgRIg,NaN,NaN
+short cue,single feature,R_23V6KyyFTKNSfr0,NaN,NaN
+short cue,single feature,R_24f2Xj2zVejGVvr,NaN,NaN
+short cue,single feature,R_24MjDzYaj8vSl2F,NaN,NaN
+short cue,single feature,R_26aTxals5ya98Bn,NaN,NaN
+short cue,single feature,R_27I2lMBC4C9HqXh,NaN,NaN
+short cue,single feature,R_27IKiFTRUeouja1,NaN,NaN
+short cue,single feature,R_27TjhkHUtsmEKXv,NaN,NaN
+short cue,single feature,R_29buiFpEHzEyviM,NaN,NaN
+short cue,single feature,R_2AGbTgxStxS8OK7,NaN,NaN
+short cue,single feature,R_2ASEGOsJ8SHSVr5,NaN,NaN
+short cue,single feature,R_2bHPDYy6X92e2YW,NaN,NaN
+short cue,single feature,R_2Bu63NcF98ifXiE,NaN,NaN
+short cue,single feature,R_2CTk31LB5KSXTUK,NaN,NaN
+short cue,single feature,R_2cubeyiZDy5kcWK,NaN,NaN
+short cue,single feature,R_2D5fuTu0fyLlRoG,NaN,NaN
+short cue,single feature,R_2dH0HFAfxeETPyV,NaN,NaN
+short cue,single feature,R_2diq2w8gEnf5L8z,NaN,NaN
+short cue,single feature,R_2DRKnOvAi7cEOEe,NaN,NaN
+short cue,single feature,R_2e2xTrAELL35qnU,NaN,NaN
+short cue,single feature,R_2EAwGG7T8u9elvy,NaN,NaN
+short cue,single feature,R_2EGbNncbkrLeOBn,NaN,NaN
+short cue,single feature,R_2fBULLTffGRBWLb,NaN,NaN
+short cue,single feature,R_2fesTAMA2X5bx5T,NaN,NaN
+short cue,single feature,R_2fvMbaH7XgyVyCF,NaN,NaN
+short cue,single feature,R_2PutYEFsewiz88m,NaN,NaN
+short cue,single feature,R_2PzXxMCgeJjWWLk,NaN,NaN
+short cue,single feature,R_2q9ip8BsXKWy3tB,NaN,NaN
+short cue,single feature,R_2qCYwbcshBGMWl9,NaN,NaN
+short cue,single feature,R_2RPRywAKJIJoXwq,NaN,NaN
+short cue,single feature,R_2sSBN4IUEWRzEHE,NaN,NaN
+short cue,single feature,R_2t3eKQMwJ13cTxu,NaN,NaN
+short cue,single feature,R_2t5VMWadJZXwhol,NaN,NaN
+short cue,single feature,R_2tKElLKJ2RzYeOL,NaN,NaN
+short cue,single feature,R_2TOewpP52D1ZcQi,NaN,NaN
+short cue,single feature,R_2TvIpggb40wzcMj,NaN,NaN
+short cue,single feature,R_2Ugx54Yz1N7CJ36,NaN,NaN
+short cue,single feature,R_2UWLzuZCkACVgCP,NaN,NaN
+short cue,single feature,R_2uZFhWaBfnO4ECU,NaN,NaN
+short cue,single feature,R_2VBBNsozbzxpfT9,NaN,NaN
+short cue,single feature,R_2Vx6MwTvzph2nt3,NaN,NaN
+short cue,single feature,R_2w5NkTjpk5sIZmL,NaN,NaN
+short cue,single feature,R_2z5D2HPnn3XvNKK,NaN,NaN
+short cue,single feature,R_2z5xbqVjjSIyJdo,NaN,NaN
+short cue,single feature,R_2zAzUdW0VLW47Ua,NaN,NaN
+short cue,single feature,R_2zOyxhAfuZbfaqm,NaN,NaN
+short cue,single feature,R_302H874OqnSbmug,NaN,NaN
+short cue,single feature,R_3061vbhI41l7m5V,NaN,NaN
+short cue,single feature,R_31zRT6XRWDLt6XR,NaN,NaN
+short cue,single feature,R_325E8Zcstn7PYYf,NaN,NaN
+short cue,single feature,R_32X7zIltyrBl2XJ,NaN,NaN
+short cue,single feature,R_33gvmuPR94pwSQR,NaN,NaN
+short cue,single feature,R_33wriurPRqAICJQ,NaN,NaN
+short cue,single feature,R_3CH6GYzeXMmQ3BR,NaN,NaN
+short cue,single feature,R_3dYRf1LJJY5sNDQ,NaN,NaN
+short cue,single feature,R_3dYYZ1eB57mzvcP,NaN,NaN
+short cue,single feature,R_3E9zqUUokucmyvi,NaN,NaN
+short cue,single feature,R_3EXNIE6ibfayydJ,NaN,NaN
+short cue,single feature,R_3F54OWKljGjDYun,NaN,NaN
+short cue,single feature,R_3fftJphDI5wp8jD,NaN,NaN
+short cue,single feature,R_3fIafKngtt8LCdv,NaN,NaN
+short cue,single feature,R_3G3aqKAxalampJB,NaN,NaN
+short cue,single feature,R_3GfEE0tSJtpYpDK,NaN,NaN
+short cue,single feature,R_3gMLdLQylpAUOCz,NaN,NaN
+short cue,single feature,R_3GrJEh3BPMqoUIE,NaN,NaN
+short cue,single feature,R_3gSdxynZBUsA24l,NaN,NaN
+short cue,single feature,R_3GwicDp1Qe1fIYu,NaN,NaN
+short cue,single feature,R_3Hov1y7dOtcDZlE,NaN,NaN
+short cue,single feature,R_3Ht3R1VCyo41bf7,NaN,NaN
+short cue,single feature,R_3Hzu7sZLBROTBKI,NaN,NaN
+short cue,single feature,R_3Ic5XcXj3i1cbFL,NaN,NaN
+short cue,single feature,R_3iFr8MpMy69byrN,NaN,NaN
+short cue,single feature,R_3j0uBCOqMwUzlCW,NaN,NaN
+short cue,single feature,R_3j9ApP6uO0ORpcw,NaN,NaN
+short cue,single feature,R_3jAe4d8aowHEK53,NaN,NaN
+short cue,single feature,R_3JCQVowq4SWDWhO,NaN,NaN
+short cue,single feature,R_3JCuHa99Y2UioVU,NaN,NaN
+short cue,single feature,R_3jSRUtmlwcSos3T,NaN,NaN
+short cue,single feature,R_3jZIGhpufmzSmRG,NaN,NaN
+short cue,single feature,R_3kANJhWZWQZHHzt,NaN,NaN
+short cue,single feature,R_3kAQUBQH7gOE6L4,NaN,NaN
+short cue,single feature,R_3koHaaGXSWbfZCH,NaN,NaN
+short cue,single feature,R_3kq4Tx7qydJo7oB,NaN,NaN
+short cue,single feature,R_3KxCDvIBCFGJlB2,NaN,NaN
+short cue,single feature,R_3lQ7ThL8ft9I4Xd,NaN,NaN
+short cue,single feature,R_3lQY2j5LMIXXK4u,NaN,NaN
+short cue,single feature,R_3lxHPjKjHR4VSZX,NaN,NaN
+short cue,single feature,R_3M5rXHlsQsfCfZ1,NaN,NaN
+short cue,single feature,R_3NDueluChz5YLcK,NaN,NaN
+short cue,single feature,R_3nGjakNTDKLeUI5,NaN,NaN
+short cue,single feature,R_3nj6domOVc1jJjN,NaN,NaN
+short cue,single feature,R_3NJrbvniVjhQgVe,NaN,NaN
+short cue,single feature,R_3NUHxGL0DDAFsRc,NaN,NaN
+short cue,single feature,R_3NV3o9ELxm8q0OB,NaN,NaN
+short cue,single feature,R_3paGJTFEkF29ztH,NaN,NaN
+short cue,single feature,R_3peQmhVVM6LZ8Rq,NaN,NaN
+short cue,single feature,R_3PzqcG3ePjyMVoQ,NaN,NaN
+short cue,single feature,R_3qU5FwC4OCJ7aqk,NaN,NaN
+short cue,single feature,R_3Rl6FSFxxA5e8ma,NaN,NaN
+short cue,single feature,R_3Rl6VEWOBQmKqU6,NaN,NaN
+short cue,single feature,R_3RmwoIz93sstbuX,NaN,NaN
+short cue,single feature,R_3svpurCda9KfwHp,NaN,NaN
+short cue,single feature,R_3Vm6NBKASkpNULn,NaN,NaN
+short cue,single feature,R_4MlrIKWtWMynXgJ,NaN,NaN
+short cue,single feature,R_4V0pQt6VgkQw0lb,NaN,NaN
+short cue,single feature,R_5zD75iREBKTihMt,NaN,NaN
+short cue,single feature,R_6AkMGcTw5XpOoSd,NaN,NaN
+short cue,single feature,R_87dG0u6RSBe8bpD,NaN,NaN
+short cue,single feature,R_88lRNtWC8jzcvPr,NaN,NaN
+short cue,single feature,R_9SIq53ZIw0UeCMp,NaN,NaN
+short cue,single feature,R_9ZV7VYa4WgGSoPT,NaN,NaN
+short cue,single feature,R_a8Keqoc6RqZXPj3,NaN,NaN
+short cue,single feature,R_AFYcy8WqCbGhYSB,NaN,NaN
+short cue,single feature,R_b1xBevGuDlgE5mp,NaN,NaN
+short cue,single feature,R_bxcuLDEvGbOnKHT,NaN,NaN
+short cue,single feature,R_ClZZ8iH4ih5ZuSd,NaN,NaN
+short cue,single feature,R_dfYxqvX4G98rUXL,NaN,NaN
+short cue,single feature,R_eKdyzfVrqfswb1n,NaN,NaN
+short cue,single feature,R_esMmOCJbTcEsIq5,NaN,NaN
+short cue,single feature,R_O0SCTkaxAB7vjA5,NaN,NaN
+short cue,single feature,R_OBikbvVJp5ZcCOt,NaN,NaN
+short cue,single feature,R_OjUO1JZhl881Wdr,NaN,NaN
+short cue,single feature,R_OkxFT8Yi5pR6dsB,NaN,NaN
+short cue,single feature,R_OPCfSDjGV5SHORr,NaN,NaN
+short cue,single feature,R_pEoe2uY6YbOw3aF,NaN,NaN
+short cue,single feature,R_PIpINaW6xp0qDD3,NaN,NaN
+short cue,single feature,R_pK7U209871YpYIN,NaN,NaN
+short cue,single feature,R_pngU1YVfrXpM6m5,NaN,NaN
+short cue,single feature,R_PSSk558zgwsdfq1,NaN,NaN
+short cue,single feature,R_pT8XhCOwudJrdq9,NaN,NaN
+short cue,single feature,R_Pwhzf2X9FTJWwcp,NaN,NaN
+short cue,single feature,R_qL4FaXWkk1AqEmt,NaN,NaN
+short cue,single feature,R_QoG98GIXlyTTQCB,NaN,NaN
+short cue,single feature,R_R838SwdXuvvg13j,NaN,NaN
+short cue,single feature,R_rcHQpWAv7AbsluV,NaN,NaN
+short cue,single feature,R_rkiqrtdH01X2Uz7,NaN,NaN
+short cue,single feature,R_rpa23bPTMqxRuy5,NaN,NaN
+short cue,single feature,R_RPRRh5b9RJjsLWF,NaN,NaN
+short cue,single feature,R_RxCmnVP4h0M2Iet,NaN,NaN
+short cue,single feature,R_SUAv0Djpf96vXsB,NaN,NaN
+short cue,single feature,R_szedVFAI7mc8uqt,NaN,NaN
+short cue,single feature,R_TjDuFk15r39Xrqh,NaN,NaN
+short cue,single feature,R_u220n4MBxTrGIqB,NaN,NaN
+short cue,single feature,R_uk7jLfoyyvrie5P,NaN,NaN
+short cue,single feature,R_uk8lyne8BTwZWx3,NaN,NaN
+short cue,single feature,R_vcRLjOIJganFB5L,NaN,NaN
+short cue,single feature,R_vf2rDe2loSzFI4h,NaN,NaN
+short cue,single feature,R_vMGeXCE2A7fFihP,NaN,NaN
+short cue,single feature,R_VO1OFG6TLIlFTbj,NaN,NaN
+short cue,single feature,R_voSsFXEsEVlpeMx,NaN,NaN
+short cue,single feature,R_xaQjSryVetgbxMR,NaN,NaN
+short cue,single feature,R_xiuZL8oQedG2nrb,NaN,NaN
+short cue,single feature,R_Y3NmOCLnLbfmdRT,NaN,NaN
+short cue,single feature,R_ykWwfg34VBujl0B,NaN,NaN
+short cue,single feature,R_yPWVvpu60ycQ8P7,NaN,NaN
+short cue,single feature,R_z0je8cRGh1eQ8Rb,NaN,NaN
+short cue,single feature,R_Z9PxP0CExYG8397,NaN,NaN
+short cue,single feature,R_ZahaFNCfOgy05xL,NaN,NaN
+short cue,single feature,R_ZaxZDyOScZVjzz3,NaN,NaN
+short cue,single feature,R_zZ3GrNWCcyKf98B,NaN,NaN
