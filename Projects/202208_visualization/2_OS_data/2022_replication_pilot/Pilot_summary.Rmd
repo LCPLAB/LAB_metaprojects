@@ -21,6 +21,8 @@ library(tidyverse)
 - This pilot followed Bocanegra et al.(2022) EXP 3. 
 - There were 10 participants to test the feasiblity of the experimental procedure.
 
+- gap: n = "long cue"; y = "short cue"
+
 ```{r pilot_1, echo=TRUE}
 df <- read_csv(file="jatos_results_20220926070123.csv") # pilot data 20220919
 
@@ -49,6 +51,7 @@ by = c("jatosStudyResultId","gap","Trial_type")
 - This pilot followed Bocanegra et al.(2022) EXP 3, but dual feature/long cue used EXP 2 setting. There were missing labels in this script.
 - There were 10 participants to test the feasiblity of the experimental procedure.
 
+- gap: n = "sequential"; y = "short cue"
 
 ```{r pilot_2, echo=TRUE}
 df <- read_csv(file="jatos_results_20221017061639.csv")  # pilot data 20221003
@@ -88,8 +91,12 @@ by = c("jatosStudyResultId","gap","Trial_type")
 - Long 1 = **long cue**, whole word on `cue_board`; whole word on `interval_board`.
 - Long 2 = **sequential**, component 1 on `cue_board`; component 2 on `interval_board`.
 
-> whole word: "紅色方塊"
-> component: "紅色","方塊“
+> whole word: "紅色方塊"(red square)
+> component: "紅色"(red),"方塊“(square)
+
+- Trial type： "dual" = dual features; "single" = single feature.
+
+- There were 35 participants collected.
 
 ```{r pilot_3, echo=TRUE}
 ## Import data file. Use OsWEB transfer json to csv.

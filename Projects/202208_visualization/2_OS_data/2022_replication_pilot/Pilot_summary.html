@@ -448,9 +448,10 @@ display: none;
 <div id="pilot-1" class="section level2">
 <h2>Pilot 1</h2>
 <ul>
-<li>This pilot followed Bocanegra et al.(2022) EXP 3.</li>
-<li>There were 10 participants to test the feasiblity of the
-experimental procedure.</li>
+<li><p>This pilot followed Bocanegra et al.(2022) EXP 3.</p></li>
+<li><p>There were 10 participants to test the feasiblity of the
+experimental procedure.</p></li>
+<li><p>gap: n = “long cue”; y = “short cue”</p></li>
 </ul>
 <pre class="r"><code>df &lt;- read_csv(file=&quot;jatos_results_20220926070123.csv&quot;) # pilot data 20220919
 
@@ -484,11 +485,12 @@ by = c(&quot;jatosStudyResultId&quot;,&quot;gap&quot;,&quot;Trial_type&quot;)
 <div id="pilot-2" class="section level2">
 <h2>Pilot 2</h2>
 <ul>
-<li>This pilot followed Bocanegra et al.(2022) EXP 3, but dual
+<li><p>This pilot followed Bocanegra et al.(2022) EXP 3, but dual
 feature/long cue used EXP 2 setting. There were missing labels in this
-script.</li>
-<li>There were 10 participants to test the feasiblity of the
-experimental procedure.</li>
+script.</p></li>
+<li><p>There were 10 participants to test the feasiblity of the
+experimental procedure.</p></li>
+<li><p>gap: n = “sequential”; y = “short cue”</p></li>
 </ul>
 <pre class="r"><code>df &lt;- read_csv(file=&quot;jatos_results_20221017061639.csv&quot;)  # pilot data 20221003
 #df &lt;- read_csv(file=&quot;jatos_results_20220926070123.csv&quot;) # pilot data 20220919
@@ -527,9 +529,8 @@ by = c(&quot;jatosStudyResultId&quot;,&quot;gap&quot;,&quot;Trial_type&quot;)
 <li>This pilot followed Bocanegra et al.(2022) EXP 2 and 3.</li>
 <li>The participants were assumed the Taiwan residents.</li>
 </ul>
-</div>
-<div id="script-description" class="section level2">
-<h2>Script description</h2>
+<div id="script-description" class="section level3">
+<h3>Script description</h3>
 <ul>
 <li>Short = <strong>short cue</strong> whole word on
 <code>cue_board</code>; blank on <code>interval_board</code>.</li>
@@ -539,11 +540,14 @@ by = c(&quot;jatosStudyResultId&quot;,&quot;gap&quot;,&quot;Trial_type&quot;)
 <code>cue_board</code>; component 2 on <code>interval_board</code>.</li>
 </ul>
 <blockquote>
-<p>whole word: “紅色方塊” component: “紅色”,“方塊“</p>
+<p>whole word: “紅色方塊”(red square) component:
+“紅色”(red),“方塊“(square)</p>
 </blockquote>
-</div>
-<div id="data-preview" class="section level2">
-<h2>Data preview</h2>
+<ul>
+<li><p>Trial type： “dual” = dual features; “single” = single
+feature.</p></li>
+<li><p>There were 35 participants collected.</p></li>
+</ul>
 <pre class="r"><code>## Import data file. Use OsWEB transfer json to csv.
 df &lt;- read_csv(file=&quot;jatos_results_20230110070512.csv&quot;)  # pilot data 20230103
 #df &lt;- read_csv(file=&quot;jatos_results_20221226013035.csv&quot;)  # pilot data 20221226
@@ -593,6 +597,7 @@ by = c(&quot;jatosStudyResultId&quot;,&quot;Presentation_style&quot;,&quot;Trial
 ## 5 short              dual           8  762.  137.     94.5
 ## 6 short              single         8  991.  474.     88.3</code></pre>
 <pre class="r"><code>#  summarise(n = n())</code></pre>
+</div>
 </div>
 
 
