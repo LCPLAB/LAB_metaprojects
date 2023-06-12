@@ -16,10 +16,14 @@ knitr::opts_chunk$set(
 library(tidyverse)
 ```
 
+
+> Pilot 1 and 2 had 10 participants to test the replication scripts.
+> Pilot 3 was the formal replication test, but the number of participants reached 50% of our target sample size.
+
 ## Pilot 1
 
 - This pilot followed Bocanegra et al.(2022) EXP 3. 
-- There were 10 participants to test the feasiblity of the experimental procedure.
+- We recruited 10 `Prolific` participants to test the feasibility of the experimental procedure.
 
 - gap: n = "long cue"; y = "short cue"
 
@@ -49,7 +53,7 @@ by = c("jatosStudyResultId","gap","Trial_type")
 ## Pilot 2
 
 - This pilot followed Bocanegra et al.(2022) EXP 3, but dual feature/long cue used EXP 2 setting. There were missing labels in this script.
-- There were 10 participants to test the feasiblity of the experimental procedure.
+- We recruited 10 `Prolific` participants to test the feasibility of the experimental procedure.
 
 - gap: n = "sequential"; y = "short cue"
 
